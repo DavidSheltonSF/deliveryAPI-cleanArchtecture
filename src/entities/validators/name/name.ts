@@ -26,7 +26,7 @@ export class Name {
 
   static create(name: string): Either<InvalidNameError, Name> {
     if (!this.validate(name)) {
-      return Either.left(new InvalidNameError(this.name));
+      return Either.left(new InvalidNameError(name));
     }
 
     return Either.right(new Name(name));
