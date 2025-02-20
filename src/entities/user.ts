@@ -1,10 +1,4 @@
-enum UserRole {
-  admin = 'admin',
-  customer ='customer',
-  restaurant = 'restaurant', 
-  owner = 'owner',
-  driver = 'driver'
-}
+import { UserRole } from "./validators/role/role";
 
 interface UserAddress {
   street: string,
