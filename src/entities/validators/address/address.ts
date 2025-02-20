@@ -1,7 +1,7 @@
 import { Either } from "../../../shared/either";
 import { InvalidAddressError } from "../../_errors/invalid-address";
 
-interface UserAddress {
+export interface UserAddress {
   street: string,
   city: string,
   state: string,

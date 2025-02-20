@@ -1,11 +1,5 @@
 import { UserRole } from "./validators/role/role";
-
-interface UserAddress {
-  street: string,
-  city: string,
-  state: string,
-  zipCode: string
-}
+import { UserAddress } from "./validators/address/address";
 
 interface Authentication {
   password: string,
