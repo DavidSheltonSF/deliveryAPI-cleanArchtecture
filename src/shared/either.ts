@@ -1,4 +1,4 @@
-class Either <L, R> {
+export class Either <L, R> {
   constructor(private leftValue?: L, private rightValue?: R) {}
 
   static left<L, R>(value: L): Either<L, R> {
