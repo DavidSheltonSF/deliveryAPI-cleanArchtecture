@@ -1,4 +1,4 @@
-import { UserRole } from "./validators/role/role";
+import { UserRole } from "./validators/_enums";
 import { UserAddress } from "./validators/address/address";
 
 enum PaymentMethod {
