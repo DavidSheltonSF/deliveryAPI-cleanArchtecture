@@ -2,12 +2,14 @@ import { Address } from "./address"
 
 const validAddresses = [
   {
+    ownerEntityId: "testId2432413",
     street: "Rua Fictícia Ramos",
     city: "Rio de Janeiro",
     state: "Rio de Janeiro",
     zipCode: "85426-854"
   },
-  {
+  { 
+    ownerEntityId: "testId24324SF",
     street: "Rua Fictícia Ramos",
     city: "Rio de Janeiro",
     state: "Rio de Janeiro",
@@ -34,6 +36,7 @@ describe("Testing Address validator", () => {
 
   test("Trying to create an address with invalid zipCode", () => {
     const invalidAddress = {
+      ownerEntityId: "testId2432883",
       street: "Rua Fictícia Ramos",
       city: "Rio de Janeiro",
       state: "Rio de Janeiro",
@@ -46,6 +49,7 @@ describe("Testing Address validator", () => {
 
   test("Trying to create an address with some void field", () => {
     const invalidAddress = {
+      ownerEntityId: "testId24324kk",
       street: "Rua Fictícia Ramos",
       city: "",
       state: "Rio de Janeiro",
