@@ -12,3 +12,15 @@ export enum UserRole {
   owner = 'owner',
   driver = 'driver'
 }
+
+export enum PaymentStatus {
+  PAYD = 'paid',
+  PENDING = 'pending',
+  FAILED = 'failed'
+}
+
+export enum DeliveryStatus {
+  ASSIGNED = 'assigned',
+  ON_THE_WAY = 'on_the_way',
+  COMPLETED = 'completed'
+}
