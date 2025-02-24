@@ -1,12 +1,6 @@
-import { UserRole } from "./validators/_enums";
+import { UserRole, PaymentMethod } from "./validators/_enums";
 import { UserAddress } from "./validators/address/address";
 
-enum PaymentMethod {
-  CREDIT_CARD = 'credit_card',
-  DEBIT_CARD = 'debit_card',
-  PIX_KEY = 'pix_key',
-  BANK_TRANSFER = 'bank_transfer'
-}
 
 interface PaymentInfo {
   holderName: string,
