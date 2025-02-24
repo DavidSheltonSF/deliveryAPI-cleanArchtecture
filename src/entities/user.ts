@@ -1,5 +1,5 @@
 import { UserRole, PaymentMethod } from "./validators/_enums";
-import { UserAddress } from "./validators/address/address";
+import { Address } from "./validators/address/address";
 
 
 interface PaymentInfo {
@@ -26,7 +26,7 @@ export interface User {
   cpf: string,
   phone: string,
   role: UserRole,
-  address: UserAddress,
+  address: Address,
   authentication: Authentication,
   bankInfo?: {
     paymentMethod: PaymentMethod,
