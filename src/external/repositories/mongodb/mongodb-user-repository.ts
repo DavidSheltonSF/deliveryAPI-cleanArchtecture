@@ -4,7 +4,11 @@ import { mongoHelper } from "./helpers/mongo-helper";
 
 export class MongodbUserRepository implements UserRepository {
   async findAllUsers (): Promise<UserData[]> {
-    const users = await mongoHelper.getCollection('users').find().toArray();
+    const userCollection = mongoHelper.getCollection('users')
+    const users = await userCollection.find().project({
+      'authentication.salt': 0,
+      'authentication.sesstionToken': 0
+    }).toArray();
 
     if (users){
       const result = users.map((elem) => {
