@@ -99,8 +99,6 @@ describe('Testing MongodbUserRepository', () => {
     await userCollection.insertOne(users[1]);
 
     const allUsers = await repository.findAllUsers();
-
-    console.log(allUsers)
     
     expect(allUsers[0].username).toEqual(users[0].username);
     expect(allUsers[1].username).toEqual(users[1].username);
