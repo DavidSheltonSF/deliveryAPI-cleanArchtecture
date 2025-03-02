@@ -114,12 +114,13 @@ export class MongodbUserRepository implements UserRepository {
   }
 
   async update (userId: string, userData: UserData): Promise<void> {
-    const existingUser = await this.findUserByEmail(userData.email);
+    const existingUser = await this.findUserById(userId);
     
     if (existingUser){
       const userCollection = mongoHelper.getCollection('users');
       await userCollection.updateOne(
-        {_id: mongoHelper.toObjectId(userId)}, userData
+        {_id: mongoHelper.toObjectId(userId)},
+        {$set: userData}
       );
     }
   }
