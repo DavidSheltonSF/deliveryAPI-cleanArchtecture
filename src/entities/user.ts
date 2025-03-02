@@ -1,5 +1,4 @@
-import { UserRole, PaymentMethod } from "./validators/_enums";
-import { Address } from "./validators/address/address";
+import { PaymentMethod } from "./validators/_enums";
 
 
 interface PaymentInfo {
@@ -16,8 +15,8 @@ interface PaymentInfo {
 
 interface Authentication {
   password: string,
-  salt: { type: String, select: false },
-  sesstionToken: { type: String, select: false }
+  salt?: { type: String, select: false },
+  sesstionToken?: { type: String, select: false }
 }
 
 export interface User {
@@ -25,8 +24,13 @@ export interface User {
   email: string,
   cpf: string,
   phone: string,
-  role: UserRole,
-  address: Address,
+  role: string
+  address: {
+    street: string,
+    city: string,
+    state: string,
+    zipCode: string
+  },
   authentication: Authentication,
   bankInfo?: {
     paymentMethod: PaymentMethod,
