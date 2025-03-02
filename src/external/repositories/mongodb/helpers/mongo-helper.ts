@@ -1,6 +1,6 @@
 import { MongoClient, Collection, ObjectId } from 'mongodb';
 
-export const MongoHelper = {
+export const mongoHelper = {
   client: null as MongoClient, 
 
   async connect (uri: string): Promise<void> {
@@ -19,7 +19,7 @@ export const MongoHelper = {
     return new ObjectId(id);
   },
 
-  clearCollection (name: string): void {
-    this.client.db().collection(name).deleteMany({});
+  async clearCollection (name: string): Promise<void> {
+    await this.client.db().collection(name).deleteMany({});
   }
 }
