@@ -1,4 +1,4 @@
-import { Address } from "./address";
+import { Address } from "./validators/_interfaces"
 
 export interface Restaurant {
   name: string,

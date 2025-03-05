@@ -1,4 +1,4 @@
-import { Address } from "./address";
+import { Address } from "./validators/_interfaces";
 import { Product } from "./product";
 
 export interface Order {
