@@ -1,23 +1,6 @@
 import { PaymentMethod } from "./validators/_enums";
-
-
-interface PaymentInfo {
-  holderName: string,
-  cardNumber?: string,
-  expiryDate?: string,
-  cvv?: string
-  pix_key?: string,
-  bankAccount?: {
-    bankName: string,
-    accountNumber: string,
-  }
-}
-
-interface Authentication {
-  password: string,
-  salt?: { type: String, select: false },
-  sesstionToken?: { type: String, select: false }
-}
+import { PaymentInfo } from "./validators/_interfaces";
+import { Authentication } from "./validators/_interfaces";
 
 export interface User {
   username: string,
