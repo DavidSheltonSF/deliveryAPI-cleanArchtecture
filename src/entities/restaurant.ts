@@ -8,3 +8,26 @@ export interface Restaurant {
   ownerId: string,
   address: Address
 }
+
+export class RestaurantCast {
+  /* Converts database documents into Restaurant type objects */
+  static toRestaurant (data: Record<string, any>): Restaurant {
+    const {
+        name,
+        cnpj,
+        isOpen,
+        imageUrl,
+        ownerId,
+        address,
+    } = data;
+
+    return {
+      name,
+      cnpj,
+      isOpen,
+      imageUrl,
+      ownerId,
+      address,
+    }
+  }
+}
