@@ -1,13 +1,6 @@
 import { Either } from "../../../shared/either";
 import { InvalidAddressError } from "../../_errors/invalid-address";
-
-export interface UserAddress {
-  ownerEntityId: string,
-  street: string,
-  city: string,
-  state: string,
-  zipCode: string
-}
+import { Address as UserAddress } from "../_interfaces";
 
 export class Address {
   private readonly address: UserAddress;
