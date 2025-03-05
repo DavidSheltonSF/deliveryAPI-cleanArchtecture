@@ -16,3 +16,30 @@ export interface User {
     paymentInfo: PaymentInfo
   }
 }
+
+export class UserCast {
+  /* Converts database documents into User type objects */
+  static toUser (data: Record<string, any>): User {
+    const {
+        username,
+        email,
+        cpf,
+        phone,
+        role,
+        address,
+        authentication,
+        bankInfo
+    } = data;
+
+    return {
+      username,
+      email,
+      cpf,
+      phone,
+      role,
+      address,
+      authentication,
+      bankInfo
+    }
+  }
+}
