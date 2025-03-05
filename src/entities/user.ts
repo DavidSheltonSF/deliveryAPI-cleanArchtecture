@@ -1,6 +1,7 @@
 import { PaymentMethod } from "./validators/_enums";
 import { PaymentInfo } from "./validators/_interfaces";
 import { Authentication } from "./validators/_interfaces";
+import { Address } from "./validators/_interfaces";
 
 export interface User {
   username: string,
@@ -8,12 +9,7 @@ export interface User {
   cpf: string,
   phone: string,
   role: string
-  address: {
-    street: string,
-    city: string,
-    state: string,
-    zipCode: string
-  },
+  address: Address,
   authentication: Authentication,
   bankInfo?: {
     paymentMethod: PaymentMethod,
