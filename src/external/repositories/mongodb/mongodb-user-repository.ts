@@ -1,5 +1,6 @@
 import { UserRepository } from "usecases/ports/user-repository";
 import { User as UserData } from "entities/user";
+import { UserCast } from "../../../entities/user";
 import { mongoHelper } from "./helpers/mongo-helper";
 
 export class MongodbUserRepository implements UserRepository {
@@ -8,68 +9,28 @@ export class MongodbUserRepository implements UserRepository {
     const userCollection = mongoHelper.getCollection('users');
     // Select all fields but not 
     // authentication.salt nor authentication.sessionToken
-    const users = await userCollection.find().project({
+    const result = await userCollection.find().project({
       'authentication.salt': 0,
       'authentication.sesstionToken': 0
     }).toArray();
 
-    if (users){
+    if (result){
       // Select just the needed fields
-      const result = users.map((elem) => {
-        const {
-          username,
-          email,
-          cpf,
-          phone,
-          role,
-          address,
-          authentication,
-          bankInfo
-         } = elem
-
-         return { 
-          username,
-          email,
-          cpf,
-          phone,
-          role,
-          address,
-          authentication,
-          bankInfo
-         }
+      const users = result.map((elem) => {
+        return UserCast.toUser(elem);
       });
 
-      return result;
+      return users;
     }
     return [];
   }
 
   async findUserByEmail (email: string): Promise<UserData | null> {
     const userCollection = mongoHelper.getCollection('users');
-    const user = await userCollection?.findOne({ email });
+    const result = await userCollection?.findOne({ email });
 
-    if (user){
-      const { 
-        username,
-        email,
-        cpf,
-        phone,
-        role,
-        address,
-        authentication,
-        bankInfo
-       } = user
-
-       return { 
-        username,
-        email,
-        cpf,
-        phone,
-        role,
-        address,
-        authentication,
-        bankInfo
-       }
+    if (result){
+      return UserCast.toUser(result);
     }
 
     return null;
@@ -79,30 +40,10 @@ export class MongodbUserRepository implements UserRepository {
     const userCollection = mongoHelper.getCollection('users');
     // Its necessary to cast the id string into an ObjectId
     const objId = mongoHelper.toObjectId(userId);
-    const user = await userCollection?.findOne({_id: objId});
+    const result = await userCollection?.findOne({_id: objId});
 
-    if (user){
-      const { 
-        username,
-        email,
-        cpf,
-        phone,
-        role,
-        address,
-        authentication,
-        bankInfo
-       } = user
-
-       return { 
-        username,
-        email,
-        cpf,
-        phone,
-        role,
-        address,
-        authentication,
-        bankInfo
-       }
+    if (result){
+      return UserCast.toUser(result);
     }
 
     return null;
