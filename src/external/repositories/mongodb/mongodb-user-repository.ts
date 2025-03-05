@@ -5,15 +5,18 @@ import { mongoHelper } from "./helpers/mongo-helper";
 export class MongodbUserRepository implements UserRepository {
   
   async findAllUsers (): Promise<UserData[]> {
-    const userCollection = mongoHelper.getCollection('users')
+    const userCollection = mongoHelper.getCollection('users');
+    // Select all fields but not 
+    // authentication.salt nor authentication.sessionToken
     const users = await userCollection.find().project({
       'authentication.salt': 0,
       'authentication.sesstionToken': 0
     }).toArray();
 
     if (users){
+      // Select just the needed fields
       const result = users.map((elem) => {
-        const { 
+        const {
           username,
           email,
           cpf,
@@ -36,14 +39,14 @@ export class MongodbUserRepository implements UserRepository {
          }
       });
 
-    return result;
+      return result;
     }
-    return []
+    return [];
   }
 
   async findUserByEmail (email: string): Promise<UserData | null> {
     const userCollection = mongoHelper.getCollection('users');
-    const user = await userCollection?.findOne({email})
+    const user = await userCollection?.findOne({ email });
 
     if (user){
       const { 
@@ -133,7 +136,7 @@ export class MongodbUserRepository implements UserRepository {
       const userCollection = mongoHelper.getCollection('users');
       await userCollection.deleteOne(
         {_id: mongoHelper.toObjectId(userId)}
-      )
+      );
     }
   }
 
