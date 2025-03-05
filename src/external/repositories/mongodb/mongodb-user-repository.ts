@@ -1,8 +1,9 @@
 import { UserRepository } from "usecases/ports/user-repository";
-import { User, User as UserData } from "entities/user";
+import { User as UserData } from "entities/user";
 import { mongoHelper } from "./helpers/mongo-helper";
 
 export class MongodbUserRepository implements UserRepository {
+  
   async findAllUsers (): Promise<UserData[]> {
     const userCollection = mongoHelper.getCollection('users')
     const users = await userCollection.find().project({
