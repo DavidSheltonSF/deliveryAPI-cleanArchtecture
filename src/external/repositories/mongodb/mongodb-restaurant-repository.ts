@@ -32,6 +32,17 @@ export class MongodbRestaurantRepository implements RestaurantRepository {
     return null;
   }
 
+  async findRestaurantByAdminId (adminId: string): Promise<RestaurantData | null> {
+    const restaurantCollection = mongoHelper.getCollection('restaurants');
+    const result = await restaurantCollection?.findOne({adminId: adminId});
+
+    if (result){
+      return RestaurantCast.toRestaurant(result);
+    }
+
+    return null;
+  }
+
   async findRestaurantByZipCode (zipCode: string): Promise<RestaurantData | null> {
     const restaurantCollection = mongoHelper.getCollection('restaurants');
 
