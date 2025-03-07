@@ -8,7 +8,8 @@ export enum PaymentMethod {
 export enum UserRole {
   admin = 'admin',
   customer ='customer',
-  restaurant_owner = 'restaurant_owner', 
+  restaurant_admin = 'restaurant_admin', 
+  restaurant_chain_admin = 'restaurant_chain_admin',
   driver = 'driver'
 }
 
