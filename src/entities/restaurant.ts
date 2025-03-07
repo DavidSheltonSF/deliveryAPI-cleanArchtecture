@@ -1,11 +1,9 @@
 import { Address } from "./validators/_interfaces"
 
 export interface Restaurant {
-  name: string,
-  cnpj: string,
+  restaurantChainId: string,
   isOpen: boolean,
   imageUrl: string,
-  ownerId: string,
   address: Address
 }
 
@@ -13,20 +11,16 @@ export class RestaurantCast {
   /* Converts database documents into Restaurant type objects */
   static toRestaurant (data: Record<string, any>): Restaurant {
     const {
-        name,
-        cnpj,
+        restaurantChainId,
         isOpen,
         imageUrl,
-        ownerId,
         address,
     } = data;
 
     return {
-      name,
-      cnpj,
+      restaurantChainId,
       isOpen,
       imageUrl,
-      ownerId,
       address,
     }
   }
