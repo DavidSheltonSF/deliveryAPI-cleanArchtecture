@@ -29,7 +29,7 @@ const users = [
     email: 'oswald@bugmail.com',
     cpf: '88888888588',
     phone: '21558777777',
-    role: 'restaurant_owner',
+    role: 'restaurant_admin',
     address: {
       street: 'test streed',
       city: 'Belford Roxo',
