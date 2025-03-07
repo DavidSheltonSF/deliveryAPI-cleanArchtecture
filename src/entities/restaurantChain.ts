@@ -2,7 +2,7 @@ export interface RestaurantChain {
   name: string,
   cnpj: string,
   iconUrl: string,
-  ownerId: string,
+  adminId: string,
 }
 
 export class RestaurantChainCast {
@@ -12,14 +12,14 @@ export class RestaurantChainCast {
         name,
         cnpj,
         iconUrl,
-        ownerId,
+        adminId,
     } = data;
 
     return {
       name,
       cnpj,
       iconUrl,
-      ownerId,
+      adminId,
     }
   }
 }
