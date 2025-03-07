@@ -4,7 +4,8 @@ const validRoles = [
   'admin',
   'customer',
   'restaurant', 
-  'owner',
+  'restaurant_admin',
+  'restaurant_chain_admin',
   'driver'
 ]
 
