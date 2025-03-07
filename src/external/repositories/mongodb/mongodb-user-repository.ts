@@ -15,7 +15,6 @@ export class MongodbUserRepository implements UserRepository {
     }).toArray();
 
     if (result){
-      // Select just the needed fields
       const users = result.map((elem) => {
         return UserCast.toUser(elem);
       });
@@ -80,5 +79,4 @@ export class MongodbUserRepository implements UserRepository {
       );
     }
   }
-
 }
