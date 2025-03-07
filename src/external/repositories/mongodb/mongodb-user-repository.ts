@@ -50,33 +50,21 @@ export class MongodbUserRepository implements UserRepository {
 
   async add (user: UserData): Promise<void> {
     const userCollection = mongoHelper.getCollection('users');
-    const existingUser = await this.findUserByEmail(user.email);
-
-    if(!existingUser){
-      await userCollection?.insertOne(user);
-    }
+    await userCollection?.insertOne(user);
   }
 
   async update (userId: string, userData: UserData): Promise<void> {
-    const existingUser = await this.findUserById(userId);
-    
-    if (existingUser){
-      const userCollection = mongoHelper.getCollection('users');
-      await userCollection.updateOne(
-        {_id: mongoHelper.toObjectId(userId)},
-        {$set: userData}
-      );
-    }
+    const userCollection = mongoHelper.getCollection('users');
+    await userCollection.updateOne(
+      {_id: mongoHelper.toObjectId(userId)},
+      {$set: userData}
+    );
   }
 
   async remove (userId: string): Promise<void> {
-    const existingUser = this.findUserById(userId);
-
-    if (existingUser){
-      const userCollection = mongoHelper.getCollection('users');
-      await userCollection.deleteOne(
-        {_id: mongoHelper.toObjectId(userId)}
-      );
-    }
+    const userCollection = mongoHelper.getCollection('users');
+    await userCollection.deleteOne(
+      {_id: mongoHelper.toObjectId(userId)}
+    );
   }
 }
