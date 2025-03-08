@@ -2,7 +2,7 @@ export interface Product {
   name: string,
   description: string,
   price: number,
-  productId: string,
+  restaurantId: string,
   imageUrl?: string,
 }
 
@@ -13,7 +13,7 @@ export class ProductCast {
         name,
         description,
         price,
-        productId,
+        restaurantId,
         imageUrl,
     } = data;
 
@@ -21,7 +21,7 @@ export class ProductCast {
       name,
       description,
       price,
-      productId,
+      restaurantId,
       imageUrl,
     }
   }
