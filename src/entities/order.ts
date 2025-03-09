@@ -2,7 +2,7 @@ import { Address } from "./validators/_interfaces";
 import { Product } from "./product";
 
 export interface Order {
-  costumerId: string,
+  customerId: string,
   restaurantId: string
   products: Omit<Product, 'restaurantId'>[],
   totalPrice: boolean,
@@ -14,7 +14,7 @@ export class OrderCast {
   /* Converts database documents into Order type objects */
   static toOrder (data: Record<string, any>): Order {
     const {
-      costumerId,
+      customerId,
       restaurantId,
       products,
       totalPrice,
@@ -23,7 +23,7 @@ export class OrderCast {
     } = data;
 
     return {
-      costumerId,
+      customerId,
       restaurantId,
       products,
       totalPrice,
