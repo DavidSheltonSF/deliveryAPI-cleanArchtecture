@@ -6,3 +6,4 @@ export * from './invalid-name';
 export * from './invalid-password';
 export * from './invalid-phone';
 export * from './invalid-role';
+export * from './invalid-paymentMethod'
