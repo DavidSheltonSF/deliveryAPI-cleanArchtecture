@@ -1,4 +1,7 @@
+import { ObjectId } from 'mongodb';
+
 export interface Product {
+  _id?: ObjectId,
   name: string,
   description: string,
   price: number,
@@ -10,6 +13,7 @@ export class ProductCast {
   /* Converts database documents into Product type objects */
   static toProduct (data: Record<string, any>): Product {
     const {
+        _id,
         name,
         description,
         price,
@@ -18,6 +22,7 @@ export class ProductCast {
     } = data;
 
     return {
+      _id,
       name,
       description,
       price,

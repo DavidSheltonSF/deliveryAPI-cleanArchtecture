@@ -2,8 +2,10 @@ import { PaymentMethod } from "./validators/_enums";
 import { PaymentInfo } from "./validators/_interfaces";
 import { Authentication } from "./validators/_interfaces";
 import { Address } from "./validators/_interfaces";
+import { ObjectId } from 'mongodb';
 
 export interface User {
+  _id?: ObjectId,
   username: string,
   email: string,
   cpf: string,
@@ -21,6 +23,7 @@ export class UserCast {
   /* Converts database documents into User type objects */
   static toUser (data: Record<string, any>): User {
     const {
+        _id,
         username,
         email,
         cpf,
@@ -32,6 +35,7 @@ export class UserCast {
     } = data;
 
     return {
+      _id,
       username,
       email,
       cpf,

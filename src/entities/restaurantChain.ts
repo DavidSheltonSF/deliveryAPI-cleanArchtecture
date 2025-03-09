@@ -1,4 +1,7 @@
+import { ObjectId } from 'mongodb';
+
 export interface RestaurantChain {
+  _id?: ObjectId,
   name: string,
   cnpj: string,
   iconUrl: string,
@@ -9,6 +12,7 @@ export class RestaurantChainCast {
   /* Converts database documents into RestaurantChain type objects */
   static toRestaurantChain (data: Record<string, any>): RestaurantChain {
     const {
+        _id,
         name,
         cnpj,
         iconUrl,
@@ -16,6 +20,7 @@ export class RestaurantChainCast {
     } = data;
 
     return {
+      _id,
       name,
       cnpj,
       iconUrl,
