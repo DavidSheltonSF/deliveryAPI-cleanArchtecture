@@ -7,7 +7,6 @@ export interface Order {
   products: Omit<Product, 'restaurantId'>[],
   totalPrice: boolean,
   status: string,
-  ownerId: string,
   address: Address
 }
 
@@ -20,7 +19,6 @@ export class OrderCast {
       products,
       totalPrice,
       status,
-      ownerId,
       address
     } = data;
 
@@ -30,7 +28,6 @@ export class OrderCast {
       products,
       totalPrice,
       status,
-      ownerId,
       address
     }
   }
