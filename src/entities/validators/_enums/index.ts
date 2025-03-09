@@ -21,8 +21,8 @@ export enum PaymentStatus {
 
 export enum OrderStatus {
   PENDING = 'pending',
-  CONFIRMED = 'CONFIRMED',
-  PREPARING = 'PREPARING',
+  CONFIRMED = 'confirmed',
+  PREPARING = 'preparing',
   READY_FOR_PICKUP = 'ready_for_pickup',
 }
 
