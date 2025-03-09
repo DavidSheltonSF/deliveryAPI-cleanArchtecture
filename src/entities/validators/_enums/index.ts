@@ -22,5 +22,5 @@ export enum PaymentStatus {
 export enum DeliveryStatus {
   ASSIGNED = 'assigned',
   ON_THE_WAY = 'on_the_way',
-  COMPLETED = 'completed'
+  DELIVERED = 'delivered'
 }
