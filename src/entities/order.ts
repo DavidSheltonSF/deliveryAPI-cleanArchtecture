@@ -5,7 +5,7 @@ export interface Order {
   customerId: string,
   restaurantId: string
   products: Omit<Product, 'restaurantId'>[],
-  totalPrice: boolean,
+  totalPrice: number,
   status: string,
   address: Address
 }
