@@ -1,0 +1,54 @@
+import { User } from "./user"
+
+const validUsers = [
+  {
+    username: 'João',
+    email: 'joao@bugmail.com',
+    phone: '21855475522',
+    cpf: '55587748484',
+    role: 'admin',
+    address: {
+      street: 'Rua dos Bobos',
+      city: 'São Paulo',
+      state: 'SP',
+      zipCode: '12345-678'
+    },
+    authentication: {
+      password: 'validPassword',
+    },
+    bankInfo: {
+      paymentMethod: 'credit_card',
+      paymentInfo: {
+        holderName: 'João',
+        cardNumber: '1234567890123456',
+        expiryDate: '12/23',
+        cvv: '123'
+      },
+    }
+  }
+]
+
+describe("Testing User validator", () => {
+  test("Trying to create a valid complete user", () => {
+    const validUser = validUsers[0];
+    const userOrError = User.create(validUser);
+    //console.log(userOrError.getLeft());
+    const gotUser = userOrError.getRight();
+
+    expect(userOrError.isRight()).toBeTruthy();
+    expect(validUser.username).toBe(gotUser.username.get());
+    expect(validUser.email).toBe(gotUser.email.get());
+    expect(validUser.phone).toBe(gotUser.phone.get());
+    expect(validUser.cpf).toBe(gotUser.cpf.get());
+    expect(validUser.role).toBe(gotUser.role.get());
+    expect(validUser.address).toBe(gotUser.address.get());
+  });
+
+  // test("Trying to create an invalid user", () => {
+  //   const invalidUser = 'invalidUser';
+  //   const userOrError = User.create(invalidUser);
+
+  //   expect(userOrError.isLeft()).toBeTruthy();
+  // });
+
+})
