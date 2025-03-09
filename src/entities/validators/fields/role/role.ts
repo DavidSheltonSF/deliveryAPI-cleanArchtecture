@@ -1,6 +1,6 @@
-import { Either } from "../../../shared/either";
-import { InvalidRoleError } from "../../_errors/invalid-role";
-import { UserRole } from "../_enums";
+import { Either } from "../../../../shared/either";
+import { InvalidRoleError } from "../../../_errors/invalid-role";
+import { UserRole } from "../../_enums";
 
 export class Role {
   private readonly role: string;

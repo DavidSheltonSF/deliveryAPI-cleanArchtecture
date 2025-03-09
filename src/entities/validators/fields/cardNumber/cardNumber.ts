@@ -1,5 +1,5 @@
-import { Either } from "../../../shared/either";
-import { InvalidCardNumberError } from "../../_errors/invalid-cardNumber";
+import { Either } from "../../../../shared/either";
+import { InvalidCardNumberError } from "../../../_errors/invalid-cardNumber";
 
 export class CardNumber {
   private readonly cardNumber: string;
