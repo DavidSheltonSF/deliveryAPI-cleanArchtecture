@@ -1,7 +1,7 @@
 import { PaymentMethod } from "./validators/_enums";
 import { PaymentInfo } from "./validators/_interfaces";
 import { Authentication } from "./validators/_interfaces";
-import { Address } from "./validators/_interfaces";
+import { Address, BankInfo } from "./validators/_interfaces";
 import { ObjectId } from 'mongodb';
 
 export interface User {
@@ -13,10 +13,7 @@ export interface User {
   role: string
   address: Address,
   authentication: Authentication,
-  bankInfo?: {
-    paymentMethod: PaymentMethod,
-    paymentInfo: PaymentInfo
-  }
+  bankInfo?: BankInfo
 }
 
 export class UserCast {

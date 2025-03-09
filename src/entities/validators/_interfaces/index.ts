@@ -22,3 +22,8 @@ export interface Authentication {
   salt?: { type: String, select: false },
   sesstionToken?: { type: String, select: false }
 }
+
+export interface BankInfo {
+  paymentMethod: string,
+  paymentInfo: PaymentInfo 
+}
