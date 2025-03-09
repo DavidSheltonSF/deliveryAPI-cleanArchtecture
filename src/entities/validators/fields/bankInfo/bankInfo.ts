@@ -1,7 +1,7 @@
-import { PaymentMethod } from "entities/validators/_enums";
+import { PaymentMethod } from "../../_enums";
 import { Either } from "../../../../shared/either";
-import { BankInfo as BankInfoData } from "entities/validators/_interfaces";
-import { InvalidPaymentMethodError, InvalidCardNumberError } from "entities/_errors/";
+import { BankInfo as BankInfoData } from "../../_interfaces";
+import { InvalidPaymentMethodError, InvalidCardNumberError } from "../../../_errors";
 
 export class BankInfo {
   private readonly bankinfo: BankInfoData;
