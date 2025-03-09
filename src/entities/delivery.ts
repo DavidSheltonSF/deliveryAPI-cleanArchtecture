@@ -1,11 +1,10 @@
-import { DeliveryStatus } from "./validators/_enums"
 import { ObjectId } from 'mongodb';
 
 export interface Delivery {
   _id?: ObjectId,
   deliveryId: string,
   driverId: string
-  status: DeliveryStatus,
+  status: string,
   timeEstimate: number
 }
 
