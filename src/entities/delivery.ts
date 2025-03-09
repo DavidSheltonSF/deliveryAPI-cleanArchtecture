@@ -2,7 +2,7 @@ import { ObjectId } from 'mongodb';
 
 export interface Delivery {
   _id?: ObjectId,
-  deliveryId: string,
+  orderId: string,
   driverId: string
   status: string,
   timeEstimate: number
@@ -13,7 +13,7 @@ export class DeliveryCast {
   static toDelivery (data: Record<string, any>): Delivery {
     const {
       _id,
-      deliveryId,
+      orderId,
       driverId,
       status,
       timeEstimate,
@@ -21,7 +21,7 @@ export class DeliveryCast {
 
     return {
       _id,
-      deliveryId,
+      orderId,
       driverId,
       status,
       timeEstimate,
