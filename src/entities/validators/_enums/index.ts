@@ -19,6 +19,13 @@ export enum PaymentStatus {
   FAILED = 'failed'
 }
 
+export enum OrderStatus {
+  PENDING = 'pending',
+  CONFIRMED = 'CONFIRMED',
+  PREPARING = 'PREPARING',
+  READY_FOR_PICKUP = 'ready_for_pickup',
+}
+
 export enum DeliveryStatus {
   ASSIGNED = 'assigned',
   ON_THE_WAY = 'on_the_way',
