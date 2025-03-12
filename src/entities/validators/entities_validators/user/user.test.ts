@@ -14,7 +14,7 @@ const users = [
       zipCode: '12345-678'
     },
     authentication: {
-      password: 'validPassword',
+      password: 'Joao@2508',
     },
     bankInfo: {
       paymentMethod: 'credit_card',
