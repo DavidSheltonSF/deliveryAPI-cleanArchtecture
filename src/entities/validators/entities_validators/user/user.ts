@@ -18,7 +18,7 @@ import {
   Address,
   Role,
   BankInfo
- } from "../../fields";
+ } from "../../fields_validators";
 
 export class User {
   readonly username: Name;
