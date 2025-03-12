@@ -8,7 +8,8 @@ import {
   InvalidPhoneError,
   InvalidRoleError,
   InvalidPaymentMethodError,
-  InvalidCardNumberError
+  InvalidCardNumberError,
+  InvalidPasswordError
  } from "../../../_errors";
 import { 
   Name,
@@ -17,7 +18,8 @@ import {
   Cpf,
   Address,
   Role,
-  BankInfo
+  BankInfo,
+  Authentication
  } from "../../fields_validators";
 
 export class User {
@@ -28,9 +30,9 @@ export class User {
   readonly role: Role;
   readonly bankInfo: BankInfo;
   readonly address: Address;
-  readonly authentication: Record<string, any>;
+  readonly authentication: Authentication;
 
-  private constructor(username: Name, email: Email, phone: Phone, cpf: Cpf, role: Role, address: Address, authentication: Record<string, any>, bankInfo?: BankInfo | null) {
+  private constructor(username: Name, email: Email, phone: Phone, cpf: Cpf, role: Role, address: Address, authentication: Authentication, bankInfo?: BankInfo | null) {
     this.username = username;
     this.email = email;
     this.phone = phone;
@@ -49,7 +51,8 @@ export class User {
   | InvalidPhoneError
   | InvalidRoleError
   | InvalidCardNumberError
-  | InvalidPaymentMethodError, User> {
+  | InvalidPaymentMethodError
+  | InvalidPasswordError, User> {
 
     const nameOrError = Name.create(userData.username);
     const emailOrError = Email.create(userData.email);
@@ -58,6 +61,7 @@ export class User {
     const roleOrError = Role.create(userData.role);
     const addressOrError = Address.create(userData.address); 
     const bankInfoOrError = BankInfo.create(userData.bankInfo);
+    const AuthenticationOrError = Authentication.create(userData.authentication);
 
     if(nameOrError.isLeft()) {
       return Either.left(nameOrError.getLeft());
@@ -87,8 +91,10 @@ export class User {
       return Either.left(bankInfoOrError.getLeft());
     }
 
-    return Either.right(new User(nameOrError.getRight(), emailOrError.getRight(), phoneOrError.getRight(), cpfOrError.getRight(), roleOrError.getRight(), addressOrError.getRight(), userData.authentication, bankInfoOrError.getRight()));
+    if(AuthenticationOrError.isLeft()) {
+      return Either.left(AuthenticationOrError.getLeft());
+    }
 
+    return Either.right(new User(nameOrError.getRight(), emailOrError.getRight(), phoneOrError.getRight(), cpfOrError.getRight(), roleOrError.getRight(), addressOrError.getRight(), AuthenticationOrError.getRight(), bankInfoOrError.getRight()));
   }
-
 }
