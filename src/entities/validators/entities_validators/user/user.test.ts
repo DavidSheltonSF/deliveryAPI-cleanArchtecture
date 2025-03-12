@@ -1,6 +1,6 @@
 import { User } from "./user"
 
-const validUsers = [
+const users = [
   {
     username: 'João',
     email: 'joao@bugmail.com',
@@ -28,9 +28,10 @@ const validUsers = [
   }
 ]
 
+
 describe("Testing User validator", () => {
   test("Trying to create a valid complete user", () => {
-    const validUser = validUsers[0];
+    const validUser = users[0];
     const userOrError = User.create(validUser);
     //console.log(userOrError.getLeft());
     const gotUser = userOrError.getRight();
@@ -44,11 +45,12 @@ describe("Testing User validator", () => {
     expect(validUser.address).toBe(gotUser.address.get());
   });
 
-  // test("Trying to create an invalid user", () => {
-  //   const invalidUser = 'invalidUser';
-  //   const userOrError = User.create(invalidUser);
+  test("Trying to create an user without user name", () => {
+    const noUserNameUser = users[0];
+    noUserNameUser.username = '';
+    const userOrError = User.create(noUserNameUser);
 
-  //   expect(userOrError.isLeft()).toBeTruthy();
-  // });
+    expect(userOrError.isLeft()).toBeTruthy();
+  });
 
 })
