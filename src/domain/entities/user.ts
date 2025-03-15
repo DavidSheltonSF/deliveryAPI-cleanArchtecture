@@ -1,5 +1,3 @@
-import { PaymentMethod } from "./validators/_enums";
-import { PaymentInfo } from "./validators/_interfaces";
 import { Authentication } from "./validators/_interfaces";
 import { Address, BankInfo } from "./validators/_interfaces";
 import { ObjectId } from 'mongodb';
