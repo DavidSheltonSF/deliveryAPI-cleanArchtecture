@@ -1,6 +1,6 @@
 import { DeliveryRepository } from "application/usecases/ports/delivery-repository";
 import { Delivery as Delivery } from "domain/entities/delivery";
-import { DeliveryCast } from "../../../domain/entities/delivery";
+import { DeliveryMapper } from "../../../domain/entities/delivery";
 import { mongoHelper } from "./helpers/mongo-helper";
 
 export class MongodbDeliveryRepository implements DeliveryRepository {
@@ -11,7 +11,7 @@ export class MongodbDeliveryRepository implements DeliveryRepository {
 
     if (result){
       const deliverys = result.map((elem) => {
-        return DeliveryCast.toDelivery(elem);
+        return DeliveryMapper.toDelivery(elem);
       });
 
       return deliverys;
@@ -26,7 +26,7 @@ export class MongodbDeliveryRepository implements DeliveryRepository {
     const result = await deliveryCollection?.findOne({_id: objId});
 
     if (result){
-      return DeliveryCast.toDelivery(result);
+      return DeliveryMapper.toDelivery(result);
     }
 
     return null;

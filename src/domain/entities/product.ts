@@ -9,7 +9,7 @@ export interface Product {
   imageUrl?: string,
 }
 
-export class ProductCast {
+export class ProductMapper {
   /* Converts database documents into Product type objects */
   static toProduct (data: Record<string, any>): Product {
     const {

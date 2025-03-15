@@ -12,7 +12,7 @@ export interface Order {
   address: Address
 }
 
-export class OrderCast {
+export class OrderMapper {
   /* Converts database documents into Order type objects */
   static toOrder (data: Record<string, any>): Order {
     const {

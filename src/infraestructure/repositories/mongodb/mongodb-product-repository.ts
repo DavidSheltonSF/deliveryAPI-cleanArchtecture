@@ -1,6 +1,6 @@
 import { ProductRepository } from "application/usecases/ports/product-repository";
 import { Product as Product } from "domain/entities/product";
-import { ProductCast } from "../../../domain/entities/product";
+import { ProductMapper } from "../../../domain/entities/product";
 import { mongoHelper } from "./helpers/mongo-helper";
 
 export class MongodbProductRepository implements ProductRepository {
@@ -11,7 +11,7 @@ export class MongodbProductRepository implements ProductRepository {
 
     if (result){
       const products = result.map((elem) => {
-        return ProductCast.toProduct(elem);
+        return ProductMapper.toProduct(elem);
       });
 
       return products;
@@ -21,12 +21,12 @@ export class MongodbProductRepository implements ProductRepository {
 
   async findProductById (product: string): Promise<Product | null> {
     const productCollection = mongoHelper.getCollection('product');
-    // Its necessary to cast the id string into an ObjectId
+    // Its necessary to mapper the id string into an ObjectId
     const objId = mongoHelper.toObjectId(product);
     const result = await productCollection?.findOne({_id: objId});
 
     if (result){
-      return ProductCast.toProduct(result);
+      return ProductMapper.toProduct(result);
     }
 
     return null;

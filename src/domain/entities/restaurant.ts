@@ -11,7 +11,7 @@ export interface Restaurant {
   address: Address
 }
 
-export class RestaurantCast {
+export class RestaurantMapper {
   /* Converts database documents into Restaurant type objects */
   static toRestaurant (data: Record<string, any>): Restaurant {
     const {

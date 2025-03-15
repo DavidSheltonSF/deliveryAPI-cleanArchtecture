@@ -1,6 +1,6 @@
 import { UserRepository } from "application/usecases/ports/user-repository";
 import { User as UserData } from "domain/entities/user";
-import { UserCast } from "../../../domain/entities/user";
+import { UserMapper } from "../../../domain/entities/user";
 import { mongoHelper } from "./helpers/mongo-helper";
 
 export class MongodbUserRepository implements UserRepository {
@@ -16,7 +16,7 @@ export class MongodbUserRepository implements UserRepository {
 
     if (result){
       const users = result.map((elem) => {
-        return UserCast.toUser(elem);
+        return UserMapper.toUser(elem);
       });
 
       return users;
@@ -29,7 +29,7 @@ export class MongodbUserRepository implements UserRepository {
     const result = await userCollection?.findOne({ email });
 
     if (result){
-      return UserCast.toUser(result);
+      return UserMapper.toUser(result);
     }
 
     return null;
@@ -37,12 +37,12 @@ export class MongodbUserRepository implements UserRepository {
 
   async findUserById (userId: string): Promise<UserData | null> {
     const userCollection = mongoHelper.getCollection('users');
-    // Its necessary to cast the id string into an ObjectId
+    // Its necessary to mapper the id string into an ObjectId
     const objId = mongoHelper.toObjectId(userId);
     const result = await userCollection?.findOne({_id: objId});
 
     if (result){
-      return UserCast.toUser(result);
+      return UserMapper.toUser(result);
     }
 
     return null;

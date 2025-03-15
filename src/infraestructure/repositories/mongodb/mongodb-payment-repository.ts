@@ -1,6 +1,6 @@
 import { PaymentRepository } from "application/usecases/ports/payment-repository";
 import { Payment as Payment } from "domain/entities/payment";
-import { PaymentCast } from "../../../domain/entities/payment";
+import { PaymentMapper } from "../../../domain/entities/payment";
 import { mongoHelper } from "./helpers/mongo-helper";
 
 export class MongodbPaymentRepository implements PaymentRepository {
@@ -11,7 +11,7 @@ export class MongodbPaymentRepository implements PaymentRepository {
 
     if (result){
       const payments = result.map((elem) => {
-        return PaymentCast.toPayment(elem);
+        return PaymentMapper.toPayment(elem);
       });
 
       return payments;
@@ -26,7 +26,7 @@ export class MongodbPaymentRepository implements PaymentRepository {
     const result = await paymentCollection?.findOne({_id: objId});
 
     if (result){
-      return PaymentCast.toPayment(result);
+      return PaymentMapper.toPayment(result);
     }
 
     return null;
@@ -39,7 +39,7 @@ export class MongodbPaymentRepository implements PaymentRepository {
     const result = await paymentCollection?.findOne({orderId: objId});
 
     if (result){
-      return PaymentCast.toPayment(result);
+      return PaymentMapper.toPayment(result);
     }
 
     return null;

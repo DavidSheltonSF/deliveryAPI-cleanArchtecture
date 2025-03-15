@@ -1,6 +1,6 @@
 import { OrderRepository } from "application/usecases/ports/order-repository";
 import { Order as Order } from "domain/entities/order";
-import { OrderCast } from "../../../domain/entities/order";
+import { OrderMapper } from "../../../domain/entities/order";
 import { mongoHelper } from "./helpers/mongo-helper";
 
 export class MongodbOrderRepository implements OrderRepository {
@@ -11,7 +11,7 @@ export class MongodbOrderRepository implements OrderRepository {
 
     if (result){
       const orders = result.map((elem) => {
-        return OrderCast.toOrder(elem);
+        return OrderMapper.toOrder(elem);
       });
 
       return orders;
@@ -26,7 +26,7 @@ export class MongodbOrderRepository implements OrderRepository {
     const result = await orderCollection?.findOne({_id: objId});
 
     if (result){
-      return OrderCast.toOrder(result);
+      return OrderMapper.toOrder(result);
     }
 
     return null;

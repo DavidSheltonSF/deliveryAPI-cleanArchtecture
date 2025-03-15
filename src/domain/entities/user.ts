@@ -14,7 +14,7 @@ export interface User {
   bankInfo?: BankInfo
 }
 
-export class UserCast {
+export class UserMapper {
   /* Converts database documents into User type objects */
   static toUser (data: Record<string, any>): User {
     const {

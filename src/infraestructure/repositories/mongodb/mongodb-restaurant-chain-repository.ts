@@ -1,6 +1,6 @@
 import { RestaurantChainRepository } from "application/usecases/ports/restaurant-chain-repository";
 import { RestaurantChain as RestaurantChain } from "domain/entities/restaurantChain";
-import { RestaurantChainCast } from "../../../domain/entities/restaurantChain";
+import { RestaurantChainMapper } from "../../../domain/entities/restaurantChain";
 import { mongoHelper } from "./helpers/mongo-helper";
 
 export class MongodbRestaurantChainRepository implements RestaurantChainRepository {
@@ -11,7 +11,7 @@ export class MongodbRestaurantChainRepository implements RestaurantChainReposito
 
     if (result){
       const restaurantchains = result.map((elem) => {
-        return RestaurantChainCast.toRestaurantChain(elem);
+        return RestaurantChainMapper.toRestaurantChain(elem);
       });
 
       return restaurantchains;
@@ -21,12 +21,12 @@ export class MongodbRestaurantChainRepository implements RestaurantChainReposito
 
   async findRestaurantChainById (restaurantChain: string): Promise<RestaurantChain | null> {
     const restaurantchainCollection = mongoHelper.getCollection('restaurantChain');
-    // Its necessary to cast the id string into an ObjectId
+    // Its necessary to mapper the id string into an ObjectId
     const objId = mongoHelper.toObjectId(restaurantChain);
     const result = await restaurantchainCollection?.findOne({_id: objId});
 
     if (result){
-      return RestaurantChainCast.toRestaurantChain(result);
+      return RestaurantChainMapper.toRestaurantChain(result);
     }
 
     return null;
@@ -37,7 +37,7 @@ export class MongodbRestaurantChainRepository implements RestaurantChainReposito
     const result = await restaurantchainCollection?.findOne({adminId: adminId});
 
     if (result){
-      return RestaurantChainCast.toRestaurantChain(result);
+      return RestaurantChainMapper.toRestaurantChain(result);
     }
 
     return null;

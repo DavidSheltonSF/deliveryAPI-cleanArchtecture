@@ -7,7 +7,7 @@ export interface Payment {
   status: string,
 }
 
-export class PaymentCast {
+export class PaymentMapper {
   /* Converts database documents into Payment type objects */
   static toPayment (data: Record<string, any>): Payment {
     const {

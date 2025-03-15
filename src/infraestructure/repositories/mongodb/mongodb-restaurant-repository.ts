@@ -1,6 +1,6 @@
 import { RestaurantRepository } from "application/usecases/ports/restaurant-repository";
 import { Restaurant as RestaurantData } from "domain/entities/restaurant";
-import { RestaurantCast } from "../../../domain/entities/restaurant";
+import { RestaurantMapper } from "../../../domain/entities/restaurant";
 import { mongoHelper } from "./helpers/mongo-helper";
 
 export class MongodbRestaurantRepository implements RestaurantRepository {
@@ -11,7 +11,7 @@ export class MongodbRestaurantRepository implements RestaurantRepository {
 
     if (result){
       const restaurants = result.map((elem) => {
-        return RestaurantCast.toRestaurant(elem);
+        return RestaurantMapper.toRestaurant(elem);
       });
 
       return restaurants;
@@ -21,12 +21,12 @@ export class MongodbRestaurantRepository implements RestaurantRepository {
 
   async findRestaurantById (restaurantId: string): Promise<RestaurantData | null> {
     const restaurantCollection = mongoHelper.getCollection('restaurants');
-    // Its necessary to cast the id string into an ObjectId
+    // Its necessary to mapper the id string into an ObjectId
     const objId = mongoHelper.toObjectId(restaurantId);
     const result = await restaurantCollection?.findOne({_id: objId});
 
     if (result){
-      return RestaurantCast.toRestaurant(result);
+      return RestaurantMapper.toRestaurant(result);
     }
 
     return null;
@@ -37,7 +37,7 @@ export class MongodbRestaurantRepository implements RestaurantRepository {
     const result = await restaurantCollection?.findOne({adminId: adminId});
 
     if (result){
-      return RestaurantCast.toRestaurant(result);
+      return RestaurantMapper.toRestaurant(result);
     }
 
     return null;
@@ -49,7 +49,7 @@ export class MongodbRestaurantRepository implements RestaurantRepository {
     const result = await restaurantCollection?.findOne({"address.zipCode": zipCode});
 
     if (result){
-      return RestaurantCast.toRestaurant(result);
+      return RestaurantMapper.toRestaurant(result);
     }
 
     return null;

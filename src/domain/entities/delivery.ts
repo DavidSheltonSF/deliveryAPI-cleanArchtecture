@@ -8,7 +8,7 @@ export interface Delivery {
   timeEstimate: number
 }
 
-export class DeliveryCast {
+export class DeliveryMapper {
   /* Converts database documents into Delivery type objects */
   static toDelivery (data: Record<string, any>): Delivery {
     const {

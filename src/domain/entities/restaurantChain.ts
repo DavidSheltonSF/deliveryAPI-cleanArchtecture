@@ -8,7 +8,7 @@ export interface RestaurantChain {
   adminId: string,
 }
 
-export class RestaurantChainCast {
+export class RestaurantChainMapper {
   /* Converts database documents into RestaurantChain type objects */
   static toRestaurantChain (data: Record<string, any>): RestaurantChain {
     const {
