@@ -1,7 +1,7 @@
-import { mongoHelper } from "./helpers/mongo-helper";
+import { mongoHelper } from "../../../../src/infraestructure/repositories/mongodb/helpers/mongo-helper";
 import { config } from "dotenv";
-import { MongodbRestaurantChainRepository } from "./mongodb-restaurant-chain-repository";
-import { generateHexId } from "../../../shared/generateHexId";
+import { MongodbRestaurantChainRepository } from "../../../../src/infraestructure/repositories/mongodb/mongodb-restaurant-chain-repository";
+import { generateHexId } from "../../../../src/shared/generateHexId";
 
 config();
 

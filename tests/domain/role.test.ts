@@ -1,4 +1,4 @@
-import { Role } from "./role"
+import { Role } from "../../src/domain/entities/validators/fields_validators/role/role"
 
 const validRoles = [
   'admin',

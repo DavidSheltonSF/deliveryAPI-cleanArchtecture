@@ -1,4 +1,4 @@
-import { Name } from "./name"
+import { Name } from "../../src/domain/entities/validators/fields_validators/name/name"
 
 describe("Testing Name validator", () => {
   test("Trying to create a valid name", () => {

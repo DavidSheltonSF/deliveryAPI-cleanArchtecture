@@ -1,4 +1,4 @@
-import { Authentication } from "./authentication"
+import { Authentication } from "../../src/domain/entities/validators/fields_validators/authentication/authentication"
 
 describe("Testing Password validator", () => {
   // VALID PASSWORD

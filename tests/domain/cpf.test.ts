@@ -1,4 +1,4 @@
-import { Cpf } from "./cpf"
+import { Cpf } from "../../src/domain/entities/validators/fields_validators/cpf/cpf"
 
 describe("Testing Cpf validator", () => {
   test("Trying to create a valid cpf", () => {

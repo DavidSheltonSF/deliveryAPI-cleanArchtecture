@@ -1,4 +1,4 @@
-import { mongoHelper } from "./mongo-helper";
+import { mongoHelper } from "../../../../../src/infraestructure/repositories/mongodb/helpers/mongo-helper";
 import { config } from "dotenv";
 
 config();
