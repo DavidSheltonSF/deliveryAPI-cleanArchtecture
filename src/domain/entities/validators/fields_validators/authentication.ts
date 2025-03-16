@@ -1,5 +1,5 @@
-import { Either } from "../../../../../shared/either";
-import { InvalidPasswordError } from "../../../_errors/invalid-password";
+import { Either } from "../../../../shared/either";
+import { InvalidPasswordError } from "../../_errors/invalid-password";
 import { Authentication as AuthenticationData} from "domain/entities/validators/_interfaces";
 
 export class Authentication {

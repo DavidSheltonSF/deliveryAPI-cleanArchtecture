@@ -1,1 +1,1 @@
-export * from './entities_validators/user/user';
+export * from './entities_validators/user';

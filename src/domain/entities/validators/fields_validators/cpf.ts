@@ -1,5 +1,5 @@
-import { Either } from "../../../../../shared/either";
-import { InvalidCpfError } from "../../../_errors/invalid-cpf";
+import { Either } from "../../../../shared/either";
+import { InvalidCpfError } from "../../_errors/invalid-cpf";
 
 export class Cpf {
   private readonly cpf: string;
