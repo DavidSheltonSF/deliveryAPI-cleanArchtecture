@@ -1,4 +1,4 @@
-import { User } from "../../src/domain/entities/validators/entities_validators/user/user"
+import { User } from "../../src/domain/entities/validators/entities_validators/user"
 
 const users = [
   {

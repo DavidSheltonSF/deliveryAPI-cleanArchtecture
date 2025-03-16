@@ -1,4 +1,4 @@
-import { Address } from "../../src/domain/entities/validators/fields_validators/address/address"
+import { Address } from "../../src/domain/entities/validators/fields_validators/address"
 
 const validAddresses = [
   {
