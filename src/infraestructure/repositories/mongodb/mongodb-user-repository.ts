@@ -3,7 +3,6 @@ import { User as UserData } from "domain/entities/user";
 import { UserMapper } from "../../../domain/entities/user";
 import { mongoHelper } from "./helpers/mongo-helper";
 
-//testing
 export class MongodbUserRepository implements UserRepository {
   
   async findAllUsers (): Promise<UserData[]> {
