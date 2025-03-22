@@ -1,4 +1,4 @@
-import { Phone } from "../../src/domain/entities/validators/fields_validators/phone/phone"
+import { Phone } from "../../src/domain/entities/validators/fields_validators/phone"
 
 describe("Testing Phone validator", () => {
   test("Trying to create a valid phone", () => {
