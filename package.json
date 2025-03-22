@@ -1,0 +1,40 @@
+{
+  "name": "deliveryapi-cleanarchtecture",
+  "version": "1.0.0",
+  "description": "My description",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "jest",
+    "prepare": "husky init"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DavidSheltonSF/deliveryAPI-cleanArchtecture.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DavidSheltonSF/deliveryAPI-cleanArchtecture/issues"
+  },
+  "homepage": "https://github.com/DavidSheltonSF/deliveryAPI-cleanArchtecture#readme",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mongodb": "^6.15.0",
+    "npm": "^11.2.0"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^9.6.0",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^22.13.11",
+    "husky": "^9.1.7",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.6",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.2",
+    "uuid": "^11.1.0"
+  }
+}
