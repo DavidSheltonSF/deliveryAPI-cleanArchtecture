@@ -103,17 +103,17 @@ describe('Testing MongodbOrderRepository', () => {
     const foundOrder = await OrderCollection
       .findOne({_id: orders[0]._id});
     
-    expect(foundOrder.customerId)
+    expect(foundOrder?.customerId)
       .toBe(orders[0].customerId);
-    expect(foundOrder.restaurantId)
+    expect(foundOrder?.restaurantId)
       .toBe(orders[0].restaurantId);
-      expect(JSON.stringify(foundOrder.products))
+      expect(JSON.stringify(foundOrder?.products))
       .toBe(JSON.stringify(orders[0].products));
-    expect(foundOrder.totalPrice)
+    expect(foundOrder?.totalPrice)
       .toBe(orders[0].totalPrice);
-    expect(foundOrder.status)
+    expect(foundOrder?.status)
       .toBe(orders[0].status);
-    expect(JSON.stringify(foundOrder.address))
+    expect(JSON.stringify(foundOrder?.address))
     .toBe(JSON.stringify(orders[0].address));
   });
 
@@ -140,17 +140,17 @@ describe('Testing MongodbOrderRepository', () => {
 
     const foundOrder = await repository.findOrderById(orders[0]._id.toString());
 
-    expect(foundOrder.customerId)
+    expect(foundOrder?.customerId)
       .toBe(orders[0].customerId);
-    expect(foundOrder.restaurantId)
+    expect(foundOrder?.restaurantId)
       .toBe(orders[0].restaurantId);
-      expect(JSON.stringify(foundOrder.products))
+      expect(JSON.stringify(foundOrder?.products))
       .toBe(JSON.stringify(orders[0].products));
-    expect(foundOrder.totalPrice)
+    expect(foundOrder?.totalPrice)
       .toBe(orders[0].totalPrice);
-    expect(foundOrder.status)
+    expect(foundOrder?.status)
       .toBe(orders[0].status);
-    expect(JSON.stringify(foundOrder.address))
+    expect(JSON.stringify(foundOrder?.address))
     .toBe(JSON.stringify(orders[0].address));
   });
 
@@ -196,17 +196,17 @@ describe('Testing MongodbOrderRepository', () => {
 
     const foundOrder = await repository.findOrderById(orders[0]._id.toString());
 
-    expect(foundOrder.customerId)
+    expect(foundOrder?.customerId)
       .toBe(updatedOrder.customerId);
-    expect(foundOrder.restaurantId)
+    expect(foundOrder?.restaurantId)
       .toBe(updatedOrder.restaurantId);
-      expect(JSON.stringify(foundOrder.products))
+      expect(JSON.stringify(foundOrder?.products))
       .toBe(JSON.stringify(updatedOrder.products));
-    expect(foundOrder.totalPrice)
+    expect(foundOrder?.totalPrice)
       .toBe(updatedOrder.totalPrice);
-    expect(foundOrder.status)
+    expect(foundOrder?.status)
       .toBe(updatedOrder.status);
-    expect(JSON.stringify(foundOrder.address))
+    expect(JSON.stringify(foundOrder?.address))
     .toBe(JSON.stringify(updatedOrder.address));
   });
 

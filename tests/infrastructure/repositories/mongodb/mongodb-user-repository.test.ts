@@ -74,18 +74,18 @@ describe('Testing MongodbUserRepository', () => {
 
     const foundUser = await userCollection.findOne({email: users[0].email})
     
-    expect(foundUser.username)
+    expect(foundUser?.username)
       .toBe(users[0].username);
-    expect(foundUser.email)
+    expect(foundUser?.email)
       .toBe(users[0].email);
-    expect(foundUser.cpf)
+    expect(foundUser?.cpf)
       .toBe(users[0].cpf);
-    expect(foundUser.phone)
+    expect(foundUser?.phone)
       .toBe(users[0].phone);
-    expect(foundUser.role)
+    expect(foundUser?.role)
       .toBe(users[0].role);
 
-    const {_id, ...addressWithoutId} = foundUser.address
+    const {_id, ...addressWithoutId} = foundUser?.address
     expect(JSON.stringify(addressWithoutId))
       .toBe(JSON.stringify(users[0].address));
   });
@@ -115,15 +115,15 @@ describe('Testing MongodbUserRepository', () => {
 
     const foundUser = await repository.findUserById(user._id.toString());
 
-    expect(foundUser.username)
+    expect(foundUser?.username)
       .toBe(users[0].username);
-    expect(foundUser.email)
+    expect(foundUser?.email)
       .toBe(users[0].email);
-    expect(foundUser.cpf)
+    expect(foundUser?.cpf)
       .toBe(users[0].cpf);
-    expect(foundUser.phone)
+    expect(foundUser?.phone)
       .toBe(users[0].phone);
-    expect(foundUser.role)
+    expect(foundUser?.role)
       .toBe(users[0].role);
   });
 
@@ -136,15 +136,15 @@ describe('Testing MongodbUserRepository', () => {
 
     const foundUser = await repository.findUserByEmail(users[0].email);
 
-    expect(foundUser.username)
+    expect(foundUser?.username)
       .toBe(users[0].username);
-    expect(foundUser.email)
+    expect(foundUser?.email)
       .toBe(users[0].email);
-    expect(foundUser.cpf)
+    expect(foundUser?.cpf)
       .toBe(users[0].cpf);
-    expect(foundUser.phone)
+    expect(foundUser?.phone)
       .toBe(users[0].phone);
-    expect(foundUser.role)
+    expect(foundUser?.role)
       .toBe(users[0].role);
   });
 
@@ -178,15 +178,15 @@ describe('Testing MongodbUserRepository', () => {
 
     const foundUser = await repository.findUserById(user._id.toString());
 
-    expect(foundUser.username)
+    expect(foundUser?.username)
       .toBe(updatedUser.username);
-    expect(foundUser.email)
+    expect(foundUser?.email)
       .toBe(updatedUser.email);
-    expect(foundUser.cpf)
+    expect(foundUser?.cpf)
       .toBe(updatedUser.cpf);
-    expect(foundUser.phone)
+    expect(foundUser?.phone)
       .toBe(updatedUser.phone);
-    expect(foundUser.role)
+    expect(foundUser?.role)
       .toBe(updatedUser.role);
 
   });

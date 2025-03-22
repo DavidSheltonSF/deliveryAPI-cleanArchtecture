@@ -63,13 +63,13 @@ describe('Testing MongodbDeliveryRepository', () => {
     const foundDelivery = await DeliveryCollection
       .findOne({_id: deliverys[0]._id});
     
-    expect(foundDelivery.orderId)
+    expect(foundDelivery?.orderId)
       .toBe(deliverys[0].orderId);
-    expect(foundDelivery.driverId)
+    expect(foundDelivery?.driverId)
       .toBe(deliverys[0].driverId);
-    expect(foundDelivery.status)
+    expect(foundDelivery?.status)
       .toBe(deliverys[0].status);
-    expect(foundDelivery.timeEstimate)
+    expect(foundDelivery?.timeEstimate)
       .toBe(deliverys[0].timeEstimate);
   });
 
@@ -96,13 +96,13 @@ describe('Testing MongodbDeliveryRepository', () => {
 
     const foundDelivery = await repository.findDeliveryById(deliverys[0]._id.toString());
 
-    expect(foundDelivery.orderId)
+    expect(foundDelivery?.orderId)
       .toBe(deliverys[0].orderId);
-    expect(foundDelivery.driverId)
+    expect(foundDelivery?.driverId)
       .toBe(deliverys[0].driverId);
-    expect(foundDelivery.status)
+    expect(foundDelivery?.status)
       .toBe(deliverys[0].status);
-    expect(foundDelivery.timeEstimate)
+    expect(foundDelivery?.timeEstimate)
       .toBe(deliverys[0].timeEstimate);
   });
 
@@ -127,13 +127,13 @@ describe('Testing MongodbDeliveryRepository', () => {
 
     const foundDelivery = await repository.findDeliveryById(deliverys[0]._id.toString());
 
-    expect(foundDelivery.orderId)
+    expect(foundDelivery?.orderId)
       .toBe(updatedDelivery.orderId);
-    expect(foundDelivery.driverId)
+    expect(foundDelivery?.driverId)
       .toBe(updatedDelivery.driverId);
-    expect(foundDelivery.status)
+    expect(foundDelivery?.status)
       .toBe(updatedDelivery.status);
-    expect(foundDelivery.timeEstimate)
+    expect(foundDelivery?.timeEstimate)
       .toBe(updatedDelivery.timeEstimate);
   });
 

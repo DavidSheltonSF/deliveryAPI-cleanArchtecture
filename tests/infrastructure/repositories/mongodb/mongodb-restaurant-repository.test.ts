@@ -74,17 +74,17 @@ describe('Testing MongodbRestaurantRepository', () => {
     const foundRestaurant = await restaurantCollection
       .findOne({adminId: restaurants[0].adminId});
     
-    expect(foundRestaurant.restaurantChainId)
+    expect(foundRestaurant?.restaurantChainId)
       .toBe(restaurants[0].restaurantChainId);
-    expect(foundRestaurant.adminId)
+    expect(foundRestaurant?.adminId)
       .toBe(restaurants[0].adminId);
-    expect(foundRestaurant.isOpen)
+    expect(foundRestaurant?.isOpen)
       .toBe(restaurants[0].isOpen);
-    expect(foundRestaurant.phone)
+    expect(foundRestaurant?.phone)
       .toBe(restaurants[0].phone);
-    expect(foundRestaurant.imageUrl)
+    expect(foundRestaurant?.imageUrl)
       .toBe(restaurants[0].imageUrl);
-    expect(JSON.stringify(foundRestaurant.address))
+    expect(JSON.stringify(foundRestaurant?.address))
       .toBe(JSON.stringify(restaurants[0].address));
   });
 
@@ -113,17 +113,17 @@ describe('Testing MongodbRestaurantRepository', () => {
 
     const foundRestaurant = await repository.findRestaurantById(restaurant._id.toString());
 
-    expect(foundRestaurant.restaurantChainId)
+    expect(foundRestaurant?.restaurantChainId)
       .toBe(restaurants[0].restaurantChainId);
-    expect(foundRestaurant.adminId)
+    expect(foundRestaurant?.adminId)
       .toBe(restaurants[0].adminId);
-    expect(foundRestaurant.isOpen)
+    expect(foundRestaurant?.isOpen)
       .toBe(restaurants[0].isOpen);
-    expect(foundRestaurant.phone)
+    expect(foundRestaurant?.phone)
       .toBe(restaurants[0].phone);
-    expect(foundRestaurant.imageUrl)
+    expect(foundRestaurant?.imageUrl)
       .toBe(restaurants[0].imageUrl);
-    expect(JSON.stringify(foundRestaurant.address))
+    expect(JSON.stringify(foundRestaurant?.address))
       .toBe(JSON.stringify(restaurants[0].address));
   });
 
@@ -136,17 +136,17 @@ describe('Testing MongodbRestaurantRepository', () => {
 
     const foundRestaurant = await repository.findRestaurantByAdminId(restaurants[0].adminId);
 
-    expect(foundRestaurant.restaurantChainId)
+    expect(foundRestaurant?.restaurantChainId)
     .toBe(restaurants[0].restaurantChainId);
-  expect(foundRestaurant.adminId)
+  expect(foundRestaurant?.adminId)
     .toBe(restaurants[0].adminId);
-  expect(foundRestaurant.isOpen)
+  expect(foundRestaurant?.isOpen)
     .toBe(restaurants[0].isOpen);
-  expect(foundRestaurant.phone)
+  expect(foundRestaurant?.phone)
     .toBe(restaurants[0].phone);
-  expect(foundRestaurant.imageUrl)
+  expect(foundRestaurant?.imageUrl)
     .toBe(restaurants[0].imageUrl);
-  expect(JSON.stringify(foundRestaurant.address))
+  expect(JSON.stringify(foundRestaurant?.address))
     .toBe(JSON.stringify(restaurants[0].address));
   
   });
@@ -179,17 +179,17 @@ describe('Testing MongodbRestaurantRepository', () => {
 
     const foundRestaurant = await repository.findRestaurantById(restaurant._id.toString());
 
-    expect(foundRestaurant.restaurantChainId)
+    expect(foundRestaurant?.restaurantChainId)
     .toBe(updatedRestaurant.restaurantChainId);
-  expect(foundRestaurant.adminId)
+  expect(foundRestaurant?.adminId)
     .toBe(updatedRestaurant.adminId);
-  expect(foundRestaurant.isOpen)
+  expect(foundRestaurant?.isOpen)
     .toBe(updatedRestaurant.isOpen);
-  expect(foundRestaurant.phone)
+  expect(foundRestaurant?.phone)
     .toBe(updatedRestaurant.phone);
-  expect(foundRestaurant.imageUrl)
+  expect(foundRestaurant?.imageUrl)
     .toBe(updatedRestaurant.imageUrl);
-  expect(JSON.stringify(foundRestaurant.address))
+  expect(JSON.stringify(foundRestaurant?.address))
     .toBe(JSON.stringify(updatedRestaurant.address));
 
   });

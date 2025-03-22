@@ -58,13 +58,13 @@ describe('Testing MongodbRestaurantChainRepository', () => {
     const foundRestaurantChain = await RestaurantChainCollection
       .findOne({adminId: RestaurantChains[0].adminId});
     
-    expect(foundRestaurantChain.name)
+    expect(foundRestaurantChain?.name)
       .toBe(RestaurantChains[0].name);
-    expect(foundRestaurantChain.cnpj)
+    expect(foundRestaurantChain?.cnpj)
       .toBe(RestaurantChains[0].cnpj);
-    expect(foundRestaurantChain.iconUrl)
-      .toBe(RestaurantChains[0].iconUrl);
-    expect(foundRestaurantChain.adminId)
+    expect(foundRestaurantChain?.iconUrl)
+      .toBe(RestaurantChains[0]?.iconUrl);
+    expect(foundRestaurantChain?.adminId)
       .toBe(RestaurantChains[0].adminId);
   });
 
@@ -93,13 +93,13 @@ describe('Testing MongodbRestaurantChainRepository', () => {
 
     const foundRestaurantChain = await repository.findRestaurantChainById(RestaurantChain._id.toString());
 
-    expect(foundRestaurantChain.name)
+    expect(foundRestaurantChain?.name)
       .toBe(RestaurantChains[0].name);
-    expect(foundRestaurantChain.cnpj)
+    expect(foundRestaurantChain?.cnpj)
       .toBe(RestaurantChains[0].cnpj);
-    expect(foundRestaurantChain.iconUrl)
+    expect(foundRestaurantChain?.iconUrl)
       .toBe(RestaurantChains[0].iconUrl);
-    expect(foundRestaurantChain.adminId)
+    expect(foundRestaurantChain?.adminId)
       .toBe(RestaurantChains[0].adminId);
   });
 
@@ -112,13 +112,13 @@ describe('Testing MongodbRestaurantChainRepository', () => {
 
     const foundRestaurantChain = await repository.findRestaurantChainByAdminId(RestaurantChains[0].adminId);
 
-    expect(foundRestaurantChain.name)
+    expect(foundRestaurantChain?.name)
       .toBe(RestaurantChains[0].name);
-    expect(foundRestaurantChain.cnpj)
+    expect(foundRestaurantChain?.cnpj)
       .toBe(RestaurantChains[0].cnpj);
-    expect(foundRestaurantChain.iconUrl)
+    expect(foundRestaurantChain?.iconUrl)
       .toBe(RestaurantChains[0].iconUrl);
-    expect(foundRestaurantChain.adminId)
+    expect(foundRestaurantChain?.adminId)
       .toBe(RestaurantChains[0].adminId);
   
   });
@@ -144,13 +144,13 @@ describe('Testing MongodbRestaurantChainRepository', () => {
 
     const foundRestaurantChain = await repository.findRestaurantChainById(RestaurantChain._id.toString());
 
-    expect(foundRestaurantChain.name)
+    expect(foundRestaurantChain?.name)
       .toBe(updatedRestaurantChain.name);
-    expect(foundRestaurantChain.cnpj)
+    expect(foundRestaurantChain?.cnpj)
       .toBe(updatedRestaurantChain.cnpj);
-    expect(foundRestaurantChain.iconUrl)
+    expect(foundRestaurantChain?.iconUrl)
       .toBe(updatedRestaurantChain.iconUrl);
-    expect(foundRestaurantChain.adminId)
+    expect(foundRestaurantChain?.adminId)
       .toBe(updatedRestaurantChain.adminId);
 
   });

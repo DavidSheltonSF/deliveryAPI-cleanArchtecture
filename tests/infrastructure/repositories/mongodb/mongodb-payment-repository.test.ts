@@ -56,11 +56,11 @@ describe('Testing MongodbPaymentRepository', () => {
     const foundPayment = await PaymentCollection
       .findOne({orderId: payments[0].orderId});
     
-    expect(foundPayment.orderId)
+    expect(foundPayment?.orderId)
       .toBe(payments[0].orderId);
-    expect(foundPayment.paymentMethod)
+    expect(foundPayment?.paymentMethod)
       .toBe(payments[0].paymentMethod);
-    expect(foundPayment.status)
+    expect(foundPayment?.status)
       .toBe(payments[0].status);
   });
 
@@ -89,12 +89,12 @@ describe('Testing MongodbPaymentRepository', () => {
 
     const foundPayment = await repository.findPaymentById(Payment._id.toString());
 
-    expect(foundPayment.orderId)
-    .toBe(payments[0].orderId);
-  expect(foundPayment.paymentMethod)
-    .toBe(payments[0].paymentMethod);
-  expect(foundPayment.status)
-    .toBe(payments[0].status);
+    expect(foundPayment?.orderId)
+      .toBe(payments[0].orderId);
+    expect(foundPayment?.paymentMethod)
+      .toBe(payments[0].paymentMethod);
+    expect(foundPayment?.status)
+      .toBe(payments[0].status);
   });
 
   test('Should update Payment by id', async () => {
@@ -117,11 +117,11 @@ describe('Testing MongodbPaymentRepository', () => {
 
     const foundPayment = await repository.findPaymentById(Payment._id.toString());
 
-    expect(foundPayment.orderId)
+    expect(foundPayment?.orderId)
       .toBe(updatedPayment.orderId);
-    expect(foundPayment.paymentMethod)
+    expect(foundPayment?.paymentMethod)
       .toBe(updatedPayment.paymentMethod);
-    expect(foundPayment.status)
+    expect(foundPayment?.status)
       .toBe(updatedPayment.status);
   });
 

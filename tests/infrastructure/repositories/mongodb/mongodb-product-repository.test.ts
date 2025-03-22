@@ -60,15 +60,15 @@ describe('Testing MongodbProductRepository', () => {
     const foundProduct = await ProductCollection
       .findOne({restaurantId: products[0].restaurantId});
     
-    expect(foundProduct.name)
+    expect(foundProduct?.name)
       .toBe(products[0].name);
-    expect(foundProduct.description)
+    expect(foundProduct?.description)
       .toBe(products[0].description);
-    expect(foundProduct.price)
+    expect(foundProduct?.price)
       .toBe(products[0].price);
-    expect(foundProduct.restaurantId)
+    expect(foundProduct?.restaurantId)
       .toBe(products[0].restaurantId);
-    expect(foundProduct.imageUrl)
+    expect(foundProduct?.imageUrl)
     .toBe(products[0].imageUrl);
   });
 
@@ -97,16 +97,16 @@ describe('Testing MongodbProductRepository', () => {
 
     const foundProduct = await repository.findProductById(Product._id.toString());
 
-    expect(foundProduct.name)
+    expect(foundProduct?.name)
       .toBe(products[0].name);
-    expect(foundProduct.description)
+    expect(foundProduct?.description)
       .toBe(products[0].description);
-    expect(foundProduct.price)
+    expect(foundProduct?.price)
       .toBe(products[0].price);
-    expect(foundProduct.restaurantId)
+    expect(foundProduct?.restaurantId)
       .toBe(products[0].restaurantId);
-    expect(foundProduct.imageUrl)
-    .toBe(products[0].imageUrl);
+    expect(foundProduct?.imageUrl)
+      .toBe(products[0].imageUrl);
   });
 
   test('Should update Product by id', async () => {
@@ -131,16 +131,16 @@ describe('Testing MongodbProductRepository', () => {
 
     const foundProduct = await repository.findProductById(Product._id.toString());
 
-    expect(foundProduct.name)
+    expect(foundProduct?.name)
       .toBe(updatedProduct.name);
-    expect(foundProduct.description)
+    expect(foundProduct?.description)
       .toBe(updatedProduct.description);
-    expect(foundProduct.price)
+    expect(foundProduct?.price)
       .toBe(updatedProduct.price);
-    expect(foundProduct.restaurantId)
+    expect(foundProduct?.restaurantId)
       .toBe(updatedProduct.restaurantId);
-    expect(foundProduct.imageUrl)
-    .toBe(updatedProduct.imageUrl);
+    expect(foundProduct?.imageUrl)
+      .toBe(updatedProduct.imageUrl);
   });
 
   test('Should remove Product by id', async () => {
