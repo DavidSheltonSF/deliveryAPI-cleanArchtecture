@@ -1,5 +1,5 @@
-import { DeliveryRepository } from "application/usecases/ports/delivery-repository";
-import { Delivery as Delivery } from "domain/entities/delivery";
+import { DeliveryRepository } from "../../../application/usecases/ports/delivery-repository";
+import { Delivery as Delivery } from "../../../domain/entities/delivery";
 import { DeliveryMapper } from "../../../domain/entities/delivery";
 import { mongoHelper } from "./helpers/mongo-helper";
 

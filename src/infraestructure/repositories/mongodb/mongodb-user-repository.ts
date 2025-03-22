@@ -1,5 +1,5 @@
-import { UserRepository } from "application/usecases/ports/user-repository";
-import { User as UserData } from "domain/entities/user";
+import { UserRepository } from "../../../application/usecases/ports/user-repository";
+import { User as UserData } from "../../../domain/entities/user";
 import { UserMapper } from "../../../domain/entities/user";
 import { mongoHelper } from "./helpers/mongo-helper";
 

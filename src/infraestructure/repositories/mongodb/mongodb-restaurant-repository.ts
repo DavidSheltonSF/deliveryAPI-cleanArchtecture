@@ -1,5 +1,5 @@
-import { RestaurantRepository } from "application/usecases/ports/restaurant-repository";
-import { Restaurant as RestaurantData } from "domain/entities/restaurant";
+import { RestaurantRepository } from "../../../application/usecases/ports/restaurant-repository";
+import { Restaurant as RestaurantData } from "../../../domain/entities/restaurant";
 import { RestaurantMapper } from "../../../domain/entities/restaurant";
 import { mongoHelper } from "./helpers/mongo-helper";
 

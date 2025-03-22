@@ -1,7 +1,7 @@
 import { mongoHelper } from "../../../../src/infraestructure/repositories/mongodb/helpers/mongo-helper";
 import { config } from "dotenv";
 import { MongodbUserRepository } from "../../../../src/infraestructure/repositories/mongodb/mongodb-user-repository";
-import { UserRole } from "domain/entities/validators/_enums";
+import { UserRole } from "../../../../src/domain/entities/validators/_enums";
 
 config();
 

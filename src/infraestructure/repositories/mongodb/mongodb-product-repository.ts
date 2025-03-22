@@ -1,5 +1,5 @@
-import { ProductRepository } from "application/usecases/ports/product-repository";
-import { Product as Product } from "domain/entities/product";
+import { ProductRepository } from "../../../application/usecases/ports/product-repository";
+import { Product as Product } from "../../../domain/entities/product";
 import { ProductMapper } from "../../../domain/entities/product";
 import { mongoHelper } from "./helpers/mongo-helper";
 

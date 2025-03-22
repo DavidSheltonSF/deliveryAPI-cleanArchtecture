@@ -1,5 +1,5 @@
-import { OrderRepository } from "application/usecases/ports/order-repository";
-import { Order as Order } from "domain/entities/order";
+import { OrderRepository } from "../../../application/usecases/ports/order-repository";
+import { Order as Order } from "../../../domain/entities/order";
 import { OrderMapper } from "../../../domain/entities/order";
 import { mongoHelper } from "./helpers/mongo-helper";
 
