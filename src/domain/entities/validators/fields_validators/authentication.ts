@@ -1,6 +1,6 @@
 import { Either } from "../../../../shared/either";
 import { InvalidPasswordError } from "../../_errors/invalid-password";
-import { Authentication as AuthenticationData} from "domain/entities/validators/_interfaces";
+import { Authentication as AuthenticationData} from "../_interfaces/index";
 
 export class Authentication {
   private readonly authentication: AuthenticationData;
