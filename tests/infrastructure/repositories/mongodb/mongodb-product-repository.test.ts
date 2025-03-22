@@ -12,6 +12,7 @@ const restaurantId1 = generateHexId();
 
 const products = [
   {
+    _id: mongoHelper.toObjectId('60f1b9b3b3b3b3b3b3b3b3b3'),
     name: 'pizza quatro queijos',
     description: 'pizza com 4 queijos',
     price: 30,
@@ -19,6 +20,7 @@ const products = [
     imageUrl: 'fadsfsf1s1f6afdfd',
   },
   {
+    _id: mongoHelper.toObjectId('60f1b9b3b3b3b3b3b3b3b3c3'),
     name: 'pizza de chocolate',
     description: 'pizza com chocolate',
     price: 40,
@@ -93,9 +95,7 @@ describe('Testing MongodbProductRepository', () => {
     // Adding new Product to database
     await ProductCollection.insertOne(products[0]);
 
-    const Product = await ProductCollection.findOne({restaurantId: products[0].restaurantId});
-
-    const foundProduct = await repository.findProductById(Product._id.toString());
+    const foundProduct = await repository.findProductById(products[0]._id.toString());
 
     expect(foundProduct?.name)
       .toBe(products[0].name);
@@ -125,11 +125,9 @@ describe('Testing MongodbProductRepository', () => {
       imageUrl: 'fadsfsf1s1f6afdfd-updated',
     }
 
-    const Product = await ProductCollection.findOne({restaurantId: products[0].restaurantId});
+    await repository.update(products[0]._id.toString(), updatedProduct);
 
-    await repository.update(Product._id.toString(), updatedProduct);
-
-    const foundProduct = await repository.findProductById(Product._id.toString());
+    const foundProduct = await repository.findProductById(products[0]._id.toString());
 
     expect(foundProduct?.name)
       .toBe(updatedProduct.name);
@@ -150,11 +148,9 @@ describe('Testing MongodbProductRepository', () => {
     // Adding new Product to database
     await ProductCollection.insertOne(products[0]);
 
-    const Product = await ProductCollection.findOne({restaurantId: products[0].restaurantId});
+    await repository.remove(products[0]._id.toString());
 
-    await repository.remove(Product._id.toString());
-
-    const foundProduct = await repository.findProductById(Product._id.toString());
+    const foundProduct = await repository.findProductById(products[0]._id.toString());
 
     expect(foundProduct)
       .toBeFalsy();

@@ -11,12 +11,14 @@ const orderId0 = generateHexId();
 const orderId1 = generateHexId();
 
 const payments = [
-  {
+  { 
+    _id: mongoHelper.toObjectId('60f1b9b3b3b3b3b3b3b3b3b3'),
     orderId: orderId0,
     paymentMethod: 'credit_card',
     status: 'paid',
   },
   {
+    _id: mongoHelper.toObjectId('60f1b9b3b3b3b3b3b3b3b3c3'),
     orderId: orderId1,
     paymentMethod: 'pix_key',
     status: 'pending',
@@ -85,9 +87,7 @@ describe('Testing MongodbPaymentRepository', () => {
     // Adding new Payment to database
     await PaymentCollection.insertOne(payments[0]);
 
-    const Payment = await PaymentCollection.findOne({orderId: payments[0].orderId});
-
-    const foundPayment = await repository.findPaymentById(Payment._id.toString());
+    const foundPayment = await repository.findPaymentById(payments[0]._id.toString());
 
     expect(foundPayment?.orderId)
       .toBe(payments[0].orderId);
@@ -111,11 +111,9 @@ describe('Testing MongodbPaymentRepository', () => {
       status: 'paid-updated',
     }
 
-    const Payment = await PaymentCollection.findOne({orderId: payments[0].orderId});
+    await repository.update(payments[0]._id.toString(), updatedPayment);
 
-    await repository.update(Payment._id.toString(), updatedPayment);
-
-    const foundPayment = await repository.findPaymentById(Payment._id.toString());
+    const foundPayment = await repository.findPaymentById(payments[0]._id.toString());
 
     expect(foundPayment?.orderId)
       .toBe(updatedPayment.orderId);
@@ -132,11 +130,9 @@ describe('Testing MongodbPaymentRepository', () => {
     // Adding new Payment to database
     await PaymentCollection.insertOne(payments[0]);
 
-    const Payment = await PaymentCollection.findOne({orderId: payments[0].orderId});
+    await repository.remove(payments[0]._id.toString());
 
-    await repository.remove(Payment._id.toString());
-
-    const foundPayment = await repository.findPaymentById(Payment._id.toString());
+    const foundPayment = await repository.findPaymentById(payments[0]._id.toString());
 
     expect(foundPayment)
       .toBeFalsy();

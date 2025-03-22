@@ -9,6 +9,7 @@ const repository = new MongodbUserRepository();
 
 const users = [
   {
+    _id: mongoHelper.toObjectId('60f1b9b3b3b3b3b3b3b3b3b3'),
     username: 'Marta',
     email: 'mart@bugmail.com',
     cpf: '88888888888',
@@ -25,6 +26,7 @@ const users = [
     },
   },
   {
+    _id: mongoHelper.toObjectId('60f1b9b3b3b3b3b3b3b3b3c3'),
     username: 'Oswaldo',
     email: 'oswald@bugmail.com',
     cpf: '88888888588',
@@ -111,9 +113,7 @@ describe('Testing MongodbUserRepository', () => {
     // Adding new user to database
     await userCollection.insertOne(users[0]);
 
-    const user = await userCollection.findOne({email: users[0].email});
-
-    const foundUser = await repository.findUserById(user._id.toString());
+    const foundUser = await repository.findUserById(users[0]._id.toString());
 
     expect(foundUser?.username)
       .toBe(users[0].username);
@@ -172,11 +172,9 @@ describe('Testing MongodbUserRepository', () => {
       },
     }
 
-    const user = await userCollection.findOne({email: users[0].email});
+    await repository.update(users[0]._id.toString(), updatedUser);
 
-    await repository.update(user._id.toString(), updatedUser);
-
-    const foundUser = await repository.findUserById(user._id.toString());
+    const foundUser = await repository.findUserById(users[0]._id.toString());
 
     expect(foundUser?.username)
       .toBe(updatedUser.username);
@@ -198,11 +196,9 @@ describe('Testing MongodbUserRepository', () => {
     // Adding new user to database
     await userCollection.insertOne(users[0]);
 
-    const user = await userCollection.findOne({email: users[0].email});
+    await repository.remove(users[0]._id.toString());
 
-    await repository.remove(user._id.toString());
-
-    const foundUser = await repository.findUserById(user._id.toString());
+    const foundUser = await repository.findUserById(users[0]._id.toString());
 
     expect(foundUser)
       .toBeFalsy();
