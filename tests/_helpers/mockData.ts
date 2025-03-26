@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 import { v4 as uuidv4 } from 'uuid';
 import { User as UserData } from '../../src/domain/entities/user';
-import { mongoHelper } from '../../src/infraestructure/repositories/mongodb/helpers/mongo-helper';
+import { mongoHelper } from '../../src/infrastructure/repositories/mongodb/helpers/mongo-helper';
 import { UserRole } from '../../src/domain/entities/validators/_enums';
 
 export class MockData {
