@@ -7,7 +7,7 @@ describe('Testing SpyUserRepository', () => {
 
   test('Should return all users in the FAKE database', async () => {
   
-    const users = [];
+    const users: UserData[] = [];
     for(let i=0; i<=1; i++) {
       users.push(MockData.mockUser());
     }
@@ -23,30 +23,34 @@ describe('Testing SpyUserRepository', () => {
 
   test('Should find a user by id', async () => {
 
-    const users = [];
+    const users: UserData[] = [];
     for(let i=0; i<=9; i++) {
       users.push(MockData.mockUser());
     }
 
     const spyUserRepository = new SpyUserRepository(users);
 
+    if (!users[5] || !users[5]._id) {
+      throw new Error('Invalid mocked data');
+    }
+
     const foundUser = await spyUserRepository.findUserById(users[5]._id.toString());
 
-    expect(foundUser.username)
+    expect(foundUser?.username)
       .toBe(users[5].username);
-    expect(foundUser.email)
+    expect(foundUser?.email)
       .toBe(users[5].email);
-    expect(foundUser.cpf)
+    expect(foundUser?.cpf)
       .toBe(users[5].cpf);
-    expect(foundUser.phone)
+    expect(foundUser?.phone)
       .toBe(users[5].phone);
-    expect(foundUser.role)
+    expect(foundUser?.role)
       .toBe(users[5].role);
   });
   
   test('Should find a user by email', async () => {
 
-    const users = [];
+    const users: UserData[] = [];
     for(let i=0; i<=9; i++) {
       users.push(MockData.mockUser());
     }
@@ -55,15 +59,15 @@ describe('Testing SpyUserRepository', () => {
 
     const foundUser = await spyUserRepository.findUserByEmail(users[6].email);
 
-    expect(foundUser.username)
+    expect(foundUser?.username)
       .toBe(users[6].username);
-    expect(foundUser.email)
+    expect(foundUser?.email)
       .toBe(users[6].email);
-    expect(foundUser.cpf)
+    expect(foundUser?.cpf)
       .toBe(users[6].cpf);
-    expect(foundUser.phone)
+    expect(foundUser?.phone)
       .toBe(users[6].phone);
-    expect(foundUser.role)
+    expect(foundUser?.role)
       .toBe(users[6].role);
   });
 
@@ -111,6 +115,7 @@ describe('Testing SpyUserRepository', () => {
     const spyUserRepository = new SpyUserRepository(users);
 
     const updatedData = {
+      _id: null,
       username: 'username-updated',
       email: 'email@bugmail.com-updated',
       cpf: '88888888888-updated',
@@ -127,31 +132,35 @@ describe('Testing SpyUserRepository', () => {
       },
     }
 
+    if (!users[7] || !users[7]._id) {
+      throw new Error('Invalid mocked data');
+    }
+
     await spyUserRepository.update(users[7]._id.toString(), updatedData);
 
     const userUpdatedId = spyUserRepository.updateParams.userId
     const updatedUser = spyUserRepository.updateParams.user;
 
-    expect(userUpdatedId.toString())
+    expect(userUpdatedId?.toString())
       .toBe(users[7]._id.toString());
     
-    expect(updatedUser.username)
+    expect(updatedUser?.username)
       .toBe(updatedData.username);
-    expect(updatedUser.email)
+    expect(updatedUser?.email)
       .toBe(updatedData.email);
-    expect(updatedUser.cpf)
+    expect(updatedUser?.cpf)
       .toBe(updatedData.cpf);
-    expect(updatedUser.phone)
+    expect(updatedUser?.phone)
       .toBe(updatedData.phone);
-    expect(updatedUser.address.street)
+    expect(updatedUser?.address.street)
       .toBe(updatedData.address.street);
-    expect(updatedUser.address.city)
+    expect(updatedUser?.address.city)
       .toBe(updatedData.address.city);
-      expect(updatedUser.address.state)
+      expect(updatedUser?.address.state)
       .toBe(updatedData.address.state);
-    expect(updatedUser.address.zipCode)
+    expect(updatedUser?.address.zipCode)
       .toBe(updatedData.address.zipCode);
-    expect(updatedUser.authentication.password)
+    expect(updatedUser?.authentication.password)
       .toBe(updatedData.authentication.password);
   });
   
@@ -163,6 +172,10 @@ describe('Testing SpyUserRepository', () => {
     }
 
     const spyUserRepository = new SpyUserRepository(users);
+
+    if (!users[2] || !users[2]._id) {
+      throw new Error('Invalid mocked data');
+    }
 
     await spyUserRepository.remove(users[2]._id.toString());
 
