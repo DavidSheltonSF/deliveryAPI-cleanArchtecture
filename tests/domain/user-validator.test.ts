@@ -2,6 +2,7 @@ import { User } from "../../src/domain/entities/validators/entities_validators/u
 
 const users = [
   {
+    _id: null,
     username: 'João',
     email: 'joao@bugmail.com',
     phone: '21855475522',
