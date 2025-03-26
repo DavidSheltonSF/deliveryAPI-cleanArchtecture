@@ -6,5 +6,5 @@ export interface UserRepository {
   findUserById: (userId: string) => Promise<UserData | null>
   add: (user: UserData) => Promise<void>
   remove: (userId: string) => Promise<void>
-  update: (userId: string, userData: UserData) => Promise<void>
+  update: (userId: string, userData: Omit<UserData, '_id'>) => Promise<void>
 }
