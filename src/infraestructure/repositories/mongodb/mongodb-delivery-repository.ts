@@ -37,7 +37,7 @@ export class MongodbDeliveryRepository implements DeliveryRepository {
     await deliveryCollection?.insertOne(delivery);
   }
 
-  async update (deliveryId: string, delivery: Delivery): Promise<void> {
+  async update (deliveryId: string, delivery: Omit<Delivery, '_id'>): Promise<void> {
     const deliveryCollection = mongoHelper.getCollection('delivery');
     await deliveryCollection.updateOne(
       {_id: mongoHelper.toObjectId(deliveryId)},

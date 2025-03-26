@@ -37,7 +37,7 @@ export class MongodbProductRepository implements ProductRepository {
     await productCollection?.insertOne(product);
   }
 
-  async update (productId: string, product: Product): Promise<void> {
+  async update (productId: string, product: Omit<Product, '_id'>): Promise<void> {
     const productCollection = mongoHelper.getCollection('product');
     await productCollection.updateOne(
       {_id: mongoHelper.toObjectId(productId)},

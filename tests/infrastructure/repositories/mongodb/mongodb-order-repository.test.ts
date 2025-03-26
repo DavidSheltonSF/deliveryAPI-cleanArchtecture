@@ -169,7 +169,7 @@ describe('Testing MongodbOrderRepository', () => {
       customerId: updatedCustomerId,
       restaurantId: updatedRestaurantId,
       products: [
-        {
+        { 
           name: 'pizza quatro queijos-updated',
           description: 'pizza com 4 queijos-updated',
           price: 999,

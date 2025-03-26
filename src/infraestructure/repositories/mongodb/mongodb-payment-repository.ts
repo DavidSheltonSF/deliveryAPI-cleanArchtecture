@@ -50,7 +50,7 @@ export class MongodbPaymentRepository implements PaymentRepository {
     await paymentCollection?.insertOne(payment);
   }
 
-  async update (paymentId: string, payment: Payment): Promise<void> {
+  async update (paymentId: string, payment: Omit<Payment, '_id'>): Promise<void> {
     const paymentCollection = mongoHelper.getCollection('payment');
     await paymentCollection.updateOne(
       {_id: mongoHelper.toObjectId(paymentId)},
