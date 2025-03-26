@@ -1,7 +1,7 @@
 import { ObjectId } from 'mongodb';
 
 export interface Payment {
-  _id?: ObjectId,
+  _id: ObjectId | null,
   orderId: string,
   paymentMethod: string,
   status: string,

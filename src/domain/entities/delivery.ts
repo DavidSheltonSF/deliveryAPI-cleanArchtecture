@@ -1,9 +1,9 @@
 import { ObjectId } from 'mongodb';
 
 export interface Delivery {
-  _id?: ObjectId,
+  _id: ObjectId | null,
   orderId: string,
-  driverId: string
+  driverId: string,
   status: string,
   timeEstimate: number
 }

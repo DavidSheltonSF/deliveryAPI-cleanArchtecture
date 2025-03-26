@@ -1,7 +1,7 @@
 import { ObjectId } from 'mongodb';
 
 export interface RestaurantChain {
-  _id?: ObjectId,
+  _id: ObjectId | null,
   name: string,
   cnpj: string,
   iconUrl: string,

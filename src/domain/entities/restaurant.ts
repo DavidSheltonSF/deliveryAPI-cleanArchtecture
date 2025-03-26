@@ -2,7 +2,7 @@ import { Address } from "./validators/_interfaces"
 import { ObjectId } from 'mongodb';
 
 export interface Restaurant {
-  _id?: ObjectId,
+  _id: ObjectId | null,
   restaurantChainId: string,
   adminId: string,
   isOpen: boolean,

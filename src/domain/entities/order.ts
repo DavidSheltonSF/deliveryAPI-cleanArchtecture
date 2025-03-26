@@ -3,7 +3,7 @@ import { Product } from "./product";
 import { ObjectId } from "mongodb";
 
 export interface Order {
-  _id?: ObjectId,
+  _id: ObjectId | null,
   customerId: string,
   restaurantId: string
   products: Omit<Product, 'restaurantId'>[],
