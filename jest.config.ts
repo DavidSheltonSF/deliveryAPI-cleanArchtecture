@@ -1,5 +1,5 @@
 module.exports = {
-  roots: ['<rootDir>/tests'],
+  roots: ['<rootDir>/tests', '<rootDir>/src'],
   // Coleção de caminhos que serão acompanhados pelo Jest
   collectCoverageFrom: [
     '<rootDir>/tests/**/*.ts',
