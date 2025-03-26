@@ -6,7 +6,7 @@ export interface Order {
   _id: ObjectId | null,
   customerId: string,
   restaurantId: string
-  products: Omit<Product, 'restaurantId'>[],
+  products: Omit<Product, 'restaurantId' | '_id'>[],
   totalPrice: number,
   status: string,
   address: Address
