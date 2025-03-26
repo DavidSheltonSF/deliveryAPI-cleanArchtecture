@@ -6,5 +6,5 @@ export interface RestaurantChainRepository {
   findRestaurantChainByAdminId: (adminId: string) => Promise<RestaurantChainData>
   add: (restaurantchain: RestaurantChainData) => Promise<void>
   remove: (restaurantchainId: string) => Promise<void>
-  update: (restaurantchainId: string, restaurantchainData: RestaurantChainData) => Promise<void>
+  update: (restaurantchainId: string, restaurantchainData: Omit<RestaurantChainData, '_id'>) => Promise<void>
 }

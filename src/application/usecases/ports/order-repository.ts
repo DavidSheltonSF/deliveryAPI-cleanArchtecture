@@ -5,5 +5,5 @@ export interface OrderRepository {
   findOrderById: (orderId: string) => Promise<OrderData>
   add: (order: OrderData) => Promise<void>
   remove: (orderId: string) => Promise<void>
-  update: (orderId: string, orderData: OrderData) => Promise<void>
+  update: (orderId: string, orderData: Omit<OrderData, '_id'>) => Promise<void>
 }

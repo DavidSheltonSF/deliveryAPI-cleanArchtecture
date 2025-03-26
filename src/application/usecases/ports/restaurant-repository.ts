@@ -7,5 +7,5 @@ export interface RestaurantRepository {
   findRestaurantByZipCode: (zipCode: string) => Promise<RestaurantData>
   add: (restaurant: RestaurantData) => Promise<void>
   remove: (restaurantId: string) => Promise<void>
-  update: (restaurantId: string, restaurantData: RestaurantData) => Promise<void>
+  update: (restaurantId: string, restaurantData: Omit<RestaurantData, '_id'>) => Promise<void>
 }

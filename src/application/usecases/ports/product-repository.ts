@@ -5,5 +5,5 @@ export interface ProductRepository {
   findProductById: (productId: string) => Promise<ProductData>
   add: (product: ProductData) => Promise<void>
   remove: (productId: string) => Promise<void>
-  update: (productId: string, productData: ProductData) => Promise<void>
+  update: (productId: string, productData: Omit<ProductData, '_id'>) => Promise<void>
 }

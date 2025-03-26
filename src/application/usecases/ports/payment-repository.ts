@@ -6,5 +6,5 @@ export interface PaymentRepository {
   findPaymentByOrderId: (paymentId: string) => Promise<PaymentData>
   add: (payment: PaymentData) => Promise<void>
   remove: (paymentId: string) => Promise<void>
-  update: (paymentId: string, paymentData: PaymentData) => Promise<void>
+  update: (paymentId: string, paymentData: Omit<PaymentData, '_id'>) => Promise<void>
 }
