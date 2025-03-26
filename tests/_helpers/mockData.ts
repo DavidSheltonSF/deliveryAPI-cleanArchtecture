@@ -10,7 +10,7 @@ export class MockData {
     return uuidv4().replace(/-/g, "").slice(0, 24);
   }
 
-  static mockUser(): any {
+  static mockUser(): UserData {
 
   return {
       _id: mongoHelper.toObjectId(this.generateHexId()),
