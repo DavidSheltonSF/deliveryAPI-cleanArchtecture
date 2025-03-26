@@ -3,7 +3,7 @@ import { Address, BankInfo } from "./validators/_interfaces";
 import { ObjectId } from 'mongodb';
 
 export interface User {
-  _id?: ObjectId,
+  _id: ObjectId | null,
   username: string,
   email: string,
   cpf: string,
