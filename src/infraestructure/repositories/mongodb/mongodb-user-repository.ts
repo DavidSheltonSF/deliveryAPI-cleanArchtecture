@@ -53,7 +53,7 @@ export class MongodbUserRepository implements UserRepository {
     await userCollection?.insertOne(user);
   }
 
-  async update (userId: string, userData: UserData): Promise<void> {
+  async update (userId: string, userData: Omit<UserData, '_id'>): Promise<void> {
     const userCollection = mongoHelper.getCollection('users');
     await userCollection.updateOne(
       {_id: mongoHelper.toObjectId(userId)},
