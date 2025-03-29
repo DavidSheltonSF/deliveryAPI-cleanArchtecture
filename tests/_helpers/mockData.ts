@@ -1,8 +1,10 @@
 import { faker } from '@faker-js/faker';
 import { v4 as uuidv4 } from 'uuid';
-import { User as UserData } from '../../src/domain/entities/user';
+import { User} from '../../src/domain/entities/user';
+import { RestaurantChain } from '../../src/domain/entities/restaurantChain';
 import { mongoHelper } from '../../src/infrastructure/repositories/mongodb/helpers/mongo-helper';
 import { UserRole } from '../../src/domain/entities/validators/_enums';
+
 
 export class MockData {
 
@@ -10,9 +12,9 @@ export class MockData {
     return uuidv4().replace(/-/g, "").slice(0, 24);
   }
 
-  static mockUser(): UserData {
+  static mockUser(): User {
 
-  return {
+    return {
       _id: mongoHelper.toObjectId(this.generateHexId()),
       username: faker.person.firstName(),
       email: faker.internet.email(),
@@ -29,5 +31,15 @@ export class MockData {
         password: faker.internet.password({length: 8})
       },
     }
+  }
+
+  static mockRestaurantChain(): RestaurantChain {
+    return {
+      _id: mongoHelper.toObjectId(this.generateHexId()),
+      name: faker.company.name(),
+      cnpj: faker.string.numeric({length: 11}),
+      iconUrl: faker.image.url(),
+      adminId: this.generateHexId(),
+    };
   }
 }
