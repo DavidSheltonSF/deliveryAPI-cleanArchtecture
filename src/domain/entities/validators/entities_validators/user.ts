@@ -60,7 +60,6 @@ export class User {
     const cpfOrError = Cpf.create(userData.cpf);
     const roleOrError = Role.create(userData.role);
     const addressOrError = Address.create(userData.address); 
-    const bankInfoOrError = BankInfo.create(userData.bankInfo);
     const AuthenticationOrError = Authentication.create(userData.authentication);
 
     if(nameOrError.isLeft()) {
@@ -87,12 +86,18 @@ export class User {
       return Either.left(addressOrError.getLeft());
     }
 
-    if(bankInfoOrError.isLeft()) {
-      return Either.left(bankInfoOrError.getLeft());
-    }
-
     if(AuthenticationOrError.isLeft()) {
       return Either.left(AuthenticationOrError.getLeft());
+    }
+
+    // Bank information is optional
+    console.log(userData)
+    let bankInfoOrError = null
+    if (userData.bankInfo){
+      const bankInfoOrError = BankInfo.create(userData.bankInfo);
+      if(bankInfoOrError.isLeft()) {
+        return Either.left(bankInfoOrError.getLeft());
+      }
     }
 
     return Either.right(new User(nameOrError.getRight(), emailOrError.getRight(), phoneOrError.getRight(), cpfOrError.getRight(), roleOrError.getRight(), addressOrError.getRight(), AuthenticationOrError.getRight(), bankInfoOrError.getRight()));
