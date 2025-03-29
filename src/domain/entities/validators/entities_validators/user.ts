@@ -63,43 +63,50 @@ export class User {
     const AuthenticationOrError = Authentication.create(userData.authentication);
 
     if(nameOrError.isLeft()) {
+      console.log("Validation Error: Name");
       return Either.left(nameOrError.getLeft());
     }
 
     if(emailOrError.isLeft()) {
+      console.log("Validation Error: Email");
       return Either.left(emailOrError.getLeft());
     }
 
     if(phoneOrError.isLeft()) {
+      console.log("Validation Error: Phone");
       return Either.left(phoneOrError.getLeft());
     }
 
     if(cpfOrError.isLeft()) {
+      console.log("Validation Error: CPF");
       return Either.left(cpfOrError.getLeft());
     }
 
     if(roleOrError.isLeft()) {
+      console.log("Validation Error: Role");
       return Either.left(roleOrError.getLeft());
     }
 
     if(addressOrError.isLeft()) {
+      console.log("Validation Error: Address");
       return Either.left(addressOrError.getLeft());
     }
 
     if(AuthenticationOrError.isLeft()) {
+      console.log("Validation Error: Authentication");
       return Either.left(AuthenticationOrError.getLeft());
     }
 
     // Bank information is optional
-    console.log(userData)
-    let bankInfoOrError = null
+    let bankInfo = null;
     if (userData.bankInfo){
       const bankInfoOrError = BankInfo.create(userData.bankInfo);
       if(bankInfoOrError.isLeft()) {
         return Either.left(bankInfoOrError.getLeft());
       }
+      bankInfo = bankInfoOrError.getRight();
     }
 
-    return Either.right(new User(nameOrError.getRight(), emailOrError.getRight(), phoneOrError.getRight(), cpfOrError.getRight(), roleOrError.getRight(), addressOrError.getRight(), AuthenticationOrError.getRight(), bankInfoOrError.getRight()));
+    return Either.right(new User(nameOrError.getRight(), emailOrError.getRight(), phoneOrError.getRight(), cpfOrError.getRight(), roleOrError.getRight(), addressOrError.getRight(), AuthenticationOrError.getRight(), bankInfo));
   }
 }
