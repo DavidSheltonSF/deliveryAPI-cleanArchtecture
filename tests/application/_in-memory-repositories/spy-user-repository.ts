@@ -1,9 +1,15 @@
 import { UserRepository } from "../../../src/application/usecases/ports/user-repository";
 import { User as UserData } from "../../../src/domain/entities/user";
+import { MockData } from "../../_helpers/mockData";
 
 export class SpyUserRepository implements UserRepository {
-  users: UserData[] = [];
   addParams: Record<string, UserData> = {};
+  findUserByIdParams: {
+    id?: string,
+  } = {};
+  findUserByEmailParams: {
+    email?: string,
+  } = {};
   updateParams: {
     userId?: string,
     user?: Omit<UserData, '_id'>,
@@ -12,36 +18,19 @@ export class SpyUserRepository implements UserRepository {
     userId?: string,
   } = {};
 
-  constructor(users: UserData[]) {
-    this.users = users;
-  }
 
   async findAllUsers(): Promise<UserData[]> {
-    return this.users;
+    return [MockData.mockUser()];
   }
 
   async findUserById(id: string): Promise<UserData | null> {
-    let foundUser: UserData | null = null;
-
-    for (let i=0; i<this.users.length; i++) {
-      if (this.users[i]._id?.toString() === id){
-        foundUser = this.users[i];
-      }
-    }
-
-    return foundUser;
+    this.findUserByIdParams = {id};
+    return MockData.mockUser();
   }
 
   async findUserByEmail(email: string): Promise<UserData | null> {
-    let foundUser: UserData | null = null;
-
-    for (let i=0; i<this.users.length; i++) {
-      if (this.users[i].email === email){
-        foundUser = this.users[i];
-      }
-    }
-
-    return foundUser;
+    this.findUserByEmailParams = {email};
+    return MockData.mockUser();
   }
 
   async add(user: UserData): Promise<void> {
