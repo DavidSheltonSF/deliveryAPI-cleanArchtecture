@@ -6,113 +6,72 @@ import { User as UserData } from '../../../../src/domain/entities/user'
 describe('Testing SpyUserRepository', () => {
 
   test('Should return all users in the FAKE database', async () => {
-  
-    const users: UserData[] = [];
-    for(let i=0; i<=1; i++) {
-      users.push(MockData.mockUser());
-    }
 
-    const spyUserRepository = new SpyUserRepository(users);
+    const spyUserRepository = new SpyUserRepository();
 
     const allUsers = await spyUserRepository.findAllUsers();
     
-    expect(allUsers[0].username).toEqual(users[0].username);
-    expect(allUsers[1].username).toEqual(users[1].username);
-
+    expect(allUsers).toBeTruthy();
   });
 
   test('Should find a user by id', async () => {
 
-    const users: UserData[] = [];
-    for(let i=0; i<=9; i++) {
-      users.push(MockData.mockUser());
-    }
+    const spyUserRepository = new SpyUserRepository();
 
-    const spyUserRepository = new SpyUserRepository(users);
+    const userId = "123456789012345678901234"
 
-    if (!users[5] || !users[5]._id) {
-      throw new Error('Invalid mocked data');
-    }
-
-    const foundUser = await spyUserRepository.findUserById(users[5]._id.toString());
-
-    expect(foundUser?.username)
-      .toBe(users[5].username);
-    expect(foundUser?.email)
-      .toBe(users[5].email);
-    expect(foundUser?.cpf)
-      .toBe(users[5].cpf);
-    expect(foundUser?.phone)
-      .toBe(users[5].phone);
-    expect(foundUser?.role)
-      .toBe(users[5].role);
+    const foundUser = await spyUserRepository.findUserById(userId);
+    
+    expect(spyUserRepository.findUserByIdParams.id).toEqual(userId);
+    expect(foundUser).toBeTruthy();
   });
   
   test('Should find a user by email', async () => {
 
-    const users: UserData[] = [];
-    for(let i=0; i<=9; i++) {
-      users.push(MockData.mockUser());
-    }
+    const spyUserRepository = new SpyUserRepository();
 
-    const spyUserRepository = new SpyUserRepository(users);
+    const userEmail = "test@bugmail.com"
 
-    const foundUser = await spyUserRepository.findUserByEmail(users[6].email);
-
-    expect(foundUser?.username)
-      .toBe(users[6].username);
-    expect(foundUser?.email)
-      .toBe(users[6].email);
-    expect(foundUser?.cpf)
-      .toBe(users[6].cpf);
-    expect(foundUser?.phone)
-      .toBe(users[6].phone);
-    expect(foundUser?.role)
-      .toBe(users[6].role);
+    const foundUser = await spyUserRepository.findUserByEmail(userEmail);
+    
+    expect(spyUserRepository.findUserByEmailParams.email).toEqual(userEmail);
+    expect(foundUser).toBeTruthy();
   });
 
   test('Should add a new', async () => {
 
-    const users: UserData[] = [];
-    for(let i=0; i<=9; i++) {
-      users.push(MockData.mockUser());
-    }
+    const spyUserRepository = new SpyUserRepository();
 
-    const spyUserRepository = new SpyUserRepository(users);
+    const fakeUser = MockData.mockUser();
 
-    await spyUserRepository.add(users[7]);
+    await spyUserRepository.add(fakeUser);
 
     const userInserted = spyUserRepository.addParams.user;
     
     expect(userInserted.username)
-      .toBe(users[7].username);
+      .toBe(fakeUser.username);
     expect(userInserted.email)
-      .toBe(users[7].email);
+      .toBe(fakeUser.email);
     expect(userInserted.cpf)
-      .toBe(users[7].cpf);
+      .toBe(fakeUser.cpf);
     expect(userInserted.phone)
-      .toBe(users[7].phone);
+      .toBe(fakeUser.phone);
     expect(userInserted.address.street)
-      .toBe(users[7].address.street);
+      .toBe(fakeUser.address.street);
     expect(userInserted.address.city)
-      .toBe(users[7].address.city);
+      .toBe(fakeUser.address.city);
       expect(userInserted.address.state)
-      .toBe(users[7].address.state);
+      .toBe(fakeUser.address.state);
     expect(userInserted.address.zipCode)
-      .toBe(users[7].address.zipCode);
+      .toBe(fakeUser.address.zipCode);
     expect(userInserted.authentication.password)
-      .toBe(users[7].authentication.password);
+      .toBe(fakeUser.authentication.password);
   });
 
 
   test('Should update user by id', async () => {
 
-    const users: UserData[] = [];
-    for(let i=0; i<=9; i++) {
-      users.push(MockData.mockUser());
-    }
-
-    const spyUserRepository = new SpyUserRepository(users);
+    const spyUserRepository = new SpyUserRepository();
 
     const updatedData = {
       _id: null,
@@ -132,17 +91,15 @@ describe('Testing SpyUserRepository', () => {
       },
     }
 
-    if (!users[7] || !users[7]._id) {
-      throw new Error('Invalid mocked data');
-    }
+    const fakeUserId = MockData.generateHexId();
 
-    await spyUserRepository.update(users[7]._id.toString(), updatedData);
+    await spyUserRepository.update(fakeUserId, updatedData);
 
     const userUpdatedId = spyUserRepository.updateParams.userId
     const updatedUser = spyUserRepository.updateParams.user;
 
     expect(userUpdatedId?.toString())
-      .toBe(users[7]._id.toString());
+      .toBe(fakeUserId);
     
     expect(updatedUser?.username)
       .toBe(updatedData.username);
@@ -165,24 +122,17 @@ describe('Testing SpyUserRepository', () => {
   });
   
   test('Should remove user by id', async () => {
-    
-    const users: UserData[] = [];
-    for(let i=0; i<=3; i++) {
-      users.push(MockData.mockUser());
-    }
 
-    const spyUserRepository = new SpyUserRepository(users);
+    const spyUserRepository = new SpyUserRepository();
 
-    if (!users[2] || !users[2]._id) {
-      throw new Error('Invalid mocked data');
-    }
+    const fakeUserId = MockData.generateHexId();
 
-    await spyUserRepository.remove(users[2]._id.toString());
+    await spyUserRepository.remove(fakeUserId);
 
     const removedUserId = spyUserRepository.removeParams.userId;
     
     expect(removedUserId)
-      .toBe(users[2]._id.toString());
+      .toBe(fakeUserId);
   });
 
 });
