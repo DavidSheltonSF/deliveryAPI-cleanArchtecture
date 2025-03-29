@@ -1,6 +1,6 @@
-import { mongoHelper } from "../../../../src/infraestructure/repositories/mongodb/helpers/mongo-helper";
+import { mongoHelper } from "../../../../src/infrastructure/repositories/mongodb/helpers/mongo-helper";
 import { config } from "dotenv";
-import { MongodbUserRepository } from "../../../../src/infraestructure/repositories/mongodb/mongodb-user-repository";
+import { MongodbUserRepository } from "../../../../src/infrastructure/repositories/mongodb/mongodb-user-repository";
 
 config();
 

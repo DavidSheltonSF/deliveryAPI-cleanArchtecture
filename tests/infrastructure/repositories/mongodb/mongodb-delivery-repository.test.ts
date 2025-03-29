@@ -1,6 +1,6 @@
-import { mongoHelper } from "../../../../src/infraestructure/repositories/mongodb/helpers/mongo-helper";
+import { mongoHelper } from "../../../../src/infrastructure/repositories/mongodb/helpers/mongo-helper";
 import { config } from "dotenv";
-import { MongodbDeliveryRepository } from "../../../../src/infraestructure/repositories/mongodb/mongodb-delivery-repository";
+import { MongodbDeliveryRepository } from "../../../../src/infrastructure/repositories/mongodb/mongodb-delivery-repository";
 import { generateHexId } from "../../../../src/shared/generateHexId";
 
 config();
