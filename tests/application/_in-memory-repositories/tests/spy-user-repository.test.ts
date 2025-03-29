@@ -1,6 +1,6 @@
-import { SpyUserRepository } from "./spy-user-repository";
-import { MockData } from '../../_helpers/mockData'
-import { User as UserData } from '../../../src/domain/entities/user'
+import { SpyUserRepository } from "../spy-user-repository";
+import { MockData } from '../../../_helpers/mockData'
+import { User as UserData } from '../../../../src/domain/entities/user'
 
 
 describe('Testing SpyUserRepository', () => {
