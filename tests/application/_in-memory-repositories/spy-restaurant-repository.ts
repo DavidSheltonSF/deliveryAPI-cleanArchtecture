@@ -28,7 +28,6 @@ export class SpyRestaurantRepository implements RestaurantRepository {
 
   async findRestaurantById(restaurantId: string): Promise<RestaurantData | null> {
     this.findRestaurantByIdParams = {restaurantId};
-    console.log('teste')
     return MockData.mockRestaurant();
   }
 

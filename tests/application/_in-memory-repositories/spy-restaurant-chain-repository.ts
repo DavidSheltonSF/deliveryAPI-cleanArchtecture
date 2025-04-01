@@ -25,7 +25,6 @@ export class SpyRestaurantChainRepository implements RestaurantChainRepository {
 
   async findRestaurantChainById(restaurantChainId: string): Promise<RestaurantChainData | null> {
     this.findRestaurantChainByIdParams = {restaurantChainId};
-    console.log('teste')
     return MockData.mockRestaurantChain();
   }
 
