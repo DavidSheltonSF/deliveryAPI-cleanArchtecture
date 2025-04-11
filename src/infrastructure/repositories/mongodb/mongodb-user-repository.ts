@@ -48,6 +48,15 @@ export class MongodbUserRepository implements UserRepository {
     return null;
   }
 
+  async exists (email: string): Promise<boolean> {
+    const existingUser = this.findUserByEmail(email);
+    if (existingUser){
+      return true;
+    }
+
+    return false
+  }
+
   async add (user: UserData): Promise<void> {
     const userCollection = mongoHelper.getCollection('users');
     await userCollection?.insertOne(user);
