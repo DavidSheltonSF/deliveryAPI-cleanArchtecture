@@ -33,7 +33,8 @@ export class MockData {
         zipCode: faker.location.zipCode('########')
       },
       authentication: {
-        password: faker.internet.password({length: 8})
+        //password: faker.internet.password({length: 8})
+        password: 'Senh4**Corret4'
       },
     }
   }
