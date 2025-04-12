@@ -48,23 +48,23 @@ describe('Testing SpyUserRepository', () => {
 
     const userInserted = spyUserRepository.addParams.user;
     
-    expect(userInserted.username)
+    expect(userInserted?.username)
       .toBe(fakeUser.username);
-    expect(userInserted.email)
+    expect(userInserted?.email)
       .toBe(fakeUser.email);
-    expect(userInserted.cpf)
+    expect(userInserted?.cpf)
       .toBe(fakeUser.cpf);
-    expect(userInserted.phone)
+    expect(userInserted?.phone)
       .toBe(fakeUser.phone);
-    expect(userInserted.address.street)
+    expect(userInserted?.address?.street)
       .toBe(fakeUser.address.street);
-    expect(userInserted.address.city)
+    expect(userInserted?.address?.city)
       .toBe(fakeUser.address.city);
-      expect(userInserted.address.state)
+    expect(userInserted?.address?.state)
       .toBe(fakeUser.address.state);
-    expect(userInserted.address.zipCode)
+    expect(userInserted?.address?.zipCode)
       .toBe(fakeUser.address.zipCode);
-    expect(userInserted.authentication.password)
+    expect(userInserted?.authentication?.password)
       .toBe(fakeUser.authentication.password);
   });
 

@@ -3,7 +3,10 @@ import { User as UserData } from "../../../src/domain/entities/user";
 import { MockData } from "../../_helpers/mockData";
 
 export class SpyUserRepository implements UserRepository {
-  addParams: Record<string, UserData> = {};
+  users: UserData[] = [];
+  addParams: {
+    user?: UserData
+  } = {};
   findUserByIdParams: {
     id?: string,
   } = {};
@@ -33,7 +36,18 @@ export class SpyUserRepository implements UserRepository {
     return MockData.mockUser();
   }
 
+  async exists(email: string): Promise<boolean>{
+    for (let i=0; i<this.users.length; i++){
+      if (this.users[i].email == email){
+        return true;
+      }
+    }
+
+    return false
+  }
+
   async add(user: UserData): Promise<void> {
+    console.log('Spy added')
     this.addParams.user = user;
   }
 
