@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { User} from '../../src/domain/entities/user';
 import { RestaurantChain } from '../../src/domain/entities/restaurantChain';
 import { Restaurant } from '../../src/domain/entities/restaurant';
-import { Product } from '../../src/domain/entities/product';
+import { Dish } from '../../src/domain/entities/dish';
 import { Payment } from '../../src/domain/entities/payment';
 import { Order } from '../../src/domain/entities/order';
 import { Delivery } from '../../src/domain/entities/delivery';
@@ -66,7 +66,7 @@ export class MockData {
     };
   }
 
-  static mockProduct(): Product {
+  static mockDish(): Dish {
     return {
       _id: mongoHelper.toObjectId(this.generateHexId()),
       name: faker.food.dish(),
@@ -91,7 +91,7 @@ export class MockData {
       _id: mongoHelper.toObjectId(this.generateHexId()),
       customerId: this.generateHexId(),
       restaurantId: this.generateHexId(),
-      products: [
+      dishes: [
         {
           name: faker.food.dish(),
           description: faker.food.description(),

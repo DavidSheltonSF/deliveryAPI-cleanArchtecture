@@ -61,7 +61,7 @@ describe('Testing SpyOrderRepository', () => {
     const updatedData = {
       customerId: 'costumerId-updated',
       restaurantId: 'restaurantId-updated',
-      products: [{
+      dishes: [{
         name: 'name-updated',
         description: 'desc-updated',
         price: 54,
