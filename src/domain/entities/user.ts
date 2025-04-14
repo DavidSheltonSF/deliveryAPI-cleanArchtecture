@@ -9,7 +9,7 @@ export interface User {
   cpf: string,
   phone: string,
   role: string
-  address: Address,
+  address?: Address,
   authentication: Authentication,
   bankInfo?: BankInfo
 }
