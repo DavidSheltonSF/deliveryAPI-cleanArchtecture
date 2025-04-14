@@ -1,4 +1,4 @@
-export * from './address';
+export * from './addressValidator';
 export * from './cpf';
 export * from './email';
 export * from './name';
