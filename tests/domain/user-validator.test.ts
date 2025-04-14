@@ -1,4 +1,4 @@
-import { User as UserValidator } from "../../src/domain/entities/validators/entities_validators/user"
+import { UserValidator } from "../../src/domain/entities/validators/entities_validators/userValidator"
 import { User } from "../../src/domain/entities/user";
 
 const users: User[] = [
