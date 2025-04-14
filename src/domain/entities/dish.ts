@@ -1,6 +1,6 @@
 import { ObjectId } from 'mongodb';
 
-export interface Product {
+export interface Dish {
   _id: ObjectId | null,
   name: string,
   description: string,
@@ -9,9 +9,9 @@ export interface Product {
   imageUrl?: string,
 }
 
-export class ProductMapper {
-  /* Converts database documents into Product type objects */
-  static toProduct (data: Record<string, any>): Product {
+export class DishMapper {
+  /* Converts database documents into Dish type objects */
+  static toDish (data: Record<string, any>): Dish {
     const {
         _id,
         name,

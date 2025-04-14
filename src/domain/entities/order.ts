@@ -1,12 +1,12 @@
 import { Address } from "./validators/_interfaces";
-import { Product } from "./product";
+import { Dish } from "./dish";
 import { ObjectId } from "mongodb";
 
 export interface Order {
   _id: ObjectId | null,
   customerId: string,
   restaurantId: string
-  products: Omit<Product, 'restaurantId' | '_id'>[],
+  dishes: Omit<Dish, 'restaurantId' | '_id'>[],
   totalPrice: number,
   status: string,
   address: Address
@@ -19,7 +19,7 @@ export class OrderMapper {
       _id,
       customerId,
       restaurantId,
-      products,
+      dishes,
       totalPrice,
       status,
       address
@@ -29,7 +29,7 @@ export class OrderMapper {
       _id,
       customerId,
       restaurantId,
-      products,
+      dishes,
       totalPrice,
       status,
       address
