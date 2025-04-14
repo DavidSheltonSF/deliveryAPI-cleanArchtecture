@@ -1,4 +1,4 @@
-import { User as UserData} from '../../user';
+import { User } from '../../user';
 import { Either } from "../../../../shared/either";
 import { 
   InvalidAddressError,
@@ -22,7 +22,7 @@ import {
   Authentication
  } from "../fields_validators";
 
-export class User {
+export class UserValidator {
   readonly username: Name;
   readonly email: Email;
   readonly phone: Phone;
@@ -44,7 +44,7 @@ export class User {
     Object.freeze(this);
   };
 
-  static create(userData: UserData): Either<InvalidAddressError 
+  static create(userData: User): Either<InvalidAddressError 
   | InvalidCpfError
   | InvalidEmailError
   | InvalidNameError
@@ -52,7 +52,7 @@ export class User {
   | InvalidRoleError
   | InvalidCardNumberError
   | InvalidPaymentMethodError
-  | InvalidPasswordError, User> {
+  | InvalidPasswordError, UserValidator> {
 
     const nameOrError = Name.create(userData.username);
     const emailOrError = Email.create(userData.email);
@@ -112,6 +112,6 @@ export class User {
       address = addressOrError.getRight();
     }
 
-    return Either.right(new User(nameOrError.getRight(), emailOrError.getRight(), phoneOrError.getRight(), cpfOrError.getRight(), roleOrError.getRight(), address, AuthenticationOrError.getRight(), bankInfo));
+    return Either.right(new UserValidator(nameOrError.getRight(), emailOrError.getRight(), phoneOrError.getRight(), cpfOrError.getRight(), roleOrError.getRight(), address, AuthenticationOrError.getRight(), bankInfo));
   }
 }
