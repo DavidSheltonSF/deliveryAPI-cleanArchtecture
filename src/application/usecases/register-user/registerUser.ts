@@ -1,4 +1,4 @@
-import { User as UserValidator } from "../../../domain/entities/validators";
+import { UserValidator } from "../../../domain/entities/validators";
 import { User } from "../../../domain/entities/user";
 import { UserRepository } from "../ports/user-repository";
 import { RegisterUserUseCase } from "./interface";
