@@ -59,7 +59,6 @@ export class User {
     const phoneOrError = Phone.create(userData.phone);
     const cpfOrError = Cpf.create(userData.cpf);
     const roleOrError = Role.create(userData.role);
-    const addressOrError = Address.create(userData.address); 
     const AuthenticationOrError = Authentication.create(userData.authentication);
 
     if(nameOrError.isLeft()) {
@@ -105,6 +104,7 @@ export class User {
     // Address is optional
     let address = null;
     if (userData.address){
+      console.log('ADREESSS')
       const addressOrError = Address.create(userData.address);
       if(addressOrError.isLeft()) {
         return Either.left(addressOrError.getLeft());
@@ -112,6 +112,6 @@ export class User {
       address = addressOrError.getRight();
     }
 
-    return Either.right(new User(nameOrError.getRight(), emailOrError.getRight(), phoneOrError.getRight(), cpfOrError.getRight(), roleOrError.getRight(), addressOrError.getRight(), AuthenticationOrError.getRight(), bankInfo));
+    return Either.right(new User(nameOrError.getRight(), emailOrError.getRight(), phoneOrError.getRight(), cpfOrError.getRight(), roleOrError.getRight(), address, AuthenticationOrError.getRight(), bankInfo));
   }
 }
