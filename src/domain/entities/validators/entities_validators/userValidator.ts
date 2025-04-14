@@ -16,7 +16,7 @@ import {
   Email,
   Phone,
   Cpf,
-  Address,
+  AddressValidator,
   Role,
   BankInfo,
   Authentication
@@ -29,10 +29,10 @@ export class UserValidator {
   readonly cpf: Cpf;
   readonly role: Role;
   readonly bankInfo: BankInfo;
-  readonly address: Address;
+  readonly address: AddressValidator;
   readonly authentication: Authentication;
 
-  private constructor(username: Name, email: Email, phone: Phone, cpf: Cpf, role: Role, address: Address, authentication: Authentication, bankInfo?: BankInfo | null) {
+  private constructor(username: Name, email: Email, phone: Phone, cpf: Cpf, role: Role, address: AddressValidator, authentication: Authentication, bankInfo?: BankInfo | null) {
     this.username = username;
     this.email = email;
     this.phone = phone;
@@ -105,7 +105,7 @@ export class UserValidator {
     let address = null;
     if (userData.address){
       console.log('ADREESSS')
-      const addressOrError = Address.create(userData.address);
+      const addressOrError = AddressValidator.create(userData.address);
       if(addressOrError.isLeft()) {
         return Either.left(addressOrError.getLeft());
       }
