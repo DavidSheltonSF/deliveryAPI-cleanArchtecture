@@ -18,7 +18,7 @@ import {
   Cpf,
   AddressValidator,
   Role,
-  BankInfo,
+  BankInfoValidator,
   AuthenticationValidator
  } from "../fields_validators";
 
@@ -28,11 +28,11 @@ export class UserValidator {
   readonly phone: Phone;
   readonly cpf: Cpf;
   readonly role: Role;
-  readonly bankInfo: BankInfo;
+  readonly bankInfo: BankInfoValidator;
   readonly address: AddressValidator;
   readonly authentication: AuthenticationValidator;
 
-  private constructor(username: Name, email: Email, phone: Phone, cpf: Cpf, role: Role, address: AddressValidator, authentication: AuthenticationValidator, bankInfo?: BankInfo | null) {
+  private constructor(username: Name, email: Email, phone: Phone, cpf: Cpf, role: Role, address: AddressValidator, authentication: AuthenticationValidator, bankInfo?: BankInfoValidator | null) {
     this.username = username;
     this.email = email;
     this.phone = phone;
@@ -94,7 +94,7 @@ export class UserValidator {
     // Bank information is optional
     let bankInfo = null;
     if (userData.bankInfo){
-      const bankInfoOrError = BankInfo.create(userData.bankInfo);
+      const bankInfoOrError = BankInfoValidator.create(userData.bankInfo);
       if(bankInfoOrError.isLeft()) {
         return Either.left(bankInfoOrError.getLeft());
       }

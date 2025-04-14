@@ -1,12 +1,12 @@
 import { PaymentMethod } from "../_enums";
 import { Either } from "../../../../shared/either";
-import { BankInfo as BankInfoData } from "../_interfaces";
+import { BankInfo } from "../_interfaces";
 import { InvalidPaymentMethodError, InvalidCardNumberError } from "../../_errors";
 
-export class BankInfo {
-  private readonly bankinfo: BankInfoData;
+export class BankInfoValidator {
+  private readonly bankinfo: BankInfo ;
 
-  constructor(bankinfo: BankInfoData){
+  constructor(bankinfo: BankInfo ){
     this.bankinfo = bankinfo;
     Object.freeze(this);
   };
@@ -28,7 +28,7 @@ export class BankInfo {
     return true;
   }
 
-  static validate(bankinfo: BankInfoData): Boolean{
+  static validate(bankinfo: BankInfo ): Boolean{
     if (!this.validatePaymentMethod(bankinfo.paymentMethod)) {
       return false;
     }
@@ -42,7 +42,7 @@ export class BankInfo {
     return true;
   }
 
-  static create(bankinfo: BankInfoData): Either<InvalidPaymentMethodError | InvalidCardNumberError, BankInfo> {
+  static create(bankinfo: BankInfo ): Either<InvalidPaymentMethodError | InvalidCardNumberError, BankInfoValidator> {
     if (!this.validatePaymentMethod(bankinfo.paymentMethod)) {
       return Either.left(new InvalidPaymentMethodError(bankinfo.paymentMethod));
     }
@@ -53,10 +53,10 @@ export class BankInfo {
       }
     }
 
-    return Either.right(new BankInfo(bankinfo));
+    return Either.right(new BankInfoValidator(bankinfo));
   }
 
-  get(): BankInfoData {
+  get(): BankInfo  {
     return this.bankinfo;
   }
 }
