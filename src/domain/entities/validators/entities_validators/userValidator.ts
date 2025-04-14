@@ -15,7 +15,7 @@ import {
   Name,
   Email,
   Phone,
-  Cpf,
+  CpfValidator,
   AddressValidator,
   Role,
   BankInfoValidator,
@@ -26,13 +26,13 @@ export class UserValidator {
   readonly username: Name;
   readonly email: Email;
   readonly phone: Phone;
-  readonly cpf: Cpf;
+  readonly cpf: CpfValidator;
   readonly role: Role;
   readonly bankInfo: BankInfoValidator;
   readonly address: AddressValidator;
   readonly authentication: AuthenticationValidator;
 
-  private constructor(username: Name, email: Email, phone: Phone, cpf: Cpf, role: Role, address: AddressValidator, authentication: AuthenticationValidator, bankInfo?: BankInfoValidator | null) {
+  private constructor(username: Name, email: Email, phone: Phone, cpf: CpfValidator, role: Role, address: AddressValidator, authentication: AuthenticationValidator, bankInfo?: BankInfoValidator | null) {
     this.username = username;
     this.email = email;
     this.phone = phone;
@@ -57,7 +57,7 @@ export class UserValidator {
     const nameOrError = Name.create(userData.username);
     const emailOrError = Email.create(userData.email);
     const phoneOrError = Phone.create(userData.phone);
-    const cpfOrError = Cpf.create(userData.cpf);
+    const cpfOrError = CpfValidator.create(userData.cpf);
     const roleOrError = Role.create(userData.role);
     const AuthenticationOrError = AuthenticationValidator.create(userData.authentication);
 

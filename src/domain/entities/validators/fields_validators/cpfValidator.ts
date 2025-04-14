@@ -1,7 +1,7 @@
 import { Either } from "../../../../shared/either";
 import { InvalidCpfError } from "../../_errors/invalid-cpf";
 
-export class Cpf {
+export class CpfValidator {
   private readonly cpf: string;
 
   constructor(cpf: string){
@@ -20,12 +20,12 @@ export class Cpf {
     return true;
   }
 
-  static create(cpf: string): Either<InvalidCpfError, Cpf> {
+  static create(cpf: string): Either<InvalidCpfError, CpfValidator> {
     if (!this.validate(cpf)) {
       return Either.left(new InvalidCpfError(cpf));
     }
 
-    return Either.right(new Cpf(cpf));
+    return Either.right(new CpfValidator(cpf));
   }
 
   get(): string {

@@ -1,5 +1,5 @@
 export * from './addressValidator';
-export * from './cpf';
+export * from './cpfValidator';
 export * from './email';
 export * from './name';
 export * from './phone';
