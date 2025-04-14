@@ -24,5 +24,23 @@ describe('Testing RegisterUserUseCase', () => {
     expect(spyUserRepository.addParams.user?.address.state).toBe(mockedUser.address.state);
     expect(spyUserRepository.addParams.user?.address.zipCode).toBe(mockedUser.address.zipCode)
   });
+
+  test('Should not register a duplicated user', async () => {
+    const spyUserRepository = new SpyUserRepository();
+    const registerUserUseCase = new RegisterUser(spyUserRepository);
+
+    const mockedUser = MockData.mockUser();
+
+    // Adding a user in the fake repository
+    spyUserRepository.users.push(mockedUser);
+
+    // Trying to register the same user again
+    const registerError = await registerUserUseCase.register(mockedUser);
+
+    console.log(spyUserRepository.addParams);
+
+    expect(registerError.isLeft()).toBeTruthy();
+
+  });
   
 })
