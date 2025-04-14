@@ -1,6 +1,7 @@
-import { User } from "../../src/domain/entities/validators/entities_validators/user"
+import { User as UserValidator } from "../../src/domain/entities/validators/entities_validators/user"
+import { User } from "../../src/domain/entities/user";
 
-const users = [
+const users: User[] = [
   {
     _id: null,
     username: 'João',
@@ -33,7 +34,7 @@ const users = [
 describe("Testing User validator", () => {
   test("Trying to create a valid complete user", () => {
     const validUser = users[0];
-    const userOrError = User.create(validUser);
+    const userOrError = UserValidator.create(validUser);
     //console.log(userOrError.getLeft());
     const gotUser = userOrError.getRight();
 
@@ -46,10 +47,25 @@ describe("Testing User validator", () => {
     expect(validUser.address).toBe(gotUser.address.get());
   });
 
+  test("Trying to create a valid user, but without address", () => {
+    const validUser = { ...users[0] };
+    validUser.address = undefined;
+    const userOrError = UserValidator.create(validUser);
+    //console.log(userOrError.getLeft());
+    const gotUser = userOrError.getRight();
+
+    expect(userOrError.isRight()).toBeTruthy();
+    expect(validUser.username).toBe(gotUser.username.get());
+    expect(validUser.email).toBe(gotUser.email.get());
+    expect(validUser.phone).toBe(gotUser.phone.get());
+    expect(validUser.cpf).toBe(gotUser.cpf.get());
+    expect(validUser.role).toBe(gotUser.role.get());
+  });
+
   test("Trying to create an user without user name", () => {
     const noUserNameUser = users[0];
     noUserNameUser.username = '';
-    const userOrError = User.create(noUserNameUser);
+    const userOrError = UserValidator.create(noUserNameUser);
 
     expect(userOrError.isLeft()).toBeTruthy();
   });
