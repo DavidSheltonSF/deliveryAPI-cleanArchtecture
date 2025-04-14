@@ -87,11 +87,6 @@ export class User {
       return Either.left(roleOrError.getLeft());
     }
 
-    if(addressOrError.isLeft()) {
-      console.log("Validation Error: Address");
-      return Either.left(addressOrError.getLeft());
-    }
-
     if(AuthenticationOrError.isLeft()) {
       console.log("Validation Error: Authentication");
       return Either.left(AuthenticationOrError.getLeft());
@@ -105,6 +100,16 @@ export class User {
         return Either.left(bankInfoOrError.getLeft());
       }
       bankInfo = bankInfoOrError.getRight();
+    }
+
+    // Address is optional
+    let address = null;
+    if (userData.address){
+      const addressOrError = Address.create(userData.address);
+      if(addressOrError.isLeft()) {
+        return Either.left(addressOrError.getLeft());
+      }
+      address = addressOrError.getRight();
     }
 
     return Either.right(new User(nameOrError.getRight(), emailOrError.getRight(), phoneOrError.getRight(), cpfOrError.getRight(), roleOrError.getRight(), addressOrError.getRight(), AuthenticationOrError.getRight(), bankInfo));
