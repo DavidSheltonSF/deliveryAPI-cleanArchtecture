@@ -1,7 +1,7 @@
 import { Either } from "../../../../shared/either";
 import { InvalidEmailError } from "../../_errors/invalid-email";
 
-export class Email {
+export class EmailValidator {
   private readonly email: string;
 
   constructor(email: string){
@@ -24,12 +24,12 @@ export class Email {
     return true;
   }
 
-  static create(email: string): Either<InvalidEmailError, Email> {
+  static create(email: string): Either<InvalidEmailError, EmailValidator> {
     if (!this.validate(email)) {
       return Either.left(new InvalidEmailError(email));
     }
 
-    return Either.right(new Email(email));
+    return Either.right(new EmailValidator(email));
   }
 
   get(): string {

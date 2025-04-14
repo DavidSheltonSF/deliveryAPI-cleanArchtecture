@@ -1,7 +1,7 @@
 import { Either } from "../../../../shared/either";
 import { InvalidPhoneError } from "../../_errors/invalid-phone";
 
-export class Phone {
+export class PhoneValidator {
   private readonly phone: string;
 
   constructor(phone: string){
@@ -20,12 +20,12 @@ export class Phone {
     return true;
   }
 
-  static create(phone: string): Either<InvalidPhoneError, Phone> {
+  static create(phone: string): Either<InvalidPhoneError, PhoneValidator> {
     if (!this.validate(phone)) {
       return Either.left(new InvalidPhoneError(phone));
     }
 
-    return Either.right(new Phone(phone));
+    return Either.right(new PhoneValidator(phone));
   }
 
   get(): string {

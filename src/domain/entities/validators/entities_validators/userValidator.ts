@@ -12,27 +12,27 @@ import {
   InvalidPasswordError
  } from "../../_errors";
 import { 
-  Name,
-  Email,
-  Phone,
+  NameValidator,
+  EmailValidator,
+  PhoneValidator,
   CpfValidator,
   AddressValidator,
-  Role,
+  RoleValidator,
   BankInfoValidator,
   AuthenticationValidator
  } from "../fields_validators";
 
 export class UserValidator {
-  readonly username: Name;
-  readonly email: Email;
-  readonly phone: Phone;
+  readonly username: NameValidator;
+  readonly email: EmailValidator;
+  readonly phone: PhoneValidator;
   readonly cpf: CpfValidator;
-  readonly role: Role;
+  readonly role: RoleValidator;
   readonly bankInfo: BankInfoValidator;
   readonly address: AddressValidator;
   readonly authentication: AuthenticationValidator;
 
-  private constructor(username: Name, email: Email, phone: Phone, cpf: CpfValidator, role: Role, address: AddressValidator, authentication: AuthenticationValidator, bankInfo?: BankInfoValidator | null) {
+  private constructor(username: NameValidator, email: EmailValidator, phone: PhoneValidator, cpf: CpfValidator, role: RoleValidator, address: AddressValidator, authentication: AuthenticationValidator, bankInfo?: BankInfoValidator | null) {
     this.username = username;
     this.email = email;
     this.phone = phone;
@@ -54,11 +54,11 @@ export class UserValidator {
   | InvalidPaymentMethodError
   | InvalidPasswordError, UserValidator> {
 
-    const nameOrError = Name.create(userData.username);
-    const emailOrError = Email.create(userData.email);
-    const phoneOrError = Phone.create(userData.phone);
+    const nameOrError = NameValidator.create(userData.username);
+    const emailOrError = EmailValidator.create(userData.email);
+    const phoneOrError = PhoneValidator.create(userData.phone);
     const cpfOrError = CpfValidator.create(userData.cpf);
-    const roleOrError = Role.create(userData.role);
+    const roleOrError = RoleValidator.create(userData.role);
     const AuthenticationOrError = AuthenticationValidator.create(userData.authentication);
 
     if(nameOrError.isLeft()) {
