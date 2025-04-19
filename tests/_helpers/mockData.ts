@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 import { v4 as uuidv4 } from 'uuid';
-import { UserProps} from '../../src/domain/entities/user';
+import { UserProps} from '../../src/domain/entities/userProps';
 import { RestaurantChain } from '../../src/domain/entities/restaurantChain';
 import { Restaurant } from '../../src/domain/entities/restaurant';
 import { Dish } from '../../src/domain/entities/dish';

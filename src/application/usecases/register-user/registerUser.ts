@@ -1,5 +1,5 @@
 import { User } from "../../../domain/entities/validation";
-import { UserProps } from "../../../domain/entities/user";
+import { UserProps } from "../../../domain/entities/userProps";
 import { UserRepository } from "../ports/user-repository";
 import { RegisterUserUseCase } from "./interface";
 import { RegisterUserResponse } from "./response";

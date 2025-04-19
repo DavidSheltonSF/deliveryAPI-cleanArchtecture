@@ -1,6 +1,6 @@
 import { UserRepository } from "../../../application/usecases/ports/user-repository";
-import { UserProps } from "../../../domain/entities/user";
-import { UserMapper } from "../../../domain/entities/user";
+import { UserProps } from "../../../domain/entities/userProps";
+import { UserMapper } from "../../../domain/entities/userProps";
 import { mongoHelper } from "./helpers/mongo-helper";
 
 export class MongodbUserRepository implements UserRepository {

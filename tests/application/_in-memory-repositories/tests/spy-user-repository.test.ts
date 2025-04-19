@@ -1,6 +1,6 @@
 import { SpyUserRepository } from "../spy-user-repository";
 import { MockData } from '../../../_helpers/mockData'
-import { UserProps } from '../../../../src/domain/entities/user'
+import { UserProps } from '../../../../src/domain/entities/userProps'
 
 
 describe('Testing SpyUserRepository', () => {
