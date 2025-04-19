@@ -1,16 +1,16 @@
 import { Either } from "../../../../shared/either";
 import { InvalidAddressError } from "../../_errors/invalid-address";
-import { Address } from "../_interfaces";
+import { AddressProps } from "../_interfaces";
 
-export class AddressValidator {
-  private readonly address: Address;
+export class Address {
+  private readonly address: AddressProps;
 
-  constructor(address: Address){
+  constructor(address: AddressProps){
     this.address = address;
     Object.freeze(this);
   };
 
-  static validate(address: Address): Boolean{
+  static validate(address: AddressProps): Boolean{
 
     const zipCodeRegex = /^\d{5}\-?\d{3}$/;
 
@@ -25,15 +25,15 @@ export class AddressValidator {
     return true;
   }
 
-  static create(address: Address): Either<InvalidAddressError, AddressValidator> {
+  static create(address: AddressProps): Either<InvalidAddressError, Address> {
     if (!this.validate(address)) {
       return Either.left(new InvalidAddressError(JSON.stringify(address)));
     }
 
-    return Either.right(new AddressValidator(address));
+    return Either.right(new Address(address));
   }
 
-  get(): Address {
+  get(): AddressProps {
     return this.address;
   }
 }

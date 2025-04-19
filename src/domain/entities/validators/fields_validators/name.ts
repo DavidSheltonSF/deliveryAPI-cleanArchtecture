@@ -1,7 +1,7 @@
 import { Either } from "../../../../shared/either";
 import { InvalidNameError } from "../../_errors/invalid-name";
 
-export class NameValidator {
+export class Name {
   private readonly name: string;
 
   constructor(name: string){
@@ -24,12 +24,12 @@ export class NameValidator {
     return true;
   }
 
-  static create(name: string): Either<InvalidNameError, NameValidator> {
+  static create(name: string): Either<InvalidNameError, Name> {
     if (!this.validate(name)) {
       return Either.left(new InvalidNameError(name));
     }
 
-    return Either.right(new NameValidator(name));
+    return Either.right(new Name(name));
   }
 
   get(): string {

@@ -1,11 +1,11 @@
 import { Either } from "../../../../shared/either";
 import { InvalidPasswordError } from "../../_errors/invalid-password";
-import { Authentication } from "../_interfaces/index";
+import { AuthenticationProps } from "../_interfaces/index";
 
-export class AuthenticationValidator {
-  private readonly authentication: Authentication;
+export class Authentication {
+  private readonly authentication: AuthenticationProps;
 
-  constructor(authentication: Authentication){
+  constructor(authentication: AuthenticationProps){
     this.authentication = authentication;
     Object.freeze(this);
   };
@@ -29,15 +29,15 @@ export class AuthenticationValidator {
     return true;
   }
 
-  static create(authentication: Authentication): Either<InvalidPasswordError, AuthenticationValidator> {
+  static create(authentication: AuthenticationProps): Either<InvalidPasswordError, Authentication> {
     if (!this.validatePassword(authentication.password)) {
       return Either.left(new InvalidPasswordError(authentication.password));
     }
 
-    return Either.right(new AuthenticationValidator(authentication));
+    return Either.right(new Authentication(authentication));
   }
 
-  get(): Authentication {
+  get(): AuthenticationProps {
     return this.authentication;
   }
 }

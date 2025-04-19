@@ -2,7 +2,7 @@ import { Either } from "../../../../shared/either";
 import { InvalidRoleError } from "../../_errors/invalid-role";
 import { UserRole } from "../_enums";
 
-export class RoleValidator {
+export class Role {
   private readonly role: string;
 
   constructor(role: string){
@@ -19,12 +19,12 @@ export class RoleValidator {
     return true;
   }
 
-  static create(role: string): Either<InvalidRoleError, RoleValidator> {
+  static create(role: string): Either<InvalidRoleError, Role> {
     if (!this.validate(role)) {
       return Either.left(new InvalidRoleError(role));
     }
 
-    return Either.right(new RoleValidator(role));
+    return Either.right(new Role(role));
   }
 
   get(): string {
