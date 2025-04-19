@@ -1,4 +1,4 @@
-import { AddressProps } from "./validators/_interfaces";
+import { AddressProps } from "./validation/_interfaces";
 import { Dish } from "./dish";
 import { ObjectId } from "mongodb";
 

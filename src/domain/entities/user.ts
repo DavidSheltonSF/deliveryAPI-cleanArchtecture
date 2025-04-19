@@ -1,4 +1,4 @@
-import { AddressProps, BankInfoProps, AuthenticationProps } from "./validators/_interfaces";
+import { AddressProps, BankInfoProps, AuthenticationProps } from "./validation/_interfaces";
 import { ObjectId } from 'mongodb';
 
 export interface UserProps {

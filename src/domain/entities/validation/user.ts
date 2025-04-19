@@ -1,5 +1,5 @@
-import { UserProps } from '../../user';
-import { Either } from "../../../../shared/either";
+import { UserProps } from './../user';
+import { Either } from "./../../../shared/either";
 import { 
   InvalidAddressError,
   InvalidCpfError,
@@ -10,7 +10,7 @@ import {
   InvalidPaymentMethodError,
   InvalidCardNumberError,
   InvalidPasswordError
- } from "../../_errors";
+ } from "./../_errors";
 import { 
   Name,
   Email,
@@ -20,7 +20,7 @@ import {
   Role,
   BankInfo,
   Authentication
- } from "../fields_validators";
+ } from "./";
 
 export class User {
   readonly username: Name;

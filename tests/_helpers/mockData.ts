@@ -8,7 +8,7 @@ import { Payment } from '../../src/domain/entities/payment';
 import { Order } from '../../src/domain/entities/order';
 import { Delivery } from '../../src/domain/entities/delivery';
 import { mongoHelper } from '../../src/infrastructure/repositories/mongodb/helpers/mongo-helper';
-import { DeliveryStatus, OrderStatus, PaymentMethod, UserRole } from '../../src/domain/entities/validators/_enums';
+import { DeliveryStatus, OrderStatus, PaymentMethod, UserRole } from '../../src/domain/entities/validation/_enums';
 
 
 export class MockData {

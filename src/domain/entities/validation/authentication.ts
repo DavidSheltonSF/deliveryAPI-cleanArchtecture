@@ -1,6 +1,6 @@
-import { Either } from "../../../../shared/either";
-import { InvalidPasswordError } from "../../_errors/invalid-password";
-import { AuthenticationProps } from "../_interfaces/index";
+import { Either } from "./../../../shared/either";
+import { InvalidPasswordError } from "./../_errors/invalid-password";
+import { AuthenticationProps } from "./_interfaces/index";
 
 export class Authentication {
   private readonly authentication: AuthenticationProps;

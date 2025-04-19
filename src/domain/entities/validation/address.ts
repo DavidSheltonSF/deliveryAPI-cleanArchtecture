@@ -1,6 +1,6 @@
-import { Either } from "../../../../shared/either";
-import { InvalidAddressError } from "../../_errors/invalid-address";
-import { AddressProps } from "../_interfaces";
+import { Either } from "../../../shared/either";
+import { InvalidAddressError } from "../_errors/invalid-address";
+import { AddressProps } from "./_interfaces";
 
 export class Address {
   private readonly address: AddressProps;
