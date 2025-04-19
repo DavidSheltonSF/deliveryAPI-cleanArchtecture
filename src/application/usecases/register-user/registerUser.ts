@@ -1,5 +1,5 @@
-import { UserValidator } from "../../../domain/entities/validators";
-import { User } from "../../../domain/entities/user";
+import { User } from "../../../domain/entities/validators";
+import { UserProps } from "../../../domain/entities/user";
 import { UserRepository } from "../ports/user-repository";
 import { RegisterUserUseCase } from "./interface";
 import { RegisterUserResponse } from "./response";
@@ -13,9 +13,9 @@ export class RegisterUser implements RegisterUserUseCase {
     this.userRepository = userRepo;
   }
 
-  async register(userData: User): Promise<RegisterUserResponse> {
+  async register(userData: UserProps): Promise<RegisterUserResponse> {
     
-    const userOrError = UserValidator.create(userData);
+    const userOrError = User.create(userData);
 
     if(userOrError.isLeft()){
       return Either.left(userOrError.getLeft());

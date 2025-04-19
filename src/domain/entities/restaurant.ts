@@ -1,4 +1,4 @@
-import { Address } from "./validators/_interfaces"
+import { AddressProps } from "./validators/_interfaces"
 import { ObjectId } from 'mongodb';
 
 export interface Restaurant {
@@ -8,7 +8,7 @@ export interface Restaurant {
   isOpen: boolean,
   phone: string
   imageUrl: string,
-  address: Address
+  address: AddressProps
 }
 
 export class RestaurantMapper {

@@ -1,4 +1,4 @@
-import { Address } from "./validators/_interfaces";
+import { AddressProps } from "./validators/_interfaces";
 import { Dish } from "./dish";
 import { ObjectId } from "mongodb";
 
@@ -9,7 +9,7 @@ export interface Order {
   dishes: Omit<Dish, 'restaurantId' | '_id'>[],
   totalPrice: number,
   status: string,
-  address: Address
+  address: AddressProps
 }
 
 export class OrderMapper {

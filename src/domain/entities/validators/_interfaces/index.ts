@@ -1,11 +1,11 @@
-export interface Address {
+export interface AddressProps {
   street: string,
   city: string,
   state: string,
   zipCode: string
 }
 
-export interface PaymentInfo {
+export interface PaymentInfoProps {
   holderName: string,
   cardNumber?: string,
   expiryDate?: string,
@@ -17,13 +17,13 @@ export interface PaymentInfo {
   }
 }
 
-export interface Authentication {
+export interface AuthenticationProps {
   password: string,
   salt?: { type: String, select: false },
   sesstionToken?: { type: String, select: false }
 }
 
-export interface BankInfo {
+export interface BankInfoProps {
   paymentMethod: string,
-  paymentInfo: PaymentInfo 
+  paymentInfo: PaymentInfoProps
 }

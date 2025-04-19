@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 import { v4 as uuidv4 } from 'uuid';
-import { User} from '../../src/domain/entities/user';
+import { UserProps} from '../../src/domain/entities/user';
 import { RestaurantChain } from '../../src/domain/entities/restaurantChain';
 import { Restaurant } from '../../src/domain/entities/restaurant';
 import { Dish } from '../../src/domain/entities/dish';
@@ -17,7 +17,7 @@ export class MockData {
     return uuidv4().replace(/-/g, "").slice(0, 24);
   }
 
-  static mockUser(): User {
+  static mockUser(): UserProps {
 
     return {
       _id: mongoHelper.toObjectId(this.generateHexId()),

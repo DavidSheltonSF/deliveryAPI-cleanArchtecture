@@ -1,11 +1,11 @@
 import { UserRepository } from "../../../src/application/usecases/ports/user-repository";
-import { User as UserData } from "../../../src/domain/entities/user";
+import { UserProps } from "../../../src/domain/entities/user";
 import { MockData } from "../../_helpers/mockData";
 
 export class SpyUserRepository implements UserRepository {
-  users: UserData[] = [];
+  users: UserProps[] = [];
   addParams: {
-    user?: UserData
+    user?: UserProps
   } = {};
   findUserByIdParams: {
     id?: string,
@@ -15,23 +15,23 @@ export class SpyUserRepository implements UserRepository {
   } = {};
   updateParams: {
     userId?: string,
-    user?: Omit<UserData, '_id'>,
+    user?: Omit<UserProps, '_id'>,
   } = {};
   removeParams: {
     userId?: string,
   } = {};
 
 
-  async findAllUsers(): Promise<UserData[]> {
+  async findAllUsers(): Promise<UserProps[]> {
     return [MockData.mockUser()];
   }
 
-  async findUserById(id: string): Promise<UserData | null> {
+  async findUserById(id: string): Promise<UserProps | null> {
     this.findUserByIdParams = {id};
     return MockData.mockUser();
   }
 
-  async findUserByEmail(email: string): Promise<UserData | null> {
+  async findUserByEmail(email: string): Promise<UserProps | null> {
     this.findUserByEmailParams = {email};
     return MockData.mockUser();
   }
@@ -46,12 +46,12 @@ export class SpyUserRepository implements UserRepository {
     return false
   }
 
-  async add(user: UserData): Promise<void> {
+  async add(user: UserProps): Promise<void> {
     console.log('Spy added')
     this.addParams.user = user;
   }
 
-  async update(userId: string, user: Omit<UserData, '_id'>): Promise<void> {
+  async update(userId: string, user: Omit<UserProps, '_id'>): Promise<void> {
     this.updateParams = {
       userId,
       user

@@ -1,11 +1,11 @@
 import { UserRepository } from "../../../application/usecases/ports/user-repository";
-import { User as UserData } from "../../../domain/entities/user";
+import { UserProps } from "../../../domain/entities/user";
 import { UserMapper } from "../../../domain/entities/user";
 import { mongoHelper } from "./helpers/mongo-helper";
 
 export class MongodbUserRepository implements UserRepository {
   
-  async findAllUsers (): Promise<UserData[]> {
+  async findAllUsers (): Promise<UserProps[]> {
     const userCollection = mongoHelper.getCollection('users');
     // Select all fields but not 
     // authentication.salt nor authentication.sessionToken
@@ -24,7 +24,7 @@ export class MongodbUserRepository implements UserRepository {
     return [];
   }
 
-  async findUserByEmail (email: string): Promise<UserData | null> {
+  async findUserByEmail (email: string): Promise<UserProps | null> {
     const userCollection = mongoHelper.getCollection('users');
     const result = await userCollection?.findOne({ email });
 
@@ -35,7 +35,7 @@ export class MongodbUserRepository implements UserRepository {
     return null;
   }
 
-  async findUserById (userId: string): Promise<UserData | null> {
+  async findUserById (userId: string): Promise<UserProps | null> {
     const userCollection = mongoHelper.getCollection('users');
     // Its necessary to mapper the id string into an ObjectId
     const objId = mongoHelper.toObjectId(userId);
@@ -57,16 +57,16 @@ export class MongodbUserRepository implements UserRepository {
     return false
   }
 
-  async add (user: UserData): Promise<void> {
+  async add (user: UserProps): Promise<void> {
     const userCollection = mongoHelper.getCollection('users');
     await userCollection?.insertOne(user);
   }
 
-  async update (userId: string, userData: Omit<UserData, '_id'>): Promise<void> {
+  async update (userId: string, userProps: Omit<UserProps, '_id'>): Promise<void> {
     const userCollection = mongoHelper.getCollection('users');
     await userCollection.updateOne(
       {_id: mongoHelper.toObjectId(userId)},
-      {$set: userData}
+      {$set: userProps}
     );
   }
 
