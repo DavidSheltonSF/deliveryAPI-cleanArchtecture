@@ -1,29 +1,29 @@
 import { RestaurantChainRepository } from "../../../application/usecases/ports/restaurant-chain-repository";
-import { RestaurantChain as RestaurantChain } from "../../../domain/entities/restaurantChain";
-import { RestaurantChainMapper } from "../../../domain/entities/restaurantChain";
+import { RestaurantChainProps} from "../../../domain/entities/restaurantChainProps";
+import { RestaurantChainMapper } from "../../../domain/entities/restaurantChainProps";
 import { mongoHelper } from "./helpers/mongo-helper";
 
 export class MongodbRestaurantChainRepository implements RestaurantChainRepository {
   
-  async findAllRestaurantChains (): Promise<RestaurantChain[]> {
-    const restaurantchainCollection = mongoHelper.getCollection('restaurantChain');
-    const result = await restaurantchainCollection.find().toArray();
+  async findAllRestaurantChains (): Promise<RestaurantChainProps[]> {
+    const restaurantchainpropsCollection = mongoHelper.getCollection('restaurantChain');
+    const result = await restaurantchainpropsCollection.find().toArray();
 
     if (result){
-      const restaurantchains = result.map((elem) => {
+      const restaurantchainpropss = result.map((elem) => {
         return RestaurantChainMapper.toRestaurantChain(elem);
       });
 
-      return restaurantchains;
+      return restaurantchainpropss;
     }
     return [];
   }
 
-  async findRestaurantChainById (restaurantChain: string): Promise<RestaurantChain | null> {
-    const restaurantchainCollection = mongoHelper.getCollection('restaurantChain');
+  async findRestaurantChainById (restaurantChainProps: string): Promise<RestaurantChainProps | null> {
+    const restaurantchainpropsCollection = mongoHelper.getCollection('restaurantChain');
     // Its necessary to mapper the id string into an ObjectId
-    const objId = mongoHelper.toObjectId(restaurantChain);
-    const result = await restaurantchainCollection?.findOne({_id: objId});
+    const objId = mongoHelper.toObjectId(restaurantChainProps);
+    const result = await restaurantchainpropsCollection?.findOne({_id: objId});
 
     if (result){
       return RestaurantChainMapper.toRestaurantChain(result);
@@ -32,9 +32,9 @@ export class MongodbRestaurantChainRepository implements RestaurantChainReposito
     return null;
   }
 
-  async findRestaurantChainByAdminId (adminId: string): Promise<RestaurantChain | null> {
-    const restaurantchainCollection = mongoHelper.getCollection('restaurantChain');
-    const result = await restaurantchainCollection?.findOne({adminId: adminId});
+  async findRestaurantChainByAdminId (adminId: string): Promise<RestaurantChainProps | null> {
+    const restaurantchainpropsCollection = mongoHelper.getCollection('restaurantChain');
+    const result = await restaurantchainpropsCollection?.findOne({adminId: adminId});
 
     if (result){
       return RestaurantChainMapper.toRestaurantChain(result);
@@ -43,23 +43,23 @@ export class MongodbRestaurantChainRepository implements RestaurantChainReposito
     return null;
   }
 
-  async add (restaurantchain: RestaurantChain): Promise<void> {
-    const restaurantchainCollection = mongoHelper.getCollection('restaurantChain');
-    await restaurantchainCollection?.insertOne(restaurantchain);
+  async add (restaurantchainprops: RestaurantChainProps): Promise<void> {
+    const restaurantchainpropsCollection = mongoHelper.getCollection('restaurantChain');
+    await restaurantchainpropsCollection?.insertOne(restaurantchainprops);
   }
 
-  async update (restaurantChainId: string, restaurantChain: Omit<RestaurantChain, '_id'>): Promise<void> {
-    const restaurantchainCollection = mongoHelper.getCollection('restaurantChain');
-    await restaurantchainCollection.updateOne(
-      {_id: mongoHelper.toObjectId(restaurantChainId)},
-      {$set: restaurantChain}
+  async update (restaurantChainPropsId: string, restaurantChainProps: Omit<RestaurantChainProps, '_id'>): Promise<void> {
+    const restaurantchainpropsCollection = mongoHelper.getCollection('restaurantChain');
+    await restaurantchainpropsCollection.updateOne(
+      {_id: mongoHelper.toObjectId(restaurantChainPropsId)},
+      {$set: restaurantChainProps}
     );
   }
 
-  async remove (restaurantChain: string): Promise<void> {
-    const restaurantchainCollection = mongoHelper.getCollection('restaurantChain');
-    await restaurantchainCollection.deleteOne(
-      {_id: mongoHelper.toObjectId(restaurantChain)}
+  async remove (restaurantChainProps: string): Promise<void> {
+    const restaurantchainpropsCollection = mongoHelper.getCollection('restaurantChain');
+    await restaurantchainpropsCollection.deleteOne(
+      {_id: mongoHelper.toObjectId(restaurantChainProps)}
     );
   }
 }

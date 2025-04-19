@@ -1,10 +1,10 @@
-import {RestaurantChain as RestaurantChainData} from '../../../domain/entities/restaurantChain';
+import { RestaurantChainProps } from '../../../domain/entities/restaurantChainProps';
 
 export interface RestaurantChainRepository {
-  findAllRestaurantChains: () => Promise<RestaurantChainData[]>
-  findRestaurantChainById: (restaurantchainId: string) => Promise<RestaurantChainData | null>
-  findRestaurantChainByAdminId: (adminId: string) => Promise<RestaurantChainData | null>
-  add: (restaurantchain: RestaurantChainData) => Promise<void>
+  findAllRestaurantChains: () => Promise<RestaurantChainProps[]>
+  findRestaurantChainById: (restaurantchainId: string) => Promise<RestaurantChainProps | null>
+  findRestaurantChainByAdminId: (adminId: string) => Promise<RestaurantChainProps | null>
+  add: (restaurantchain: RestaurantChainProps) => Promise<void>
   remove: (restaurantchainId: string) => Promise<void>
-  update: (restaurantchainId: string, restaurantchainData: Omit<RestaurantChainData, '_id'>) => Promise<void>
+  update: (restaurantchainId: string, restaurantchainData: Omit<RestaurantChainProps, '_id'>) => Promise<void>
 }

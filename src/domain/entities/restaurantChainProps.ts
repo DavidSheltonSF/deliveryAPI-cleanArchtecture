@@ -1,6 +1,6 @@
 import { ObjectId } from 'mongodb';
 
-export interface RestaurantChain {
+export interface RestaurantChainProps {
   _id: ObjectId | null,
   name: string,
   cnpj: string,
@@ -10,7 +10,7 @@ export interface RestaurantChain {
 
 export class RestaurantChainMapper {
   /* Converts database documents into RestaurantChain type objects */
-  static toRestaurantChain (data: Record<string, any>): RestaurantChain {
+  static toRestaurantChain (data: Record<string, any>): RestaurantChainProps {
     const {
         _id,
         name,

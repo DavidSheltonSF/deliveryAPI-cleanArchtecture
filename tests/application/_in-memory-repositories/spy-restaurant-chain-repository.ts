@@ -1,5 +1,5 @@
 import { RestaurantChainRepository } from "../../../src/application/usecases/ports/restaurant-chain-repository";
-import { RestaurantChain as RestaurantChainData } from "../../../src/domain/entities/restaurantChain";
+import { RestaurantChainProps } from "../../../src/domain/entities/restaurantChainProps";
 import { MockData } from "../../_helpers/mockData";
 
 export class SpyRestaurantChainRepository implements RestaurantChainRepository {
@@ -10,34 +10,34 @@ export class SpyRestaurantChainRepository implements RestaurantChainRepository {
   findRestaurantChainByAdminIdParams: {
     adminId?: string,
   } = {};
-  addParams: Record<string, RestaurantChainData> = {};
+  addParams: Record<string, RestaurantChainProps> = {};
   updateParams: {
     restaurantChainId?: string,
-    restaurantChain?: Omit<RestaurantChainData, '_id'>,
+    restaurantChain?: Omit<RestaurantChainProps, '_id'>,
   } = {};
   removeParams: {
     restaurantchainId?: string,
   } = {};
 
-  async findAllRestaurantChains(): Promise<RestaurantChainData[]> {
+  async findAllRestaurantChains(): Promise<RestaurantChainProps[]> {
     return [MockData.mockRestaurantChain()];
   }
 
-  async findRestaurantChainById(restaurantChainId: string): Promise<RestaurantChainData | null> {
+  async findRestaurantChainById(restaurantChainId: string): Promise<RestaurantChainProps | null> {
     this.findRestaurantChainByIdParams = {restaurantChainId};
     return MockData.mockRestaurantChain();
   }
 
-  async findRestaurantChainByAdminId(adminId: string): Promise<RestaurantChainData | null> {
+  async findRestaurantChainByAdminId(adminId: string): Promise<RestaurantChainProps | null> {
     this.findRestaurantChainByAdminIdParams.adminId = adminId;
     return MockData.mockRestaurantChain();
   }
 
-  async add(restaurantchain: RestaurantChainData): Promise<void> {
+  async add(restaurantchain: RestaurantChainProps): Promise<void> {
     this.addParams.restaurantchain = restaurantchain;
   }
 
-  async update(restaurantChainId: string, restaurantChain: Omit<RestaurantChainData, '_id'>): Promise<void> {
+  async update(restaurantChainId: string, restaurantChain: Omit<RestaurantChainProps, '_id'>): Promise<void> {
     this.updateParams = {
       restaurantChainId,
       restaurantChain
