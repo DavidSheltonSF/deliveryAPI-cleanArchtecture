@@ -1,6 +1,5 @@
 import { SpyUserRepository } from "../spy-user-repository";
 import { MockData } from '../../../_helpers/mockData'
-import { UserProps } from '../../../../src/domain/entities/userProps'
 
 
 describe('Testing SpyUserRepository', () => {
@@ -57,13 +56,13 @@ describe('Testing SpyUserRepository', () => {
     expect(userInserted?.phone)
       .toBe(fakeUser.phone);
     expect(userInserted?.address?.street)
-      .toBe(fakeUser.address.street);
+      .toBe(fakeUser.address?.street);
     expect(userInserted?.address?.city)
-      .toBe(fakeUser.address.city);
+      .toBe(fakeUser.address?.city);
     expect(userInserted?.address?.state)
-      .toBe(fakeUser.address.state);
+      .toBe(fakeUser.address?.state);
     expect(userInserted?.address?.zipCode)
-      .toBe(fakeUser.address.zipCode);
+      .toBe(fakeUser.address?.zipCode);
     expect(userInserted?.authentication?.password)
       .toBe(fakeUser.authentication.password);
   });
@@ -109,13 +108,13 @@ describe('Testing SpyUserRepository', () => {
       .toBe(updatedData.cpf);
     expect(updatedUser?.phone)
       .toBe(updatedData.phone);
-    expect(updatedUser?.address.street)
+    expect(updatedUser?.address?.street)
       .toBe(updatedData.address.street);
-    expect(updatedUser?.address.city)
+    expect(updatedUser?.address?.city)
       .toBe(updatedData.address.city);
-      expect(updatedUser?.address.state)
+      expect(updatedUser?.address?.state)
       .toBe(updatedData.address.state);
-    expect(updatedUser?.address.zipCode)
+    expect(updatedUser?.address?.zipCode)
       .toBe(updatedData.address.zipCode);
     expect(updatedUser?.authentication.password)
       .toBe(updatedData.authentication.password);
