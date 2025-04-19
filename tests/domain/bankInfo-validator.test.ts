@@ -1,4 +1,4 @@
-import { BankInfoValidator } from "../../src/domain/entities/validators/fields_validators/bankInfoValidator"
+import { BankInfo } from "../../src/domain/entities/validation"
 
 const validbankInfos = [
   {
@@ -24,7 +24,7 @@ const validbankInfos = [
 
 describe("Testing bankInfo validator", () => {
   test("Trying to create a valid bankInfos with credit_card as payment method", () => {
-    const bankInfoOrError = BankInfoValidator.create(validbankInfos[0]);
+    const bankInfoOrError = BankInfo.create(validbankInfos[0]);
     const gotbankInfo = bankInfoOrError.getRight();
 
     expect(bankInfoOrError.isRight()).toBeTruthy();
@@ -32,7 +32,7 @@ describe("Testing bankInfo validator", () => {
   });
 
   test("Trying to create a valid bankInfos with bank_transfer as payment method", () => {
-    const bankInfoOrError = BankInfoValidator.create(validbankInfos[1]);
+    const bankInfoOrError = BankInfo.create(validbankInfos[1]);
     const gotbankInfo = bankInfoOrError.getRight();
 
     expect(bankInfoOrError.isRight()).toBeTruthy();
@@ -50,7 +50,7 @@ describe("Testing bankInfo validator", () => {
         expirationDate: "12/25",
       }
     };
-    const bankInfoOrError = BankInfoValidator.create(invalidbankInfo);
+    const bankInfoOrError = BankInfo.create(invalidbankInfo);
 
     expect(bankInfoOrError.isLeft()).toBeTruthy();
   });

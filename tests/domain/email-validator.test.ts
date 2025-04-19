@@ -1,9 +1,9 @@
-import { EmailValidator } from "../../src/domain/entities/validators/fields_validators/emailValidator"
+import { Email } from "../../src/domain/entities/validation"
 
 describe("Testing Email validator", () => {
   test("Trying to create a valid email", () => {
     const validEmail = 'maria@bugmail.com';
-    const emailOrError = EmailValidator.create(validEmail);
+    const emailOrError = Email.create(validEmail);
     const gotEmail = emailOrError.getRight();
 
     expect(emailOrError.isRight()).toBeTruthy();
@@ -13,7 +13,7 @@ describe("Testing Email validator", () => {
 
   test("Trying to create email without @", () => {
     const invalidEmail = 'mariabugmail.com';
-    const emailOrError = EmailValidator.create(invalidEmail);
+    const emailOrError = Email.create(invalidEmail);
 
     expect(emailOrError.isLeft()).toBeTruthy();
   });
@@ -28,7 +28,7 @@ describe("Testing Email validator", () => {
 
     tooLongEmail += '@bugmail.com';
 
-    const emailOrError = EmailValidator.create(tooLongEmail);
+    const emailOrError = Email.create(tooLongEmail);
 
     expect(emailOrError.isLeft()).toBeTruthy();
   });

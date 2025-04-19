@@ -1,7 +1,7 @@
-import { UserValidator } from "../../src/domain/entities/validators/entities_validators/userValidator"
-import { User } from "../../src/domain/entities/user";
+import { User } from "../../src/domain/entities/validation";
+import { UserProps } from "../../src/domain/entities/user";
 
-const users: User[] = [
+const users: UserProps[] = [
   {
     _id: null,
     username: 'João',
@@ -34,7 +34,7 @@ const users: User[] = [
 describe("Testing User validator", () => {
   test("Trying to create a valid complete user", () => {
     const validUser = users[0];
-    const userOrError = UserValidator.create(validUser);
+    const userOrError = User.create(validUser);
     //console.log(userOrError.getLeft());
     const gotUser = userOrError.getRight();
 
@@ -50,7 +50,7 @@ describe("Testing User validator", () => {
   test("Trying to create a valid user, but without address", () => {
     const validUser = { ...users[0] };
     validUser.address = undefined;
-    const userOrError = UserValidator.create(validUser);
+    const userOrError = User.create(validUser);
     //console.log(userOrError.getLeft());
     const gotUser = userOrError.getRight();
 
@@ -65,7 +65,7 @@ describe("Testing User validator", () => {
   test("Trying to create an user without user name", () => {
     const noUserNameUser = users[0];
     noUserNameUser.username = '';
-    const userOrError = UserValidator.create(noUserNameUser);
+    const userOrError = User.create(noUserNameUser);
 
     expect(userOrError.isLeft()).toBeTruthy();
   });

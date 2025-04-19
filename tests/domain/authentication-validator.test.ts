@@ -1,4 +1,4 @@
-import { AuthenticationValidator } from "../../src/domain/entities/validators/fields_validators/authenticationValidator"
+import { Authentication } from "../../src/domain/entities/validation"
 
 describe("Testing Password validator", () => {
   // VALID PASSWORD
@@ -8,7 +8,7 @@ describe("Testing Password validator", () => {
     // At least one special character
   test("Trying to create a valid password", () => {
     const authWithValidPassword = { password: 'Drav@555@777@56' };
-    const AuthenticationOrError = AuthenticationValidator.create(authWithValidPassword);
+    const AuthenticationOrError = Authentication.create(authWithValidPassword);
     const gotPassword = AuthenticationOrError.getRight().get().password;
 
     expect(AuthenticationOrError.isRight()).toBeTruthy();
@@ -18,35 +18,35 @@ describe("Testing Password validator", () => {
 
   test("Trying to create password without simbols", () => {
     const authWithInvalidPassword = { password: '55588558458Ab' };
-    const passwordOrError = AuthenticationValidator.create(authWithInvalidPassword);
+    const passwordOrError = Authentication.create(authWithInvalidPassword);
     
     expect(passwordOrError.isLeft()).toBeTruthy();
   });
 
   test("Trying to create password without letters", () => {
     const authWithInvalidPassword = { password: '55588558458#5' };
-    const passwordOrError = AuthenticationValidator.create(authWithInvalidPassword);
+    const passwordOrError = Authentication.create(authWithInvalidPassword);
     
     expect(passwordOrError.isLeft()).toBeTruthy();
   });
 
   test("Trying to create password without numbers", () => {
     const authWithInvalidPassword = { password: 'abjskjss#fdagg' };
-    const passwordOrError = AuthenticationValidator.create(authWithInvalidPassword);
+    const passwordOrError = Authentication.create(authWithInvalidPassword);
     
     expect(passwordOrError.isLeft()).toBeTruthy();
   });
 
   test("Trying to create password without upercase letters", () => {
     const authWithInvalidPassword = { password: '555v855a58#5' };
-    const passwordOrError = AuthenticationValidator.create(authWithInvalidPassword);
+    const passwordOrError = Authentication.create(authWithInvalidPassword);
     
     expect(passwordOrError.isLeft()).toBeTruthy();
   });
 
   test("Trying to create password without lower letters", () => {
     const authWithInvalidPassword = { password: '55588AB8458#5' };
-    const passwordOrError = AuthenticationValidator.create(authWithInvalidPassword);
+    const passwordOrError = Authentication.create(authWithInvalidPassword);
     
     expect(passwordOrError.isLeft()).toBeTruthy();
   });
@@ -59,14 +59,14 @@ describe("Testing Password validator", () => {
     }
 
     const authWithInvalidPassword = { password: tooLongPassword };
-    const passwordOrError = AuthenticationValidator.create(authWithInvalidPassword);
+    const passwordOrError = Authentication.create(authWithInvalidPassword);
     
     expect(passwordOrError.isLeft()).toBeTruthy();
   });
 
   test("Trying to create a password with less than 8 characters", () => {
     const authWithInvalidPassword = { password: 'SG#ASS' };
-    const passwordOrError = AuthenticationValidator.create(authWithInvalidPassword);
+    const passwordOrError = Authentication.create(authWithInvalidPassword);
     
     expect(passwordOrError.isLeft()).toBeTruthy();
   });

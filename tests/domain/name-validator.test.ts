@@ -1,9 +1,9 @@
-import { NameValidator } from "../../src/domain/entities/validators/fields_validators/nameValidator"
+import { Name } from "../../src/domain/entities/validation"
 
 describe("Testing Name validator", () => {
   test("Trying to create a valid name", () => {
     const validName = 'Maria Sílva de Oliveira';
-    const nameOrError = NameValidator.create(validName);
+    const nameOrError = Name.create(validName);
     const gotName = nameOrError.getRight();
 
     expect(nameOrError.isRight()).toBeTruthy();
@@ -12,7 +12,7 @@ describe("Testing Name validator", () => {
 
   test("Trying to create a valid name with only 2 characteres", () => {
     const validName = 'Ví';
-    const nameOrError = NameValidator.create(validName);
+    const nameOrError = Name.create(validName);
     const gotName = nameOrError.getRight();
 
     expect(nameOrError.isRight()).toBeTruthy();
@@ -21,21 +21,21 @@ describe("Testing Name validator", () => {
 
   test("Trying to create name with special characteres", () => {
     const invalidName = 'Maria@ Síl$$$va de Oliveira';
-    const nameOrError = NameValidator.create(invalidName);
+    const nameOrError = Name.create(invalidName);
 
     expect(nameOrError.isLeft()).toBeTruthy();
   });
 
   test("Trying to create name with numbers", () => {
     const invalidName = 'Maria 22';
-    const nameOrError = NameValidator.create(invalidName);
+    const nameOrError = Name.create(invalidName);
 
     expect(nameOrError.isLeft()).toBeTruthy();
   });
 
   test("Trying to create a name with less than 2 characteres", () => {
     const tooShortName = 'D';
-    const nameOrError = NameValidator.create(tooShortName);
+    const nameOrError = Name.create(tooShortName);
 
     expect(nameOrError.isLeft()).toBeTruthy();
   });
@@ -45,7 +45,7 @@ describe("Testing Name validator", () => {
     for (let i=0; i<256; i++) {
       tooLongName += 'N';
     }
-    const nameOrError = NameValidator.create(tooLongName);
+    const nameOrError = Name.create(tooLongName);
 
     expect(nameOrError.isLeft()).toBeTruthy();
   });

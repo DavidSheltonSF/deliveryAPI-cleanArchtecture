@@ -1,4 +1,4 @@
-import { AddressValidator } from "../../src/domain/entities/validators/fields_validators/addressValidator"
+import { Address } from "../../src/domain/entities/validation"
 
 const validAddresses = [
   {
@@ -19,7 +19,7 @@ const validAddresses = [
 
 describe("Testing Address validator", () => {
   test("Trying to create a valid addresss", () => {
-    const addressOrError = AddressValidator.create(validAddresses[0]);
+    const addressOrError = Address.create(validAddresses[0]);
     const gotAddress = addressOrError.getRight();
 
     expect(addressOrError.isRight()).toBeTruthy();
@@ -27,7 +27,7 @@ describe("Testing Address validator", () => {
   });
 
   test("Trying to create a valid addresss with zipCode without '-'", () => {
-    const addressOrError = AddressValidator.create(validAddresses[1]);
+    const addressOrError = Address.create(validAddresses[1]);
     const gotAddress = addressOrError.getRight();
 
     expect(addressOrError.isRight()).toBeTruthy();
@@ -42,7 +42,7 @@ describe("Testing Address validator", () => {
       state: "Rio de Janeiro",
       zipCode: "8542685@44"
     };
-    const addressOrError = AddressValidator.create(invalidAddress);
+    const addressOrError = Address.create(invalidAddress);
 
     expect(addressOrError.isLeft()).toBeTruthy();
   });
@@ -55,7 +55,7 @@ describe("Testing Address validator", () => {
       state: "Rio de Janeiro",
       zipCode: "28554-460"
     };
-    const addressOrError = AddressValidator.create(invalidAddress);
+    const addressOrError = Address.create(invalidAddress);
 
     expect(addressOrError.isLeft()).toBeTruthy();
   });

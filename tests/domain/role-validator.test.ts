@@ -1,4 +1,4 @@
-import { RoleValidator } from "../../src/domain/entities/validators/fields_validators/roleValidator"
+import { Role } from "../../src/domain/entities/validation"
 
 const validRoles = [
   'admin',
@@ -12,7 +12,7 @@ const validRoles = [
 describe("Testing Role validator", () => {
   test("Trying to create a valid roles", () => {
     const validRole = validRoles[0];
-    const roleOrError = RoleValidator.create(validRole);
+    const roleOrError = Role.create(validRole);
     const gotRole = roleOrError.getRight();
 
     expect(roleOrError.isRight()).toBeTruthy();
@@ -21,7 +21,7 @@ describe("Testing Role validator", () => {
 
   test("Trying to create an invalid role", () => {
     const invalidRole = 'invalidRole';
-    const roleOrError = RoleValidator.create(invalidRole);
+    const roleOrError = Role.create(invalidRole);
 
     expect(roleOrError.isLeft()).toBeTruthy();
   });

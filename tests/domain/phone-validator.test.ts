@@ -1,9 +1,9 @@
-import { PhoneValidator } from "../../src/domain/entities/validators/fields_validators/phoneValidator"
+import { Phone } from "../../src/domain/entities/validation"
 
 describe("Testing Phone validator", () => {
   test("Trying to create a valid phone", () => {
     const validPhone = '21-555875028';
-    const phoneOrError = PhoneValidator.create(validPhone);
+    const phoneOrError = Phone.create(validPhone);
     const gotPhone = phoneOrError.getRight();
 
     expect(phoneOrError.isRight()).toBeTruthy();
@@ -13,7 +13,7 @@ describe("Testing Phone validator", () => {
 
   test("Trying to create phone without simbols", () => {
     const validPhone = '21555875028';
-    const phoneOrError = PhoneValidator.create(validPhone);
+    const phoneOrError = Phone.create(validPhone);
     const gotPhone = phoneOrError.getRight();
     
     expect(phoneOrError.isRight()).toBeTruthy();
@@ -28,7 +28,7 @@ describe("Testing Phone validator", () => {
       tooLongPhone += '8';
     }
 
-    const phoneOrError = PhoneValidator.create(tooLongPhone);
+    const phoneOrError = Phone.create(tooLongPhone);
 
     expect(phoneOrError.isLeft()).toBeTruthy();
   });
@@ -36,7 +36,7 @@ describe("Testing Phone validator", () => {
   test("Trying to create phone with wrong format", () => {
     let invalidPhone = '55*575577756';
 
-    const phoneOrError = PhoneValidator.create(invalidPhone);
+    const phoneOrError = Phone.create(invalidPhone);
 
     expect(phoneOrError.isLeft()).toBeTruthy();
   });
@@ -44,7 +44,7 @@ describe("Testing Phone validator", () => {
   test("Trying to create phone with 10 digits (it should has at least 11)", () => {
     let invalidPhone = '8848415415';
 
-    const phoneOrError = PhoneValidator.create(invalidPhone);
+    const phoneOrError = Phone.create(invalidPhone);
 
     expect(phoneOrError.isLeft()).toBeTruthy();
   });
