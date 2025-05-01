@@ -9,6 +9,7 @@ import { InvalidEmailError } from "../../../domain/entities/_errors";
 export class DeleteUser implements DeleteUserUseCase {
 
   private readonly userRepository: UserRepository;
+  
   constructor(userRepo: UserRepository){
     this.userRepository = userRepo;
   }
