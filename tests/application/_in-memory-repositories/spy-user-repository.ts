@@ -27,6 +27,7 @@ export class SpyUserRepository implements UserRepository {
   }
 
   async findUserById(id: string): Promise<UserProps | null> {
+    this.findUserByIdParams = { id };
     for (let i=0; i<this.userDatabase.length; i++){
       if (this.userDatabase[i]._id?.toString() == id){
         return this.userDatabase[i];
@@ -36,6 +37,7 @@ export class SpyUserRepository implements UserRepository {
   }
 
   async findUserByEmail(email: string): Promise<UserProps | null> {
+    this.findUserByEmailParams = { email };
     for (let i=0; i<this.userDatabase.length; i++){
       if (this.userDatabase[i].email == email){
         return this.userDatabase[i];
@@ -56,7 +58,6 @@ export class SpyUserRepository implements UserRepository {
 
   async add(user: UserProps): Promise<void> {
     this.addParams = { user };
-    this.userDatabase.push(user);
   }
 
   async update(userId: string, user: Omit<UserProps, '_id'>): Promise<void> {
