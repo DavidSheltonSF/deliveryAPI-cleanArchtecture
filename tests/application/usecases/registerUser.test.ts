@@ -19,10 +19,10 @@ describe('Testing RegisterUserUseCase', () => {
     expect(spyUserRepository.addParams.user?.cpf).toBe(mockedUser.cpf);
     expect(spyUserRepository.addParams.user?.phone).toBe(mockedUser.phone);
     expect(spyUserRepository.addParams.user?.role).toBe(mockedUser.role);
-    expect(spyUserRepository.addParams.user?.address.city).toBe(mockedUser.address.city);
-    expect(spyUserRepository.addParams.user?.address.street).toBe(mockedUser.address.street);
-    expect(spyUserRepository.addParams.user?.address.state).toBe(mockedUser.address.state);
-    expect(spyUserRepository.addParams.user?.address.zipCode).toBe(mockedUser.address.zipCode)
+    expect(spyUserRepository.addParams.user?.address?.city).toBe(mockedUser.address?.city);
+    expect(spyUserRepository.addParams.user?.address?.street).toBe(mockedUser.address?.street);
+    expect(spyUserRepository.addParams.user?.address?.state).toBe(mockedUser.address?.state);
+    expect(spyUserRepository.addParams.user?.address?.zipCode).toBe(mockedUser.address?.zipCode);
   });
 
   test('Should not register a duplicated user', async () => {
