@@ -1,6 +1,6 @@
 import { ObjectId } from 'mongodb';
 
-export interface Dish {
+export interface DishProps {
   _id: ObjectId | null,
   name: string,
   description: string,
@@ -11,7 +11,7 @@ export interface Dish {
 
 export class DishMapper {
   /* Converts database documents into Dish type objects */
-  static toDish (data: Record<string, any>): Dish {
+  static toDish (data: Record<string, any>): DishProps {
     const {
         _id,
         name,

@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { UserProps} from '../../src/domain/entities/userProps';
 import { RestaurantChainProps } from '../../src/domain/entities/restaurantChainProps';
 import { RestaurantProps } from '../../src/domain/entities/restaurantProps';
-import { Dish } from '../../src/domain/entities/dish';
+import { DishProps } from '../../src/domain/entities/dishProps';
 import { PaymentProps } from '../../src/domain/entities/paymentProps';
 import { OrderProps } from '../../src/domain/entities/orderProps';
 import { Delivery } from '../../src/domain/entities/delivery';
@@ -66,7 +66,7 @@ export class MockData {
     };
   }
 
-  static mockDish(): Dish {
+  static mockDish(): DishProps {
     return {
       _id: mongoHelper.toObjectId(this.generateHexId()),
       name: faker.food.dish(),

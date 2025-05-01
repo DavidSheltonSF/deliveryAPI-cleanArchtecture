@@ -1,11 +1,11 @@
 import { DishRepository } from "../../../application/usecases/ports/dish-repository";
-import { Dish as Dish } from "../../../domain/entities/dish";
-import { DishMapper } from "../../../domain/entities/dish";
+import { DishProps } from "../../../domain/entities/dishProps";
+import { DishMapper } from "../../../domain/entities/dishProps";
 import { mongoHelper } from "./helpers/mongo-helper";
 
 export class MongodbDishRepository implements DishRepository {
   
-  async findAllDishs (): Promise<Dish[]> {
+  async findAllDishs (): Promise<DishProps[]> {
     const dishCollection = mongoHelper.getCollection('dish');
     const result = await dishCollection.find().toArray();
 
@@ -19,7 +19,7 @@ export class MongodbDishRepository implements DishRepository {
     return [];
   }
 
-  async findDishById (dish: string): Promise<Dish | null> {
+  async findDishById (dish: string): Promise<DishProps | null> {
     const dishCollection = mongoHelper.getCollection('dish');
     // Its necessary to mapper the id string into an ObjectId
     const objId = mongoHelper.toObjectId(dish);
@@ -32,12 +32,12 @@ export class MongodbDishRepository implements DishRepository {
     return null;
   }
 
-  async add (dish: Dish): Promise<void> {
+  async add (dish: DishProps): Promise<void> {
     const dishCollection = mongoHelper.getCollection('dish');
     await dishCollection?.insertOne(dish);
   }
 
-  async update (dishId: string, dish: Omit<Dish, '_id'>): Promise<void> {
+  async update (dishId: string, dish: Omit<DishProps, '_id'>): Promise<void> {
     const dishCollection = mongoHelper.getCollection('dish');
     await dishCollection.updateOne(
       {_id: mongoHelper.toObjectId(dishId)},
