@@ -26,9 +26,28 @@ describe('Testing DeleteUserUseCase', () => {
       throw new Error('User ID is undefined');
     }
 
-    await deleteUserUseCase.delete(userStrId);
+    // Adding the user in the fake dadabase manualy
+    spyUserRepository.userDatabase.push(mockedUser);
 
+    const response = await deleteUserUseCase.delete(userStrId);
+
+    expect(response.isRight()).toBeTruthy()
     expect(spyUserRepository.removeParams.userId).toBe(userStrId);
   });
 
+  test('Should throw an error if user does not exist', async () => {
+    const { deleteUserUseCase, spyUserRepository } = makeSut();
+
+    const mockedUser = MockData.mockUser();
+
+    const userStrId = mockedUser._id?.toString();
+
+    if (!userStrId) {
+      throw new Error('User ID is undefined');
+    }
+
+    const response = await deleteUserUseCase.delete(userStrId);
+
+    expect(response.isLeft()).toBeTruthy();
+  })
 })
