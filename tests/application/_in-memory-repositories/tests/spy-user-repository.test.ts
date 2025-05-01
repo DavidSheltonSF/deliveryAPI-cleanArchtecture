@@ -17,24 +17,34 @@ describe('Testing SpyUserRepository', () => {
 
     const spyUserRepository = new SpyUserRepository();
 
-    const userId = "123456789012345678901234"
+    const mockedUser = MockData.mockUser();
 
-    const foundUser = await spyUserRepository.findUserById(userId);
+    spyUserRepository.userDatabase.push(mockedUser);
+
+    const userIdStr = mockedUser._id?.toString();
+
+    if(!userIdStr){
+      throw Error('User id is undefined');
+    }
+
+    const foundUser = await spyUserRepository.findUserById(userIdStr);
     
-    expect(spyUserRepository.findUserByIdParams.id).toEqual(userId);
-    expect(foundUser).toBeTruthy();
+    expect(spyUserRepository.findUserByIdParams.id).toEqual(userIdStr);
+    expect(foundUser?._id).toBe(mockedUser._id);
   });
   
   test('Should find a user by email', async () => {
 
     const spyUserRepository = new SpyUserRepository();
 
-    const userEmail = "test@bugmail.com"
+    const mockedUser = MockData.mockUser();
 
-    const foundUser = await spyUserRepository.findUserByEmail(userEmail);
+    spyUserRepository.userDatabase.push(mockedUser);
+
+    const foundUser = await spyUserRepository.findUserByEmail(mockedUser.email);
     
-    expect(spyUserRepository.findUserByEmailParams.email).toEqual(userEmail);
-    expect(foundUser).toBeTruthy();
+    expect(spyUserRepository.findUserByEmailParams.email).toEqual(mockedUser.email);
+    expect(foundUser?.email).toBe(mockedUser.email);
   });
 
   test('Should add a new', async () => {
