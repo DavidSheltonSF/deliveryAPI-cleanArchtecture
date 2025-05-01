@@ -1,11 +1,11 @@
-import {User as UserData} from '../../../domain/entities/userProps';
+import { UserProps } from '../../../domain/entities/userProps';
 
 export interface UserRepository {
-  findAllUsers: () => Promise<UserData[]>
-  findUserByEmail: (email: string) => Promise<UserData | null>
-  findUserById: (userId: string) => Promise<UserData | null>
+  findAllUsers: () => Promise<UserProps[]>
+  findUserByEmail: (email: string) => Promise<UserProps | null>
+  findUserById: (userId: string) => Promise<UserProps | null>
   exists: (email: string) => Promise<boolean>
-  add: (user: UserData) => Promise<void>
+  add: (user: UserProps) => Promise<void>
   remove: (userId: string) => Promise<void>
-  update: (userId: string, userData: Omit<UserData, '_id'>) => Promise<void>
+  update: (userId: string, userData: Omit<UserProps, '_id'>) => Promise<void>
 }
