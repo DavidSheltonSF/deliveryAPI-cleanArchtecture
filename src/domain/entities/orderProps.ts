@@ -2,7 +2,7 @@ import { AddressProps } from "./validation/_interfaces";
 import { Dish } from "./dish";
 import { ObjectId } from "mongodb";
 
-export interface Order {
+export interface OrderProps {
   _id: ObjectId | null,
   customerId: string,
   restaurantId: string
@@ -14,7 +14,7 @@ export interface Order {
 
 export class OrderMapper {
   /* Converts database documents into Order type objects */
-  static toOrder (data: Record<string, any>): Order {
+  static toOrder (data: Record<string, any>): OrderProps {
     const {
       _id,
       customerId,

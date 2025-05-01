@@ -1,9 +1,9 @@
-import {Order as OrderData} from '../../../domain/entities/order';
+import { OrderProps } from '../../../domain/entities/orderProps';
 
 export interface OrderRepository {
-  findAllOrders: () => Promise<OrderData[]>
-  findOrderById: (orderId: string) => Promise<OrderData | null>
-  add: (order: OrderData) => Promise<void>
+  findAllOrders: () => Promise<OrderProps[]>
+  findOrderById: (orderId: string) => Promise<OrderProps | null>
+  add: (order: OrderProps) => Promise<void>
   remove: (orderId: string) => Promise<void>
-  update: (orderId: string, orderData: Omit<OrderData, '_id'>) => Promise<void>
+  update: (orderId: string, orderProps: Omit<OrderProps, '_id'>) => Promise<void>
 }

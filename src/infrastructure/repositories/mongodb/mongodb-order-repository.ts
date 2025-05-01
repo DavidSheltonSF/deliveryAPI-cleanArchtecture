@@ -1,11 +1,11 @@
 import { OrderRepository } from "../../../application/usecases/ports/order-repository";
-import { Order as Order } from "../../../domain/entities/order";
-import { OrderMapper } from "../../../domain/entities/order";
+import { OrderProps } from "../../../domain/entities/orderProps";
+import { OrderMapper } from "../../../domain/entities/orderProps";
 import { mongoHelper } from "./helpers/mongo-helper";
 
 export class MongodbOrderRepository implements OrderRepository {
   
-  async findAllOrders (): Promise<Order[]> {
+  async findAllOrders (): Promise<OrderProps[]> {
     const orderCollection = mongoHelper.getCollection('order');
     const result = await orderCollection.find().toArray();
 
@@ -19,7 +19,7 @@ export class MongodbOrderRepository implements OrderRepository {
     return [];
   }
 
-  async findOrderById (order: string): Promise<Order | null> {
+  async findOrderById (order: string): Promise<OrderProps | null> {
     const orderCollection = mongoHelper.getCollection('order');
     // Its necessary to cast the id string into an ObjectId
     const objId = mongoHelper.toObjectId(order);
@@ -32,12 +32,12 @@ export class MongodbOrderRepository implements OrderRepository {
     return null;
   }
 
-  async add (order: Order): Promise<void> {
+  async add (order: OrderProps): Promise<void> {
     const orderCollection = mongoHelper.getCollection('order');
     await orderCollection?.insertOne(order);
   }
 
-  async update (orderId: string, order: Omit<Order, '_id'>): Promise<void> {
+  async update (orderId: string, order: Omit<OrderProps, '_id'>): Promise<void> {
     const orderCollection = mongoHelper.getCollection('order');
     await orderCollection.updateOne(
       {_id: mongoHelper.toObjectId(orderId)},
