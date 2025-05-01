@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 import { v4 as uuidv4 } from 'uuid';
 import { UserProps} from '../../src/domain/entities/userProps';
 import { RestaurantChainProps } from '../../src/domain/entities/restaurantChainProps';
-import { Restaurant } from '../../src/domain/entities/restaurant';
+import { RestaurantProps } from '../../src/domain/entities/restaurantProps';
 import { Dish } from '../../src/domain/entities/dish';
 import { Payment } from '../../src/domain/entities/payment';
 import { Order } from '../../src/domain/entities/order';
@@ -49,7 +49,7 @@ export class MockData {
     };
   }
 
-  static mockRestaurant(): Restaurant {
+  static mockRestaurant(): RestaurantProps {
     return {
       _id: mongoHelper.toObjectId(this.generateHexId()),
       restaurantChainId: this.generateHexId(),
