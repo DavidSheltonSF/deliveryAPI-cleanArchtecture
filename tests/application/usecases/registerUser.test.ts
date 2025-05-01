@@ -32,7 +32,7 @@ describe('Testing RegisterUserUseCase', () => {
     const mockedUser = MockData.mockUser();
 
     // Adding a user in the fake repository
-    spyUserRepository.users.push(mockedUser);
+    spyUserRepository.userDatabase.push(mockedUser);
 
     // Trying to register the same user again
     const registerError = await registerUserUseCase.register(mockedUser);
