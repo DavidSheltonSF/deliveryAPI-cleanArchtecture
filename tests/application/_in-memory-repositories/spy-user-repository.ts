@@ -47,7 +47,6 @@ export class SpyUserRepository implements UserRepository {
   }
 
   async add(user: UserProps): Promise<void> {
-    console.log('Spy added')
     this.addParams = { user };
   }
 
