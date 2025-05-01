@@ -1,10 +1,8 @@
 import { Either } from "../../../shared/either";
-import { Email } from "../../../domain/entities/validation";
 import { UserRepository } from "../ports/user-repository";
 import { DeleteUserUseCase } from "./interface";
 import { DeleteUserResponse } from "./response";
 import { NoResultError } from "../_erros";
-import { InvalidEmailError } from "../../../domain/entities/_errors";
 
 export class DeleteUser implements DeleteUserUseCase {
 
@@ -14,23 +12,15 @@ export class DeleteUser implements DeleteUserUseCase {
     this.userRepository = userRepo;
   }
 
-  async delete(email: string): Promise<DeleteUserResponse> {
-    
-    const emailOrError: Either<InvalidEmailError, Email> = Email.create(email);
+  async delete(id: string): Promise<DeleteUserResponse> {
 
-    if(emailOrError.isLeft()){
-      return Either.left(emailOrError.getLeft());
-    }
-
-    const validatedEmail = emailOrError.getRight().get();
-
-    const user = await this.userRepository.findUserByEmail(validatedEmail);
+    const user = await this.userRepository.findUserById(id);
 
     if(!user){
-      return Either.left(new NoResultError(`User with email ${validatedEmail} does not exist.`))
+      return Either.left(new NoResultError(`User with id ${id} does not exist.`))
     }
 
-    await this.userRepository.remove(validatedEmail);
+    await this.userRepository.remove(id);
 
     return Either.right(user);
   }
