@@ -4,7 +4,7 @@ import { UserProps} from '../../src/domain/entities/userProps';
 import { RestaurantChainProps } from '../../src/domain/entities/restaurantChainProps';
 import { RestaurantProps } from '../../src/domain/entities/restaurantProps';
 import { Dish } from '../../src/domain/entities/dish';
-import { Payment } from '../../src/domain/entities/payment';
+import { PaymentProps } from '../../src/domain/entities/paymentProps';
 import { Order } from '../../src/domain/entities/order';
 import { Delivery } from '../../src/domain/entities/delivery';
 import { mongoHelper } from '../../src/infrastructure/repositories/mongodb/helpers/mongo-helper';
@@ -77,7 +77,7 @@ export class MockData {
     };
   }
 
-  static mockPayment(): Payment {
+  static mockPayment(): PaymentProps {
     return {
       _id: mongoHelper.toObjectId(this.generateHexId()),
       orderId: this.generateHexId(),

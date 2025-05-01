@@ -1,11 +1,11 @@
 import { PaymentRepository } from "../../../application/usecases/ports/payment-repository";
-import { Payment as Payment } from "../../../domain/entities/payment";
-import { PaymentMapper } from "../../../domain/entities/payment";
+import { PaymentProps } from "../../../domain/entities/paymentProps";
+import { PaymentMapper } from "../../../domain/entities/paymentProps";
 import { mongoHelper } from "./helpers/mongo-helper";
 
 export class MongodbPaymentRepository implements PaymentRepository {
   
-  async findAllPayments (): Promise<Payment[]> {
+  async findAllPayments (): Promise<PaymentProps[]> {
     const paymentCollection = mongoHelper.getCollection('payment');
     const result = await paymentCollection.find().toArray();
 
@@ -19,7 +19,7 @@ export class MongodbPaymentRepository implements PaymentRepository {
     return [];
   }
 
-  async findPaymentById (payment: string): Promise<Payment | null> {
+  async findPaymentById (payment: string): Promise<PaymentProps | null> {
     const paymentCollection = mongoHelper.getCollection('payment');
     // Its necessary to cast the id string into an ObjectId
     const objId = mongoHelper.toObjectId(payment);
@@ -32,7 +32,7 @@ export class MongodbPaymentRepository implements PaymentRepository {
     return null;
   }
 
-  async findPaymentByOrderId (orderId: string): Promise<Payment | null> {
+  async findPaymentByOrderId (orderId: string): Promise<PaymentProps | null> {
     const paymentCollection = mongoHelper.getCollection('payment');
     // Its necessary to cast the id string into an ObjectId
     const objId = mongoHelper.toObjectId(orderId);
@@ -45,12 +45,12 @@ export class MongodbPaymentRepository implements PaymentRepository {
     return null;
   }
 
-  async add (payment: Payment): Promise<void> {
+  async add (payment: PaymentProps): Promise<void> {
     const paymentCollection = mongoHelper.getCollection('payment');
     await paymentCollection?.insertOne(payment);
   }
 
-  async update (paymentId: string, payment: Omit<Payment, '_id'>): Promise<void> {
+  async update (paymentId: string, payment: Omit<PaymentProps, '_id'>): Promise<void> {
     const paymentCollection = mongoHelper.getCollection('payment');
     await paymentCollection.updateOne(
       {_id: mongoHelper.toObjectId(paymentId)},

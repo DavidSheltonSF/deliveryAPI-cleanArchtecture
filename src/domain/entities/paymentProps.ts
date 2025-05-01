@@ -1,6 +1,6 @@
 import { ObjectId } from 'mongodb';
 
-export interface Payment {
+export interface PaymentProps {
   _id: ObjectId | null,
   orderId: string,
   paymentMethod: string,
@@ -9,7 +9,7 @@ export interface Payment {
 
 export class PaymentMapper {
   /* Converts database documents into Payment type objects */
-  static toPayment (data: Record<string, any>): Payment {
+  static toPayment (data: Record<string, any>): PaymentProps {
     const {
       _id,
       orderId,
