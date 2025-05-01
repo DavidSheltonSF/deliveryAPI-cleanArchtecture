@@ -1,7 +1,7 @@
 import { AddressProps } from "./validation/_interfaces"
 import { ObjectId } from 'mongodb';
 
-export interface Restaurant {
+export interface RestaurantProps {
   _id: ObjectId | null,
   restaurantChainId: string,
   adminId: string,
@@ -13,7 +13,7 @@ export interface Restaurant {
 
 export class RestaurantMapper {
   /* Converts database documents into Restaurant type objects */
-  static toRestaurant (data: Record<string, any>): Restaurant {
+  static toRestaurant (data: Record<string, any>): RestaurantProps {
     const {
         _id,
         restaurantChainId,
