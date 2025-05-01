@@ -1,11 +1,11 @@
 import { DeliveryRepository } from "../../../application/usecases/ports/delivery-repository";
-import { Delivery as Delivery } from "../../../domain/entities/delivery";
-import { DeliveryMapper } from "../../../domain/entities/delivery";
+import { DeliveryProps } from "../../../domain/entities/deliveryProps";
+import { DeliveryMapper } from "../../../domain/entities/deliveryProps";
 import { mongoHelper } from "./helpers/mongo-helper";
 
 export class MongodbDeliveryRepository implements DeliveryRepository {
   
-  async findAllDeliverys (): Promise<Delivery[]> {
+  async findAllDeliverys (): Promise<DeliveryProps[]> {
     const deliveryCollection = mongoHelper.getCollection('delivery');
     const result = await deliveryCollection.find().toArray();
 
@@ -19,7 +19,7 @@ export class MongodbDeliveryRepository implements DeliveryRepository {
     return [];
   }
 
-  async findDeliveryById (delivery: string): Promise<Delivery | null> {
+  async findDeliveryById (delivery: string): Promise<DeliveryProps | null> {
     const deliveryCollection = mongoHelper.getCollection('delivery');
     // Its necessary to cast the id string into an ObjectId
     const objId = mongoHelper.toObjectId(delivery);
@@ -32,12 +32,12 @@ export class MongodbDeliveryRepository implements DeliveryRepository {
     return null;
   }
 
-  async add (delivery: Delivery): Promise<void> {
+  async add (delivery: DeliveryProps): Promise<void> {
     const deliveryCollection = mongoHelper.getCollection('delivery');
     await deliveryCollection?.insertOne(delivery);
   }
 
-  async update (deliveryId: string, delivery: Omit<Delivery, '_id'>): Promise<void> {
+  async update (deliveryId: string, delivery: Omit<DeliveryProps, '_id'>): Promise<void> {
     const deliveryCollection = mongoHelper.getCollection('delivery');
     await deliveryCollection.updateOne(
       {_id: mongoHelper.toObjectId(deliveryId)},

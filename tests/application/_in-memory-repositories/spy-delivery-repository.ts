@@ -1,36 +1,36 @@
 import { DeliveryRepository } from "../../../src/application/usecases/ports/delivery-repository";
-import { Delivery as DeliveryData } from "../../../src/domain/entities/delivery";
+import { DeliveryProps } from "../../../src/domain/entities/deliveryProps";
 import { MockData } from "../../_helpers/mockData";
 
 
 export class SpyDeliveryRepository implements DeliveryRepository {
-  addParams: Record<string, DeliveryData> = {};
+  addParams: Record<string, DeliveryProps> = {};
   findDeliveryByIdParams: {
     id?: string,
   } = {};
   updateParams: {
     deliveryId?: string,
-    delivery?: Omit<DeliveryData, '_id'>,
+    delivery?: Omit<DeliveryProps, '_id'>,
   } = {};
   removeParams: {
     deliveryId?: string,
   } = {};
 
 
-  async findAllDeliverys(): Promise<DeliveryData[]> {
+  async findAllDeliverys(): Promise<DeliveryProps[]> {
     return [MockData.mockDelivery()];
   }
 
-  async findDeliveryById(id: string): Promise<DeliveryData | null> {
+  async findDeliveryById(id: string): Promise<DeliveryProps | null> {
     this.findDeliveryByIdParams = {id};
     return MockData.mockDelivery();
   }
 
-  async add(delivery: DeliveryData): Promise<void> {
+  async add(delivery: DeliveryProps): Promise<void> {
     this.addParams = { delivery };
   }
 
-  async update(deliveryId: string, delivery: Omit<DeliveryData, '_id'>): Promise<void> {
+  async update(deliveryId: string, delivery: Omit<DeliveryProps, '_id'>): Promise<void> {
     this.updateParams = {
       deliveryId,
       delivery

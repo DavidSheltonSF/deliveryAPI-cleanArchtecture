@@ -6,7 +6,7 @@ import { RestaurantProps } from '../../src/domain/entities/restaurantProps';
 import { DishProps } from '../../src/domain/entities/dishProps';
 import { PaymentProps } from '../../src/domain/entities/paymentProps';
 import { OrderProps } from '../../src/domain/entities/orderProps';
-import { Delivery } from '../../src/domain/entities/delivery';
+import { DeliveryProps } from '../../src/domain/entities/deliveryProps';
 import { mongoHelper } from '../../src/infrastructure/repositories/mongodb/helpers/mongo-helper';
 import { DeliveryStatus, OrderStatus, PaymentMethod, UserRole } from '../../src/domain/entities/validation/_enums';
 
@@ -116,7 +116,7 @@ export class MockData {
     };
   }
 
-    static mockDelivery(): Delivery {
+    static mockDelivery(): DeliveryProps {
     return {
       _id: mongoHelper.toObjectId(this.generateHexId()),
       orderId: this.generateHexId(),

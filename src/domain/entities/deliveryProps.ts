@@ -1,6 +1,6 @@
 import { ObjectId } from 'mongodb';
 
-export interface Delivery {
+export interface DeliveryProps {
   _id: ObjectId | null,
   orderId: string,
   driverId: string,
@@ -10,7 +10,7 @@ export interface Delivery {
 
 export class DeliveryMapper {
   /* Converts database documents into Delivery type objects */
-  static toDelivery (data: Record<string, any>): Delivery {
+  static toDelivery (data: Record<string, any>): DeliveryProps {
     const {
       _id,
       orderId,
