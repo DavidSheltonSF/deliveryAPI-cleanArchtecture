@@ -1,11 +1,11 @@
 import { RestaurantRepository } from "../../../application/usecases/ports/restaurant-repository";
-import { Restaurant as RestaurantData } from "../../../domain/entities/restaurant";
-import { RestaurantMapper } from "../../../domain/entities/restaurant";
+import { RestaurantProps } from "../../../domain/entities/restaurantProps";
+import { RestaurantMapper } from "../../../domain/entities/restaurantProps";
 import { mongoHelper } from "./helpers/mongo-helper";
 
 export class MongodbRestaurantRepository implements RestaurantRepository {
   
-  async findAllRestaurants (): Promise<RestaurantData[]> {
+  async findAllRestaurants (): Promise<RestaurantProps[]> {
     const restaurantCollection = mongoHelper.getCollection('restaurants');
     const result = await restaurantCollection.find().toArray();
 
@@ -19,7 +19,7 @@ export class MongodbRestaurantRepository implements RestaurantRepository {
     return [];
   }
 
-  async findRestaurantById (restaurantId: string): Promise<RestaurantData | null> {
+  async findRestaurantById (restaurantId: string): Promise<RestaurantProps | null> {
     const restaurantCollection = mongoHelper.getCollection('restaurants');
     // Its necessary to mapper the id string into an ObjectId
     const objId = mongoHelper.toObjectId(restaurantId);
@@ -32,7 +32,7 @@ export class MongodbRestaurantRepository implements RestaurantRepository {
     return null;
   }
 
-  async findRestaurantByAdminId (adminId: string): Promise<RestaurantData | null> {
+  async findRestaurantByAdminId (adminId: string): Promise<RestaurantProps | null> {
     const restaurantCollection = mongoHelper.getCollection('restaurants');
     const result = await restaurantCollection?.findOne({adminId: adminId});
 
@@ -43,7 +43,7 @@ export class MongodbRestaurantRepository implements RestaurantRepository {
     return null;
   }
 
-  async findRestaurantByZipCode (zipCode: string): Promise<RestaurantData | null> {
+  async findRestaurantByZipCode (zipCode: string): Promise<RestaurantProps | null> {
     const restaurantCollection = mongoHelper.getCollection('restaurants');
 
     const result = await restaurantCollection?.findOne({"address.zipCode": zipCode});
@@ -55,16 +55,16 @@ export class MongodbRestaurantRepository implements RestaurantRepository {
     return null;
   }
 
-  async add (restaurant: RestaurantData): Promise<void> {
+  async add (restaurant: RestaurantProps): Promise<void> {
     const restaurantCollection = mongoHelper.getCollection('restaurants');
     await restaurantCollection?.insertOne(restaurant);
   }
 
-  async update (restaurantId: string, restaurantData: Omit<RestaurantData, '_id'>): Promise<void> {
+  async update (restaurantId: string, restaurantProps: Omit<RestaurantProps, '_id'>): Promise<void> {
     const restaurantCollection = mongoHelper.getCollection('restaurants');
     await restaurantCollection.updateOne(
       {_id: mongoHelper.toObjectId(restaurantId)},
-      {$set: restaurantData}
+      {$set: restaurantProps}
     );
   }
 
