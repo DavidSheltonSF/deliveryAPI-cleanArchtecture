@@ -1,11 +1,11 @@
-import {Restaurant as RestaurantData} from '../../../domain/entities/restaurant';
+import { RestaurantProps } from '../../../domain/entities/restaurantProps';
 
 export interface RestaurantRepository {
-  findAllRestaurants: () => Promise<RestaurantData[]>
-  findRestaurantById: (restaurantId: string) => Promise<RestaurantData | null>
-  findRestaurantByAdminId: (adminId: string) => Promise<RestaurantData | null>
-  findRestaurantByZipCode: (zipCode: string) => Promise<RestaurantData | null>
-  add: (restaurant: RestaurantData) => Promise<void>
+  findAllRestaurants: () => Promise<RestaurantProps[]>
+  findRestaurantById: (restaurantId: string) => Promise<RestaurantProps | null>
+  findRestaurantByAdminId: (adminId: string) => Promise<RestaurantProps | null>
+  findRestaurantByZipCode: (zipCode: string) => Promise<RestaurantProps | null>
+  add: (restaurant: RestaurantProps) => Promise<void>
   remove: (restaurantId: string) => Promise<void>
-  update: (restaurantId: string, restaurantData: Omit<RestaurantData, '_id'>) => Promise<void>
+  update: (restaurantId: string, restaurantData: Omit<RestaurantProps, '_id'>) => Promise<void>
 }
