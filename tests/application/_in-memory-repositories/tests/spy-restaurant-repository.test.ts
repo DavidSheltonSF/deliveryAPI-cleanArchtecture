@@ -15,26 +15,38 @@ describe('Testing SpyRestaurantRepository', () => {
   test('Should find a restaurant by id', async () => {
 
     const spyRestaurantRepository = new SpyRestaurantRepository();
-
-    const restaurantId = "123456789012345678901234"
-
-    const foundRestaurant = await spyRestaurantRepository.findRestaurantById(restaurantId);
     
-    expect(spyRestaurantRepository.findRestaurantByIdParams.restaurantId).toEqual(restaurantId);
-    expect(foundRestaurant).toBeTruthy();
+        const mockedRestaurant = MockData.mockRestaurant();
+    
+        spyRestaurantRepository.restaurantDatabase.push(mockedRestaurant);
+    
+        const restaurantIdStr = mockedRestaurant._id?.toString();
+    
+        if(!restaurantIdStr){
+          throw Error('Restaurant id is undefined');
+        }
+    
+        const foundRestaurant = await spyRestaurantRepository.findRestaurantById(restaurantIdStr);
+        
+        expect(spyRestaurantRepository.findRestaurantByIdParams.id).toEqual(restaurantIdStr);
+        expect(foundRestaurant?._id).toBe(mockedRestaurant._id);
   });
   
 
   test('Should find a restaurant by adminId', async () => {
 
     const spyRestaurantRepository = new SpyRestaurantRepository();
-
-    const adminId = "123456789012345678901234";
-
-    const foundRestaurant = await spyRestaurantRepository.findRestaurantByAdminId(adminId);
     
-    expect(spyRestaurantRepository.findRestaurantByAdminIdParams.adminId).toEqual(adminId);
-    expect(foundRestaurant).toBeTruthy();
+        const mockedRestaurant = MockData.mockRestaurant();
+    
+        spyRestaurantRepository.restaurantDatabase.push(mockedRestaurant);
+    
+        const restaurantAdminId = mockedRestaurant.adminId;
+    
+        const foundRestaurant = await spyRestaurantRepository.findRestaurantByAdminId(restaurantAdminId);
+        
+        expect(spyRestaurantRepository.findRestaurantByAdminIdParams.adminId).toEqual(restaurantAdminId);
+        expect(foundRestaurant?.adminId).toBe(mockedRestaurant.adminId);
   });
 
 
