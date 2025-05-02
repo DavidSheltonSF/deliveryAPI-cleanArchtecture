@@ -23,7 +23,7 @@ export class SpyUserRepository implements UserRepository {
 
 
   async findAllUsers(): Promise<UserProps[]> {
-    return [MockData.mockUser()];
+    return this.userDatabase;
   }
 
   async findUserById(id: string): Promise<UserProps | null> {
