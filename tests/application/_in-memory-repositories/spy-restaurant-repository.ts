@@ -1,11 +1,10 @@
 import { RestaurantRepository } from "../../../src/application/usecases/ports/restaurant-repository";
 import { RestaurantProps } from "../../../src/domain/entities/restaurantProps";
-import { MockData } from "../../_helpers/mockData";
 
 export class SpyRestaurantRepository implements RestaurantRepository {
-  
+  restaurantDatabase: RestaurantProps[] = [];
   findRestaurantByIdParams: {
-    restaurantId?: string,
+    id?: string,
   } = {};
   findRestaurantByAdminIdParams: {
     adminId?: string,
@@ -23,23 +22,38 @@ export class SpyRestaurantRepository implements RestaurantRepository {
   } = {};
 
   async findAllRestaurants(): Promise<RestaurantProps[]> {
-    return [MockData.mockRestaurant()];
+    return this.restaurantDatabase;
   }
 
-  async findRestaurantById(restaurantId: string): Promise<RestaurantProps | null> {
-    this.findRestaurantByIdParams = {restaurantId};
-    return MockData.mockRestaurant();
-  }
+ async findRestaurantById(id: string): Promise<RestaurantProps | null> {
+     this.findRestaurantByIdParams = { id };
+     for (let i=0; i<this.restaurantDatabase.length; i++){
+       if (this.restaurantDatabase[i]._id?.toString() == id){
+         return this.restaurantDatabase[i];
+       }
+     }
+     return null;
+   }
 
   async findRestaurantByAdminId(adminId: string): Promise<RestaurantProps | null> {
-    this.findRestaurantByAdminIdParams = { adminId };
-    return MockData.mockRestaurant();
-  }
+     this.findRestaurantByAdminIdParams = { adminId };
+     for (let i=0; i<this.restaurantDatabase.length; i++){
+       if (this.restaurantDatabase[i].adminId?.toString() == adminId){
+         return this.restaurantDatabase[i];
+       }
+     }
+     return null;
+   }
 
   async findRestaurantByZipCode(zipCode: string): Promise<RestaurantProps | null> {
-    this.findRestaurantByZipCodeParams = { zipCode };
-    return MockData.mockRestaurant();
-  }
+     this.findRestaurantByZipCodeParams = { zipCode };
+     for (let i=0; i<this.restaurantDatabase.length; i++){
+       if (this.restaurantDatabase[i].address.zipCode?.toString() == zipCode){
+         return this.restaurantDatabase[i];
+       }
+     }
+     return null;
+   }
 
   async add(restaurant: RestaurantProps): Promise<void> {
     this.addParams = { restaurant };
