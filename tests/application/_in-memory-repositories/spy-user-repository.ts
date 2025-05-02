@@ -1,6 +1,5 @@
 import { UserRepository } from "../../../src/application/usecases/ports/user-repository";
 import { UserProps } from "../../../src/domain/entities/userProps";
-import { MockData } from "../../_helpers/mockData";
 
 export class SpyUserRepository implements UserRepository {
   userDatabase: UserProps[] = [];
