@@ -1,10 +1,11 @@
 import { DeliveryRepository } from "../../../src/application/usecases/ports/delivery-repository";
 import { DeliveryProps } from "../../../src/domain/entities/deliveryProps";
-import { MockData } from "../../_helpers/mockData";
-
 
 export class SpyDeliveryRepository implements DeliveryRepository {
-  addParams: Record<string, DeliveryProps> = {};
+  deliveryDatabase: DeliveryProps[] = [];
+  addParams: {
+    delivery?: DeliveryProps
+  } = {};
   findDeliveryByIdParams: {
     id?: string,
   } = {};
@@ -16,14 +17,18 @@ export class SpyDeliveryRepository implements DeliveryRepository {
     deliveryId?: string,
   } = {};
 
-
   async findAllDeliverys(): Promise<DeliveryProps[]> {
-    return [MockData.mockDelivery()];
+    return this.deliveryDatabase;
   }
 
   async findDeliveryById(id: string): Promise<DeliveryProps | null> {
-    this.findDeliveryByIdParams = {id};
-    return MockData.mockDelivery();
+    this.findDeliveryByIdParams = { id };
+    for (let i = 0; i < this.deliveryDatabase.length; i++) {
+      if (this.deliveryDatabase[i]._id?.toString() === id) {
+        return this.deliveryDatabase[i];
+      }
+    }
+    return null;
   }
 
   async add(delivery: DeliveryProps): Promise<void> {
@@ -38,7 +43,6 @@ export class SpyDeliveryRepository implements DeliveryRepository {
   }
 
   async remove(deliveryId: string): Promise<void> {
-    this.removeParams = {deliveryId};
+    this.removeParams = { deliveryId };
   }
-
 }

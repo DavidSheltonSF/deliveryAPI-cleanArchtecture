@@ -1,52 +1,61 @@
 import { OrderRepository } from "../../../src/application/usecases/ports/order-repository";
 import { OrderProps } from "../../../src/domain/entities/orderProps";
-import { MockData } from "../../_helpers/mockData";
-
 
 export class SpyOrderRepository implements OrderRepository {
-  addParams: Record<string, OrderProps> = {};
+  orderDatabase: OrderProps[] = [];
+  addParams: {
+    order?: OrderProps
+  } = {};
   findOrderByIdParams: {
     id?: string,
   } = {};
   findOrderByOrderIdParams: {
-    orderId?: string,
+    id?: string,
   } = {};
   updateParams: {
-    orderId?: string,
+    id?: string,
     order?: Omit<OrderProps, '_id'>,
   } = {};
   removeParams: {
-    orderId?: string,
+    id?: string,
   } = {};
 
-
   async findAllOrders(): Promise<OrderProps[]> {
-    return [MockData.mockOrder()];
+    return this.orderDatabase;
   }
 
   async findOrderById(id: string): Promise<OrderProps | null> {
-    this.findOrderByIdParams = {id};
-    return MockData.mockOrder();
+    this.findOrderByIdParams = { id };
+    for (let i = 0; i < this.orderDatabase.length; i++) {
+      if (this.orderDatabase[i]._id?.toString() === id) {
+        return this.orderDatabase[i];
+      }
+    }
+    return null;
   }
 
-  async findOrderByOrderId(orderId: string): Promise<OrderProps | null> {
-    this.findOrderByOrderIdParams = {orderId};
-    return MockData.mockOrder();
+  async findOrderByOrderId(id: string): Promise<OrderProps | null> {
+    this.findOrderByOrderIdParams = { id };
+    for (let i = 0; i < this.orderDatabase.length; i++) {
+      if (this.orderDatabase[i]._id?.toString() === id) {
+        return this.orderDatabase[i];
+      }
+    }
+    return null;
   }
 
   async add(order: OrderProps): Promise<void> {
     this.addParams = { order };
   }
 
-  async update(orderId: string, order: Omit<OrderProps, '_id'>): Promise<void> {
+  async update(id: string, order: Omit<OrderProps, '_id'>): Promise<void> {
     this.updateParams = {
-      orderId,
+      id,
       order
     };
   }
 
-  async remove(orderId: string): Promise<void> {
-    this.removeParams = {orderId};
+  async remove(id: string): Promise<void> {
+    this.removeParams = { id };
   }
-
 }

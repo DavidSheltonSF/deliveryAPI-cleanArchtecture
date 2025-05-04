@@ -1,10 +1,11 @@
 import { DishRepository } from "../../../src/application/usecases/ports/dish-repository";
 import { DishProps } from "../../../src/domain/entities/dishProps";
-import { MockData } from "../../_helpers/mockData";
-
 
 export class SpyDishRepository implements DishRepository {
-  addParams: Record<string, DishProps> = {};
+  dishDatabase: DishProps[] = [];
+  addParams: {
+    dish?: DishProps
+  } = {};
   findDishByIdParams: {
     id?: string,
   } = {};
@@ -16,14 +17,18 @@ export class SpyDishRepository implements DishRepository {
     dishId?: string,
   } = {};
 
-
   async findAllDishs(): Promise<DishProps[]> {
-    return [MockData.mockDish()];
+    return this.dishDatabase;
   }
 
   async findDishById(id: string): Promise<DishProps | null> {
-    this.findDishByIdParams = {id};
-    return MockData.mockDish();
+    this.findDishByIdParams = { id };
+    for (let i = 0; i < this.dishDatabase.length; i++) {
+      if (this.dishDatabase[i]._id?.toString() === id) {
+        return this.dishDatabase[i];
+      }
+    }
+    return null;
   }
 
   async add(dish: DishProps): Promise<void> {
@@ -38,7 +43,6 @@ export class SpyDishRepository implements DishRepository {
   }
 
   async remove(dishId: string): Promise<void> {
-    this.removeParams = {dishId};
+    this.removeParams = { dishId };
   }
-
 }
