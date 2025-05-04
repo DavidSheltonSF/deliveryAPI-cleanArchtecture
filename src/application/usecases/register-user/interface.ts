@@ -1,7 +1,7 @@
-import { User as UserData } from "../../../domain/entities/userProps";
+import { UserProps} from "../../../domain/entities/userProps";
 import { RegisterUserResponse } from "./response";
 
 
 export interface RegisterUserUseCase {
-  register: (user: UserData) => Promise<RegisterUserResponse>;
+  register: (user: UserProps) => Promise<RegisterUserResponse>;
 }

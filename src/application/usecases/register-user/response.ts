@@ -11,7 +11,7 @@ import {
   InvalidPasswordError
  } from "../../../domain/entities/_errors";
  import { DuplicatedDataError } from "../_erros/duplicated-data";
-import { User as UserData } from "../../../domain/entities/userProps";
+import { UserProps } from "../../../domain/entities/userProps";
 
 export type RegisterUserResponse = Either<InvalidNameError
   | InvalidEmailError
@@ -22,4 +22,4 @@ export type RegisterUserResponse = Either<InvalidNameError
   | InvalidCardNumberError
   | InvalidPaymentMethodError
   | InvalidPasswordError
-  | DuplicatedDataError, UserData>;
+  | DuplicatedDataError, UserProps>;
