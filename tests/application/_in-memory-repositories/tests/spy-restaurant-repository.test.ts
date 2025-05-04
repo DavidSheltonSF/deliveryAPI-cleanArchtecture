@@ -16,20 +16,20 @@ describe('Testing SpyRestaurantRepository', () => {
 
     const spyRestaurantRepository = new SpyRestaurantRepository();
     
-        const mockedRestaurant = MockData.mockRestaurant();
+    const mockedRestaurant = MockData.mockRestaurant();
+
+    spyRestaurantRepository.restaurantDatabase.push(mockedRestaurant);
+
+    const restaurantIdStr = mockedRestaurant._id?.toString();
+
+    if(!restaurantIdStr){
+      throw Error('Restaurant id is undefined');
+    }
+
+    const foundRestaurant = await spyRestaurantRepository.findRestaurantById(restaurantIdStr);
     
-        spyRestaurantRepository.restaurantDatabase.push(mockedRestaurant);
-    
-        const restaurantIdStr = mockedRestaurant._id?.toString();
-    
-        if(!restaurantIdStr){
-          throw Error('Restaurant id is undefined');
-        }
-    
-        const foundRestaurant = await spyRestaurantRepository.findRestaurantById(restaurantIdStr);
-        
-        expect(spyRestaurantRepository.findRestaurantByIdParams.id).toEqual(restaurantIdStr);
-        expect(foundRestaurant?._id).toBe(mockedRestaurant._id);
+    expect(spyRestaurantRepository.findRestaurantByIdParams.id).toEqual(restaurantIdStr);
+    expect(foundRestaurant?._id).toBe(mockedRestaurant._id);
   });
   
 
@@ -37,16 +37,16 @@ describe('Testing SpyRestaurantRepository', () => {
 
     const spyRestaurantRepository = new SpyRestaurantRepository();
     
-        const mockedRestaurant = MockData.mockRestaurant();
+    const mockedRestaurant = MockData.mockRestaurant();
+
+    spyRestaurantRepository.restaurantDatabase.push(mockedRestaurant);
+
+    const restaurantAdminId = mockedRestaurant.adminId;
+
+    const foundRestaurant = await spyRestaurantRepository.findRestaurantByAdminId(restaurantAdminId);
     
-        spyRestaurantRepository.restaurantDatabase.push(mockedRestaurant);
-    
-        const restaurantAdminId = mockedRestaurant.adminId;
-    
-        const foundRestaurant = await spyRestaurantRepository.findRestaurantByAdminId(restaurantAdminId);
-        
-        expect(spyRestaurantRepository.findRestaurantByAdminIdParams.adminId).toEqual(restaurantAdminId);
-        expect(foundRestaurant?.adminId).toBe(mockedRestaurant.adminId);
+    expect(spyRestaurantRepository.findRestaurantByAdminIdParams.adminId).toEqual(restaurantAdminId);
+    expect(foundRestaurant?.adminId).toBe(mockedRestaurant.adminId);
   });
 
 
