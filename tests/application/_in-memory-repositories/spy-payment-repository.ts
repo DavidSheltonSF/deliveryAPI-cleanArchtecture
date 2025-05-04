@@ -1,10 +1,11 @@
 import { PaymentRepository } from "../../../src/application/usecases/ports/payment-repository";
 import { PaymentProps } from "../../../src/domain/entities/paymentProps";
-import { MockData } from "../../_helpers/mockData";
-
 
 export class SpyPaymentRepository implements PaymentRepository {
-  addParams: Record<string, PaymentProps> = {};
+  paymentDatabase: PaymentProps[] = [];
+  addParams: {
+    payment?: PaymentProps
+  } = {};
   findPaymentByIdParams: {
     id?: string,
   } = {};
@@ -19,24 +20,33 @@ export class SpyPaymentRepository implements PaymentRepository {
     paymentId?: string,
   } = {};
 
-
   async findAllPayments(): Promise<PaymentProps[]> {
-    return [MockData.mockPayment()];
+    return this.paymentDatabase;
   }
 
   async findPaymentById(id: string): Promise<PaymentProps | null> {
-    this.findPaymentByIdParams = {id};
-    return MockData.mockPayment();
+    this.findPaymentByIdParams = { id };
+    for (let i = 0; i < this.paymentDatabase.length; i++) {
+      if (this.paymentDatabase[i]._id?.toString() === id) {
+        return this.paymentDatabase[i];
+      }
+    }
+    return null;
   }
 
   async findPaymentByOrderId(orderId: string): Promise<PaymentProps | null> {
-    this.findPaymentByOrderIdParams = {orderId};
-    return MockData.mockPayment();
+    this.findPaymentByOrderIdParams = { orderId };
+    for (let i = 0; i < this.paymentDatabase.length; i++) {
+      if (this.paymentDatabase[i].orderId === orderId) {
+        return this.paymentDatabase[i];
+      }
+    }
+    return null;
   }
 
   async add(payment: PaymentProps): Promise<void> {
     this.addParams = { payment };
-  }
+      }
 
   async update(paymentId: string, payment: Omit<PaymentProps, '_id'>): Promise<void> {
     this.updateParams = {
@@ -48,5 +58,4 @@ export class SpyPaymentRepository implements PaymentRepository {
   async remove(paymentId: string): Promise<void> {
     this.removeParams = {paymentId};
   }
-
 }
