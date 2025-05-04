@@ -1,10 +1,9 @@
 import { PaymentProps } from '../../../domain/entities/paymentProps';
 
 export interface PaymentRepository {
-  findAllPayments: () => Promise<PaymentProps[]>
-  findPaymentById: (paymentId: string) => Promise<PaymentProps | null>
-  findPaymentByOrderId: (paymentId: string) => Promise<PaymentProps | null>
-  add: (payment: PaymentProps) => Promise<void>
-  remove: (paymentId: string) => Promise<void>
-  update: (paymentId: string, paymentData: Omit<PaymentProps, '_id'>) => Promise<void>
+  findAllPayments: () => Promise<PaymentProps[]>;
+  findPaymentById: (paymentId: string) => Promise<PaymentProps | null>;
+  add: (payment: PaymentProps) => Promise<void>;
+  remove: (paymentId: string) => Promise<void>;
+  update: (paymentId: string, paymentData: Omit<PaymentProps, '_id'>) => Promise<void>;
 }
