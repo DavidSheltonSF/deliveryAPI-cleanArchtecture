@@ -1,11 +1,11 @@
 import { RestaurantChainRepository } from "../../../src/application/usecases/ports/restaurant-chain-repository";
 import { RestaurantChainProps } from "../../../src/domain/entities/restaurantChainProps";
-import { MockData } from "../../_helpers/mockData";
 
 export class SpyRestaurantChainRepository implements RestaurantChainRepository {
   
+  restaurantChainDatabase: RestaurantChainProps[] = [];
   findRestaurantChainByIdParams: {
-    restaurantChainId?: string,
+    id?: string,
   } = {};
   findRestaurantChainByAdminIdParams: {
     adminId?: string,
@@ -16,25 +16,45 @@ export class SpyRestaurantChainRepository implements RestaurantChainRepository {
     restaurantChain?: Omit<RestaurantChainProps, '_id'>,
   } = {};
   removeParams: {
-    restaurantchainId?: string,
+    restaurantChainId?: string,
   } = {};
 
   async findAllRestaurantChains(): Promise<RestaurantChainProps[]> {
-    return [MockData.mockRestaurantChain()];
+      return this.restaurantChainDatabase;
   }
-
-  async findRestaurantChainById(restaurantChainId: string): Promise<RestaurantChainProps | null> {
-    this.findRestaurantChainByIdParams = {restaurantChainId};
-    return MockData.mockRestaurantChain();
+  
+  async findRestaurantChainById(id: string): Promise<RestaurantChainProps | null> {
+    this.findRestaurantChainByIdParams = { id };
+    for (let i=0; i<this.restaurantChainDatabase.length; i++){
+      if (this.restaurantChainDatabase[i]._id?.toString() == id){
+        return this.restaurantChainDatabase[i];
+      }
+    }
+    return null;
   }
 
   async findRestaurantChainByAdminId(adminId: string): Promise<RestaurantChainProps | null> {
-    this.findRestaurantChainByAdminIdParams.adminId = adminId;
-    return MockData.mockRestaurantChain();
+    this.findRestaurantChainByAdminIdParams = { adminId };
+    for (let i=0; i<this.restaurantChainDatabase.length; i++){
+      if (this.restaurantChainDatabase[i].adminId == adminId){
+        return this.restaurantChainDatabase[i];
+      }
+    }
+    return null;
   }
 
-  async add(restaurantchain: RestaurantChainProps): Promise<void> {
-    this.addParams.restaurantchain = restaurantchain;
+  async exists(id: string): Promise<boolean>{
+    for (let i=0; i<this.restaurantChainDatabase.length; i++){
+      if (this.restaurantChainDatabase[i]._id?.toString() == id){
+        return true;
+      }
+    }
+
+    return false
+  }
+
+  async add(restaurantChain: RestaurantChainProps): Promise<void> {
+    this.addParams = { restaurantChain };
   }
 
   async update(restaurantChainId: string, restaurantChain: Omit<RestaurantChainProps, '_id'>): Promise<void> {
@@ -44,8 +64,8 @@ export class SpyRestaurantChainRepository implements RestaurantChainRepository {
     };
   }
 
-  async remove(restaurantchainId: string): Promise<void> {
-    this.removeParams = {restaurantchainId};
+  async remove(restaurantChainId: string): Promise<void> {
+    this.removeParams = {restaurantChainId};
   }
 
 }
