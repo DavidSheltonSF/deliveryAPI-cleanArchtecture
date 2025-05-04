@@ -1,10 +1,9 @@
 import { SpyDeliveryRepository } from "../spy-delivery-repository";
 import { MockData } from '../../../_helpers/mockData'
 
-
 describe('Testing SpyDeliveryRepository', () => {
 
-  test('Should return all deliverys in the FAKE database', async () => {
+  test('Should return all deliveries in the FAKE database', async () => {
 
     const spyDeliveryRepository = new SpyDeliveryRepository();
 
@@ -17,15 +16,23 @@ describe('Testing SpyDeliveryRepository', () => {
 
     const spyDeliveryRepository = new SpyDeliveryRepository();
 
-    const deliveryId = "123456789012345678901234"
+    const mockedDelivery = MockData.mockDelivery();
 
-    const foundDelivery = await spyDeliveryRepository.findDeliveryById(deliveryId);
+    spyDeliveryRepository.deliveryDatabase.push(mockedDelivery);
+
+    const deliveryIdStr = mockedDelivery._id?.toString();
+
+    if (!deliveryIdStr) {
+      throw Error('Delivery id is undefined');
+    }
+
+    const foundDelivery = await spyDeliveryRepository.findDeliveryById(deliveryIdStr);
     
-    expect(spyDeliveryRepository.findDeliveryByIdParams.id).toEqual(deliveryId);
-    expect(foundDelivery).toBeTruthy();
+    expect(spyDeliveryRepository.findDeliveryByIdParams.id).toEqual(deliveryIdStr);
+    expect(foundDelivery?._id).toBe(mockedDelivery._id);
   });
 
-  test('Should add a new', async () => {
+  test('Should add a new delivery', async () => {
 
     const spyDeliveryRepository = new SpyDeliveryRepository();
 
@@ -35,22 +42,22 @@ describe('Testing SpyDeliveryRepository', () => {
 
     const deliveryInserted = spyDeliveryRepository.addParams.delivery;
 
-    expect(deliveryInserted.orderId)
+    expect(deliveryInserted?.orderId)
       .toBe(fakeDelivery.orderId);
-    expect(deliveryInserted.driverId)
+    expect(deliveryInserted?.driverId)
       .toBe(fakeDelivery.driverId);
-    expect(deliveryInserted.status)
+    expect(deliveryInserted?.status)
       .toBe(fakeDelivery.status);
-    expect(deliveryInserted.timeEstimate)
+    expect(deliveryInserted?.timeEstimate)
       .toBe(fakeDelivery.timeEstimate);
   });
-
 
   test('Should update delivery by id', async () => {
 
     const spyDeliveryRepository = new SpyDeliveryRepository();
 
     const updatedData = {
+      _id: null,
       orderId: 'order123-updated',
       driverId: 'driver456-updated',
       status: 'delivered',
@@ -61,7 +68,7 @@ describe('Testing SpyDeliveryRepository', () => {
 
     await spyDeliveryRepository.update(fakeDeliveryId, updatedData);
 
-    const updatedDeliveryId = spyDeliveryRepository.updateParams.deliveryId
+    const updatedDeliveryId = spyDeliveryRepository.updateParams.deliveryId;
     const updatedDelivery = spyDeliveryRepository.updateParams.delivery;
 
     expect(updatedDeliveryId?.toString())

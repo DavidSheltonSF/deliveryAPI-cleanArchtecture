@@ -16,7 +16,7 @@ describe('Testing SpyPaymentRepository', () => {
 
     const spyPaymentRepository = new SpyPaymentRepository();
 
-    const mockedPayment = MockData.mockPayment();
+const mockedPayment = MockData.mockPayment();
 
     spyPaymentRepository.paymentDatabase.push(mockedPayment);
 
@@ -78,7 +78,7 @@ describe('Testing SpyPaymentRepository', () => {
     expect(updatedPayment?.status)
       .toBe(updatedData.status);
   });
-
+  
   test('Should remove payment by id', async () => {
 
     const spyPaymentRepository = new SpyPaymentRepository();

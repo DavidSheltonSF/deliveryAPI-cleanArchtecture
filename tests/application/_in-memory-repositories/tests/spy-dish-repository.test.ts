@@ -1,31 +1,38 @@
 import { SpyDishRepository } from "../spy-dish-repository";
 import { MockData } from '../../../_helpers/mockData'
 
-
 describe('Testing SpyDishRepository', () => {
 
-  test('Should return all dishs in the FAKE database', async () => {
+  test('Should return all dishes in the FAKE database', async () => {
 
     const spyDishRepository = new SpyDishRepository();
 
-    const allDishs = await spyDishRepository.findAllDishs();
+    const allDishes = await spyDishRepository.findAllDishs();
     
-    expect(allDishs).toBeTruthy();
+    expect(allDishes).toBeTruthy();
   });
 
   test('Should find a dish by id', async () => {
 
     const spyDishRepository = new SpyDishRepository();
 
-    const dishId = "123456789012345678901234"
+    const mockedDish = MockData.mockDish();
 
-    const foundDish = await spyDishRepository.findDishById(dishId);
+    spyDishRepository.dishDatabase.push(mockedDish);
+
+    const dishIdStr = mockedDish._id?.toString();
+
+    if (!dishIdStr) {
+      throw Error('Dish id is undefined');
+    }
+
+    const foundDish = await spyDishRepository.findDishById(dishIdStr);
     
-    expect(spyDishRepository.findDishByIdParams.id).toEqual(dishId);
-    expect(foundDish).toBeTruthy();
+    expect(spyDishRepository.findDishByIdParams.id).toEqual(dishIdStr);
+    expect(foundDish?._id).toBe(mockedDish._id);
   });
 
-  test('Should add a new', async () => {
+  test('Should add a new dish', async () => {
 
     const spyDishRepository = new SpyDishRepository();
 
@@ -35,19 +42,17 @@ describe('Testing SpyDishRepository', () => {
 
     const dishInserted = spyDishRepository.addParams.dish;
 
-    
-    expect(dishInserted.name)
+    expect(dishInserted?.name)
       .toBe(fakeDish.name);
-    expect(dishInserted.description)
+    expect(dishInserted?.description)
       .toBe(fakeDish.description);
-    expect(dishInserted.price)
+    expect(dishInserted?.price)
       .toBe(fakeDish.price);
-    expect(dishInserted.restaurantId)
+    expect(dishInserted?.restaurantId)
       .toBe(fakeDish.restaurantId);
-    expect(dishInserted.imageUrl)
+    expect(dishInserted?.imageUrl)
       .toBe(fakeDish.imageUrl);
   });
-
 
   test('Should update dish by id', async () => {
 
@@ -66,7 +71,7 @@ describe('Testing SpyDishRepository', () => {
 
     await spyDishRepository.update(fakeDishId, updatedData);
 
-    const updatedDishId = spyDishRepository.updateParams.dishId
+    const updatedDishId = spyDishRepository.updateParams.dishId;
     const updatedDish = spyDishRepository.updateParams.dish;
 
     expect(updatedDishId?.toString())

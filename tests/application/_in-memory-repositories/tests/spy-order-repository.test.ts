@@ -1,7 +1,6 @@
 import { SpyOrderRepository } from "../spy-order-repository";
 import { MockData } from '../../../_helpers/mockData'
 
-
 describe('Testing SpyOrderRepository', () => {
 
   test('Should return all orders in the FAKE database', async () => {
@@ -13,19 +12,27 @@ describe('Testing SpyOrderRepository', () => {
     expect(allOrders).toBeTruthy();
   });
 
-  test('Should find a order by id', async () => {
+  test('Should find an order by id', async () => {
 
     const spyOrderRepository = new SpyOrderRepository();
 
-    const orderId = "123456789012345678901234"
+    const mockedOrder = MockData.mockOrder();
 
-    const foundOrder = await spyOrderRepository.findOrderById(orderId);
+    spyOrderRepository.orderDatabase.push(mockedOrder);
+
+    const orderIdStr = mockedOrder._id?.toString();
+
+    if (!orderIdStr) {
+      throw Error('Order id is undefined');
+    }
+
+    const foundOrder = await spyOrderRepository.findOrderById(orderIdStr);
     
-    expect(spyOrderRepository.findOrderByIdParams.id).toEqual(orderId);
-    expect(foundOrder).toBeTruthy();
+    expect(spyOrderRepository.findOrderByIdParams.id).toEqual(orderIdStr);
+    expect(foundOrder?._id).toBe(mockedOrder._id);
   });
 
-  test('Should add a new', async () => {
+  test('Should add a new order', async () => {
 
     const spyOrderRepository = new SpyOrderRepository();
 
@@ -35,30 +42,30 @@ describe('Testing SpyOrderRepository', () => {
 
     const orderInserted = spyOrderRepository.addParams.order;
 
-    expect(orderInserted.customerId)
+    expect(orderInserted?.customerId)
       .toBe(fakeOrder.customerId);
-    expect(orderInserted.restaurantId)
+    expect(orderInserted?.restaurantId)
       .toBe(fakeOrder.restaurantId);
-    expect(orderInserted.totalPrice)
+    expect(orderInserted?.totalPrice)
       .toBe(fakeOrder.totalPrice);
-    expect(orderInserted.status)
+    expect(orderInserted?.status)
       .toBe(fakeOrder.status);
-    expect(orderInserted.address.city)
+    expect(orderInserted?.address.city)
       .toBe(fakeOrder.address.city);
-    expect(orderInserted.address.state)
+    expect(orderInserted?.address.state)
       .toBe(fakeOrder.address.state);
-    expect(orderInserted.address.street)
+    expect(orderInserted?.address.street)
       .toBe(fakeOrder.address.street);
-    expect(orderInserted.address.zipCode)
+    expect(orderInserted?.address.zipCode)
       .toBe(fakeOrder.address.zipCode);
   });
-
 
   test('Should update order by id', async () => {
 
     const spyOrderRepository = new SpyOrderRepository();
 
     const updatedData = {
+      _id: null,
       customerId: 'costumerId-updated',
       restaurantId: 'restaurantId-updated',
       dishes: [{
@@ -81,7 +88,7 @@ describe('Testing SpyOrderRepository', () => {
 
     await spyOrderRepository.update(fakeOrderId, updatedData);
 
-    const updatedOrderId = spyOrderRepository.updateParams.orderId
+    const updatedOrderId = spyOrderRepository.updateParams.id;
     const updatedOrder = spyOrderRepository.updateParams.order;
 
     expect(updatedOrderId?.toString())
@@ -113,7 +120,7 @@ describe('Testing SpyOrderRepository', () => {
 
     await spyOrderRepository.remove(fakeOrderId);
 
-    const removedOrderId = spyOrderRepository.removeParams.orderId;
+    const removedOrderId = spyOrderRepository.removeParams.id;
     
     expect(removedOrderId)
       .toBe(fakeOrderId);
