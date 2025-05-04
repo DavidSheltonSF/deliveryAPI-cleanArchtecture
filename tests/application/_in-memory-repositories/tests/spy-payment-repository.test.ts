@@ -1,7 +1,6 @@
 import { SpyPaymentRepository } from "../spy-payment-repository";
 import { MockData } from '../../../_helpers/mockData'
 
-
 describe('Testing SpyPaymentRepository', () => {
 
   test('Should return all payments in the FAKE database', async () => {
@@ -17,15 +16,23 @@ describe('Testing SpyPaymentRepository', () => {
 
     const spyPaymentRepository = new SpyPaymentRepository();
 
-    const paymentId = "123456789012345678901234"
+    const mockedPayment = MockData.mockPayment();
 
-    const foundPayment = await spyPaymentRepository.findPaymentById(paymentId);
+    spyPaymentRepository.paymentDatabase.push(mockedPayment);
+
+    const paymentIdStr = mockedPayment._id?.toString();
+
+    if (!paymentIdStr) {
+      throw Error('Payment id is undefined');
+    }
+
+    const foundPayment = await spyPaymentRepository.findPaymentById(paymentIdStr);
     
-    expect(spyPaymentRepository.findPaymentByIdParams.id).toEqual(paymentId);
-    expect(foundPayment).toBeTruthy();
+    expect(spyPaymentRepository.findPaymentByIdParams.id).toEqual(paymentIdStr);
+    expect(foundPayment?._id).toBe(mockedPayment._id);
   });
 
-  test('Should add a new', async () => {
+  test('Should add a new payment', async () => {
 
     const spyPaymentRepository = new SpyPaymentRepository();
 
@@ -35,14 +42,13 @@ describe('Testing SpyPaymentRepository', () => {
 
     const paymentInserted = spyPaymentRepository.addParams.payment;
 
-    expect(paymentInserted.orderId)
+    expect(paymentInserted?.orderId)
       .toBe(fakePayment.orderId);
-    expect(paymentInserted.paymentMethod)
+    expect(paymentInserted?.paymentMethod)
       .toBe(fakePayment.paymentMethod);
-    expect(paymentInserted.status)
+    expect(paymentInserted?.status)
       .toBe(fakePayment.status);
   });
-
 
   test('Should update payment by id', async () => {
 
@@ -59,7 +65,7 @@ describe('Testing SpyPaymentRepository', () => {
 
     await spyPaymentRepository.update(fakePaymentId, updatedData);
 
-    const updatedPaymentId = spyPaymentRepository.updateParams.paymentId
+    const updatedPaymentId = spyPaymentRepository.updateParams.paymentId;
     const updatedPayment = spyPaymentRepository.updateParams.payment;
 
     expect(updatedPaymentId?.toString())
@@ -72,7 +78,7 @@ describe('Testing SpyPaymentRepository', () => {
     expect(updatedPayment?.status)
       .toBe(updatedData.status);
   });
-  
+
   test('Should remove payment by id', async () => {
 
     const spyPaymentRepository = new SpyPaymentRepository();
