@@ -14,27 +14,39 @@ describe('Testing SpyRestaurantChainRepository', () => {
 
   test('Should find a restaurantchain by id', async () => {
 
-    const spyRestaurantChainRepository = new SpyRestaurantChainRepository();
+    const spyRestaurantRepository = new SpyRestaurantChainRepository();
+        
+    const mockedRestaurantChain = MockData.mockRestaurantChain();
 
-    const restaurantchainId = "123456789012345678901234"
+    spyRestaurantRepository.restaurantChainDatabase.push(mockedRestaurantChain);
 
-    const foundRestaurantChain = await spyRestaurantChainRepository.findRestaurantChainById(restaurantchainId);
+    const restaurantIdChainStr = mockedRestaurantChain._id?.toString();
+
+    if(!restaurantIdChainStr){
+      throw Error('Restaurant chain id is undefined');
+    }
+
+    const foundRestaurant = await spyRestaurantRepository.findRestaurantChainById(restaurantIdChainStr);
     
-    expect(spyRestaurantChainRepository.findRestaurantChainByIdParams.restaurantChainId).toEqual(restaurantchainId);
-    expect(foundRestaurantChain).toBeTruthy();
+    expect(spyRestaurantRepository.findRestaurantChainByIdParams.id).toEqual(restaurantIdChainStr);
+    expect(foundRestaurant?._id).toBe(mockedRestaurantChain._id);
   });
   
 
   test('Should find a restaurantchain by adminId', async () => {
 
     const spyRestaurantChainRepository = new SpyRestaurantChainRepository();
+        
+    const mockedRestaurantChain = MockData.mockRestaurantChain();
 
-    const adminId = "123456789012345678901234";
+    spyRestaurantChainRepository.restaurantChainDatabase.push(mockedRestaurantChain);
 
-    const foundRestaurantChain = await spyRestaurantChainRepository.findRestaurantChainByAdminId(adminId);
+    const restaurantChainAdminId = mockedRestaurantChain.adminId;
+
+    const foundRestaurantChain = await spyRestaurantChainRepository.findRestaurantChainByAdminId(restaurantChainAdminId);
     
-    expect(spyRestaurantChainRepository.findRestaurantChainByAdminIdParams.adminId).toEqual(adminId);
-    expect(foundRestaurantChain).toBeTruthy();
+    expect(spyRestaurantChainRepository.findRestaurantChainByAdminIdParams.adminId).toEqual(restaurantChainAdminId);
+    expect(foundRestaurantChain?.adminId).toBe(mockedRestaurantChain.adminId);
   });
 
 
@@ -46,7 +58,7 @@ describe('Testing SpyRestaurantChainRepository', () => {
 
     await spyRestaurantChainRepository.add(fakeRestaurantChain);
 
-    const restaurantchainInserted = spyRestaurantChainRepository.addParams.restaurantchain;
+    const restaurantchainInserted = spyRestaurantChainRepository.addParams.restaurantChain;
     
     expect(restaurantchainInserted.adminId)
       .toBe(fakeRestaurantChain.adminId);
@@ -94,12 +106,12 @@ describe('Testing SpyRestaurantChainRepository', () => {
   test('Should remove restaurantchain by id', async () => {
 
     const spyRestaurantChainRepository = new SpyRestaurantChainRepository();
-
+    
     const fakeRestaurantChainId = MockData.generateHexId();
 
     await spyRestaurantChainRepository.remove(fakeRestaurantChainId);
 
-    const removedRestaurantChainId = spyRestaurantChainRepository.removeParams.restaurantchainId;
+    const removedRestaurantChainId = spyRestaurantChainRepository.removeParams.restaurantChainId;
     
     expect(removedRestaurantChainId)
       .toBe(fakeRestaurantChainId);
