@@ -4,3 +4,4 @@ jest.config.js
 .env
 package-lock.json
 to-do.md
+z-copiesOfCommits
