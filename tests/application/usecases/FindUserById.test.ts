@@ -47,7 +47,24 @@ describe('Testing FindUserByIdUseCase', () => {
     
     // Check if the user id was inserted in the spy repository
     expect(spyUserRepository.findUserByIdParams.id).toBe(userIdStr);
-
   });
 
+  test('Should throw an error when trying to find an unexisting user', async () => {
+    const { findUserByIdUseCase, spyUserRepository } = makeSut();
+
+    const mockedUser = MockData.mockUser();
+
+    const userIdStr = mockedUser._id?.toString();
+
+    if (!userIdStr) {
+      throw new Error('User ID is not defined');
+    }
+
+    const response = await findUserByIdUseCase.execute(userIdStr);
+
+    expect(response.isLeft()).toBeTruthy()
+    
+    // Check if the user id was not inserted in the spy repository
+    expect(spyUserRepository.findUserByIdParams.id).toBeFalsy();
+  });
 })
