@@ -1,5 +1,5 @@
 import { RestaurantRepository } from "../../../src/application/usecases/ports/restaurant-repository";
-import { RestaurantProps } from "../../../src/domain/entities/restaurantProps";
+import { RestaurantProps } from "../../../src/domain/entities/restaurant-props";
 
 export class SpyRestaurantRepository implements RestaurantRepository {
   restaurantDatabase: RestaurantProps[] = [];

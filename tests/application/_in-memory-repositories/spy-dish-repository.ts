@@ -1,5 +1,5 @@
 import { DishRepository } from "../../../src/application/usecases/ports/dish-repository";
-import { DishProps } from "../../../src/domain/entities/dishProps";
+import { DishProps } from "../../../src/domain/entities/dish-props";
 
 export class SpyDishRepository implements DishRepository {
   dishDatabase: DishProps[] = [];

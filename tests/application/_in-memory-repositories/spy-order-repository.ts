@@ -1,5 +1,5 @@
 import { OrderRepository } from "../../../src/application/usecases/ports/order-repository";
-import { OrderProps } from "../../../src/domain/entities/orderProps";
+import { OrderProps } from "../../../src/domain/entities/order-props";
 
 export class SpyOrderRepository implements OrderRepository {
   orderDatabase: OrderProps[] = [];

@@ -1,5 +1,5 @@
 import { DeliveryRepository } from "../../../src/application/usecases/ports/delivery-repository";
-import { DeliveryProps } from "../../../src/domain/entities/deliveryProps";
+import { DeliveryProps } from "../../../src/domain/entities/delivery-props";
 
 export class SpyDeliveryRepository implements DeliveryRepository {
   deliveryDatabase: DeliveryProps[] = [];

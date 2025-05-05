@@ -1,5 +1,5 @@
 import { PaymentRepository } from "../../../src/application/usecases/ports/payment-repository";
-import { PaymentProps } from "../../../src/domain/entities/paymentProps";
+import { PaymentProps } from "../../../src/domain/entities/payment-props";
 
 export class SpyPaymentRepository implements PaymentRepository {
   paymentDatabase: PaymentProps[] = [];
