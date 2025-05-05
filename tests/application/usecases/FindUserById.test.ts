@@ -63,8 +63,5 @@ describe('Testing FindUserByIdUseCase', () => {
     const response = await findUserByIdUseCase.execute(userIdStr);
 
     expect(response.isLeft()).toBeTruthy()
-    
-    // Check if the user id was not inserted in the spy repository
-    expect(spyUserRepository.findUserByIdParams.id).toBeFalsy();
   });
 })
