@@ -1,4 +1,4 @@
-import { RestaurantChainProps } from '../../../domain/entities/restaurantChainProps';
+import { RestaurantChainProps } from '../../../domain/entities/restaurant-chain-props';
 
 export interface RestaurantChainRepository {
   findAllRestaurantChains: () => Promise<RestaurantChainProps[]>;

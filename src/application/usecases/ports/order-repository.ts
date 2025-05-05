@@ -1,4 +1,4 @@
-import { OrderProps } from '../../../domain/entities/orderProps';
+import { OrderProps } from '../../../domain/entities/order-props';
 
 export interface OrderRepository {
   findAllOrders: () => Promise<OrderProps[]>;

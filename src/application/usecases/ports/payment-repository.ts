@@ -1,4 +1,4 @@
-import { PaymentProps } from '../../../domain/entities/paymentProps';
+import { PaymentProps } from '../../../domain/entities/payment-props';
 
 export interface PaymentRepository {
   findAllPayments: () => Promise<PaymentProps[]>;
