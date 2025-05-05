@@ -1,12 +1,12 @@
 import { SpyUserRepository } from '../_in-memory-repositories/spy-user-repository';
-import { FindUser } from '../../../src/application/usecases/find-all-users/FindAllUses';
+import { FindAllUsers } from '../../../src/application/usecases/find-all-users/FindAllUses';
 import { MockData } from '../../_helpers/mockData';
 import { UserProps } from '../../../src/domain/entities/user-props';
 
 
 const makeSut = () => {
   const spyUserRepository = new SpyUserRepository();
-  const findAllUsersUseCase = new FindUser(spyUserRepository);
+  const findAllUsersUseCase = new FindAllUsers(spyUserRepository);
 
   return {
     findAllUsersUseCase,
