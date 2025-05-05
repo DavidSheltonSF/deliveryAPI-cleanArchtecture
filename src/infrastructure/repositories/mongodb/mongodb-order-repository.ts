@@ -1,4 +1,4 @@
-import { OrderRepository } from "../../../application/usecases/ports/order-repository";
+import { OrderRepository } from "../../../application/usecases/_ports/order-repository";
 import { OrderProps } from "../../../domain/entities/order-props";
 import { OrderMapper } from "../../../domain/entities/order-props";
 import { mongoHelper } from "./helpers/mongo-helper";

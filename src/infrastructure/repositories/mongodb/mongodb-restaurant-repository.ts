@@ -1,4 +1,4 @@
-import { RestaurantRepository } from "../../../application/usecases/ports/restaurant-repository";
+import { RestaurantRepository } from "../../../application/usecases/_ports/restaurant-repository";
 import { RestaurantProps } from "../../../domain/entities/restaurant-props";
 import { RestaurantMapper } from "../../../domain/entities/restaurant-props";
 import { mongoHelper } from "./helpers/mongo-helper";
