@@ -1,4 +1,4 @@
-import { DishRepository } from "../../../src/application/usecases/ports/dish-repository";
+import { DishRepository } from "../../../src/application/usecases/_ports/dish-repository";
 import { DishProps } from "../../../src/domain/entities/dish-props";
 
 export class SpyDishRepository implements DishRepository {

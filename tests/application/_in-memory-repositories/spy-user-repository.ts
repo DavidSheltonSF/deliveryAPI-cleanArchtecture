@@ -1,4 +1,4 @@
-import { UserRepository } from "../../../src/application/usecases/ports/user-repository";
+import { UserRepository } from "../../../src/application/usecases/_ports/user-repository";
 import { UserProps } from "../../../src/domain/entities/user-props";
 
 export class SpyUserRepository implements UserRepository {
