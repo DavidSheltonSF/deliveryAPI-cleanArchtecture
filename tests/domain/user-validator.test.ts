@@ -1,5 +1,5 @@
 import { User } from "../../src/domain/entities/validation";
-import { UserProps } from "../../src/domain/entities/userProps";
+import { UserProps } from "../../src/domain/entities/user-props";
 
 const users: UserProps[] = [
   {
