@@ -1,4 +1,4 @@
-import { UserProps } from '../userProps';
+import { UserProps } from '../user-props';
 import { Either } from "./../../../shared/either";
 import { 
   InvalidAddressError,
