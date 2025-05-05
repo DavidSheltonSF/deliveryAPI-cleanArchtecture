@@ -62,32 +62,26 @@ export class User {
     const authenticationOrError = Authentication.create(userData.authentication);
 
     if(nameOrError.isLeft()) {
-      console.log("Validation Error: Name");
       return Either.left(nameOrError.getLeft());
     }
 
     if(emailOrError.isLeft()) {
-      console.log("Validation Error: Email");
       return Either.left(emailOrError.getLeft());
     }
 
     if(phoneOrError.isLeft()) {
-      console.log("Validation Error: Phone");
       return Either.left(phoneOrError.getLeft());
     }
 
     if(cpfOrError.isLeft()) {
-      console.log("Validation Error: CPF");
       return Either.left(cpfOrError.getLeft());
     }
 
     if(roleOrError.isLeft()) {
-      console.log("Validation Error: Role");
       return Either.left(roleOrError.getLeft());
     }
 
     if(authenticationOrError.isLeft()) {
-      console.log("Validation Error: Authentication");
       return Either.left(authenticationOrError.getLeft());
     }
 
@@ -104,7 +98,6 @@ export class User {
     // Address is optional
     let address = null;
     if (userData.address){
-      console.log('ADREESSS')
       const addressOrError = Address.create(userData.address);
       if(addressOrError.isLeft()) {
         return Either.left(addressOrError.getLeft());
