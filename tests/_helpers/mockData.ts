@@ -1,15 +1,14 @@
 import { faker } from '@faker-js/faker';
 import { v4 as uuidv4 } from 'uuid';
-import { UserProps} from '../../src/domain/entities/userProps';
-import { RestaurantChainProps } from '../../src/domain/entities/restaurantChainProps';
-import { RestaurantProps } from '../../src/domain/entities/restaurantProps';
-import { DishProps } from '../../src/domain/entities/dishProps';
-import { PaymentProps } from '../../src/domain/entities/paymentProps';
-import { OrderProps } from '../../src/domain/entities/orderProps';
-import { DeliveryProps } from '../../src/domain/entities/deliveryProps';
+import { UserProps } from '../../src/domain/entities/user-props';
+import { RestaurantChainProps } from '../../src/domain/entities/restaurant-chain-props';
+import { RestaurantProps } from '../../src/domain/entities/restaurant-props';
+import { DishProps } from '../../src/domain/entities/dish-props';
+import { PaymentProps } from '../../src/domain/entities/payment-props';
+import { OrderProps } from '../../src/domain/entities/order-props';
+import { DeliveryProps } from '../../src/domain/entities/delivery-props';
 import { mongoHelper } from '../../src/infrastructure/repositories/mongodb/helpers/mongo-helper';
 import { DeliveryStatus, OrderStatus, PaymentMethod, UserRole } from '../../src/domain/entities/validation/_enums';
-
 
 export class MockData {
 
