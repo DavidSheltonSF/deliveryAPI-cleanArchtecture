@@ -1,8 +1,8 @@
 import { UserProps } from "../../../domain/entities/user-props";
 import { UserRepository } from "../_ports/user-repository";
-import { FindUsersUseCase } from "./interface"
+import { FindAllUsersUseCase } from "./interface"
 
-export class FindUser implements FindUsersUseCase {
+export class FindAllUsers implements FindAllUsersUseCase {
 
   private readonly userRepository: UserRepository;
   constructor(userRepo: UserRepository){
