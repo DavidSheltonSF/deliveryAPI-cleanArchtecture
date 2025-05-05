@@ -4,7 +4,7 @@ import { UserRepository } from "../ports/user-repository";
 import { RegisterUserUseCase } from "./interface";
 import { RegisterUserResponse } from "./response";
 import { Either } from "../../../shared/either";
-import { DuplicatedDataError } from "../_erros/duplicated-data";
+import { DuplicatedDataError } from "../_errors/duplicated-data";
 
 export class RegisterUser implements RegisterUserUseCase {
 
