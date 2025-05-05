@@ -1,5 +1,5 @@
 import { AddressProps } from "./validation/_interfaces";
-import { DishProps } from "./dishProps";
+import { DishProps } from "./dish-props";
 import { ObjectId } from "mongodb";
 
 export interface OrderProps {
