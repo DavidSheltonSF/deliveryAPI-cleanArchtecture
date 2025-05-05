@@ -1,6 +1,6 @@
 import { DeliveryRepository } from "../../../application/usecases/ports/delivery-repository";
-import { DeliveryProps } from "../../../domain/entities/deliveryProps";
-import { DeliveryMapper } from "../../../domain/entities/deliveryProps";
+import { DeliveryProps } from "../../../domain/entities/delivery-props";
+import { DeliveryMapper } from "../../../domain/entities/delivery-props";
 import { mongoHelper } from "./helpers/mongo-helper";
 
 export class MongodbDeliveryRepository implements DeliveryRepository {

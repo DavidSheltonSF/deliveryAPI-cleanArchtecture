@@ -1,6 +1,6 @@
 import { OrderRepository } from "../../../application/usecases/ports/order-repository";
-import { OrderProps } from "../../../domain/entities/orderProps";
-import { OrderMapper } from "../../../domain/entities/orderProps";
+import { OrderProps } from "../../../domain/entities/order-props";
+import { OrderMapper } from "../../../domain/entities/order-props";
 import { mongoHelper } from "./helpers/mongo-helper";
 
 export class MongodbOrderRepository implements OrderRepository {

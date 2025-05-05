@@ -1,6 +1,6 @@
 import { PaymentRepository } from "../../../application/usecases/ports/payment-repository";
-import { PaymentProps } from "../../../domain/entities/paymentProps";
-import { PaymentMapper } from "../../../domain/entities/paymentProps";
+import { PaymentProps } from "../../../domain/entities/payment-props";
+import { PaymentMapper } from "../../../domain/entities/payment-props";
 import { mongoHelper } from "./helpers/mongo-helper";
 
 export class MongodbPaymentRepository implements PaymentRepository {

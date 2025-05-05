@@ -1,6 +1,6 @@
 import { RestaurantChainRepository } from "../../../application/usecases/ports/restaurant-chain-repository";
-import { RestaurantChainProps} from "../../../domain/entities/restaurantChainProps";
-import { RestaurantChainMapper } from "../../../domain/entities/restaurantChainProps";
+import { RestaurantChainProps } from "../../../domain/entities/restaurant-chain-props";
+import { RestaurantChainMapper } from "../../../domain/entities/restaurant-chain-props";
 import { mongoHelper } from "./helpers/mongo-helper";
 
 export class MongodbRestaurantChainRepository implements RestaurantChainRepository {
