@@ -1,6 +1,6 @@
-import { UserProps } from "../../../domain/entities/user-props";
 import { UserRepository } from "../_ports/user-repository";
 import { FindAllUsersUseCase } from "./interface"
+import { FindAllUsersResponse } from "./response";
 
 export class FindAllUsers implements FindAllUsersUseCase {
 
@@ -9,7 +9,7 @@ export class FindAllUsers implements FindAllUsersUseCase {
     this.userRepository = userRepo;
   }
 
-  async execute(): Promise<UserProps[]> {
+  async execute(): Promise<FindAllUsersResponse> {
     const result = await this.userRepository.findAllUsers();
     return result;
   }
