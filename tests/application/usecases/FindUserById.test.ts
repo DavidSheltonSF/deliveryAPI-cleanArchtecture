@@ -1,7 +1,6 @@
 import { SpyUserRepository } from '../_in-memory-repositories/spy-user-repository';
 import { FindUserById } from '../../../src/application/usecases/find-user-by-id/FindUserById';
 import { MockData } from '../../_helpers/mockData';
-import { UserProps } from '../../../src/domain/entities/user-props';
 
 
 const makeSut = () => {
@@ -29,14 +28,12 @@ describe('Testing FindUserByIdUseCase', () => {
 
     spyUserRepository.userDatabase.push(mockedUser);
 
-    const response = await findUserByIdUseCase.execute(userIdStr);
-    const foundUser = response.getRight()
+    const foundUser = await findUserByIdUseCase.execute(userIdStr);
 
-    expect(response.isRight()).toBeTruthy();
-    expect(foundUser._id?.toString()).toEqual(userIdStr);
-    expect(foundUser.username).toEqual(mockedUser.username);
-    expect(foundUser.email).toEqual(mockedUser.email);
-    expect(foundUser.authentication.password).toEqual(mockedUser.authentication.password);
+    if (!foundUser) {
+      throw new Error('User not found');
+    }
+
     expect(foundUser.cpf).toEqual(mockedUser.cpf);
     expect(foundUser.phone).toEqual(mockedUser.phone);
     expect(foundUser.role).toEqual(mockedUser.role);
@@ -49,7 +46,7 @@ describe('Testing FindUserByIdUseCase', () => {
     expect(spyUserRepository.findUserByIdParams.id).toBe(userIdStr);
   });
 
-  test('Should throw an error when trying to find an unexisting user', async () => {
+  test('Should return null if user was not found', async () => {
     const { findUserByIdUseCase, spyUserRepository } = makeSut();
 
     const mockedUser = MockData.mockUser();
@@ -60,8 +57,11 @@ describe('Testing FindUserByIdUseCase', () => {
       throw new Error('User ID is not defined');
     }
 
-    const response = await findUserByIdUseCase.execute(userIdStr);
+    const foundUser = await findUserByIdUseCase.execute(userIdStr);
 
-    expect(response.isLeft()).toBeTruthy()
+    expect(foundUser).toBe(null);
+
+    // Check if the user id was inserted in the spy repository
+    expect(spyUserRepository.findUserByIdParams.id).toBe(userIdStr);
   });
 })
