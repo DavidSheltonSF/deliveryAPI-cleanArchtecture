@@ -9,7 +9,7 @@ export class FindUserById implements FindUserByIdUseCase {
     this.userRepository = userRepo;
   }
 
-  async execute(id: string): Promise<FindUserByIdResponse> {
-    return await this.userRepository.findUserById(id);
+  execute(id: string): Promise<FindUserByIdResponse> {
+    return this.userRepository.findUserById(id);
   }
 }
