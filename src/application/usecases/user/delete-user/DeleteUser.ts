@@ -12,7 +12,7 @@ export class DeleteUser implements DeleteUserUseCase {
     this.userRepository = userRepo;
   }
 
-  async delete(id: string): Promise<DeleteUserResponse> {
+  async execute(id: string): Promise<DeleteUserResponse> {
 
     const user = await this.userRepository.findUserById(id);
 
