@@ -14,8 +14,10 @@ export class RegisterUser implements RegisterUserUseCase {
   }
 
   async execute(userData: UserProps): Promise<RegisterUserResponse> {
-    
-    const userOrError = User.create(userData);
+  
+    const {_id ,...userDataWithoutId } = userData;
+
+    const userOrError = User.create(userDataWithoutId);
 
     if(userOrError.isLeft()){
       return Either.left(userOrError.getLeft());
