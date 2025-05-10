@@ -1,5 +1,5 @@
 import { SpyUserRepository } from '../_in-memory-repositories/spy-user-repository';
-import { RegisterUser } from '../../../src/application/usecases/register-user/RegisterUser';
+import { RegisterUser } from '../../../src/application/usecases/user/register-user/RegisterUser';
 import { MockData } from '../../_helpers/mockData';
 
 describe('Testing RegisterUserUseCase', () => {

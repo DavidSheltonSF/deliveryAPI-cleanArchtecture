@@ -1,5 +1,5 @@
 import { SpyUserRepository } from '../_in-memory-repositories/spy-user-repository';
-import { DeleteUser } from '../../../src/application/usecases/delete-user/DeleteUser';
+import { DeleteUser } from '../../../src/application/usecases/user/delete-user/DeleteUser';
 import { MockData } from '../../_helpers/mockData';
 
 

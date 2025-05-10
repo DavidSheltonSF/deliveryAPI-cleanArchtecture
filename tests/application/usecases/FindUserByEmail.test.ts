@@ -1,5 +1,5 @@
 import { SpyUserRepository } from '../_in-memory-repositories/spy-user-repository';
-import { FindUserByEmail } from '../../../src/application/usecases/find-user-by-email/FindUserByEmail';
+import { FindUserByEmail } from '../../../src/application/usecases/user/find-user-by-email/FindUserByEmail';
 import { MockData } from '../../_helpers/mockData';
 
 
