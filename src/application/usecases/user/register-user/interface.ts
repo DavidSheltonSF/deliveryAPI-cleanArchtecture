@@ -1,4 +1,4 @@
-import { UserProps} from "../../../domain/entities/userProps";
+import { UserProps} from "../../../../domain/entities/user-props";
 import { RegisterUserResponse } from "./response";
 
 
