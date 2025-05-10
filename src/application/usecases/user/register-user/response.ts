@@ -11,7 +11,7 @@ import {
   InvalidPasswordError
  } from "../../../../domain/entities/_errors";
  import { DuplicatedDataError } from "../../_errors/duplicated-data";
-import { UserProps } from "../../../domain/entities/userProps";
+import { UserProps } from "../../../../domain/entities/user-props";
 
 export type RegisterUserResponse = Either<InvalidNameError
   | InvalidEmailError
