@@ -10,7 +10,7 @@ describe('Testing RegisterUserUseCase', () => {
 
     const mockedUser = MockData.mockUser();
 
-    await registerUserUseCase.register(mockedUser);
+    await registerUserUseCase.execute(mockedUser);
 
     expect(spyUserRepository.addParams.user?.username).toBe(mockedUser.username);
     expect(spyUserRepository.addParams.user?.email).toBe(mockedUser.email);
@@ -33,7 +33,7 @@ describe('Testing RegisterUserUseCase', () => {
     spyUserRepository.userDatabase.push(mockedUser);
 
     // Trying to register the same user again
-    const registerError = await registerUserUseCase.register(mockedUser);
+    const registerError = await registerUserUseCase.execute(mockedUser);
 
     expect(registerError.isLeft()).toBeTruthy();
 
