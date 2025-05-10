@@ -29,7 +29,7 @@ describe('Testing DeleteUserUseCase', () => {
     // Adding the user in the fake dadabase manualy
     spyUserRepository.userDatabase.push(mockedUser);
 
-    const response = await deleteUserUseCase.delete(userStrId);
+    const response = await deleteUserUseCase.execute(userStrId);
 
     expect(response.isRight()).toBeTruthy()
     expect(spyUserRepository.removeParams.userId).toBe(userStrId);
@@ -46,7 +46,7 @@ describe('Testing DeleteUserUseCase', () => {
       throw new Error('User ID is undefined');
     }
 
-    const response = await deleteUserUseCase.delete(userStrId);
+    const response = await deleteUserUseCase.execute(userStrId);
 
     expect(response.isLeft()).toBeTruthy();
   })
