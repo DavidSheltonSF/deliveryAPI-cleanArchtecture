@@ -3,5 +3,5 @@ import { RegisterUserResponse } from "./response";
 
 
 export interface RegisterUserUseCase {
-  register: (user: UserProps) => Promise<RegisterUserResponse>;
+  execute: (user: UserProps) => Promise<RegisterUserResponse>;
 }

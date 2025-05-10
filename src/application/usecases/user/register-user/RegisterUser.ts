@@ -13,7 +13,7 @@ export class RegisterUser implements RegisterUserUseCase {
     this.userRepository = userRepo;
   }
 
-  async register(userData: UserProps): Promise<RegisterUserResponse> {
+  async execute(userData: UserProps): Promise<RegisterUserResponse> {
     
     const userOrError = User.create(userData);
 
