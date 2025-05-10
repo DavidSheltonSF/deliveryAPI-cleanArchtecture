@@ -1,10 +1,10 @@
-import { User } from "../../../domain/entities/validation";
+import { User } from "../../../../domain/entities/validation";
 import { UserProps } from "../../../domain/entities/userProps";
 import { UserRepository } from "../ports/user-repository";
 import { RegisterUserUseCase } from "./interface";
 import { RegisterUserResponse } from "./response";
-import { Either } from "../../../shared/either";
-import { DuplicatedDataError } from "../_errors/duplicated-data";
+import { Either } from "../../../../shared/either";
+import { DuplicatedDataError } from "../../_errors/duplicated-data";
 
 export class RegisterUser implements RegisterUserUseCase {
 

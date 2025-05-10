@@ -1,4 +1,4 @@
-import { Either } from "../../../shared/either";
+import { Either } from "../../../../shared/either";
 import { 
   InvalidNameError,
   InvalidEmailError,
@@ -9,8 +9,8 @@ import {
   InvalidCardNumberError,
   InvalidPaymentMethodError,
   InvalidPasswordError
- } from "../../../domain/entities/_errors";
- import { DuplicatedDataError } from "../_errors/duplicated-data";
+ } from "../../../../domain/entities/_errors";
+ import { DuplicatedDataError } from "../../_errors/duplicated-data";
 import { UserProps } from "../../../domain/entities/userProps";
 
 export type RegisterUserResponse = Either<InvalidNameError

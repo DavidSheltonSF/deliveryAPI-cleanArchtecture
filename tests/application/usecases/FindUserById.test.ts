@@ -1,5 +1,5 @@
 import { SpyUserRepository } from '../_in-memory-repositories/spy-user-repository';
-import { FindUserById } from '../../../src/application/usecases/find-user-by-id/FindUserById';
+import { FindUserById } from '../../../src/application/usecases/user/find-user-by-id/FindUserById';
 import { MockData } from '../../_helpers/mockData';
 
 
