@@ -1,6 +1,6 @@
 import { User } from "../../../../domain/entities/validation";
-import { UserProps } from "../../../domain/entities/userProps";
-import { UserRepository } from "../ports/user-repository";
+import { UserProps } from "../../../../domain/entities/user-props";
+import { UserRepository } from "../../_ports/user-repository";
 import { RegisterUserUseCase } from "./interface";
 import { RegisterUserResponse } from "./response";
 import { Either } from "../../../../shared/either";
@@ -21,7 +21,7 @@ export class RegisterUser implements RegisterUserUseCase {
       return Either.left(userOrError.getLeft());
     }
 
-    const existingUser = await this.userRepository.exists(userData.email);
+    const existingUser = await this.userRepository.findUserByEmail(userData.email);
 
     if(existingUser){
       return Either.left(new DuplicatedDataError(`User with email ${userData.email} already existis.`))
