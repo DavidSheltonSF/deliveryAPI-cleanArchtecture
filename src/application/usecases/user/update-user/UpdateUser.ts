@@ -4,7 +4,7 @@ import { UserRepository } from "../../../_ports/user-repository";
 import { UpdateUserUseCase } from "./interface";
 import { UpdateUserResponse } from "./response";
 import { Either } from "../../../../shared/either";
-import { NoResultError } from "../../../_errors";
+import { DuplicatedDataError, NoResultError } from "../../../_errors";
 import { mongoHelper } from "../../../../infrastructure/repositories/mongodb/helpers/mongo-helper";
 
 export class UpdateUser implements UpdateUserUseCase {
@@ -23,6 +23,14 @@ export class UpdateUser implements UpdateUserUseCase {
     }
 
     const existingUser = await this.userRepository.findUserById(id);
+
+    // Check if the email was updated, then check if the new email is already in use
+    if (existingUser.email != userData.email){
+      if (await this.userRepository.findUserByEmail(userData.email)){
+        return Either.left(new DuplicatedDataError(`The email ${userData.email} already associated with another user.`));
+      }
+    }
+    
 
     if(!existingUser){
       return Either.left(new NoResultError(`User with email ${userData.email} does not existis.`))
