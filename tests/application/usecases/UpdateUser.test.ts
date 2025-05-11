@@ -2,11 +2,20 @@ import { SpyUserRepository } from '../_in-memory-repositories/spy-user-repositor
 import { UpdateUser } from '../../../src/application/usecases/user/update-user/UpdateUser';
 import { MockData } from '../../_helpers/mockData';
 
+const makeSut = () => {
+  const spyUserRepository = new SpyUserRepository();
+  const updateUser = new UpdateUser(spyUserRepository);
+
+  return {
+    updateUser,
+    spyUserRepository
+  }
+}
+
 describe('Testing UpdateUserUseCase', () => {
 
   test('Should update a new user', async () => {
-    const spyUserRepository = new SpyUserRepository();
-    const updateUserUseCase = new UpdateUser(spyUserRepository);
+    const {spyUserRepository, updateUser } = makeSut()
 
     const mockedUser = MockData.mockUser();
 
@@ -22,7 +31,7 @@ describe('Testing UpdateUserUseCase', () => {
       throw new Error('User ID is not a valid string');
     } 
 
-    const response = await updateUserUseCase.execute(userIdStr, updatedData);
+    const response = await updateUser.execute(userIdStr, updatedData);
 
     expect(spyUserRepository.updateParams.userId).toBe(userIdStr);
     expect(spyUserRepository.updateParams.user?.username).toBe(updatedData.username);
@@ -41,8 +50,8 @@ describe('Testing UpdateUserUseCase', () => {
   });
 
   test('Should return DuplicatedDataError when updating email to one already associated to another user', async () => {
-    const spyUserRepository = new SpyUserRepository();
-    const updateUserUseCase = new UpdateUser(spyUserRepository);
+    const {spyUserRepository, updateUser } = makeSut()
+
 
     const mockedUser1 = MockData.mockUser();
     const mockedUser2 = MockData.mockUser();
@@ -61,7 +70,7 @@ describe('Testing UpdateUserUseCase', () => {
       throw new Error('User ID is not a valid string');
     } 
 
-    const response = await updateUserUseCase.execute(userIdStr, updatedUser2);
+    const response = await updateUser.execute(userIdStr, updatedUser2);
 
     expect(response.isLeft()).toBeTruthy();
 

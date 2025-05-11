@@ -2,15 +2,24 @@ import { SpyUserRepository } from '../_in-memory-repositories/spy-user-repositor
 import { RegisterUser } from '../../../src/application/usecases/user/register-user/RegisterUser';
 import { MockData } from '../../_helpers/mockData';
 
+const makeSut = () => {
+  const spyUserRepository = new SpyUserRepository();
+  const registerUser = new RegisterUser(spyUserRepository);
+
+  return {
+    registerUser,
+    spyUserRepository
+  }
+}
+
 describe('Testing RegisterUserUseCase', () => {
 
   test('Should register a new user', async () => {
-    const spyUserRepository = new SpyUserRepository();
-    const registerUserUseCase = new RegisterUser(spyUserRepository);
+    const { spyUserRepository, registerUser } = makeSut();
 
     const mockedUser = MockData.mockUser();
 
-    await registerUserUseCase.execute(mockedUser);
+    await registerUser.execute(mockedUser);
 
     expect(spyUserRepository.addParams.user?.username).toBe(mockedUser.username);
     expect(spyUserRepository.addParams.user?.email).toBe(mockedUser.email);
@@ -24,8 +33,7 @@ describe('Testing RegisterUserUseCase', () => {
   });
 
   test('Should not register a duplicated user', async () => {
-    const spyUserRepository = new SpyUserRepository();
-    const registerUserUseCase = new RegisterUser(spyUserRepository);
+    const { spyUserRepository, registerUser } = makeSut();
 
     const mockedUser = MockData.mockUser();
 
@@ -33,7 +41,7 @@ describe('Testing RegisterUserUseCase', () => {
     spyUserRepository.userDatabase.push(mockedUser);
 
     // Trying to register the same user again
-    const registerError = await registerUserUseCase.execute(mockedUser);
+    const registerError = await registerUser.execute(mockedUser);
 
     expect(registerError.isLeft()).toBeTruthy();
 
