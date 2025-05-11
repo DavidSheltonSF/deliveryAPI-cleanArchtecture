@@ -1,6 +1,6 @@
-import { FindUsersResponse } from "./response";
+import { FindAllUsersResponse } from "./response";
 
 
 export interface FindAllUsersUseCase {
-  execute: () => Promise<FindUsersResponse>;
+  execute: () => Promise<FindAllUsersResponse>;
 }
