@@ -36,7 +36,7 @@ describe('Testing DeleteUserUseCase', () => {
   });
 
   test('Should throw an error if user does not exist', async () => {
-    const { deleteUserUseCase, spyUserRepository } = makeSut();
+    const deleteUserUseCase = makeSut().deleteUserUseCase;
 
     const mockedUser = MockData.mockUser();
 
