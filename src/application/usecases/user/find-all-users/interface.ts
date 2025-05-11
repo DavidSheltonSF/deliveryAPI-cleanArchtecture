@@ -1,6 +1,6 @@
 import { FindAllUsersResponse } from "./response";
 
 
-export interface FindAllUsersUseCase {
+export interface FindAllUsers {
   execute: () => Promise<FindAllUsersResponse>;
 }
