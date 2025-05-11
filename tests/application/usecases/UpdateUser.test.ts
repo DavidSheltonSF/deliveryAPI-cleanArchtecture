@@ -39,4 +39,32 @@ describe('Testing UpdateUserUseCase', () => {
     expect(spyUserRepository.updateParams.user?.address?.zipCode).toBe(updatedData.address?.zipCode);
 
   });
+
+  test('Should return DuplicatedDataError when updating email to one already associated to another user', async () => {
+    const spyUserRepository = new SpyUserRepository();
+    const updateUserUseCase = new UpdateUser(spyUserRepository);
+
+    const mockedUser1 = MockData.mockUser();
+    const mockedUser2 = MockData.mockUser();
+
+    spyUserRepository.userDatabase.push(mockedUser1);
+    spyUserRepository.userDatabase.push(mockedUser2);
+
+    // Update the email of user2 to the same email as user1
+    const updatedUser2 = {...mockedUser2 };
+    updatedUser2.username = 'updatedUsername';
+    updatedUser2.email = mockedUser1.email;
+
+    const userIdStr = updatedUser2._id?.toString();
+
+    if (!userIdStr) {
+      throw new Error('User ID is not a valid string');
+    } 
+
+    const response = await updateUserUseCase.execute(userIdStr, updatedUser2);
+
+    expect(response.isLeft()).toBeTruthy();
+
+  });
+
 })
