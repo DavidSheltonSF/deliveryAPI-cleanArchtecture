@@ -13,7 +13,7 @@ export class Email {
 
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-    if (email.trim().length > 255) {
+    if (!email || email.trim().length > 255) {
       return false;
     }
 
