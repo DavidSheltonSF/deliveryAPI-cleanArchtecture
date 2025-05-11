@@ -1,10 +1,10 @@
 import { Either } from "../../../../shared/either";
 import { UserRepository } from "../../../_ports/user-repository";
-import { DeleteUserUseCase } from "./interface";
+import { DeleteUser } from "./interface";
 import { DeleteUserResponse } from "./response";
 import { NoResultError } from "../../../_errors";
 
-export class DeleteUser implements DeleteUserUseCase {
+export class DeleteUserUseCase implements DeleteUser {
 
   private readonly userRepository: UserRepository;
   

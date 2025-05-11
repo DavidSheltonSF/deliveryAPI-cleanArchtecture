@@ -1,5 +1,5 @@
 import { DeleteUserResponse } from "./response";
 
-export interface DeleteUserUseCase {
+export interface DeleteUser {
   execute: (id: string) => Promise<DeleteUserResponse>;
 }
