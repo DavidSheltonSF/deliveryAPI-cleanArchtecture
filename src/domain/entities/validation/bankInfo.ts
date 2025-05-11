@@ -15,7 +15,7 @@ export class BankInfo {
 
     const cardNumberRegex = /^\d{4}\s?\d{4}\s?\d{4}\s?\d{4}$/;
 
-    if(!cardNumber.match(cardNumberRegex)) {
+    if(!cardNumber || !cardNumber.match(cardNumberRegex)) {
       return false
     }
     return true;
