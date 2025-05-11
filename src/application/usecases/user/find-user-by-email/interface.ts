@@ -1,5 +1,5 @@
 import { FindUserByEmailResponse } from "./response";
 
-export interface FindUserByEmailUseCase {
+export interface FindUserByEmail {
   execute: (email: string) => Promise<FindUserByEmailResponse>;
 }
