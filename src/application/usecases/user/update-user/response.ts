@@ -10,7 +10,7 @@ import {
   InvalidPaymentMethodError,
   InvalidPasswordError
  } from "../../../../domain/entities/_errors";
- import { NoResultError } from "../../_errors";
+ import { NoResultError } from "../../../_errors";
 import { UserProps } from "../../../../domain/entities/user-props";
 
 export type UpdateUserResponse = Either<InvalidNameError

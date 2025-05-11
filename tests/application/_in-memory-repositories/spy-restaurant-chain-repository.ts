@@ -1,4 +1,4 @@
-import { RestaurantChainRepository } from "../../../src/application/usecases/_ports/restaurant-chain-repository";
+import { RestaurantChainRepository } from "../../../src/application/_ports/restaurant-chain-repository";
 import { RestaurantChainProps } from "../../../src/domain/entities/restaurant-chain-props";
 
 export class SpyRestaurantChainRepository implements RestaurantChainRepository {

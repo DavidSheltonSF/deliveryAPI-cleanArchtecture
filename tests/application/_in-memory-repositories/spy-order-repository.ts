@@ -1,4 +1,4 @@
-import { OrderRepository } from "../../../src/application/usecases/_ports/order-repository";
+import { OrderRepository } from "../../../src/application/_ports/order-repository";
 import { OrderProps } from "../../../src/domain/entities/order-props";
 
 export class SpyOrderRepository implements OrderRepository {

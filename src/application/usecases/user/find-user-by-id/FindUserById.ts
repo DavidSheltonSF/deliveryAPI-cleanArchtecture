@@ -1,4 +1,4 @@
-import { UserRepository } from "../../_ports/user-repository";
+import { UserRepository } from "../../../_ports/user-repository";
 import { FindUserByIdUseCase } from "./interface";
 import { FindUserByIdResponse } from "./response";
 

@@ -1,4 +1,4 @@
-import { DeliveryRepository } from "../../../src/application/usecases/_ports/delivery-repository";
+import { DeliveryRepository } from "../../../src/application/_ports/delivery-repository";
 import { DeliveryProps } from "../../../src/domain/entities/delivery-props";
 
 export class SpyDeliveryRepository implements DeliveryRepository {

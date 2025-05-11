@@ -1,10 +1,10 @@
 import { User } from "../../../../domain/entities/validation";
 import { UserProps } from "../../../../domain/entities/user-props";
-import { UserRepository } from "../../_ports/user-repository";
+import { UserRepository } from "../../../_ports/user-repository";
 import { UpdateUserUseCase } from "./interface";
 import { UpdateUserResponse } from "./response";
 import { Either } from "../../../../shared/either";
-import { NoResultError } from "../../_errors";
+import { NoResultError } from "../../../_errors";
 import { mongoHelper } from "../../../../infrastructure/repositories/mongodb/helpers/mongo-helper";
 
 export class UpdateUser implements UpdateUserUseCase {

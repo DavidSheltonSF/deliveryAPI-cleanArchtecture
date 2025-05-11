@@ -1,4 +1,4 @@
-import { UserProps } from '../../../domain/entities/user-props';
+import { UserProps } from '../../domain/entities/user-props';
 
 export interface UserRepository {
   findAllUsers: () => Promise<UserProps[]>;

@@ -1,4 +1,4 @@
-import { DishProps } from '../../../domain/entities/dish-props';
+import { DishProps } from '../../domain/entities/dish-props';
 
 export interface DishRepository {
   findAllDishs: () => Promise<DishProps[]>

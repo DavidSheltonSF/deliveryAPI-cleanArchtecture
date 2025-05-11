@@ -1,4 +1,4 @@
-import { DeliveryProps } from '../../../domain/entities/delivery-props';
+import { DeliveryProps } from '../../domain/entities/delivery-props';
 
 export interface DeliveryRepository {
   findAllDeliverys: () => Promise<DeliveryProps[]>

@@ -1,5 +1,5 @@
 import { Either } from "../../../../shared/either";
-import { UserRepository } from "../../_ports/user-repository";
+import { UserRepository } from "../../../_ports/user-repository";
 import { FindUserByEmailResponse } from "./response";
 
 export class FindUserByEmail {

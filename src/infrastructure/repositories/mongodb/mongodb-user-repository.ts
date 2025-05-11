@@ -1,4 +1,4 @@
-import { UserRepository } from "../../../application/usecases/_ports/user-repository";
+import { UserRepository } from "../../../application/_ports/user-repository";
 import { UserProps } from "../../../domain/entities/user-props";
 import { UserMapper } from "../../../domain/entities/user-props";
 import { mongoHelper } from "./helpers/mongo-helper";

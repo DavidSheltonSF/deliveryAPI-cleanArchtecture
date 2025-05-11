@@ -1,4 +1,4 @@
-import { DishRepository } from "../../../application/usecases/_ports/dish-repository";
+import { DishRepository } from "../../../application/_ports/dish-repository";
 import { DishProps } from "../../../domain/entities/dish-props";
 import { DishMapper } from "../../../domain/entities/dish-props";
 import { mongoHelper } from "./helpers/mongo-helper";

@@ -1,4 +1,4 @@
-import { PaymentRepository } from "../../../application/usecases/_ports/payment-repository";
+import { PaymentRepository } from "../../../application/_ports/payment-repository";
 import { PaymentProps } from "../../../domain/entities/payment-props";
 import { PaymentMapper } from "../../../domain/entities/payment-props";
 import { mongoHelper } from "./helpers/mongo-helper";
