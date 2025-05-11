@@ -18,7 +18,7 @@ export class Authentication {
     // At least one special character
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-    if(password.length > 250) {
+    if(!password || password.length > 250) {
       return false
     }
 
