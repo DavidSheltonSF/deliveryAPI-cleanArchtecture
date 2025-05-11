@@ -14,7 +14,7 @@ export class Address {
 
     const zipCodeRegex = /^\d{5}\-?\d{3}$/;
 
-    if (!address.street || !address.city || !address.state || !address.zipCode) {
+    if (!address || !address.street || !address.city || !address.state || !address.zipCode) {
       return false;
     }
 
