@@ -1,13 +1,13 @@
 import { User } from "../../../../domain/entities/validation";
 import { UserProps } from "../../../../domain/entities/user-props";
 import { UserRepository } from "../../../_ports/user-repository";
-import { UpdateUserUseCase } from "./interface";
+import { UpdateUser } from "./interface";
 import { UpdateUserResponse } from "./response";
 import { Either } from "../../../../shared/either";
 import { DuplicatedDataError, NoResultError } from "../../../_errors";
 import { mongoHelper } from "../../../../infrastructure/repositories/mongodb/helpers/mongo-helper";
 
-export class UpdateUser implements UpdateUserUseCase {
+export class UpdateUserUseCase implements UpdateUser {
 
   private readonly userRepository: UserRepository;
   constructor(userRepo: UserRepository){
