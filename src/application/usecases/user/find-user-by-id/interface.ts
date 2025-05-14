@@ -1,5 +1,5 @@
 import { FindUserByIdResponse } from "./response";
 
-export interface FindUserByIdUseCase {
+export interface FindUserById {
   execute: (id: string) => Promise<FindUserByIdResponse>;
 }

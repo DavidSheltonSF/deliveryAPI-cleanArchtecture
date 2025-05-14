@@ -1,8 +1,8 @@
 import { UserRepository } from "../../../_ports/user-repository";
-import { FindUserByIdUseCase } from "./interface";
+import { FindUserById } from "./interface";
 import { FindUserByIdResponse } from "./response";
 
-export class FindUserById implements FindUserByIdUseCase {
+export class FindUserByIdUseCase implements FindUserByIdUseCase {
 
   private readonly userRepository: UserRepository;
   constructor(userRepo: UserRepository){
