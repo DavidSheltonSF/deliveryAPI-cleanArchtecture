@@ -1,5 +1,5 @@
 import { SpyUserRepository } from '../../application/_in-memory-repositories/spy-user-repository';
-import { RegisterUser as RegisterUserUseCase } from '../../../src/application/usecases/user/register-user/RegisterUser';
+import { RegisterUserUseCase as RegisterUserUseCase } from '../../../src/application/usecases/user/register-user/RegisterUserUseCase';
 import { RegisterUserController } from '../../../src/presentation/controllers/user/RegisterUserController';
 import { MockData } from '../../_helpers/mockData';
 
