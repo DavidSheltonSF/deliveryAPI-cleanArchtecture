@@ -1,22 +1,22 @@
 import { SpyUserRepository } from '../_in-memory-repositories/spy-user-repository';
-import { FindUserById } from '../../../src/application/usecases/user/find-user-by-id/FindUserById';
+import { FindUserByIdUseCase } from '../../../src/application/usecases/user/find-user-by-id/FindUserByIdUseCase';
 import { MockData } from '../../_helpers/mockData';
 
 
 const makeSut = () => {
   const spyUserRepository = new SpyUserRepository();
-  const findUserByIdUseCase = new FindUserById(spyUserRepository);
+  const findUserByIdUseCaseUseCase = new FindUserByIdUseCase(spyUserRepository);
 
   return {
-    findUserByIdUseCase,
+    findUserByIdUseCaseUseCase,
     spyUserRepository
   }
 }
 
-describe('Testing FindUserByIdUseCase', () => {
+describe('Testing FindUserByIdUseCaseUseCase', () => {
 
   test('Should find a user by id correctly', async () => {
-    const { findUserByIdUseCase, spyUserRepository } = makeSut();
+    const { findUserByIdUseCaseUseCase, spyUserRepository } = makeSut();
 
     const mockedUser = MockData.mockUser();
 
@@ -28,7 +28,7 @@ describe('Testing FindUserByIdUseCase', () => {
 
     spyUserRepository.userDatabase.push(mockedUser);
 
-    const foundUser = await findUserByIdUseCase.execute(userIdStr);
+    const foundUser = await findUserByIdUseCaseUseCase.execute(userIdStr);
 
     if (!foundUser) {
       throw new Error('User not found');
@@ -47,7 +47,7 @@ describe('Testing FindUserByIdUseCase', () => {
   });
 
   test('Should return null if user was not found', async () => {
-    const { findUserByIdUseCase, spyUserRepository } = makeSut();
+    const { findUserByIdUseCaseUseCase, spyUserRepository } = makeSut();
 
     const mockedUser = MockData.mockUser();
 
@@ -57,7 +57,7 @@ describe('Testing FindUserByIdUseCase', () => {
       throw new Error('User ID is not defined');
     }
 
-    const foundUser = await findUserByIdUseCase.execute(userIdStr);
+    const foundUser = await findUserByIdUseCaseUseCase.execute(userIdStr);
 
     expect(foundUser).toBe(null);
 

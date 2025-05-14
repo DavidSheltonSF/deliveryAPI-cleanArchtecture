@@ -1,10 +1,10 @@
 import { SpyUserRepository } from '../_in-memory-repositories/spy-user-repository';
-import { RegisterUser } from '../../../src/application/usecases/user/register-user/RegisterUser';
+import { RegisterUserUseCase } from '../../../src/application/usecases/user/register-user/RegisterUserUseCase';
 import { MockData } from '../../_helpers/mockData';
 
 const makeSut = () => {
   const spyUserRepository = new SpyUserRepository();
-  const registerUser = new RegisterUser(spyUserRepository);
+  const registerUser = new RegisterUserUseCase(spyUserRepository);
 
   return {
     registerUser,
