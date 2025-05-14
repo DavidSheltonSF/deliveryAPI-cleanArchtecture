@@ -1,4 +1,4 @@
-import { RegisterUserUseCase } from "../../../application/usecases/user/register-user/interface";
+import { RegisterUser } from "../../../application/usecases/user/register-user/interface";
 import { HttpRequest } from "../../_ports/http";
 import { MissingParamError } from "../../_errors/missing-param";
 import { ok, badRequest, unprocessableEntity, serverError } from "../../_helpers/http-helper";
@@ -6,9 +6,9 @@ import { HttpResponse } from "../../_ports/http";
 
 export class RegisterUserController {
 
-  private readonly registerUser: RegisterUserUseCase
+  private readonly registerUser: RegisterUser
 
-  constructor(registerUser: RegisterUserUseCase) {
+  constructor(registerUser: RegisterUser) {
     this.registerUser = registerUser;
   }
 
