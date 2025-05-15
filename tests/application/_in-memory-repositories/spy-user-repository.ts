@@ -4,7 +4,7 @@ import { UserProps } from "../../../src/domain/entities/user-props";
 export class SpyUserRepository implements UserRepository {
   userDatabase: UserProps[] = [];
   addParams: {
-    user?: UserProps
+    user?: Omit<UserProps, "_id">
   } = {};
   findUserByIdParams: {
     id?: string,
@@ -55,7 +55,7 @@ export class SpyUserRepository implements UserRepository {
     return false
   }
 
-  async add(user: UserProps): Promise<void> {
+  async add(user: Omit<UserProps, "_id">): Promise<void> {
     this.addParams = { user };
   }
 
