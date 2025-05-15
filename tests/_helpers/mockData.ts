@@ -16,27 +16,35 @@ export class MockData {
     return uuidv4().replace(/-/g, "").slice(0, 24);
   }
 
-  static mockUser(): UserProps {
+  static mockUser(count: number = 1): UserProps[] {
 
-    return {
-      _id: mongoHelper.toObjectId(this.generateHexId()),
-      username: faker.person.firstName(),
-      email: faker.internet.email(),
-      cpf: faker.string.numeric({length: 11}),
-      phone: faker.string.numeric({length: 11}),
-      role: faker.helpers.enumValue(UserRole),
-      address: {
-        street: faker.location.street(),
-        city: faker.location.city(),
-        state: faker.location.state(),
-        zipCode: faker.location.zipCode('########')
-      },
-      authentication: {
-        //password: faker.internet.password({length: 8})
-        password: 'Senh4**Corret4'
-      },
-    }
+    const mockedUsers: UserProps[] = [];
+
+    for (let i=0; i<count; i++){
+      const user ={
+        _id: mongoHelper.toObjectId(this.generateHexId()),
+        username: faker.person.firstName(),
+        email: faker.internet.email(),
+        cpf: faker.string.numeric({length: 11}),
+        phone: faker.string.numeric({length: 11}),
+        role: faker.helpers.enumValue(UserRole),
+        address: {
+          street: faker.location.street(),
+          city: faker.location.city(),
+          state: faker.location.state(),
+          zipCode: faker.location.zipCode('########')
+        },
+        authentication: {
+          //password: faker.internet.password({length: 8})
+          password: 'Senh4**Corret4'
+        },
+      }
+      mockedUsers.push(user);
+    } 
+
+    return mockedUsers;
   }
+  
 
   static mockRestaurantChain(): RestaurantChainProps {
     return {
