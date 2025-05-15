@@ -16,7 +16,7 @@ describe('Testing SpyOrderRepository', () => {
 
     const spyOrderRepository = new SpyOrderRepository();
 
-    const mockedOrder = MockData.mockOrder();
+    const [mockedOrder] = MockData.mockOrder();
 
     spyOrderRepository.orderDatabase.push(mockedOrder);
 
@@ -36,7 +36,7 @@ describe('Testing SpyOrderRepository', () => {
 
     const spyOrderRepository = new SpyOrderRepository();
 
-    const fakeOrder = MockData.mockOrder();
+    const [fakeOrder] = MockData.mockOrder();
 
     await spyOrderRepository.add(fakeOrder);
 

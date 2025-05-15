@@ -16,7 +16,7 @@ describe('Testing SpyPaymentRepository', () => {
 
     const spyPaymentRepository = new SpyPaymentRepository();
 
-const mockedPayment = MockData.mockPayment();
+const [mockedPayment] = MockData.mockPayment();
 
     spyPaymentRepository.paymentDatabase.push(mockedPayment);
 
@@ -36,7 +36,7 @@ const mockedPayment = MockData.mockPayment();
 
     const spyPaymentRepository = new SpyPaymentRepository();
 
-    const fakePayment = MockData.mockPayment();
+    const [fakePayment] = MockData.mockPayment();
 
     await spyPaymentRepository.add(fakePayment);
 

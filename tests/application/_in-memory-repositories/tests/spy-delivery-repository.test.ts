@@ -16,7 +16,7 @@ describe('Testing SpyDeliveryRepository', () => {
 
     const spyDeliveryRepository = new SpyDeliveryRepository();
 
-    const mockedDelivery = MockData.mockDelivery();
+    const [mockedDelivery] = MockData.mockDelivery();
 
     spyDeliveryRepository.deliveryDatabase.push(mockedDelivery);
 
@@ -36,7 +36,7 @@ describe('Testing SpyDeliveryRepository', () => {
 
     const spyDeliveryRepository = new SpyDeliveryRepository();
 
-    const fakeDelivery = MockData.mockDelivery();
+    const [fakeDelivery] = MockData.mockDelivery();
 
     await spyDeliveryRepository.add(fakeDelivery);
 

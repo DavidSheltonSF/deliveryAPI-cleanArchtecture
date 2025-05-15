@@ -16,7 +16,7 @@ describe('Testing SpyDishRepository', () => {
 
     const spyDishRepository = new SpyDishRepository();
 
-    const mockedDish = MockData.mockDish();
+    const [mockedDish] = MockData.mockDish();
 
     spyDishRepository.dishDatabase.push(mockedDish);
 
@@ -36,7 +36,7 @@ describe('Testing SpyDishRepository', () => {
 
     const spyDishRepository = new SpyDishRepository();
 
-    const fakeDish = MockData.mockDish();
+    const [fakeDish] = MockData.mockDish();
 
     await spyDishRepository.add(fakeDish);
 

@@ -16,7 +16,7 @@ describe('Testing SpyRestaurantChainRepository', () => {
 
     const spyRestaurantRepository = new SpyRestaurantChainRepository();
         
-    const mockedRestaurantChain = MockData.mockRestaurantChain();
+    const [mockedRestaurantChain] = MockData.mockRestaurantChain();
 
     spyRestaurantRepository.restaurantChainDatabase.push(mockedRestaurantChain);
 
@@ -37,7 +37,7 @@ describe('Testing SpyRestaurantChainRepository', () => {
 
     const spyRestaurantChainRepository = new SpyRestaurantChainRepository();
         
-    const mockedRestaurantChain = MockData.mockRestaurantChain();
+    const [mockedRestaurantChain] = MockData.mockRestaurantChain();
 
     spyRestaurantChainRepository.restaurantChainDatabase.push(mockedRestaurantChain);
 
@@ -54,7 +54,7 @@ describe('Testing SpyRestaurantChainRepository', () => {
 
     const spyRestaurantChainRepository = new SpyRestaurantChainRepository();
 
-    const fakeRestaurantChain = MockData.mockRestaurantChain();
+    const [fakeRestaurantChain] = MockData.mockRestaurantChain();
 
     await spyRestaurantChainRepository.add(fakeRestaurantChain);
 
