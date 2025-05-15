@@ -13,11 +13,9 @@ export class RegisterUserUseCase implements RegisterUserUseCase {
     this.userRepository = userRepo;
   }
 
-  async execute(userData: UserProps): Promise<RegisterUserResponse> {
-  
-    const {_id ,...userDataWithoutId } = userData;
+  async execute(userData: Omit<UserProps, "_id">): Promise<RegisterUserResponse> {
 
-    const userOrError = User.create(userDataWithoutId);
+    const userOrError = User.create(userData);
 
     if(userOrError.isLeft()){
       return Either.left(userOrError.getLeft());
