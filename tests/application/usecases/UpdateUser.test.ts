@@ -17,7 +17,7 @@ describe('Testing UpdateUserUseCase', () => {
   test('Should update a new user', async () => {
     const {spyUserRepository, updateUser } = makeSut()
 
-    const mockedUser = MockData.mockUser();
+    const [mockedUser] = MockData.mockUser();
 
     spyUserRepository.userDatabase.push(mockedUser);
 
@@ -53,8 +53,8 @@ describe('Testing UpdateUserUseCase', () => {
     const {spyUserRepository, updateUser } = makeSut()
 
 
-    const mockedUser1 = MockData.mockUser();
-    const mockedUser2 = MockData.mockUser();
+    const [mockedUser1] = MockData.mockUser();
+    const [mockedUser2] = MockData.mockUser();
 
     spyUserRepository.userDatabase.push(mockedUser1);
     spyUserRepository.userDatabase.push(mockedUser2);

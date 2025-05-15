@@ -18,7 +18,7 @@ describe('Testing FindUserByIdUseCaseUseCase', () => {
   test('Should find a user by id correctly', async () => {
     const { findUserByIdUseCaseUseCase, spyUserRepository } = makeSut();
 
-    const mockedUser = MockData.mockUser();
+    const [mockedUser] = MockData.mockUser();
 
     const userIdStr = mockedUser._id?.toString();
 
@@ -49,7 +49,7 @@ describe('Testing FindUserByIdUseCaseUseCase', () => {
   test('Should return null if user was not found', async () => {
     const { findUserByIdUseCaseUseCase, spyUserRepository } = makeSut();
 
-    const mockedUser = MockData.mockUser();
+    const [mockedUser] = MockData.mockUser();
 
     const userIdStr = mockedUser._id?.toString();
 

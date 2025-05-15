@@ -19,12 +19,7 @@ describe('Testing FindAllUsersUseCase', () => {
   test('Should find all users', async () => {
     const { findAllUsersUseCase, spyUserRepository } = makeSut();
 
-    const mockedUsers: UserProps[] = []
-    
-    for (let i = 0; i < 5; i++) {
-      // Adding the user in the fake dadabase manualy
-      mockedUsers.push(MockData.mockUser());
-    }
+    const mockedUsers = MockData.mockUser(5);
 
     spyUserRepository.userDatabase = mockedUsers;
 

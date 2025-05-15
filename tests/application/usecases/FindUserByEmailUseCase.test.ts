@@ -18,7 +18,7 @@ describe('Testing FindUserByEmailUseCase', () => {
   test('Should find a user by email correctly', async () => {
     const { findUserByEmailUseCase, spyUserRepository } = makeSut();
 
-    const mockedUser = MockData.mockUser();
+    const [mockedUser] = MockData.mockUser();
 
     const userEmailStr = mockedUser.email;
 
@@ -52,7 +52,7 @@ describe('Testing FindUserByEmailUseCase', () => {
   test('Should find a user by email correctly', async () => {
     const { findUserByEmailUseCase, spyUserRepository } = makeSut();
 
-    const mockedUser = MockData.mockUser();
+    const [mockedUser] = MockData.mockUser();
 
     if (!mockedUser.email) {
       throw new Error('User EMAIL is not defined');

@@ -18,7 +18,7 @@ describe('Testing DeleteUserUseCase', () => {
   test('Should delete a user', async () => {
     const { deleteUserUseCase, spyUserRepository } = makeSut();
 
-    const mockedUser = MockData.mockUser();
+    const [mockedUser] = MockData.mockUser();
 
     const userStrId = mockedUser._id?.toString();
 
@@ -38,7 +38,7 @@ describe('Testing DeleteUserUseCase', () => {
   test('Should throw an error if user does not exist', async () => {
     const deleteUserUseCase = makeSut().deleteUserUseCase;
 
-    const mockedUser = MockData.mockUser();
+    const [mockedUser] = MockData.mockUser();
 
     const userStrId = mockedUser._id?.toString();
 

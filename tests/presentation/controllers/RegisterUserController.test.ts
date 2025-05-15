@@ -17,7 +17,7 @@ describe('Testing RegisterUseController', () => {
   test('Should return 200 for good request with correct data', async () => {
     const registerUserController = makeSut().registerUserController;
 
-    const mockedUser = MockData.mockUser();
+    const [mockedUser] = MockData.mockUser();
     const {_id, ...userWithoutId} = mockedUser;
 
     const request = {
@@ -32,7 +32,7 @@ describe('Testing RegisterUseController', () => {
   test('Should return 200 for good request but without address(optional param)', async () => {
     const registerUserController = makeSut().registerUserController;
 
-    const mockedUser = MockData.mockUser();
+    const [mockedUser] = MockData.mockUser();
     const {_id, address, ...userWithoutId} = mockedUser;
 
     const request = {
@@ -47,7 +47,7 @@ describe('Testing RegisterUseController', () => {
   test('Should return 422 if user already exists', async () => {
     const { registerUserController, spyUserRepository } = makeSut();
 
-    const mockedUser = MockData.mockUser();
+    const [mockedUser] = MockData.mockUser();
 
     // Add the mocked user in the fake database manualy
     spyUserRepository.userDatabase.push(mockedUser);
@@ -66,7 +66,7 @@ describe('Testing RegisterUseController', () => {
   test('Should return 400 if no name is provided', async () => {
     const registerUserController = makeSut().registerUserController;
 
-    const mockedUser = MockData.mockUser();
+    const [mockedUser] = MockData.mockUser();
     const {_id, username, ...userWithoutId} = mockedUser;
 
     const request = {
@@ -81,7 +81,7 @@ describe('Testing RegisterUseController', () => {
   test('Should return 400 if no email is provided', async () => {
     const registerUserController = makeSut().registerUserController;
 
-    const mockedUser = MockData.mockUser();
+    const [mockedUser] = MockData.mockUser();
     const {_id, email, ...userWithoutId} = mockedUser;
 
     const request = {
@@ -96,7 +96,7 @@ describe('Testing RegisterUseController', () => {
   test('Should return 400 if no phone is provided', async () => {
     const registerUserController = makeSut().registerUserController;
 
-    const mockedUser = MockData.mockUser();
+    const [mockedUser] = MockData.mockUser();
     const {_id, phone, ...userWithoutId} = mockedUser;
 
     const request = {
@@ -111,7 +111,7 @@ describe('Testing RegisterUseController', () => {
   test('Should return 400 if no cpf is provided', async () => {
     const registerUserController = makeSut().registerUserController;
 
-    const mockedUser = MockData.mockUser();
+    const [mockedUser] = MockData.mockUser();
     const {_id, cpf, ...userWithoutId} = mockedUser;
 
     const request = {
@@ -126,7 +126,7 @@ describe('Testing RegisterUseController', () => {
   test('Should return 400 if no authentication is provided', async () => {
     const registerUserController = makeSut().registerUserController;
 
-    const mockedUser = MockData.mockUser();
+    const [mockedUser] = MockData.mockUser();
     const {_id, authentication, ...userWithoutId} = mockedUser;
 
     const request = {
