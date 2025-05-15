@@ -17,7 +17,7 @@ describe('Testing SpyUserRepository', () => {
 
     const spyUserRepository = new SpyUserRepository();
 
-    const mockedUser = MockData.mockUser();
+    const [mockedUser] = MockData.mockUser();
 
     spyUserRepository.userDatabase.push(mockedUser);
 
@@ -37,7 +37,7 @@ describe('Testing SpyUserRepository', () => {
 
     const spyUserRepository = new SpyUserRepository();
 
-    const mockedUser = MockData.mockUser();
+    const [mockedUser] = MockData.mockUser();
 
     spyUserRepository.userDatabase.push(mockedUser);
 
@@ -51,30 +51,30 @@ describe('Testing SpyUserRepository', () => {
 
     const spyUserRepository = new SpyUserRepository();
 
-    const fakeUser = MockData.mockUser();
+    const [mokedUser] = MockData.mockUser();
 
-    await spyUserRepository.add(fakeUser);
+    await spyUserRepository.add(mokedUser);
 
     const userInserted = spyUserRepository.addParams.user;
     
     expect(userInserted?.username)
-      .toBe(fakeUser.username);
+      .toBe(mokedUser.username);
     expect(userInserted?.email)
-      .toBe(fakeUser.email);
+      .toBe(mokedUser.email);
     expect(userInserted?.cpf)
-      .toBe(fakeUser.cpf);
+      .toBe(mokedUser.cpf);
     expect(userInserted?.phone)
-      .toBe(fakeUser.phone);
+      .toBe(mokedUser.phone);
     expect(userInserted?.address?.street)
-      .toBe(fakeUser.address?.street);
+      .toBe(mokedUser.address?.street);
     expect(userInserted?.address?.city)
-      .toBe(fakeUser.address?.city);
+      .toBe(mokedUser.address?.city);
     expect(userInserted?.address?.state)
-      .toBe(fakeUser.address?.state);
+      .toBe(mokedUser.address?.state);
     expect(userInserted?.address?.zipCode)
-      .toBe(fakeUser.address?.zipCode);
+      .toBe(mokedUser.address?.zipCode);
     expect(userInserted?.authentication?.password)
-      .toBe(fakeUser.authentication.password);
+      .toBe(mokedUser.authentication.password);
   });
 
 
