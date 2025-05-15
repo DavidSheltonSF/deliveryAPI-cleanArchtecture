@@ -30,7 +30,7 @@ export class RegisterUserController {
         return unprocessableEntity(response.getLeft());
       }
 
-      return ok(userData);
+      return ok(response);
 
     }catch(error){
       console.log(error);
