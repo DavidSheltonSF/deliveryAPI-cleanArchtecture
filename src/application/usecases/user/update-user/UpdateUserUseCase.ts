@@ -24,16 +24,15 @@ export class UpdateUserUseCase implements UpdateUser {
 
     const existingUser = await this.userRepository.findUserById(id);
 
+    if(!existingUser){
+      return Either.left(new NoResultError(`User with email ${userData.email} does not existis.`))
+    }
+
     // Check if the email was updated, then check if the new email is already in use
     if (existingUser.email != userData.email){
       if (await this.userRepository.findUserByEmail(userData.email)){
         return Either.left(new DuplicatedDataError(`The email ${userData.email} already associated with another user.`));
       }
-    }
-    
-
-    if(!existingUser){
-      return Either.left(new NoResultError(`User with email ${userData.email} does not existis.`))
     }
 
     await this.userRepository.update(id, userData);
