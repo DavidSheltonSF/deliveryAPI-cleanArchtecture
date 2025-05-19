@@ -22,4 +22,4 @@ export type UpdateUserResponse = Either<InvalidNameError
   | InvalidCardNumberError
   | InvalidPaymentMethodError
   | InvalidPasswordError
-  | NoResultError, UserProps>;
+  | NoResultError, Record<string, string>>;
