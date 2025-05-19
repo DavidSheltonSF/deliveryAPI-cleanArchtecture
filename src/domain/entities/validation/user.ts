@@ -32,7 +32,7 @@ export class User {
   readonly address: Address;
   readonly authentication: Authentication;
 
-  private constructor(username: Name, email: Email, phone: Phone, cpf: Cpf, role: Role, address: Address, authentication: Authentication, bankInfo?: BankInfo | null) {
+  private constructor(username: Name, email: Email, phone: Phone, cpf: Cpf, role: Role, authentication: Authentication, address?: Address | undefined, bankInfo?: BankInfo | undefined) {
     this.username = username;
     this.email = email;
     this.phone = phone;
@@ -54,57 +54,45 @@ export class User {
   | InvalidPaymentMethodError
   | InvalidPasswordError, User> {
 
-    const nameOrError = Name.create(userData.username);
-    const emailOrError = Email.create(userData.email);
-    const phoneOrError = Phone.create(userData.phone);
-    const cpfOrError = Cpf.create(userData.cpf);
-    const roleOrError = Role.create(userData.role);
-    const authenticationOrError = Authentication.create(userData.authentication);
-
-    if(nameOrError.isLeft()) {
-      return Either.left(nameOrError.getLeft());
+    const validators = {
+      username: (username: string) => Name.create(username),
+      email: (email: string) => Email.create(email),
+      cpf: (cpf: string) => Cpf.create(cpf),
+      phone: (phone: string) => Phone.create(phone),
+      role: (role: string) => Role.create(role),
+      address: (address: any) => Address.create(address),
+      authentication: (authentication: any) => Authentication.create(authentication),
+      bankInfo: (bankInfo: any) => BankInfo.create(bankInfo),
     }
 
-    if(emailOrError.isLeft()) {
-      return Either.left(emailOrError.getLeft());
-    }
+    const validatedFields: Partial<Record<keyof typeof validators, any>> = {};
 
-    if(phoneOrError.isLeft()) {
-      return Either.left(phoneOrError.getLeft());
-    }
+    // Iterate throught validators to validate all fields in userData
+    for (const [key, value] of Object.entries(validators)) {
 
-    if(cpfOrError.isLeft()) {
-      return Either.left(cpfOrError.getLeft());
-    }
-
-    if(roleOrError.isLeft()) {
-      return Either.left(roleOrError.getLeft());
-    }
-
-    if(authenticationOrError.isLeft()) {
-      return Either.left(authenticationOrError.getLeft());
-    }
-
-    // Bank information is optional
-    let bankInfo = null;
-    if (userData.bankInfo){
-      const bankInfoOrError = BankInfo.create(userData.bankInfo);
-      if(bankInfoOrError.isLeft()) {
-        return Either.left(bankInfoOrError.getLeft());
+      // If it is an optional field and it was not provided, then skip its validation
+      if(["bankInfo", "address"].includes(key) && userData[key] === undefined){
+        continue;
       }
-      bankInfo = bankInfoOrError.getRight();
-    }
 
-    // Address is optional
-    let address = null;
-    if (userData.address){
-      const addressOrError = Address.create(userData.address);
-      if(addressOrError.isLeft()) {
-        return Either.left(addressOrError.getLeft());
+      const fieldOrError = value(userData[key])
+
+      if(fieldOrError.isLeft()){
+        return Either.left(fieldOrError.getLeft());
       }
-      address = addressOrError.getRight();
-    }
 
-    return Either.right(new User(nameOrError.getRight(), emailOrError.getRight(), phoneOrError.getRight(), cpfOrError.getRight(), roleOrError.getRight(), address, authenticationOrError.getRight(), bankInfo));
+      validatedFields[key] = fieldOrError.getRight();
+    } 
+
+    return Either.right(new User(
+      validatedFields.username,
+      validatedFields.email,
+      validatedFields.phone,
+      validatedFields.cpf,
+      validatedFields.role,
+      validatedFields.authentication,
+      validatedFields.address,
+      validatedFields.bankInfo
+    ));
   }
 }
