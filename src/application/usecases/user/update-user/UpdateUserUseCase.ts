@@ -1,11 +1,12 @@
-import { User } from "../../../../domain/entities/validation";
+import { 
+  Name, Email, Cpf, Phone, Role, Address, Authentication, BankInfo 
+} from "../../../../domain/entities/validation";
 import { UserProps } from "../../../../domain/entities/user-props";
 import { UserRepository } from "../../../_ports/user-repository";
 import { UpdateUser } from "./interface";
 import { UpdateUserResponse } from "./response";
 import { Either } from "../../../../shared/either";
 import { DuplicatedDataError, NoResultError } from "../../../_errors";
-import { mongoHelper } from "../../../../infrastructure/repositories/mongodb/helpers/mongo-helper";
 
 export class UpdateUserUseCase implements UpdateUser {
 
@@ -14,13 +15,28 @@ export class UpdateUserUseCase implements UpdateUser {
     this.userRepository = userRepo;
   }
 
-  async execute(id: string, userData: Omit<UserProps, "_id">): Promise<UpdateUserResponse> {
-    
-    const userOrError = User.create(userData);
+  async execute(id: string, userData: Partial<Omit<UserProps, "_id">>): Promise<UpdateUserResponse> {
 
-    if(userOrError.isLeft()){
-      return Either.left(userOrError.getLeft());
+    const validators = {
+      username: (username: string) => Name.create(username),
+      email: (email: string) => Email.create(email),
+      cpf: (cpf: string) => Cpf.create(cpf),
+      phone: (phone: string) => Phone.create(phone),
+      role: (role: string) => Role.create(role),
+      address: (address: any) => Address.create(address),
+      authentication: (authentication: any) => Authentication.create(authentication),
+      bankInfo: (bankInfo: any) => BankInfo.create(bankInfo),
     }
+
+    // Validate each field in userData
+    for (const [key, value] of Object.entries(userData)) {
+
+      const fieldOrError = validators[key](value);
+
+      if(fieldOrError.isLeft()){
+        return Either.left(fieldOrError.getLeft());
+      }
+    } 
 
     const existingUser = await this.userRepository.findUserById(id);
 
@@ -37,6 +53,6 @@ export class UpdateUserUseCase implements UpdateUser {
 
     await this.userRepository.update(id, userData);
 
-    return Either.right({...userData, _id: mongoHelper.toObjectId(id)});
+    return Either.right({message: "User updated successfully."});
   }
 }
