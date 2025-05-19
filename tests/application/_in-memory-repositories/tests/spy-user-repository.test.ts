@@ -126,7 +126,7 @@ describe('Testing SpyUserRepository', () => {
       .toBe(updatedData.address.state);
     expect(updatedUser?.address?.zipCode)
       .toBe(updatedData.address.zipCode);
-    expect(updatedUser?.authentication.password)
+    expect(updatedUser?.authentication?.password)
       .toBe(updatedData.authentication.password);
   });
   
