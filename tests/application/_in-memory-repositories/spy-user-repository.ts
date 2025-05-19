@@ -14,7 +14,7 @@ export class SpyUserRepository implements UserRepository {
   } = {};
   updateParams: {
     userId?: string,
-    user?: Omit<UserProps, '_id'>,
+    userData?: Partial<Omit<UserProps, "_id">>,
   } = {};
   removeParams: {
     userId?: string,
@@ -59,10 +59,10 @@ export class SpyUserRepository implements UserRepository {
     this.addParams = { user };
   }
 
-  async update(userId: string, user: Omit<UserProps, '_id'>): Promise<void> {
+  async update(userId: string, userData: Partial<Omit<UserProps, "_id">>): Promise<void> {
     this.updateParams = {
       userId,
-      user
+      userData
     };
   }
 
