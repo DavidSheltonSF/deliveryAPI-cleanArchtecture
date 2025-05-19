@@ -6,5 +6,5 @@ export interface UserRepository {
   findUserByEmail: (email: string) => Promise<UserProps | null>;
   add: (user: Omit<UserProps, "_id">) => Promise<void>;
   remove: (userId: string) => Promise<void>;
-  update: (userId: string, userData: Omit<UserProps, '_id'>) => Promise<void>;
+  update: (userId: string, userData: Partial<UserProps>) => Promise<void>;
 }
