@@ -105,7 +105,7 @@ describe('Testing SpyUserRepository', () => {
     await spyUserRepository.update(fakeUserId, updatedData);
 
     const userUpdatedId = spyUserRepository.updateParams.userId
-    const updatedUser = spyUserRepository.updateParams.user;
+    const updatedUser = spyUserRepository.updateParams.userData;
 
     expect(userUpdatedId?.toString())
       .toBe(fakeUserId);
