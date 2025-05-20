@@ -33,7 +33,7 @@ const users: Omit<UserProps, "_id">[] = [
 describe("Testing User validator", () => {
   test("Trying to create a valid complete user", () => {
     const validUser = users[0];
-    const userOrError = User.create(validUser);
+    const userOrError = User.createFull(validUser);
     //console.log(userOrError.getLeft());
     const gotUser = userOrError.getRight();
 
@@ -50,7 +50,7 @@ describe("Testing User validator", () => {
 
   test("Trying to create a valid user, but without address", () => {
     const {address, ...validUser} = users[0];
-    const userOrError = User.create(validUser);
+    const userOrError = User.createFull(validUser);
     //console.log(userOrError.getLeft());
     const gotUser = userOrError.getRight();
 
@@ -65,7 +65,7 @@ describe("Testing User validator", () => {
   test("Trying to create an user without user name", () => {
     const noUserNameUser = users[0];
     noUserNameUser.username = '';
-    const userOrError = User.create(noUserNameUser);
+    const userOrError = User.createFull(noUserNameUser);
 
     expect(userOrError.isLeft()).toBeTruthy();
   });
