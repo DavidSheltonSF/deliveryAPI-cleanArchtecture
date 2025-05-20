@@ -44,7 +44,7 @@ export class User {
     Object.freeze(this);
   };
 
-  static create(userData: Omit<UserProps, "_id">): Either<InvalidAddressError 
+  static createFull(userData: Omit<UserProps, "_id">): Either<InvalidAddressError 
   | InvalidCpfError
   | InvalidEmailError
   | InvalidNameError
