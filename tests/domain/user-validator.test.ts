@@ -1,9 +1,8 @@
 import { User } from "../../src/domain/entities/validation";
 import { UserProps } from "../../src/domain/entities/user-props";
 
-const users: UserProps[] = [
+const users: Omit<UserProps, "_id">[] = [
   {
-    _id: null,
     username: 'João',
     email: 'joao@bugmail.com',
     phone: '21855475522',
@@ -38,6 +37,8 @@ describe("Testing User validator", () => {
     //console.log(userOrError.getLeft());
     const gotUser = userOrError.getRight();
 
+    console.log(gotUser.address.get())
+
     expect(userOrError.isRight()).toBeTruthy();
     expect(validUser.username).toBe(gotUser.username.get());
     expect(validUser.email).toBe(gotUser.email.get());
@@ -48,8 +49,7 @@ describe("Testing User validator", () => {
   });
 
   test("Trying to create a valid user, but without address", () => {
-    const validUser = { ...users[0] };
-    validUser.address = undefined;
+    const {address, ...validUser} = users[0];
     const userOrError = User.create(validUser);
     //console.log(userOrError.getLeft());
     const gotUser = userOrError.getRight();
@@ -68,6 +68,33 @@ describe("Testing User validator", () => {
     const userOrError = User.create(noUserNameUser);
 
     expect(userOrError.isLeft()).toBeTruthy();
+  });
+
+  // User.createPartial() ------------------------------
+
+  test("Trying to create a valid user, but without name", () => {
+    const {username, ...validUser} = users[0];
+    const userOrError = User.createPartial(validUser);
+    //console.log(userOrError.getLeft());
+    const gotUser = userOrError.getRight();
+
+    expect(userOrError.isRight()).toBeTruthy();
+    expect(validUser.email).toBe(gotUser.email.get());
+    expect(validUser.phone).toBe(gotUser.phone.get());
+    expect(validUser.cpf).toBe(gotUser.cpf.get());
+    expect(validUser.role).toBe(gotUser.role.get());
+  });
+
+  test("Trying to create a user providing only the username", () => {
+    const validUser = {
+      username: "newUser"
+    }
+    const userOrError = User.createPartial(validUser);
+    //console.log(userOrError.getLeft());
+    const gotUser = userOrError.getRight();
+
+    expect(userOrError.isRight()).toBeTruthy();
+    expect(validUser.username).toBe(gotUser.username.get());
   });
 
 })
