@@ -44,53 +44,6 @@ export class User {
     Object.freeze(this);
   };
 
-  static createPartial(userData: Partial<Omit<UserProps, "_id">>): Either<InvalidAddressError 
-  | InvalidCpfError
-  | InvalidEmailError
-  | InvalidNameError
-  | InvalidPhoneError
-  | InvalidRoleError
-  | InvalidCardNumberError
-  | InvalidPaymentMethodError
-  | InvalidPasswordError, User> {
-
-    const validators = {
-      username: (username: string) => Name.create(username),
-      email: (email: string) => Email.create(email),
-      cpf: (cpf: string) => Cpf.create(cpf),
-      phone: (phone: string) => Phone.create(phone),
-      role: (role: string) => Role.create(role),
-      address: (address: any) => Address.create(address),
-      authentication: (authentication: any) => Authentication.create(authentication),
-      bankInfo: (bankInfo: any) => BankInfo.create(bankInfo),
-    }
-
-    const validatedFields: Partial<Record<keyof typeof validators, any>> = {};
-
-    // Iterate throught validators to validate all fields in userData
-    for (const [key, value] of Object.entries(userData)) {
-
-      const fieldOrError = validators[key](value)
-
-      if(fieldOrError.isLeft()){
-        return Either.left(fieldOrError.getLeft());
-      }
-
-      validatedFields[key] = fieldOrError.getRight();
-    } 
-
-    return Either.right(new User(
-      validatedFields.username,
-      validatedFields.email,
-      validatedFields.phone,
-      validatedFields.cpf,
-      validatedFields.role,
-      validatedFields.authentication,
-      validatedFields.address,
-      validatedFields.bankInfo
-    ));
-  }
-
   static create(userData: Omit<UserProps, "_id">): Either<InvalidAddressError 
   | InvalidCpfError
   | InvalidEmailError
@@ -123,6 +76,54 @@ export class User {
       }
 
       const fieldOrError = value(userData[key])
+
+      if(fieldOrError.isLeft()){
+        return Either.left(fieldOrError.getLeft());
+      }
+
+      validatedFields[key] = fieldOrError.getRight();
+    } 
+
+    return Either.right(new User(
+      validatedFields.username,
+      validatedFields.email,
+      validatedFields.phone,
+      validatedFields.cpf,
+      validatedFields.role,
+      validatedFields.authentication,
+      validatedFields.address,
+      validatedFields.bankInfo
+    ));
+  }
+
+
+  static createPartial(userData: Partial<Omit<UserProps, "_id">>): Either<InvalidAddressError 
+  | InvalidCpfError
+  | InvalidEmailError
+  | InvalidNameError
+  | InvalidPhoneError
+  | InvalidRoleError
+  | InvalidCardNumberError
+  | InvalidPaymentMethodError
+  | InvalidPasswordError, User> {
+
+    const validators = {
+      username: (username: string) => Name.create(username),
+      email: (email: string) => Email.create(email),
+      cpf: (cpf: string) => Cpf.create(cpf),
+      phone: (phone: string) => Phone.create(phone),
+      role: (role: string) => Role.create(role),
+      address: (address: any) => Address.create(address),
+      authentication: (authentication: any) => Authentication.create(authentication),
+      bankInfo: (bankInfo: any) => BankInfo.create(bankInfo),
+    }
+
+    const validatedFields: Partial<Record<keyof typeof validators, any>> = {};
+
+    // Iterate throught validators to validate all fields in userData
+    for (const [key, value] of Object.entries(userData)) {
+
+      const fieldOrError = validators[key](value)
 
       if(fieldOrError.isLeft()){
         return Either.left(fieldOrError.getLeft());
