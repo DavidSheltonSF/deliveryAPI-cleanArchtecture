@@ -28,7 +28,9 @@ describe('Testing FindUserByIdUseCaseUseCase', () => {
 
     spyUserRepository.userDatabase.push(mockedUser);
 
-    const foundUser = await findUserByIdUseCaseUseCase.execute(userIdStr);
+    const response = await findUserByIdUseCaseUseCase.execute(userIdStr);
+
+    const foundUser = response.getRight()
 
     if (!foundUser) {
       throw new Error('User not found');
@@ -57,11 +59,29 @@ describe('Testing FindUserByIdUseCaseUseCase', () => {
       throw new Error('User ID is not defined');
     }
 
-    const foundUser = await findUserByIdUseCaseUseCase.execute(userIdStr);
+    const response = await findUserByIdUseCaseUseCase.execute(userIdStr);
+
+    const foundUser = response.getRight()
 
     expect(foundUser).toBe(null);
 
     // Check if the user id was inserted in the spy repository
     expect(spyUserRepository.findUserByIdParams.id).toBe(userIdStr);
+  });
+
+  test('Should return error if user ID is invalid', async () => {
+    const { findUserByIdUseCaseUseCase, spyUserRepository } = makeSut();
+
+    const [mockedUser] = MockData.mockUser();
+
+    const invalidID = "invalidID";
+
+    if (!invalidID) {
+      throw new Error('User ID is not defined');
+    }
+
+    const response = await findUserByIdUseCaseUseCase.execute(invalidID);
+
+    expect(response.isLeft()).toBeTruthy();
   });
 })
