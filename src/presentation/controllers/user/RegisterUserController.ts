@@ -19,7 +19,6 @@ export class RegisterUserController {
 
       for (let i in requiredParams){
         if (!Object.keys(userData).includes(requiredParams[i])){
-          console.log(requiredParams[i])
           return badRequest(new MissingParamError(requiredParams[i]));
         }
       }
