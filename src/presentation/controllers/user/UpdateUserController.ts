@@ -4,7 +4,6 @@ import { MissingParamError } from "../../_errors/missing-param";
 import { InvalidParamError } from "../../_errors/invalid-param"
 import { ok, badRequest, unprocessableEntity, serverError } from "../../_helpers/http-helper";
 import { HttpResponse } from "../../_ports/http";
-import { UserProps } from "../../../domain/entities/user-props";
 
 export class UpdateUserController {
 
