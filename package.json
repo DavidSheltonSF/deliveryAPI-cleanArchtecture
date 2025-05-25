@@ -8,7 +8,8 @@
   },
   "scripts": {
     "test": "jest --onlyChanged --silent=false",
-    "prepare": "husky"
+    "prepare": "husky",
+    "start": "npx tsx src/main/server.ts"
   },
   "repository": {
     "type": "git",
