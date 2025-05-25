@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { adaptRegisterUserRoute } from "../../adapters/express/register-user";
+import { adaptRegisterUserRoute } from "../../adapters/express/user/register-user";
 import { makeRegisterUserController } from "../../factories/mongodb/user/make-register-user";
 import { pathName } from "./path-name";
 
