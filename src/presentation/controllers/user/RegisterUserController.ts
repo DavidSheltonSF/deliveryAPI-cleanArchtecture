@@ -4,8 +4,9 @@ import { MissingParamError } from "../../_errors/missing-param";
 import { created, badRequest, unprocessableEntity, serverError } from "../../_helpers/http-helper";
 import { HttpResponse } from "../../_ports/http";
 import { MissingRequestBodyError } from "../../_errors/missing-request-body-error";
+import { Controller } from "../Controller";
 
-export class RegisterUserController {
+export class RegisterUserController implements Controller{
 
   private readonly registerUser: RegisterUser
 

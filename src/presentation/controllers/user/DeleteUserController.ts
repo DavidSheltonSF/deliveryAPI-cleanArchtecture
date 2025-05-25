@@ -3,8 +3,9 @@ import { HttpRequest } from "../../_ports/http";
 import { MissingParamError } from "../../_errors/missing-param";
 import { noContent, badRequest, unprocessableEntity, serverError } from "../../_helpers/http-helper";
 import { HttpResponse } from "../../_ports/http";
+import { Controller } from "../Controller";
 
-export class DeleteUserController {
+export class DeleteUserController implements Controller {
 
   private readonly deleteUser: DeleteUser
 

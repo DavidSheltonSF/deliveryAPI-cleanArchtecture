@@ -2,8 +2,9 @@ import { FindAllUsers } from "../../../application/usecases/user/find-all-users/
 import { HttpRequest } from "../../_ports/http";
 import { ok, serverError } from "../../_helpers/http-helper";
 import { HttpResponse } from "../../_ports/http";
+import { Controller } from "../Controller";
 
-export class FindAllUsersController {
+export class FindAllUsersController implements Controller {
 
   private readonly findAllUsers: FindAllUsers
 

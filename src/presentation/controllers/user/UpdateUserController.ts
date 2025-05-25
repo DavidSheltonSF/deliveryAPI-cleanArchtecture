@@ -4,8 +4,9 @@ import { MissingParamError } from "../../_errors/missing-param";
 import { InvalidParamError } from "../../_errors/invalid-param"
 import { ok, badRequest, unprocessableEntity, serverError } from "../../_helpers/http-helper";
 import { HttpResponse } from "../../_ports/http";
+import { Controller } from "../Controller";
 
-export class UpdateUserController {
+export class UpdateUserController implements Controller{
 
   private readonly updateUser: UpdateUser
 

@@ -4,8 +4,9 @@ import { ok, notFound, badRequest, serverError, unprocessableEntity } from "../.
 import { HttpResponse } from "../../_ports/http";
 import { MissingParamError } from "../../_errors";
 import { InvalidEmailError } from "../../../domain/entities/_errors/invalid-email";
+import { Controller } from "../Controller";
 
-export class FindUserByEmailController {
+export class FindUserByEmailController implements Controller {
 
   private readonly findUserByEmail: FindUserByEmail
 
