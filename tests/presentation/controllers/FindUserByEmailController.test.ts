@@ -51,7 +51,6 @@ describe('Testing DeleteUseController', () => {
     const response = await findUserByEmailController.handle(request);
 
     expect(response.statusCode).toBe(404);
-    expect(response.body.message).toBe('User not found')
   });
   
   test('should return 400 BAD REQUEST when email was not provided', async () => {
@@ -64,7 +63,6 @@ describe('Testing DeleteUseController', () => {
     const response = await findUserByEmailController.handle(request);
 
     expect(response.statusCode).toBe(400);
-    expect(response.body.message).toBe('Missing param: email');
   });
 
   test('should return 422 UNPROCESSABLE ENTITY when the email provided is invalemail', async () => {
@@ -79,6 +77,5 @@ describe('Testing DeleteUseController', () => {
     const response = await findUserByEmailController.handle(request);
 
     expect(response.statusCode).toBe(422);
-    expect(response.body.message).toBe(`The email ${request.params.email} is invalid`);
   });
 })

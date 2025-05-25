@@ -3,7 +3,6 @@ import { UpdateUserUseCase as UpdateUserUseCase } from '../../../src/application
 import { UpdateUserController } from '../../../src/presentation/controllers/user/UpdateUserController';
 import { MockData } from '../../_helpers/mockData';
 
-
 const makeSut = () => {
   const spyUserRepository = new SpyUserRepository();
   const updateUserUseCase = new UpdateUserUseCase(spyUserRepository);
@@ -22,8 +21,10 @@ describe('Testing UpdateUseController', () => {
     spyUserRepository.userDatabase.push(mockedUser);
 
     const request = {
+      params: {
+        id: mockedUser._id
+      },
       body: {
-        id: mockedUser._id,
         userData: {
           username: "Updatetname",
           email: "updated@bugmail.com"
@@ -44,8 +45,10 @@ describe('Testing UpdateUseController', () => {
     spyUserRepository.userDatabase.push(mockedUser);
 
     const request = {
+      params: {
+        id: mockedUser._id
+      },
       body: {
-        id: mockedUser._id,
         userData: {
           username: "Updatetname",
           email: mockedUser.email
@@ -66,8 +69,10 @@ describe('Testing UpdateUseController', () => {
     spyUserRepository.userDatabase.push(mockedUser);
 
     const request = {
+      params: {
+        id: mockedUser._id
+      },
       body: {
-        id: mockedUser._id,
         userData: {
           invalidParam: "invaalid",
           email: "updated@bugmail.com"
@@ -88,8 +93,10 @@ describe('Testing UpdateUseController', () => {
     const {_id, address, ...userWithoutId} = mockedUser;
 
     const request = {
+      params: {
+        id: mockedUser._id
+      },
       body: {
-        id: mockedUser._id,
         userData: {
           userame: "Updatetname",
           email: "updated@bugmail.com"
