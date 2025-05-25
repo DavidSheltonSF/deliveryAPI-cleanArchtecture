@@ -5,6 +5,7 @@ import { InvalidParamError } from "../../_errors/invalid-param"
 import { ok, badRequest, unprocessableEntity, serverError } from "../../_helpers/http-helper";
 import { HttpResponse } from "../../_ports/http";
 import { Controller } from "../Controller";
+import { MissingFieldError } from "../../_errors";
 
 export class UpdateUserController implements Controller{
 
@@ -17,14 +18,15 @@ export class UpdateUserController implements Controller{
   async handle(request: HttpRequest): Promise<HttpResponse> {
     try{
 
-      const {id, userData} = request.body;
+      const { id } = request.params;
+      const { userData } = request.body;
 
       if (!id){
-        return badRequest(new MissingParamError('id'));
+        return badRequest(new MissingParamError(['id']));
       }
 
       if (!userData){
-        return badRequest(new MissingParamError('userData'));
+        return badRequest(new MissingFieldError(['userData']));
       }
 
       const userFields = ["username", "email", "cpf", "phone", "role", "address", "authentication", "bankInfo"];

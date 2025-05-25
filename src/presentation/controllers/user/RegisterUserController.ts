@@ -1,6 +1,6 @@
 import { RegisterUser } from "../../../application/usecases/user/register-user/interface";
 import { HttpRequest } from "../../_ports/http";
-import { MissingParamError } from "../../_errors/missing-param";
+import { MissingFieldError } from "../../_errors/missing-field";
 import { created, badRequest, unprocessableEntity, serverError } from "../../_helpers/http-helper";
 import { HttpResponse } from "../../_ports/http";
 import { MissingRequestBodyError } from "../../_errors/missing-request-body-error";
@@ -16,18 +16,23 @@ export class RegisterUserController implements Controller{
 
   async handle(request: HttpRequest): Promise<HttpResponse> {
     try{
-      const requiredParams = ['username', 'email', 'phone', 'role', 'cpf', 'authentication']
+      const requiredFields = ['username', 'email', 'phone', 'role', 'cpf', 'authentication']
       const userData = request.body;
 
       if(!request.body){
-        console.log(request)
         return badRequest(new MissingRequestBodyError());
       }
 
-      for (let i in requiredParams){
-        if (!Object.keys(userData).includes(requiredParams[i])){
-          return badRequest(new MissingParamError(requiredParams[i]));
+      const missingFields = [];
+
+      for (let i in requiredFields){
+        if (!Object.keys(userData).includes(requiredFields[i])){
+          missingFields.push(requiredFields[i])
         }
+      }
+
+      if(missingFields.length > 0){
+        return badRequest(new MissingFieldError(missingFields));
       }
 
       const response = await this.registerUser.execute(userData);
