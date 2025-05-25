@@ -3,6 +3,7 @@ import { HttpRequest } from "../../_ports/http";
 import { MissingParamError } from "../../_errors/missing-param";
 import { ok, badRequest, unprocessableEntity, serverError } from "../../_helpers/http-helper";
 import { HttpResponse } from "../../_ports/http";
+import { MissingRequestBodyError } from "../../_errors/missing-request-body-error";
 
 export class RegisterUserController {
 
@@ -16,6 +17,10 @@ export class RegisterUserController {
     try{
       const requiredParams = ['username', 'email', 'phone', 'role', 'cpf', 'authentication']
       const userData = request.body;
+
+      if(!request.body){
+        return badRequest(new MissingRequestBodyError());
+      }
 
       for (let i in requiredParams){
         if (!Object.keys(userData).includes(requiredParams[i])){
