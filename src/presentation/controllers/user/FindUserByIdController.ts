@@ -20,7 +20,7 @@ export class FindUserByIdController implements Controller {
       const { id } = request.params;
 
       if(!id){
-        return badRequest(new MissingParamError("id"))
+        return badRequest(new MissingParamError(["id"]))
       }
 
       const response = await this.findUserById.execute(id);

@@ -20,7 +20,7 @@ export class FindUserByEmailController implements Controller {
       const { email } = request.params;
 
       if(!email){
-        return badRequest(new MissingParamError("email"))
+        return badRequest(new MissingParamError(["email"]))
       }
 
       const response = await this.findUserByEmail.execute(email);

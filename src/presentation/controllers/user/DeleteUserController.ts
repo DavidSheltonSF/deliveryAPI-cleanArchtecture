@@ -17,7 +17,7 @@ export class DeleteUserController implements Controller {
     try{
       
       if(!request.params.id){
-        return badRequest(new MissingParamError('id'));
+        return badRequest(new MissingParamError(['id']));
       }
 
       const response = await this.deleteUser.execute(request.params.id);
