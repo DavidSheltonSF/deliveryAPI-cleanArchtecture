@@ -1,6 +1,6 @@
-import { RegisterUserController } from "../../../presentation/controllers/user/RegisterUserController";
+import { RegisterUserController } from "../../../../presentation/controllers/user/RegisterUserController";
 import { Request, Response } from "express";
-import { HttpRequest, HttpResponse } from "../../../presentation/_ports/http";
+import { HttpRequest, HttpResponse } from "../../../../presentation/_ports/http";
 
 export const adaptRegisterUserRoute =  (controller: RegisterUserController) => {
   return async (req: Request, res: Response) => {
