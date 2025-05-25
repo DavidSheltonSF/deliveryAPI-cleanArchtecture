@@ -19,7 +19,7 @@ export class RegisterUserController implements Controller{
       const requiredFields = ['username', 'email', 'phone', 'role', 'cpf', 'authentication']
       const userData = request.body;
 
-      if(!request.body){
+      if(!userData){
         return badRequest(new MissingRequestBodyError());
       }
 
