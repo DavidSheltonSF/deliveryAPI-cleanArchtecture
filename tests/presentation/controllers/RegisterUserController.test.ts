@@ -26,7 +26,7 @@ describe('Testing RegisterUseController', () => {
 
     const response = await registerUserController.handle(request);
 
-    expect(response.statusCode).toBe(200);
+    expect(response.statusCode).toBe(201);
   });
 
   test('Should return 200 for good request but without address(optional param)', async () => {
@@ -41,7 +41,7 @@ describe('Testing RegisterUseController', () => {
 
     const response = await registerUserController.handle(request);
 
-    expect(response.statusCode).toBe(200);
+    expect(response.statusCode).toBe(201);
   });
 
   test('Should return 422 if user already exists', async () => {
