@@ -20,17 +20,17 @@ describe('Testing UpdateUseController', () => {
 
     spyUserRepository.userDatabase.push(mockedUser);
 
+    const userData = {
+      username: "Updatetname",
+      email: "updated@bugmail.com"
+    };
+
     const request = {
       params: {
         id: mockedUser._id
       },
-      body: {
-        userData: {
-          username: "Updatetname",
-          email: "updated@bugmail.com"
-        }
-      }
-    }
+      body: userData
+    };
 
     const response = await updateUserController.handle(request);
 
@@ -44,17 +44,17 @@ describe('Testing UpdateUseController', () => {
 
     spyUserRepository.userDatabase.push(mockedUser);
 
+    const userData = {
+      username: "Updatetname",
+      email: mockedUser.email
+    };
+
     const request = {
       params: {
         id: mockedUser._id
       },
-      body: {
-        userData: {
-          username: "Updatetname",
-          email: mockedUser.email
-        }
-      }
-    }
+      body: userData
+    };
 
     const response = await updateUserController.handle(request);
 
@@ -68,44 +68,42 @@ describe('Testing UpdateUseController', () => {
 
     spyUserRepository.userDatabase.push(mockedUser);
 
+    const userData = {
+      invalidParam: "invaalid",
+      email: "updated@bugmail.com"
+    };
+
     const request = {
       params: {
         id: mockedUser._id
       },
-      body: {
-        userData: {
-          invalidParam: "invaalid",
-          email: "updated@bugmail.com"
-        }
-      }
-    }
+      body: userData
+    };
 
     const response = await updateUserController.handle(request);
 
     expect(response.statusCode).toBe(400);
   });
-
 
   test('Should return 422 UNPROCESSABLE ENTITY if user does not exist', async () => {
     const updateUserController = makeSut().updateUserController;
 
     const [mockedUser] = MockData.mockUser();
-    const {_id, address, ...userWithoutId} = mockedUser;
+
+    const userData = {
+      userame: "Updatetname", // Note: typo preserved from original
+      email: "updated@bugmail.com"
+    };
 
     const request = {
       params: {
         id: mockedUser._id
       },
-      body: {
-        userData: {
-          userame: "Updatetname",
-          email: "updated@bugmail.com"
-        }
-      }
-    }
+      body: userData
+    };
 
     const response = await updateUserController.handle(request);
 
     expect(response.statusCode).toBe(400);
   });
-})
+});
