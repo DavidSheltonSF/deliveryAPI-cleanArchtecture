@@ -1,7 +1,7 @@
 import { RegisterUser } from "../../../application/usecases/user/register-user/interface";
 import { HttpRequest } from "../../_ports/http";
 import { MissingParamError } from "../../_errors/missing-param";
-import { ok, badRequest, unprocessableEntity, serverError } from "../../_helpers/http-helper";
+import { created, badRequest, unprocessableEntity, serverError } from "../../_helpers/http-helper";
 import { HttpResponse } from "../../_ports/http";
 import { MissingRequestBodyError } from "../../_errors/missing-request-body-error";
 
@@ -19,6 +19,7 @@ export class RegisterUserController {
       const userData = request.body;
 
       if(!request.body){
+        console.log(request)
         return badRequest(new MissingRequestBodyError());
       }
 
@@ -34,7 +35,7 @@ export class RegisterUserController {
         return unprocessableEntity(response.getLeft());
       }
 
-      return ok(response);
+      return created(response.getRight());
 
     }catch(error){
       console.log(error);
