@@ -1,14 +1,11 @@
 import { Express, Router } from "express";
-import routes from "./../routes"
+import { UserRoutes } from "../routes/UserRoutes";
 
 export default (app: Express): void => {
 
   const router = Router()
 
-  routes.forEach((route) => {
-    route(router)
-  })
-
+  UserRoutes.configureRoutes(router);
 
   app.use("/app", router);
   
