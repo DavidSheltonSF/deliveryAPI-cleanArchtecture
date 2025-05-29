@@ -6,7 +6,7 @@ Welcome to my Delivery API project! This project is structured based on Uncle Bo
 ## 🚧 Work in Progress
 
 Currently implemented features:
-- ✅ **User routes** (core domain models)
+- ✅ **User routes** 
 
 
 ### 📘 User Routes
@@ -15,12 +15,11 @@ These are the available endpoints for interacting with the User resource in the 
 
 **➕ Register a new user**
 
-POST /users
+POST app/users
 
 Example request body:
 
 ```json
-Edit
 {
   "username": "Marcos",
   "email": "marcos@bugmail.com",
@@ -28,7 +27,7 @@ Edit
   "phone": "21555777777",
   "role": "admin",
   "address": {
-    "street": "test streed",
+    "street": "test street",
     "city": "Belford Roxo",
     "state": "Rio de Janeiro",
     "zipCode": "22222220"
@@ -41,13 +40,11 @@ Edit
 ```
 **🔄 Update a user by ID**
 
-PUT /users/:id
+PUT app/users/:id
 
-Example request body:
+Example request body (all fields are optional):
 
 ```json
-Copy
-Edit
 {
   "name": "Ash K.",
   "email": "ashk@pallet.com"
@@ -56,17 +53,9 @@ Edit
 
 **❌ Delete a user**
 
-DELETE /users/:id
+DELETE app/users/:id
 
-Example request body:
-
-```json
-Copy
-Edit
-{
-  "email": "ash@pallet.com"
-}
-```
+No body required.
 
 **📋 Get all users**
 
@@ -85,6 +74,8 @@ No body required.
 GET /users/email/:email
 
 No body required.
+
+
   
 
 ## 🧪 Testing
@@ -102,6 +93,7 @@ npm run test
 - Jest (test framework)
 - MongoDB
 - Husky (run tests before commits)
+- Docker (containerization)
 
 
 ## 📌 Goals
@@ -112,7 +104,6 @@ npm run test
 - Write maintainable and testable code
 
 ## 📂 Future Plans
-- Use Docker for containerization
 - Implement authentication
 - Deploy the API
 
