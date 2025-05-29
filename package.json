@@ -10,6 +10,7 @@
     "test": "jest --onlyChanged --silent=false",
     "prepare": "husky",
     "build": "tsc",
+    "dev": "npx tsx src/main/server.ts",
     "start": "node dist/main/server.js"
   },
   "repository": {
