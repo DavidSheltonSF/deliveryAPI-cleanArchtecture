@@ -9,7 +9,8 @@
   "scripts": {
     "test": "jest --onlyChanged --silent=false",
     "prepare": "husky",
-    "start": "npx tsx src/main/server.ts"
+    "build": "tsc",
+    "start": "node dist/main/server.js"
   },
   "repository": {
     "type": "git",
