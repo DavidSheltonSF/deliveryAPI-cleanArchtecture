@@ -8,6 +8,5 @@ export default (app: Express): void => {
   UserRoutes.configureRoutes(router);
 
   app.use("/app", router);
-  
-  console.log('ROUTER IS READY');
+
 }
