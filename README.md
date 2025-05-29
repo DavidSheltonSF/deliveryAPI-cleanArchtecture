@@ -2,6 +2,12 @@
 
 Welcome to my Delivery API project! This project is structured based on Uncle Bob's Clean Architecture principles, aiming for high maintainability, testability, and separation of concerns.
 
+## 📋 Prerequisites
+
+Before running this project, make sure you have one of the following options set up:
+
+- 🐳 **[Docker](https://www.docker.com/)** – Recommended. Node.js is already included inside the container.
+- 🧑‍💻 **[Node.js](https://nodejs.org/)** – Only needed if you're running the app *without Docker*.
 
 ## 🚧 Work in Progress
 
@@ -15,7 +21,7 @@ These are the available endpoints for interacting with the User resource in the 
 
 **➕ Register a new user**
 
-POST app/users
+POST /app/users
 
 Example request body:
 
@@ -40,43 +46,64 @@ Example request body:
 ```
 **🔄 Update a user by ID**
 
-PUT app/users/:id
+PUT /app/users/:id
 
 Example request body (all fields are optional):
 
 ```json
 {
-  "name": "Ash K.",
+  "username": "Ash K.",
   "email": "ashk@pallet.com"
 }
 ```
 
 **❌ Delete a user**
 
-DELETE app/users/:id
+DELETE /app/users/:id
 
 No body required.
 
 **📋 Get all users**
 
-GET /users
+GET /app/users
 
 No body required.
 
 **🔍 Get user by ID**
 
-GET /users/id/:id
+GET /app/users/id/:id
 
 No body required.
 
 **🔍 Get user by Email**
 
-GET /users/email/:email
+GET /app/users/email/:email
 
 No body required.
 
+## 📦 Installation
+```bash
+git clone https://github.com/DavidSheltonSF/deliveryAPI-cleanArchtecture
+cd deliveryAPI-cleanArchtecture
+npm install
+npm run dev
+```
 
-  
+## 🐳 Running the app with Docker
+
+You can run the app with the following commands
+
+```bash
+docker build -t delivery-app .
+docker run --env-file .env -p 3000:3000 delivery-app
+```
+
+Make sure your .env file is configured like the example below:
+
+```bash
+# .env example
+MONGO_URI=valid_mongodb_connection_string
+```
 
 ## 🧪 Testing
 
@@ -108,7 +135,7 @@ npm run test
 - Deploy the API
 
 
-## Entities
+## 🧬 Entities
 - User (admin, client, restaurant_owner, driver)
 - Restaurant
 - Restaurant Chain
