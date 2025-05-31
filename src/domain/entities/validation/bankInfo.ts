@@ -1,7 +1,7 @@
 import { PaymentMethod } from "./_enums";
 import { Either } from "./../../../shared/either";
 import { BankInfoProps } from "./_interfaces";
-import { InvalidPaymentMethodError, InvalidCardNumberError } from "./../_errors";
+import { InvalidPaymentMethodError, InvalidCardNumberError } from "../errors";
 
 export class BankInfo {
   private readonly bankinfo: BankInfoProps;

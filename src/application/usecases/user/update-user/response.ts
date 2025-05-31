@@ -9,7 +9,7 @@ import {
   InvalidCardNumberError,
   InvalidPaymentMethodError,
   InvalidPasswordError
- } from "../../../../domain/entities/_errors";
+ } from "../../../../domain/entities/errors";
  import { NoResultError } from "../../../_errors";
 import { UserProps } from "../../../../domain/entities/user-props";
 

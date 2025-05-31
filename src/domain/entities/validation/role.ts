@@ -1,5 +1,5 @@
 import { Either } from "./../../../shared/either";
-import { InvalidRoleError } from "./../_errors/";
+import { InvalidRoleError } from "../errors";
 import { UserRole } from "./_enums";
 
 export class Role {

@@ -10,7 +10,7 @@ import {
   InvalidPaymentMethodError,
   InvalidCardNumberError,
   InvalidPasswordError
- } from "./../_errors";
+ } from "../errors";
 import { 
   Name,
   Email,

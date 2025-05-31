@@ -1,4 +1,4 @@
-import { InvalidEmailError } from "../../../../domain/entities/_errors";
+import { InvalidEmailError } from "../../../../domain/entities/errors";
 import { Email } from "../../../../domain/entities/validation";
 import { Either } from "../../../../shared/either";
 import { UserRepository } from "../../../_ports/user-repository";
