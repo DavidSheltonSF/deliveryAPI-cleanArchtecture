@@ -44,7 +44,7 @@ export class User {
     Object.freeze(this);
   };
 
-  static createFull(userData: Omit<UserProps, "_id">): Either<InvalidAddressError 
+  static createFull(userData: UserProps): Either<InvalidAddressError 
   | InvalidCpfError
   | InvalidEmailError
   | InvalidNameError
@@ -97,7 +97,7 @@ export class User {
   }
 
 
-  static createPartial(userData: Partial<Omit<UserProps, "_id">>): Either<InvalidAddressError 
+  static createPartial(userData: Partial<UserProps>): Either<InvalidAddressError 
   | InvalidCpfError
   | InvalidEmailError
   | InvalidNameError

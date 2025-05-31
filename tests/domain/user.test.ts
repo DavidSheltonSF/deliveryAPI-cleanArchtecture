@@ -1,7 +1,7 @@
 import { User } from "../../src/domain/entities/validation";
 import { UserProps } from "../../src/domain/entities/user-props";
 
-const users: Omit<UserProps, "_id">[] = [
+const users: UserProps[] = [
   {
     username: 'João',
     email: 'joao@bugmail.com',

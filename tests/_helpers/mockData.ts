@@ -20,7 +20,7 @@ export class MockData {
     const mockedUsers: UserProps[] = [];
     for (let i = 0; i < count; i++) {
       const user = {
-        _id: mongoHelper.toObjectId(this.generateHexId()),
+        _id: this.generateHexId(),
         username: faker.person.firstName(),
         email: faker.internet.email(),
         cpf: faker.string.numeric({ length: 11 }),
