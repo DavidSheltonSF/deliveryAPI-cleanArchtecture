@@ -3,7 +3,7 @@ import { HttpRequest } from "../../_ports/http";
 import { ok, notFound, badRequest, serverError, unprocessableEntity } from "../../_helpers/http-helper";
 import { HttpResponse } from "../../_ports/http";
 import { MissingParamError } from "../../_errors";
-import { InvalidIDError } from "../../../domain/entities/_errors/invalid-id";
+import { InvalidIdError } from "../../../domain/entities/_errors/invalid-id";
 import { Controller } from "../Controller";
 
 export class FindUserByIdController implements Controller {
@@ -26,7 +26,7 @@ export class FindUserByIdController implements Controller {
       const response = await this.findUserById.execute(id);
 
       if (response.isLeft()){
-        return unprocessableEntity(new InvalidIDError(id));
+        return unprocessableEntity(new InvalidIdError(id));
       }
 
       const user = response.getRight();

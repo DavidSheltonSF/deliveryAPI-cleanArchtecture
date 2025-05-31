@@ -1,4 +1,4 @@
-import { InvalidIDError } from "../../../../domain/entities/_errors/invalid-id";
+import { InvalidIdError } from "../../../../domain/entities/_errors/invalid-id";
 import { ID } from "../../../../domain/entities/validation";
 import { Either } from "../../../../shared/either";
 import { UserRepository } from "../../../_ports/user-repository";
@@ -18,7 +18,7 @@ export class FindUserByIdUseCase implements FindUserById {
     const idOrError = ID.create(id);
 
     if(idOrError.isLeft()){
-      return Either.left(new InvalidIDError(id));
+      return Either.left(new InvalidIdError(id));
     }
 
     return Either.right(await this.userRepository.findUserById(id));

@@ -1,5 +1,5 @@
 import { Either } from "../../../shared/either";
-import { InvalidIDError } from "../_errors/invalid-id";
+import { InvalidIdError } from "../_errors/invalid-id";
 import { mongoHelper } from "../../../infrastructure/repositories/mongodb/helpers/mongo-helper";
 
 export class ID {
@@ -19,9 +19,9 @@ export class ID {
     }
   }
 
-  static create(id: string): Either<InvalidIDError, ID> {
+  static create(id: string): Either<InvalidIdError, ID> {
     if (!this.validate(id)) {
-      return Either.left(new InvalidIDError(id));
+      return Either.left(new InvalidIdError(id));
     }
 
     return Either.right(new ID(id));
