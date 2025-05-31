@@ -1,5 +1,5 @@
 import { Either } from "../../../shared/either";
-import { InvalidIdError } from "../_errors/invalid-id";
+import { InvalidIdError } from "../_errors/";
 import { mongoHelper } from "../../../infrastructure/repositories/mongodb/helpers/mongo-helper";
 
 export class ID {

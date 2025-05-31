@@ -1,5 +1,5 @@
 import { Either } from "./../../../shared/either";
-import { InvalidPasswordError } from "./../_errors/invalid-password";
+import { InvalidPasswordError } from "./../_errors/";
 import { AuthenticationProps } from "./_interfaces/index";
 
 export class Authentication {

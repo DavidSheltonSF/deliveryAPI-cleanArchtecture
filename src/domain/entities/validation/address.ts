@@ -1,5 +1,5 @@
 import { Either } from "../../../shared/either";
-import { InvalidAddressError } from "../_errors/invalid-address";
+import { InvalidAddressError } from "../_errors/InvalidAddressError";
 import { AddressProps } from "./_interfaces";
 
 export class Address {

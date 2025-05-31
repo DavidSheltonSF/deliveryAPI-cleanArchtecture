@@ -1,4 +1,4 @@
-import { InvalidIdError } from "../../../../domain/entities/_errors/invalid-id";
+import { InvalidIdError } from "../../../../domain/entities/_errors/";
 import { ID } from "../../../../domain/entities/validation";
 import { Either } from "../../../../shared/either";
 import { UserRepository } from "../../../_ports/user-repository";

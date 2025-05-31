@@ -3,7 +3,7 @@ import { HttpRequest } from "../../_ports/http";
 import { ok, notFound, badRequest, serverError, unprocessableEntity } from "../../_helpers/http-helper";
 import { HttpResponse } from "../../_ports/http";
 import { MissingParamError } from "../../_errors";
-import { InvalidEmailError } from "../../../domain/entities/_errors/invalid-email";
+import { InvalidEmailError } from "../../../domain/entities/_errors/";
 import { Controller } from "../Controller";
 
 export class FindUserByEmailController implements Controller {

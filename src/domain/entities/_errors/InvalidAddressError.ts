@@ -1,4 +1,4 @@
-import { DomainError } from './domain-error';
+import { DomainError } from './DomainError';
 
 export class InvalidAddressError extends Error implements DomainError {
   constructor (address: string) {
