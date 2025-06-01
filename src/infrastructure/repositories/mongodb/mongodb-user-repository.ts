@@ -1,18 +1,20 @@
+import { WithId, Document } from "mongodb";
 import { UserRepository } from "../../../application/_ports/user-repository";
 import { UserProps } from "../../../domain/entities/user-props";
-import { UserMapper } from "../../../domain/entities/user-props";
+import { UserMapper } from "./helpers/mappers/user-mapper";
 import { mongoHelper } from "./helpers/mongo-helper";
 
 export class MongodbUserRepository implements UserRepository {
   
   async findAllUsers (): Promise<UserProps[]> {
     const userCollection = mongoHelper.getCollection('users');
+
     // Select all fields but not 
     // authentication.salt nor authentication.sessionToken
     const result = await userCollection.find().project({
       'authentication.salt': 0,
-      'authentication.sesstionToken': 0
-    }).toArray();
+      'authentication.sessionToken': 0
+    }).toArray() as WithId<Document>[];
 
     if (result){
       const users = result.map((elem) => {
@@ -57,9 +59,9 @@ export class MongodbUserRepository implements UserRepository {
     return false
   }
 
-  async add (user: Omit<UserProps, "_id">): Promise<void> {
+  async add (user: UserProps): Promise<void> {
     const userCollection = mongoHelper.getCollection('users');
-    await userCollection?.insertOne(user);
+    await userCollection?.insertOne(UserMapper.toUserDocument(user));
   }
 
   async update (userId: string, userProps: Partial<UserProps>): Promise<void> {
