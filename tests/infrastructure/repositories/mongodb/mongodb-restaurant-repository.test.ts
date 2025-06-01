@@ -2,6 +2,7 @@ import { mongoHelper } from "../../../../src/infrastructure/repositories/mongodb
 import { config } from "dotenv";
 import { MongodbRestaurantRepository } from "../../../../src/infrastructure/repositories/mongodb/mongodb-restaurant-repository";
 import { generateHexId } from "../../../../src/shared/generateHexId";
+import { RestaurantMapper } from "../../../../src/infrastructure/repositories/mongodb/helpers/mappers/restaurant-mapper";
 
 config();
 
@@ -14,7 +15,7 @@ const adminId1 = generateHexId();
 
 const restaurants = [
   {
-    _id: mongoHelper.toObjectId('60f1b9b3b3b3b3b3b3b3b3b3'),
+    _id: generateHexId(),
     restaurantChainId: restaurantChainId0,
     adminId: adminId0,
     isOpen: false,
@@ -28,7 +29,7 @@ const restaurants = [
     },
   },
   {
-    _id: mongoHelper.toObjectId('60f1b9b3b3b3b3b3b3b3b3c3'),
+    _id: generateHexId(),
     restaurantChainId: restaurantChainId1,
     adminId: adminId1, 
     isOpen: true,
@@ -95,8 +96,9 @@ describe('Testing MongodbRestaurantRepository', () => {
     const restaurantCollection = mongoHelper.getCollection('restaurants');
 
     // Adding new restaurants to database
-    await restaurantCollection.insertOne(restaurants[0]);
-    await restaurantCollection.insertOne(restaurants[1]);
+    await restaurantCollection.insertOne(RestaurantMapper.toRestaurantDocument(restaurants[0]));
+    await restaurantCollection.insertOne(RestaurantMapper.toRestaurantDocument(restaurants[1]));
+
 
     const allRestaurants = await repository.findAllRestaurants();
     
@@ -109,7 +111,7 @@ describe('Testing MongodbRestaurantRepository', () => {
     const restaurantCollection = mongoHelper.getCollection('restaurants');
 
     // Adding new restaurant to database
-    await restaurantCollection.insertOne(restaurants[0]);
+    await restaurantCollection.insertOne(RestaurantMapper.toRestaurantDocument(restaurants[0]));
 
     const foundRestaurant = await repository.findRestaurantById(restaurants[0]._id.toString());
 
@@ -132,7 +134,8 @@ describe('Testing MongodbRestaurantRepository', () => {
     const restaurantCollection = mongoHelper.getCollection('restaurants');
 
     // Adding new restaurant to database
-    await restaurantCollection.insertOne(restaurants[0]);
+    await restaurantCollection.insertOne(RestaurantMapper.toRestaurantDocument(restaurants[0]));
+
 
     const foundRestaurant = await repository.findRestaurantByAdminId(restaurants[0].adminId);
 
@@ -156,7 +159,8 @@ describe('Testing MongodbRestaurantRepository', () => {
     const restaurantCollection = mongoHelper.getCollection('restaurants');
 
     // Adding new restaurant to database
-    await restaurantCollection.insertOne(restaurants[0]);
+    await restaurantCollection.insertOne(RestaurantMapper.toRestaurantDocument(restaurants[0]));
+
 
     const updatedAdminId = generateHexId();
     const updatedRestaurant = {
@@ -197,7 +201,8 @@ describe('Testing MongodbRestaurantRepository', () => {
     const restaurantCollection = mongoHelper.getCollection('restaurants');
 
     // Adding new restaurant to database
-    await restaurantCollection.insertOne(restaurants[0]);
+    await restaurantCollection.insertOne(RestaurantMapper.toRestaurantDocument(restaurants[0]));
+
 
     await repository.remove(restaurants[0]._id.toString());
 

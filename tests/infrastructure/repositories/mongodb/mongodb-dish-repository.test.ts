@@ -2,6 +2,7 @@ import { mongoHelper } from "../../../../src/infrastructure/repositories/mongodb
 import { config } from "dotenv";
 import { MongodbDishRepository } from "../../../../src/infrastructure/repositories/mongodb/mongodb-dish-repository";
 import { generateHexId } from "../../../../src/shared/generateHexId";
+import { DishMapper } from "../../../../src/infrastructure/repositories/mongodb/helpers/mappers/dish-mapper";
 
 config();
 
@@ -10,9 +11,9 @@ const repository = new MongodbDishRepository();
 const restaurantId0 = generateHexId();
 const restaurantId1 = generateHexId();
 
-const dishs = [
+const dishes = [
   {
-    _id: mongoHelper.toObjectId('60f1b9b3b3b3b3b3b3b3b3b3'),
+    _id: generateHexId(),
     name: 'pizza quatro queijos',
     description: 'pizza com 4 queijos',
     price: 30,
@@ -20,7 +21,7 @@ const dishs = [
     imageUrl: 'fadsfsf1s1f6afdfd',
   },
   {
-    _id: mongoHelper.toObjectId('60f1b9b3b3b3b3b3b3b3b3c3'),
+    _id: generateHexId(),
     name: 'pizza de chocolate',
     description: 'pizza com chocolate',
     price: 40,
@@ -56,36 +57,37 @@ describe('Testing MongodbDishRepository', () => {
 
     const DishCollection = mongoHelper.getCollection('dish');
 
-    // Adding new dishs to database
-    await repository.add(dishs[0]);
+    // Adding new dishes to database
+    await repository.add(dishes[0]);
 
     const foundDish = await DishCollection
-      .findOne({restaurantId: dishs[0].restaurantId});
+      .findOne({restaurantId: dishes[0].restaurantId});
     
     expect(foundDish?.name)
-      .toBe(dishs[0].name);
+      .toBe(dishes[0].name);
     expect(foundDish?.description)
-      .toBe(dishs[0].description);
+      .toBe(dishes[0].description);
     expect(foundDish?.price)
-      .toBe(dishs[0].price);
+      .toBe(dishes[0].price);
     expect(foundDish?.restaurantId)
-      .toBe(dishs[0].restaurantId);
+      .toBe(dishes[0].restaurantId);
     expect(foundDish?.imageUrl)
-    .toBe(dishs[0].imageUrl);
+    .toBe(dishes[0].imageUrl);
   });
 
-  test('Should return all dishs in the database', async () => {
+  test('Should return all dishes in the database', async () => {
 
     const DishCollection = mongoHelper.getCollection('dish');
 
-    // Adding new dishs to database
-    await DishCollection.insertOne(dishs[0]);
-    await DishCollection.insertOne(dishs[1]);
+    // Adding new dishes to database
+    await DishCollection.insertOne(DishMapper.toDishDocument(dishes[0]));
+    await DishCollection.insertOne(DishMapper.toDishDocument(dishes[1]));
 
-    const alldishs = await repository.findAllDishs();
+
+    const alldishes = await repository.findAllDishs();
     
-    expect(alldishs[0].restaurantId).toEqual(dishs[0].restaurantId);
-    expect(alldishs[1].restaurantId).toEqual(dishs[1].restaurantId);
+    expect(alldishes[0].restaurantId).toEqual(dishes[0].restaurantId);
+    expect(alldishes[1].restaurantId).toEqual(dishes[1].restaurantId);
   });
 
   test('Should find a Dish by id', async () => {
@@ -93,20 +95,20 @@ describe('Testing MongodbDishRepository', () => {
     const DishCollection = mongoHelper.getCollection('dish');
 
     // Adding new Dish to database
-    await DishCollection.insertOne(dishs[0]);
+    await DishCollection.insertOne(DishMapper.toDishDocument(dishes[0]));
 
-    const foundDish = await repository.findDishById(dishs[0]._id.toString());
+    const foundDish = await repository.findDishById(dishes[0]._id);
 
     expect(foundDish?.name)
-      .toBe(dishs[0].name);
+      .toBe(dishes[0].name);
     expect(foundDish?.description)
-      .toBe(dishs[0].description);
+      .toBe(dishes[0].description);
     expect(foundDish?.price)
-      .toBe(dishs[0].price);
+      .toBe(dishes[0].price);
     expect(foundDish?.restaurantId)
-      .toBe(dishs[0].restaurantId);
+      .toBe(dishes[0].restaurantId);
     expect(foundDish?.imageUrl)
-      .toBe(dishs[0].imageUrl);
+      .toBe(dishes[0].imageUrl);
   });
 
   test('Should update Dish by id', async () => {
@@ -114,7 +116,7 @@ describe('Testing MongodbDishRepository', () => {
     const DishCollection = mongoHelper.getCollection('dish');
 
     // Adding new Dish to database
-    await DishCollection.insertOne(dishs[0]);
+    await DishCollection.insertOne(DishMapper.toDishDocument(dishes[0]));
 
     const updatedRestaurantId = generateHexId();
     const updatedDish = {
@@ -125,9 +127,9 @@ describe('Testing MongodbDishRepository', () => {
       imageUrl: 'fadsfsf1s1f6afdfd-updated',
     }
 
-    await repository.update(dishs[0]._id.toString(), updatedDish);
+    await repository.update(dishes[0]._id, updatedDish);
 
-    const foundDish = await repository.findDishById(dishs[0]._id.toString());
+    const foundDish = await repository.findDishById(dishes[0]._id);
 
     expect(foundDish?.name)
       .toBe(updatedDish.name);
@@ -146,11 +148,11 @@ describe('Testing MongodbDishRepository', () => {
     const DishCollection = mongoHelper.getCollection('dish');
 
     // Adding new Dish to database
-    await DishCollection.insertOne(dishs[0]);
+    await DishCollection.insertOne(DishMapper.toDishDocument(dishes[0]));
 
-    await repository.remove(dishs[0]._id.toString());
+    await repository.remove(dishes[0]._id);
 
-    const foundDish = await repository.findDishById(dishs[0]._id.toString());
+    const foundDish = await repository.findDishById(dishes[0]._id);
 
     expect(foundDish)
       .toBeFalsy();

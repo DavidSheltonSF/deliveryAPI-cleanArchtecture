@@ -2,6 +2,7 @@ import { mongoHelper } from "../../../../src/infrastructure/repositories/mongodb
 import { config } from "dotenv";
 import { MongodbDeliveryRepository } from "../../../../src/infrastructure/repositories/mongodb/mongodb-delivery-repository";
 import { generateHexId } from "../../../../src/shared/generateHexId";
+import { DeliveryMapper } from "../../../../src/infrastructure/repositories/mongodb/helpers/mappers/delivery-mapper";
 
 config();
 
@@ -15,14 +16,14 @@ const driverId1 = generateHexId();
 
 const deliverys = [
   { 
-    _id: mongoHelper.toObjectId(generateHexId()),
+    _id: generateHexId(),
     orderId: orderId0,
     driverId: driverId0,
     status: 'delivered',
     timeEstimate: 0
   },
   { 
-    _id: mongoHelper.toObjectId(generateHexId()),
+    _id: generateHexId(),
     orderId: orderId1,
     driverId: driverId1,
     status: 'on_the_way',
@@ -61,7 +62,7 @@ describe('Testing MongodbDeliveryRepository', () => {
     await repository.add(deliverys[0]);
 
     const foundDelivery = await DeliveryCollection
-      .findOne({_id: deliverys[0]._id});
+      .findOne({_id: mongoHelper.toObjectId(deliverys[0]._id)});
     
     expect(foundDelivery?.orderId)
       .toBe(deliverys[0].orderId);
@@ -78,8 +79,9 @@ describe('Testing MongodbDeliveryRepository', () => {
     const DeliveryCollection = mongoHelper.getCollection('delivery');
 
     // Adding new deliverys to database
-    await DeliveryCollection.insertOne(deliverys[0]);
-    await DeliveryCollection.insertOne(deliverys[1]);
+    await DeliveryCollection.insertOne(DeliveryMapper.toDeliveryDocument(deliverys[0]));
+    await DeliveryCollection.insertOne(DeliveryMapper.toDeliveryDocument(deliverys[1]));
+
 
     const alldeliverys = await repository.findAllDeliverys();
     
@@ -92,9 +94,9 @@ describe('Testing MongodbDeliveryRepository', () => {
     const DeliveryCollection = mongoHelper.getCollection('delivery');
 
     // Adding new Delivery to database
-    await DeliveryCollection.insertOne(deliverys[0]);
+    await DeliveryCollection.insertOne(DeliveryMapper.toDeliveryDocument(deliverys[0]));
 
-    const foundDelivery = await repository.findDeliveryById(deliverys[0]._id.toString());
+    const foundDelivery = await repository.findDeliveryById(deliverys[0]._id);
 
     expect(foundDelivery?.orderId)
       .toBe(deliverys[0].orderId);
@@ -111,7 +113,7 @@ describe('Testing MongodbDeliveryRepository', () => {
     const DeliveryCollection = mongoHelper.getCollection('delivery');
 
     // Adding new Delivery to database
-    await DeliveryCollection.insertOne(deliverys[0]);
+    await DeliveryCollection.insertOne(DeliveryMapper.toDeliveryDocument(deliverys[0]));
 
     const updatedorderI= generateHexId();
     const updatedDriverId = generateHexId();
@@ -123,9 +125,9 @@ describe('Testing MongodbDeliveryRepository', () => {
       timeEstimate: 999
     }
 
-    await repository.update(deliverys[0]._id.toString(), updatedDelivery);
+    await repository.update(deliverys[0]._id, updatedDelivery);
 
-    const foundDelivery = await repository.findDeliveryById(deliverys[0]._id.toString());
+    const foundDelivery = await repository.findDeliveryById(deliverys[0]._id);
 
     expect(foundDelivery?.orderId)
       .toBe(updatedDelivery.orderId);
@@ -142,11 +144,11 @@ describe('Testing MongodbDeliveryRepository', () => {
     const DeliveryCollection = mongoHelper.getCollection('delivery');
 
     // Adding new Delivery to database
-    await DeliveryCollection.insertOne(deliverys[0]);
+    await DeliveryCollection.insertOne(DeliveryMapper.toDeliveryDocument(deliverys[0]));
 
-    await repository.remove(deliverys[0]._id.toString());
+    await repository.remove(deliverys[0]._id);
 
-    const foundDelivery = await repository.findDeliveryById(deliverys[0]._id.toString());
+    const foundDelivery = await repository.findDeliveryById(deliverys[0]._id);
 
     expect(foundDelivery)
       .toBeFalsy();

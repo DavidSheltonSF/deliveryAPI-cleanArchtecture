@@ -2,6 +2,7 @@ import { mongoHelper } from "../../../../src/infrastructure/repositories/mongodb
 import { config } from "dotenv";
 import { MongodbPaymentRepository } from "../../../../src/infrastructure/repositories/mongodb/mongodb-payment-repository";
 import { generateHexId } from "../../../../src/shared/generateHexId";
+import { PaymentMapper } from "../../../../src/infrastructure/repositories/mongodb/helpers/mappers/payment-mapper";
 
 config();
 
@@ -12,13 +13,13 @@ const orderId1 = generateHexId();
 
 const payments = [
   { 
-    _id: mongoHelper.toObjectId('60f1b9b3b3b3b3b3b3b3b3b3'),
+    _id: generateHexId(),
     orderId: orderId0,
     paymentMethod: 'credit_card',
     status: 'paid',
   },
   {
-    _id: mongoHelper.toObjectId('60f1b9b3b3b3b3b3b3b3b3c3'),
+    _id: generateHexId(),
     orderId: orderId1,
     paymentMethod: 'pix_key',
     status: 'pending',
@@ -71,8 +72,8 @@ describe('Testing MongodbPaymentRepository', () => {
     const PaymentCollection = mongoHelper.getCollection('payment');
 
     // Adding new payments to database
-    await PaymentCollection.insertOne(payments[0]);
-    await PaymentCollection.insertOne(payments[1]);
+    await PaymentCollection.insertOne(PaymentMapper.toPaymentDocument(payments[0]));
+    await PaymentCollection.insertOne(PaymentMapper.toPaymentDocument(payments[1]));
 
     const allpayments = await repository.findAllPayments();
     
@@ -85,7 +86,7 @@ describe('Testing MongodbPaymentRepository', () => {
     const PaymentCollection = mongoHelper.getCollection('payment');
 
     // Adding new Payment to database
-    await PaymentCollection.insertOne(payments[0]);
+    await PaymentCollection.insertOne(PaymentMapper.toPaymentDocument(payments[0]));
 
     const foundPayment = await repository.findPaymentById(payments[0]._id.toString());
 
@@ -102,7 +103,7 @@ describe('Testing MongodbPaymentRepository', () => {
     const PaymentCollection = mongoHelper.getCollection('payment');
 
     // Adding new Payment to database
-    await PaymentCollection.insertOne(payments[0]);
+    await PaymentCollection.insertOne(PaymentMapper.toPaymentDocument(payments[0]));
 
     const updatedOrderId = generateHexId();
     const updatedPayment = {
@@ -128,7 +129,7 @@ describe('Testing MongodbPaymentRepository', () => {
     const PaymentCollection = mongoHelper.getCollection('payment');
 
     // Adding new Payment to database
-    await PaymentCollection.insertOne(payments[0]);
+    await PaymentCollection.insertOne(PaymentMapper.toPaymentDocument(payments[0]));
 
     await repository.remove(payments[0]._id.toString());
 

@@ -2,6 +2,7 @@ import { mongoHelper } from "../../../../src/infrastructure/repositories/mongodb
 import { config } from "dotenv";
 import { MongodbRestaurantChainRepository } from "../../../../src/infrastructure/repositories/mongodb/mongodb-restaurant-chain-repository";
 import { generateHexId } from "../../../../src/shared/generateHexId";
+import { RestaurantChainMapper } from "../../../../src/infrastructure/repositories/mongodb/helpers/mappers/restaurant-chain-mapper";
 
 config();
 
@@ -12,14 +13,14 @@ const adminId1 = generateHexId();
 
 const RestaurantChains = [
   {
-    _id: mongoHelper.toObjectId('60f1b9b3b3b3b3b3b3b3b3b3'),
+    _id: generateHexId(),
     name: 'Pizzaria do Ivan',
     cnpj: '12345678901234',
     iconUrl: 'fadsfsf1s1f65afd',
     adminId: adminId0,
   },
   {
-    _id: mongoHelper.toObjectId('60f1b9b3b3b3b3b3b3b3b3c3'),
+    _id: generateHexId(),
     name: 'RestaurantChaine do Yakumoto',
     cnpj: '12345678901235',
     iconUrl: 'fadsfsf1s1f6599d',
@@ -75,8 +76,8 @@ describe('Testing MongodbRestaurantChainRepository', () => {
     const RestaurantChainCollection = mongoHelper.getCollection('restaurantChain');
 
     // Adding new RestaurantChains to database
-    await RestaurantChainCollection.insertOne(RestaurantChains[0]);
-    await RestaurantChainCollection.insertOne(RestaurantChains[1]);
+    await RestaurantChainCollection.insertOne(RestaurantChainMapper.toRestaurantChainDocument(RestaurantChains[0]));
+    await RestaurantChainCollection.insertOne(RestaurantChainMapper.toRestaurantChainDocument(RestaurantChains[1]));
 
     const allRestaurantChains = await repository.findAllRestaurantChains();
     
@@ -89,7 +90,7 @@ describe('Testing MongodbRestaurantChainRepository', () => {
     const RestaurantChainCollection = mongoHelper.getCollection('restaurantChain');
 
     // Adding new RestaurantChain to database
-    await RestaurantChainCollection.insertOne(RestaurantChains[0]);
+    await RestaurantChainCollection.insertOne(RestaurantChainMapper.toRestaurantChainDocument(RestaurantChains[0]));
 
     const foundRestaurantChain = await repository.findRestaurantChainById(RestaurantChains[0]._id.toString());
 
@@ -108,7 +109,7 @@ describe('Testing MongodbRestaurantChainRepository', () => {
     const RestaurantChainCollection = mongoHelper.getCollection('restaurantChain');
 
     // Adding new RestaurantChain to database
-    await RestaurantChainCollection.insertOne(RestaurantChains[0]);
+    await RestaurantChainCollection.insertOne(RestaurantChainMapper.toRestaurantChainDocument(RestaurantChains[0]));
 
     const foundRestaurantChain = await repository.findRestaurantChainByAdminId(RestaurantChains[0].adminId);
 
@@ -128,7 +129,7 @@ describe('Testing MongodbRestaurantChainRepository', () => {
     const RestaurantChainCollection = mongoHelper.getCollection('restaurantChain');
 
     // Adding new RestaurantChain to database
-    await RestaurantChainCollection.insertOne(RestaurantChains[0]);
+    await RestaurantChainCollection.insertOne(RestaurantChainMapper.toRestaurantChainDocument(RestaurantChains[0]));
 
     const updatedAdminId = generateHexId();
     const updatedRestaurantChain = {
@@ -158,7 +159,7 @@ describe('Testing MongodbRestaurantChainRepository', () => {
     const RestaurantChainCollection = mongoHelper.getCollection('restaurantChain');
 
     // Adding new RestaurantChain to database
-    await RestaurantChainCollection.insertOne(RestaurantChains[0]);
+    await RestaurantChainCollection.insertOne(RestaurantChainMapper.toRestaurantChainDocument(RestaurantChains[0]));
 
     await repository.remove(RestaurantChains[0]._id.toString());
 

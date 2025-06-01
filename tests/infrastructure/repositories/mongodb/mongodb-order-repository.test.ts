@@ -2,6 +2,7 @@ import { mongoHelper } from "../../../../src/infrastructure/repositories/mongodb
 import { config } from "dotenv";
 import { MongodbOrderRepository } from "../../../../src/infrastructure/repositories/mongodb/mongodb-order-repository";
 import { generateHexId } from "../../../../src/shared/generateHexId";
+import { OrderMapper } from "../../../../src/infrastructure/repositories/mongodb/helpers/mappers/order-mapper";
 
 config();
 
@@ -15,7 +16,7 @@ const restaurantId1 = generateHexId();
 
 const orders = [
   { 
-    _id: mongoHelper.toObjectId('60f1b9b3b3b3b3b3b3b3b3b3'),
+    _id: generateHexId(),
     customerId: customerId0,
     restaurantId: restaurantId0,
     dishes: [
@@ -42,7 +43,7 @@ const orders = [
     }
   },
   { 
-    _id: mongoHelper.toObjectId('60f1b9b3b3b3b3b3b3b3b3b4'),
+    _id: generateHexId(),
     customerId: customerId1,
     restaurantId: restaurantId1,
     dishes: [
@@ -101,7 +102,7 @@ describe('Testing MongodbOrderRepository', () => {
     await repository.add(orders[0]);
 
     const foundOrder = await OrderCollection
-      .findOne({_id: orders[0]._id});
+      .findOne({_id: mongoHelper.toObjectId(orders[0]._id)});
     
     expect(foundOrder?.customerId)
       .toBe(orders[0].customerId);
@@ -122,8 +123,8 @@ describe('Testing MongodbOrderRepository', () => {
     const OrderCollection = mongoHelper.getCollection('order');
 
     // Adding new orders to database
-    await OrderCollection.insertOne(orders[0]);
-    await OrderCollection.insertOne(orders[1]);
+    await OrderCollection.insertOne(OrderMapper.toOrderDocument(orders[0]));
+    await OrderCollection.insertOne(OrderMapper.toOrderDocument(orders[1]));
 
     const allorders = await repository.findAllOrders();
     
@@ -136,7 +137,7 @@ describe('Testing MongodbOrderRepository', () => {
     const OrderCollection = mongoHelper.getCollection('order');
 
     // Adding new Order to database
-    await OrderCollection.insertOne(orders[0]);
+    await OrderCollection.insertOne(OrderMapper.toOrderDocument(orders[0]));
 
     const foundOrder = await repository.findOrderById(orders[0]._id.toString());
 
@@ -159,13 +160,12 @@ describe('Testing MongodbOrderRepository', () => {
     const OrderCollection = mongoHelper.getCollection('order');
 
     // Adding new Order to database
-    await OrderCollection.insertOne(orders[0]);
+    await OrderCollection.insertOne(OrderMapper.toOrderDocument(orders[0]));
 
     const updatedCustomerId = generateHexId();
     const updatedRestaurantId = generateHexId();
 
     const updatedOrder = { 
-      _id: mongoHelper.toObjectId('60f1b9b3b3b3b3b3b3b3b3b3'),
       customerId: updatedCustomerId,
       restaurantId: updatedRestaurantId,
       dishes: [
@@ -215,7 +215,7 @@ describe('Testing MongodbOrderRepository', () => {
     const OrderCollection = mongoHelper.getCollection('order');
 
     // Adding new Order to database
-    await OrderCollection.insertOne(orders[0]);
+    await OrderCollection.insertOne(OrderMapper.toOrderDocument(orders[0]));
 
     await repository.remove(orders[0]._id.toString());
 
