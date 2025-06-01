@@ -7,7 +7,6 @@ import { DishProps } from '../../src/domain/entities/dish-props';
 import { PaymentProps } from '../../src/domain/entities/payment-props';
 import { OrderProps } from '../../src/domain/entities/order-props';
 import { DeliveryProps } from '../../src/domain/entities/delivery-props';
-import { mongoHelper } from '../../src/infrastructure/repositories/mongodb/helpers/mongo-helper';
 import { DeliveryStatus, OrderStatus, PaymentMethod, UserRole } from '../../src/domain/entities/validation/_enums';
 
 export class MockData {
@@ -45,7 +44,7 @@ export class MockData {
     const mockedChains: RestaurantChainProps[] = [];
     for (let i = 0; i < count; i++) {
       const chain = {
-        _id: mongoHelper.toObjectId(this.generateHexId()),
+        _id: this.generateHexId(),
         name: faker.company.name(),
         cnpj: faker.string.numeric({ length: 11 }),
         iconUrl: faker.image.url(),
@@ -60,7 +59,7 @@ export class MockData {
     const mockedRestaurants: RestaurantProps[] = [];
     for (let i = 0; i < count; i++) {
       const restaurant = {
-        _id: mongoHelper.toObjectId(this.generateHexId()),
+        _id: this.generateHexId(),
         restaurantChainId: this.generateHexId(),
         adminId: this.generateHexId(),
         isOpen: faker.helpers.arrayElement([true, false]),
@@ -82,7 +81,7 @@ export class MockData {
     const mockedDishes: DishProps[] = [];
     for (let i = 0; i < count; i++) {
       const dish = {
-        _id: mongoHelper.toObjectId(this.generateHexId()),
+        _id: this.generateHexId(),
         name: faker.food.dish(),
         description: faker.food.description(),
         price: faker.helpers.arrayElement([40.5, 38, 11, 55, 87, 120.99]),
@@ -98,7 +97,7 @@ export class MockData {
     const mockedPayments: PaymentProps[] = [];
     for (let i = 0; i < count; i++) {
       const payment = {
-        _id: mongoHelper.toObjectId(this.generateHexId()),
+        _id: this.generateHexId(),
         orderId: this.generateHexId(),
         paymentMethod: faker.helpers.enumValue(PaymentMethod),
         status: faker.helpers.arrayElement(['paid', 'pending', 'failed']),
@@ -112,7 +111,7 @@ export class MockData {
     const mockedOrders: OrderProps[] = [];
     for (let i = 0; i < count; i++) {
       const order = {
-        _id: mongoHelper.toObjectId(this.generateHexId()),
+        _id: this.generateHexId(),
         customerId: this.generateHexId(),
         restaurantId: this.generateHexId(),
         dishes: [
@@ -147,7 +146,7 @@ export class MockData {
     const mockedDeliveries: DeliveryProps[] = [];
     for (let i = 0; i < count; i++) {
       const delivery = {
-        _id: mongoHelper.toObjectId(this.generateHexId()),
+        _id: this.generateHexId(),
         orderId: this.generateHexId(),
         driverId: this.generateHexId(),
         status: faker.helpers.enumValue(DeliveryStatus),
