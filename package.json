@@ -7,7 +7,7 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "jest --onlyChanged --silent=false",
+    "test": "jest --onlyChanged --silent=false --detectOpenHandles",
     "prepare": "husky",
     "build": "tsc",
     "dev": "npx tsx src/main/server.ts",
