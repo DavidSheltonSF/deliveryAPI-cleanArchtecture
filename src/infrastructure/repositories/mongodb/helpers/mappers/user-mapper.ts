@@ -1,5 +1,5 @@
-import  {UserProps} from "../../../../../domain/entities/user-props";
 import { WithId, Document } from "mongodb";
+import  {UserProps} from "../../../../../domain/entities/user-props";
 import { mongoHelper } from "../mongo-helper";
 
 export class UserMapper {
