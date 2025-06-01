@@ -34,7 +34,7 @@ export class MongodbOrderRepository implements OrderRepository {
 
   async add (order: OrderProps): Promise<void> {
     const orderCollection = mongoHelper.getCollection('order');
-    await orderCollection?.insertOne(order);
+    await orderCollection?.insertOne(OrderMapper.toOrderDocument(order));
   }
 
   async update (orderId: string, order: Omit<OrderProps, '_id'>): Promise<void> {

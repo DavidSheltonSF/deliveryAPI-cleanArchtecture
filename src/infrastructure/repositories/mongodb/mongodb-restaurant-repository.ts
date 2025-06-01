@@ -57,7 +57,7 @@ export class MongodbRestaurantRepository implements RestaurantRepository {
 
   async add (restaurant: RestaurantProps): Promise<void> {
     const restaurantCollection = mongoHelper.getCollection('restaurants');
-    await restaurantCollection?.insertOne(restaurant);
+    await restaurantCollection?.insertOne(RestaurantMapper.toRestaurantDocument(restaurant));
   }
 
   async update (restaurantId: string, restaurantProps: Omit<RestaurantProps, '_id'>): Promise<void> {

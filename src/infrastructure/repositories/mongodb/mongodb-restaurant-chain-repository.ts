@@ -45,7 +45,7 @@ export class MongodbRestaurantChainRepository implements RestaurantChainReposito
 
   async add (restaurantchainprops: RestaurantChainProps): Promise<void> {
     const restaurantchainpropsCollection = mongoHelper.getCollection('restaurantChain');
-    await restaurantchainpropsCollection?.insertOne(restaurantchainprops);
+    await restaurantchainpropsCollection?.insertOne(RestaurantChainMapper.toRestaurantChainDocument(restaurantchainprops));
   }
 
   async update (restaurantChainPropsId: string, restaurantChainProps: Omit<RestaurantChainProps, '_id'>): Promise<void> {
