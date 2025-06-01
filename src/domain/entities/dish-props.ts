@@ -1,7 +1,5 @@
-import { ObjectId } from 'mongodb';
-
 export interface DishProps {
-  _id: ObjectId | null,
+  _id?: string,
   name: string,
   description: string,
   price: number,

@@ -1,9 +1,8 @@
 import { AddressProps } from "./validation/_interfaces";
 import { DishProps } from "./dish-props";
-import { ObjectId } from "mongodb";
 
 export interface OrderProps {
-  _id: ObjectId | null,
+  _id?: string
   customerId: string,
   restaurantId: string
   dishes: Omit<DishProps, 'restaurantId' | '_id'>[],

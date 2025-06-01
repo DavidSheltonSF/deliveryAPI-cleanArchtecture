@@ -1,7 +1,5 @@
-import { ObjectId } from 'mongodb';
-
 export interface PaymentProps {
-  _id: ObjectId | null,
+  _id?: string,
   orderId: string,
   paymentMethod: string,
   status: string,

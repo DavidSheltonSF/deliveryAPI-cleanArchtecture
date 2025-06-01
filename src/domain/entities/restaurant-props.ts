@@ -1,8 +1,7 @@
 import { AddressProps } from "./validation/_interfaces"
-import { ObjectId } from 'mongodb';
 
 export interface RestaurantProps {
-  _id: ObjectId | null,
+  _id?: string,
   restaurantChainId: string,
   adminId: string,
   isOpen: boolean,

@@ -1,7 +1,5 @@
-import { ObjectId } from 'mongodb';
-
 export interface RestaurantChainProps {
-  _id: ObjectId | null,
+  _id?: string,
   name: string,
   cnpj: string,
   iconUrl: string,

@@ -1,7 +1,5 @@
-import { ObjectId } from 'mongodb';
-
 export interface DeliveryProps {
-  _id: ObjectId | null,
+  _id?: string,
   orderId: string,
   driverId: string,
   status: string,
