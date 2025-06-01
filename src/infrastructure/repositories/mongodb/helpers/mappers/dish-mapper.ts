@@ -1,8 +1,9 @@
+import { WithId, Document } from "mongodb";
 import { DishProps } from "../../../../../domain/entities/dish-props";
 
 export class DishMapper {
   /* Converts database documents into Dish type objects */
-  static toDish (data: Record<string, any>): DishProps {
+  static toDish (data: WithId<Document>): DishProps {
     const {
         _id,
         name,

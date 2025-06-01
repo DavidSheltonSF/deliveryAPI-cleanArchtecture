@@ -1,8 +1,10 @@
+import { WithId, Document } from "mongodb";
 import { OrderProps } from "../../../../../domain/entities/order-props";
+
 
 export class OrderMapper {
   /* Converts database documents into Order type objects */
-  static toOrder (data: Record<string, any>): OrderProps {
+  static toOrder (data: WithId<Document>): OrderProps {
     const {
       _id,
       customerId,

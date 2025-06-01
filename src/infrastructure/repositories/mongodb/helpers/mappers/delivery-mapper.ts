@@ -1,8 +1,10 @@
+import { WithId, Document } from "mongodb";
 import { DeliveryProps } from "../../../../../domain/entities/delivery-props";
+
 
 export class DeliveryMapper {
   /* Converts database documents into Delivery type objects */
-  static toDelivery (data: Record<string, any>): DeliveryProps {
+  static toDelivery (data: WithId<Document>): DeliveryProps {
     const {
       _id,
       orderId,
