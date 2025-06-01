@@ -1,6 +1,7 @@
 import { mongoHelper } from "../../../../src/infrastructure/repositories/mongodb/helpers/mongo-helper";
 import { config } from "dotenv";
 import { MongodbUserRepository } from "../../../../src/infrastructure/repositories/mongodb/mongodb-user-repository";
+import { UserMapper } from "../../../../src/infrastructure/repositories/mongodb/helpers/mappers/user-mapper";
 
 config();
 
@@ -8,7 +9,7 @@ const repository = new MongodbUserRepository();
 
 const users = [
   {
-    _id: mongoHelper.toObjectId('60f1b9b3b3b3b3b3b3b3b3b3'),
+    _id: "60f1b9b3b3b3b3b3b3b3b3b3",
     username: 'Marta',
     email: 'mart@bugmail.com',
     cpf: '88888888888',
@@ -25,7 +26,7 @@ const users = [
     },
   },
   {
-    _id: mongoHelper.toObjectId('60f1b9b3b3b3b3b3b3b3b3c3'),
+    _id: "60f1b9b3b3b3b3b3b3b3b3c3",
     username: 'Oswaldo',
     email: 'oswald@bugmail.com',
     cpf: '88888888588',
@@ -96,8 +97,9 @@ describe('Testing MongodbUserRepository', () => {
     const userCollection = mongoHelper.getCollection('users');
 
     // Adding new users to database
-    await userCollection.insertOne(users[0]);
-    await userCollection.insertOne(users[1]);
+    await userCollection.insertOne(UserMapper.toUserDocument(users[0]));
+    await userCollection.insertOne(UserMapper.toUserDocument(users[1]));
+
 
     const allUsers = await repository.findAllUsers();
     
@@ -110,7 +112,7 @@ describe('Testing MongodbUserRepository', () => {
     const userCollection = mongoHelper.getCollection('users');
 
     // Adding new user to database
-    await userCollection.insertOne(users[0]);
+    await userCollection.insertOne(UserMapper.toUserDocument(users[0]));
 
     const foundUser = await repository.findUserById(users[0]._id.toString());
 
@@ -131,7 +133,7 @@ describe('Testing MongodbUserRepository', () => {
     const userCollection = mongoHelper.getCollection('users');
 
     // Adding new user to database
-    await userCollection.insertOne(users[0]);
+    await userCollection.insertOne(UserMapper.toUserDocument(users[0]));
 
     const foundUser = await repository.findUserByEmail(users[0].email);
 
@@ -152,7 +154,7 @@ describe('Testing MongodbUserRepository', () => {
     const userCollection = mongoHelper.getCollection('users');
 
     // Adding new user to database
-    await userCollection.insertOne(users[0]);
+    await userCollection.insertOne(UserMapper.toUserDocument(users[0]));
 
     const updatedUser = {
       username: 'Marta-updated',
@@ -193,7 +195,7 @@ describe('Testing MongodbUserRepository', () => {
     const userCollection = mongoHelper.getCollection('users');
 
     // Adding new user to database
-    await userCollection.insertOne(users[0]);
+    await userCollection.insertOne(UserMapper.toUserDocument(users[0]));
 
     await repository.remove(users[0]._id.toString());
 
