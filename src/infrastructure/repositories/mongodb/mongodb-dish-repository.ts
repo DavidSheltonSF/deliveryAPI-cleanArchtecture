@@ -1,6 +1,6 @@
 import { DishRepository } from "../../../application/_ports/dish-repository";
 import { DishProps } from "../../../domain/entities/dish-props";
-import { DishMapper } from "../../../domain/entities/dish-props";
+import { DishMapper } from "./helpers/mappers/dish-mapper";
 import { mongoHelper } from "./helpers/mongo-helper";
 
 export class MongodbDishRepository implements DishRepository {
