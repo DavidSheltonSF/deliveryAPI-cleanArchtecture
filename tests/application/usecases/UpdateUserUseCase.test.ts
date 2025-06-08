@@ -21,7 +21,7 @@ describe('Testing UpdateUserUseCase', () => {
 
     spyUserRepository.userDatabase.push(mockedUser);
 
-    const userIdStr = mockedUser._id?.toString();
+    const userIdStr = mockedUser.id?.toString();
 
     if (!userIdStr) {
       throw new Error('User ID is not a valid string');
@@ -53,7 +53,7 @@ describe('Testing UpdateUserUseCase', () => {
       email: firstUser.email
     }
 
-    const userIdStr = secondUser._id?.toString();
+    const userIdStr = secondUser.id?.toString();
 
     if (!userIdStr) {
       throw new Error('User ID is not a valid string');

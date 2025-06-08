@@ -15,7 +15,7 @@ export class SpyUserRepository implements UserRepository {
   } = {};
   updateParams: {
     userId?: string,
-    userData?: Partial<Omit<UserProps, "_id">>,
+    userData?: Partial<Omit<UserProps, "id">>,
   } = {};
   removeParams: {
     userId?: string,
@@ -29,7 +29,7 @@ export class SpyUserRepository implements UserRepository {
   async findUserById(id: string): Promise<UserProps | null> {
     this.findUserByIdParams = { id };
     for (let i=0; i<this.userDatabase.length; i++){
-      if (this.userDatabase[i]._id?.toString() == id){
+      if (this.userDatabase[i].id?.toString() == id){
         return this.userDatabase[i];
       }
     }
@@ -56,18 +56,18 @@ export class SpyUserRepository implements UserRepository {
     return false
   }
 
-  async add(user: Omit<UserProps, "_id">): Promise<UserProps> {
+  async add(user: Omit<UserProps, "id">): Promise<UserProps> {
     this.addParams = { user };
 
     const fakeRegistredUser = {
-      _id: MockData.generateHexId(),
+      id: MockData.generateHexId(),
       ...user
     }
     
     return fakeRegistredUser;
   }
 
-  async update(userId: string, userData: Partial<Omit<UserProps, "_id">>): Promise<void> {
+  async update(userId: string, userData: Partial<Omit<UserProps, "id">>): Promise<void> {
     this.updateParams = {
       userId,
       userData

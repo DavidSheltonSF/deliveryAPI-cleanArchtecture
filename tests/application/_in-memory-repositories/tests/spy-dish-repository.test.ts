@@ -20,7 +20,7 @@ describe('Testing SpyDishRepository', () => {
 
     spyDishRepository.dishDatabase.push(mockedDish);
 
-    const dishIdStr = mockedDish._id?.toString();
+    const dishIdStr = mockedDish.id?.toString();
 
     if (!dishIdStr) {
       throw Error('Dish id is undefined');
@@ -29,7 +29,7 @@ describe('Testing SpyDishRepository', () => {
     const foundDish = await spyDishRepository.findDishById(dishIdStr);
     
     expect(spyDishRepository.findDishByIdParams.id).toEqual(dishIdStr);
-    expect(foundDish?._id).toBe(mockedDish._id);
+    expect(foundDish?.id).toBe(mockedDish.id);
   });
 
   test('Should add a new dish', async () => {
@@ -59,7 +59,7 @@ describe('Testing SpyDishRepository', () => {
     const spyDishRepository = new SpyDishRepository();
 
     const updatedData = {
-      _id: null,
+      id: null,
       name: 'dishname-updated',
       description: 'descr-updated',
       price: 55,

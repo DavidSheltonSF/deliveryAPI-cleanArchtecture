@@ -13,7 +13,7 @@ const restaurantId1 = generateHexId();
 
 const dishes = [
   {
-    _id: generateHexId(),
+    id: generateHexId(),
     name: 'pizza quatro queijos',
     description: 'pizza com 4 queijos',
     price: 30,
@@ -21,7 +21,7 @@ const dishes = [
     imageUrl: 'fadsfsf1s1f6afdfd',
   },
   {
-    _id: generateHexId(),
+    id: generateHexId(),
     name: 'pizza de chocolate',
     description: 'pizza com chocolate',
     price: 40,
@@ -97,7 +97,7 @@ describe('Testing MongodbDishRepository', () => {
     // Adding new Dish to database
     await DishCollection.insertOne(DishMapper.toDishDocument(dishes[0]));
 
-    const foundDish = await repository.findDishById(dishes[0]._id);
+    const foundDish = await repository.findDishById(dishes[0].id);
 
     expect(foundDish?.name)
       .toBe(dishes[0].name);
@@ -127,9 +127,9 @@ describe('Testing MongodbDishRepository', () => {
       imageUrl: 'fadsfsf1s1f6afdfd-updated',
     }
 
-    await repository.update(dishes[0]._id, updatedDish);
+    await repository.update(dishes[0].id, updatedDish);
 
-    const foundDish = await repository.findDishById(dishes[0]._id);
+    const foundDish = await repository.findDishById(dishes[0].id);
 
     expect(foundDish?.name)
       .toBe(updatedDish.name);
@@ -150,9 +150,9 @@ describe('Testing MongodbDishRepository', () => {
     // Adding new Dish to database
     await DishCollection.insertOne(DishMapper.toDishDocument(dishes[0]));
 
-    await repository.remove(dishes[0]._id);
+    await repository.remove(dishes[0].id);
 
-    const foundDish = await repository.findDishById(dishes[0]._id);
+    const foundDish = await repository.findDishById(dishes[0].id);
 
     expect(foundDish)
       .toBeFalsy();

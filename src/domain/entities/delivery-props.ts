@@ -1,5 +1,5 @@
 export interface DeliveryProps {
-  _id?: string;
+  id?: string;
   orderId: string;
   driverId: string;
   status: string;

@@ -13,7 +13,7 @@ export class UpdateUserUseCase implements UpdateUser {
     this.userRepository = userRepo;
   }
 
-  async execute(id: string, userData: Partial<Omit<UserProps, "_id">>): Promise<UpdateUserResponse> {
+  async execute(id: string, userData: Partial<Omit<UserProps, "id">>): Promise<UpdateUserResponse> {
 
     const userOrError = User.createPartial(userData);
 
@@ -30,7 +30,7 @@ export class UpdateUserUseCase implements UpdateUser {
     // Check if the email was updated, then check if the new email is already in use
     if (userData.email && existingUser.email != userData.email){
       const userWithEmail = await this.userRepository.findUserByEmail(userData.email);
-      if (userWithEmail && userWithEmail._id.toString() !== id){
+      if (userWithEmail && userWithEmail.id.toString() !== id){
         return Either.left(new DuplicatedDataError(`The email ${userData.email} already associated with another user.`));
       }
     }

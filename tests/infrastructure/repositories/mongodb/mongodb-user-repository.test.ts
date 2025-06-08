@@ -9,7 +9,7 @@ const repository = new MongodbUserRepository();
 
 const users = [
   {
-    _id: "60f1b9b3b3b3b3b3b3b3b3b3",
+    id: "60f1b9b3b3b3b3b3b3b3b3b3",
     username: 'Marta',
     email: 'mart@bugmail.com',
     cpf: '88888888888',
@@ -26,7 +26,7 @@ const users = [
     },
   },
   {
-    _id: "60f1b9b3b3b3b3b3b3b3b3c3",
+    id: "60f1b9b3b3b3b3b3b3b3b3c3",
     username: 'Oswaldo',
     email: 'oswald@bugmail.com',
     cpf: '88888888588',
@@ -87,7 +87,7 @@ describe('Testing MongodbUserRepository', () => {
     expect(foundUser?.role)
       .toBe(users[0].role);
 
-    const {_id, ...addressWithoutId} = foundUser?.address
+    const {id, ...addressWithoutId} = foundUser?.address
     expect(JSON.stringify(addressWithoutId))
       .toBe(JSON.stringify(users[0].address));
   });
@@ -114,7 +114,7 @@ describe('Testing MongodbUserRepository', () => {
     // Adding new user to database
     await userCollection.insertOne(UserMapper.toUserDocument(users[0]));
 
-    const foundUser = await repository.findUserById(users[0]._id.toString());
+    const foundUser = await repository.findUserById(users[0].id.toString());
 
     expect(foundUser?.username)
       .toBe(users[0].username);
@@ -173,9 +173,9 @@ describe('Testing MongodbUserRepository', () => {
       },
     }
 
-    await repository.update(users[0]._id.toString(), updatedUser);
+    await repository.update(users[0].id.toString(), updatedUser);
 
-    const foundUser = await repository.findUserById(users[0]._id.toString());
+    const foundUser = await repository.findUserById(users[0].id.toString());
 
     expect(foundUser?.username)
       .toBe(updatedUser.username);
@@ -197,9 +197,9 @@ describe('Testing MongodbUserRepository', () => {
     // Adding new user to database
     await userCollection.insertOne(UserMapper.toUserDocument(users[0]));
 
-    await repository.remove(users[0]._id.toString());
+    await repository.remove(users[0].id.toString());
 
-    const foundUser = await repository.findUserById(users[0]._id.toString());
+    const foundUser = await repository.findUserById(users[0].id.toString());
 
     expect(foundUser)
       .toBeFalsy();

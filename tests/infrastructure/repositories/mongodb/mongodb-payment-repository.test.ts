@@ -13,13 +13,13 @@ const orderId1 = generateHexId();
 
 const payments = [
   { 
-    _id: generateHexId(),
+    id: generateHexId(),
     orderId: orderId0,
     paymentMethod: 'credit_card',
     status: 'paid',
   },
   {
-    _id: generateHexId(),
+    id: generateHexId(),
     orderId: orderId1,
     paymentMethod: 'pix_key',
     status: 'pending',
@@ -88,7 +88,7 @@ describe('Testing MongodbPaymentRepository', () => {
     // Adding new Payment to database
     await PaymentCollection.insertOne(PaymentMapper.toPaymentDocument(payments[0]));
 
-    const foundPayment = await repository.findPaymentById(payments[0]._id.toString());
+    const foundPayment = await repository.findPaymentById(payments[0].id.toString());
 
     expect(foundPayment?.orderId)
       .toBe(payments[0].orderId);
@@ -112,9 +112,9 @@ describe('Testing MongodbPaymentRepository', () => {
       status: 'paid-updated',
     }
 
-    await repository.update(payments[0]._id.toString(), updatedPayment);
+    await repository.update(payments[0].id.toString(), updatedPayment);
 
-    const foundPayment = await repository.findPaymentById(payments[0]._id.toString());
+    const foundPayment = await repository.findPaymentById(payments[0].id.toString());
 
     expect(foundPayment?.orderId)
       .toBe(updatedPayment.orderId);
@@ -131,9 +131,9 @@ describe('Testing MongodbPaymentRepository', () => {
     // Adding new Payment to database
     await PaymentCollection.insertOne(PaymentMapper.toPaymentDocument(payments[0]));
 
-    await repository.remove(payments[0]._id.toString());
+    await repository.remove(payments[0].id.toString());
 
-    const foundPayment = await repository.findPaymentById(payments[0]._id.toString());
+    const foundPayment = await repository.findPaymentById(payments[0].id.toString());
 
     expect(foundPayment)
       .toBeFalsy();

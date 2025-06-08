@@ -20,7 +20,7 @@ const [mockedPayment] = MockData.mockPayment();
 
     spyPaymentRepository.paymentDatabase.push(mockedPayment);
 
-    const paymentIdStr = mockedPayment._id?.toString();
+    const paymentIdStr = mockedPayment.id?.toString();
 
     if (!paymentIdStr) {
       throw Error('Payment id is undefined');
@@ -29,7 +29,7 @@ const [mockedPayment] = MockData.mockPayment();
     const foundPayment = await spyPaymentRepository.findPaymentById(paymentIdStr);
     
     expect(spyPaymentRepository.findPaymentByIdParams.id).toEqual(paymentIdStr);
-    expect(foundPayment?._id).toBe(mockedPayment._id);
+    expect(foundPayment?.id).toBe(mockedPayment.id);
   });
 
   test('Should add a new payment', async () => {
@@ -55,7 +55,7 @@ const [mockedPayment] = MockData.mockPayment();
     const spyPaymentRepository = new SpyPaymentRepository();
 
     const updatedData = {
-      _id: null,
+      id: null,
       orderId: 'orderid-updated',
       paymentMethod: 'payment-updated',
       status: 'paid',

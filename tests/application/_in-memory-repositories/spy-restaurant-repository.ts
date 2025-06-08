@@ -15,7 +15,7 @@ export class SpyRestaurantRepository implements RestaurantRepository {
   addParams: Record<string, RestaurantProps> = {};
   updateParams: {
     restaurantId?: string,
-    restaurant?: Omit<RestaurantProps, '_id'>,
+    restaurant?: Omit<RestaurantProps, 'id'>,
   } = {};
   removeParams: {
     restaurantId?: string,
@@ -28,7 +28,7 @@ export class SpyRestaurantRepository implements RestaurantRepository {
  async findRestaurantById(id: string): Promise<RestaurantProps | null> {
      this.findRestaurantByIdParams = { id };
      for (let i=0; i<this.restaurantDatabase.length; i++){
-       if (this.restaurantDatabase[i]._id?.toString() == id){
+       if (this.restaurantDatabase[i].id?.toString() == id){
          return this.restaurantDatabase[i];
        }
      }
@@ -59,7 +59,7 @@ export class SpyRestaurantRepository implements RestaurantRepository {
     this.addParams = { restaurant };
   }
 
-  async update(restaurantId: string, restaurant: Omit<RestaurantProps, '_id'>): Promise<void> {
+  async update(restaurantId: string, restaurant: Omit<RestaurantProps, 'id'>): Promise<void> {
     this.updateParams = {
       restaurantId,
       restaurant

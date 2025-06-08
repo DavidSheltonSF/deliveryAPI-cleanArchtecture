@@ -16,14 +16,14 @@ const driverId1 = generateHexId();
 
 const deliverys = [
   { 
-    _id: generateHexId(),
+    id: generateHexId(),
     orderId: orderId0,
     driverId: driverId0,
     status: 'delivered',
     timeEstimateInMinutes: 0
   },
   { 
-    _id: generateHexId(),
+    id: generateHexId(),
     orderId: orderId1,
     driverId: driverId1,
     status: 'on_the_way',
@@ -62,7 +62,7 @@ describe('Testing MongodbDeliveryRepository', () => {
     await repository.add(deliverys[0]);
 
     const foundDelivery = await DeliveryCollection
-      .findOne({_id: mongoHelper.toObjectId(deliverys[0]._id)});
+      .findOne({_id: mongoHelper.toObjectId(deliverys[0].id)});
     
     expect(foundDelivery?.orderId)
       .toBe(deliverys[0].orderId);
@@ -85,8 +85,8 @@ describe('Testing MongodbDeliveryRepository', () => {
 
     const alldeliverys = await repository.findAllDeliverys();
     
-    expect(alldeliverys[0]._id).toEqual(deliverys[0]._id);
-    expect(alldeliverys[1]._id).toEqual(deliverys[1]._id);
+    expect(alldeliverys[0].id).toEqual(deliverys[0].id);
+    expect(alldeliverys[1].id).toEqual(deliverys[1].id);
   });
 
   test('Should find a Delivery by id', async () => {
@@ -96,7 +96,7 @@ describe('Testing MongodbDeliveryRepository', () => {
     // Adding new Delivery to database
     await DeliveryCollection.insertOne(DeliveryMapper.toDeliveryDocument(deliverys[0]));
 
-    const foundDelivery = await repository.findDeliveryById(deliverys[0]._id);
+    const foundDelivery = await repository.findDeliveryById(deliverys[0].id);
 
     expect(foundDelivery?.orderId)
       .toBe(deliverys[0].orderId);
@@ -125,9 +125,9 @@ describe('Testing MongodbDeliveryRepository', () => {
       timeEstimateInMinutes: 999
     }
 
-    await repository.update(deliverys[0]._id, updatedDelivery);
+    await repository.update(deliverys[0].id, updatedDelivery);
 
-    const foundDelivery = await repository.findDeliveryById(deliverys[0]._id);
+    const foundDelivery = await repository.findDeliveryById(deliverys[0].id);
 
     expect(foundDelivery?.orderId)
       .toBe(updatedDelivery.orderId);
@@ -146,9 +146,9 @@ describe('Testing MongodbDeliveryRepository', () => {
     // Adding new Delivery to database
     await DeliveryCollection.insertOne(DeliveryMapper.toDeliveryDocument(deliverys[0]));
 
-    await repository.remove(deliverys[0]._id);
+    await repository.remove(deliverys[0].id);
 
-    const foundDelivery = await repository.findDeliveryById(deliverys[0]._id);
+    const foundDelivery = await repository.findDeliveryById(deliverys[0].id);
 
     expect(foundDelivery)
       .toBeFalsy();

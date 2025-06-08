@@ -16,7 +16,7 @@ const restaurantId1 = generateHexId();
 
 const orders = [
   { 
-    _id: generateHexId(),
+    id: generateHexId(),
     customerId: customerId0,
     restaurantId: restaurantId0,
     dishes: [
@@ -43,7 +43,7 @@ const orders = [
     }
   },
   { 
-    _id: generateHexId(),
+    id: generateHexId(),
     customerId: customerId1,
     restaurantId: restaurantId1,
     dishes: [
@@ -102,7 +102,7 @@ describe('Testing MongodbOrderRepository', () => {
     await repository.add(orders[0]);
 
     const foundOrder = await OrderCollection
-      .findOne({_id: mongoHelper.toObjectId(orders[0]._id)});
+      .findOne({_id: mongoHelper.toObjectId(orders[0].id)});
     
     expect(foundOrder?.customerId)
       .toBe(orders[0].customerId);
@@ -128,8 +128,8 @@ describe('Testing MongodbOrderRepository', () => {
 
     const allorders = await repository.findAllOrders();
     
-    expect(allorders[0]._id).toEqual(orders[0]._id);
-    expect(allorders[1]._id).toEqual(orders[1]._id);
+    expect(allorders[0].id).toEqual(orders[0].id);
+    expect(allorders[1].id).toEqual(orders[1].id);
   });
 
   test('Should find a Order by id', async () => {
@@ -139,7 +139,7 @@ describe('Testing MongodbOrderRepository', () => {
     // Adding new Order to database
     await OrderCollection.insertOne(OrderMapper.toOrderDocument(orders[0]));
 
-    const foundOrder = await repository.findOrderById(orders[0]._id.toString());
+    const foundOrder = await repository.findOrderById(orders[0].id.toString());
 
     expect(foundOrder?.customerId)
       .toBe(orders[0].customerId);
@@ -192,9 +192,9 @@ describe('Testing MongodbOrderRepository', () => {
       }
     }
 
-    await repository.update(orders[0]._id.toString(), updatedOrder);
+    await repository.update(orders[0].id.toString(), updatedOrder);
 
-    const foundOrder = await repository.findOrderById(orders[0]._id.toString());
+    const foundOrder = await repository.findOrderById(orders[0].id.toString());
 
     expect(foundOrder?.customerId)
       .toBe(updatedOrder.customerId);
@@ -217,9 +217,9 @@ describe('Testing MongodbOrderRepository', () => {
     // Adding new Order to database
     await OrderCollection.insertOne(OrderMapper.toOrderDocument(orders[0]));
 
-    await repository.remove(orders[0]._id.toString());
+    await repository.remove(orders[0].id.toString());
 
-    const foundOrder = await repository.findOrderById(orders[0]._id.toString());
+    const foundOrder = await repository.findOrderById(orders[0].id.toString());
 
     expect(foundOrder)
       .toBeFalsy();

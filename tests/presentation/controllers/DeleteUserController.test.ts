@@ -24,7 +24,7 @@ describe('Testing DeleteUseController', () => {
 
     const request = {
       params: {
-        id: mockedUsers[1]._id
+        id: mockedUsers[1].id
       }
     }
 
@@ -56,7 +56,7 @@ describe('Testing DeleteUseController', () => {
     // Request with a unexisting user id
     const request = {
       params: {
-        id: mockedUsers[1]._id
+        id: mockedUsers[1].id
       }
     }
 

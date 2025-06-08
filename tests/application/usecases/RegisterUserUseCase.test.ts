@@ -18,7 +18,7 @@ describe('Testing RegisterUserUseCase', () => {
     const { spyUserRepository, registerUser } = makeSut();
 
     const [mockedUser] = MockData.mockUser();
-    const {_id, ...mockedUserWithoutId} = mockedUser;
+    const {id, ...mockedUserWithoutId} = mockedUser;
 
     await registerUser.execute(mockedUserWithoutId);
 
@@ -37,7 +37,7 @@ describe('Testing RegisterUserUseCase', () => {
     const { spyUserRepository, registerUser } = makeSut();
 
     const [mockedUser] = MockData.mockUser();
-    const {_id, ...mockedUserWithoutId} = mockedUser;
+    const {id, ...mockedUserWithoutId} = mockedUser;
 
     // Adding a user in the fake repository
     spyUserRepository.userDatabase.push(mockedUser);

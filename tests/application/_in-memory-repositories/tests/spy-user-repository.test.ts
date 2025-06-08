@@ -21,7 +21,7 @@ describe('Testing SpyUserRepository', () => {
 
     spyUserRepository.userDatabase.push(mockedUser);
 
-    const userIdStr = mockedUser._id?.toString();
+    const userIdStr = mockedUser.id?.toString();
 
     if(!userIdStr){
       throw Error('User id is undefined');
@@ -30,7 +30,7 @@ describe('Testing SpyUserRepository', () => {
     const foundUser = await spyUserRepository.findUserById(userIdStr);
     
     expect(spyUserRepository.findUserByIdParams.id).toEqual(userIdStr);
-    expect(foundUser?._id).toBe(mockedUser._id);
+    expect(foundUser?.id).toBe(mockedUser.id);
   });
   
   test('Should find a user by email', async () => {
@@ -83,7 +83,7 @@ describe('Testing SpyUserRepository', () => {
     const spyUserRepository = new SpyUserRepository();
 
     const updatedData = {
-      _id: null,
+      id: null,
       username: 'username-updated',
       email: 'email@bugmail.com-updated',
       cpf: '88888888888-updated',

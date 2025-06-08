@@ -26,11 +26,11 @@ describe('Testing DeleteUseController', () => {
     const response = await findAllUsersController.handle(request);
 
     expect(response.statusCode).toBe(200);
-    expect(response.body[0]._id).toBe(mockedUsers[0]._id);
+    expect(response.body[0].id).toBe(mockedUsers[0].id);
     expect(response.body[0].username).toBe(mockedUsers[0].username);
     expect(response.body[0].email).toBe(mockedUsers[0].email);
 
-    expect(response.body[1]._id).toBe(mockedUsers[1]._id);
+    expect(response.body[1].id).toBe(mockedUsers[1].id);
     expect(response.body[1].username).toBe(mockedUsers[1].username);
     expect(response.body[1].email).toBe(mockedUsers[1].email);
 

@@ -20,7 +20,7 @@ describe('Testing DeleteUserUseCase', () => {
 
     const [mockedUser] = MockData.mockUser();
 
-    const userStrId = mockedUser._id?.toString();
+    const userStrId = mockedUser.id?.toString();
 
     if (!userStrId) {
       throw new Error('User ID is undefined');
@@ -40,7 +40,7 @@ describe('Testing DeleteUserUseCase', () => {
 
     const [mockedUser] = MockData.mockUser();
 
-    const userStrId = mockedUser._id?.toString();
+    const userStrId = mockedUser.id?.toString();
 
     if (!userStrId) {
       throw new Error('User ID is undefined');

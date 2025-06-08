@@ -4,17 +4,17 @@ import { DishProps } from "../../../src/domain/entities/dish-props";
 export class SpyDishRepository implements DishRepository {
   dishDatabase: DishProps[] = [];
   addParams: {
-    dish?: DishProps
+    dish?: DishProps;
   } = {};
   findDishByIdParams: {
-    id?: string,
+    id?: string;
   } = {};
   updateParams: {
-    dishId?: string,
-    dish?: Omit<DishProps, '_id'>,
+    dishId?: string;
+    dish?: Omit<DishProps, 'id'>;
   } = {};
   removeParams: {
-    dishId?: string,
+    dishId?: string;
   } = {};
 
   async findAllDishs(): Promise<DishProps[]> {
@@ -24,7 +24,7 @@ export class SpyDishRepository implements DishRepository {
   async findDishById(id: string): Promise<DishProps | null> {
     this.findDishByIdParams = { id };
     for (let i = 0; i < this.dishDatabase.length; i++) {
-      if (this.dishDatabase[i]._id?.toString() === id) {
+      if (this.dishDatabase[i].id?.toString() === id) {
         return this.dishDatabase[i];
       }
     }
@@ -35,10 +35,10 @@ export class SpyDishRepository implements DishRepository {
     this.addParams = { dish };
   }
 
-  async update(dishId: string, dish: Omit<DishProps, '_id'>): Promise<void> {
+  async update(dishId: string, dish: Omit<DishProps, 'id'>): Promise<void> {
     this.updateParams = {
       dishId,
-      dish
+      dish,
     };
   }
 

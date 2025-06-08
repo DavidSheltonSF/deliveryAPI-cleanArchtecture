@@ -1,7 +1,7 @@
 import { AddressProps } from './validation/_interfaces';
 
 export interface RestaurantProps {
-  _id?: string;
+  id?: string;
   restaurantChainId: string;
   adminId: string;
   isOpen: boolean;

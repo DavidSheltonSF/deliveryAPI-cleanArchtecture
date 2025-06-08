@@ -6,7 +6,7 @@ import { mongoHelper } from "../mongo-helper";
 export class RestaurantChainMapper {
   /* Converts database documents into RestaurantChain type objects */
   static toRestaurantChain (data: WithId<Document>): RestaurantChainProps {
-    const _id = data._id.toString();
+    const id = data._id.toString();
     const {
         name,
         cnpj,
@@ -15,16 +15,16 @@ export class RestaurantChainMapper {
     } = data;
 
     return {
-      _id,
+      id,
       name,
       cnpj,
       iconUrl,
       adminId,
-    }
+    };
   }
 
   static toRestaurantChainDocument(data: RestaurantChainProps): WithId<Document> {
-    const _id = mongoHelper.toObjectId(data._id);
+    const _id = mongoHelper.toObjectId(data.id);
     const {
       name,
       cnpj,

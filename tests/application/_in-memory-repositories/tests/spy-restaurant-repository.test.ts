@@ -20,7 +20,7 @@ describe('Testing SpyRestaurantRepository', () => {
 
     spyRestaurantRepository.restaurantDatabase.push(mockedRestaurant);
 
-    const restaurantIdStr = mockedRestaurant._id?.toString();
+    const restaurantIdStr = mockedRestaurant.id?.toString();
 
     if(!restaurantIdStr){
       throw Error('Restaurant id is undefined');
@@ -29,7 +29,7 @@ describe('Testing SpyRestaurantRepository', () => {
     const foundRestaurant = await spyRestaurantRepository.findRestaurantById(restaurantIdStr);
     
     expect(spyRestaurantRepository.findRestaurantByIdParams.id).toEqual(restaurantIdStr);
-    expect(foundRestaurant?._id).toBe(mockedRestaurant._id);
+    expect(foundRestaurant?.id).toBe(mockedRestaurant.id);
   });
   
 
@@ -86,7 +86,7 @@ describe('Testing SpyRestaurantRepository', () => {
     const spyRestaurantRepository = new SpyRestaurantRepository();
 
     const updatedData = {
-      _id: null,
+      id: null,
       restaurantChainId: '123456789012345678901234',
       adminId: '123456789012345678901234',
       isOpen: true,

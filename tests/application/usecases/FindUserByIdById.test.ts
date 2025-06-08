@@ -20,7 +20,7 @@ describe('Testing FindUserByIdUseCaseUseCase', () => {
 
     const [mockedUser] = MockData.mockUser();
 
-    const userIdStr = mockedUser._id?.toString();
+    const userIdStr = mockedUser.id?.toString();
 
     if (!userIdStr) {
       throw new Error('User ID is not defined');
@@ -53,7 +53,7 @@ describe('Testing FindUserByIdUseCaseUseCase', () => {
 
     const [mockedUser] = MockData.mockUser();
 
-    const userIdStr = mockedUser._id?.toString();
+    const userIdStr = mockedUser.id?.toString();
 
     if (!userIdStr) {
       throw new Error('User ID is not defined');

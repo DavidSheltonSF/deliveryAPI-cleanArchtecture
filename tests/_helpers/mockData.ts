@@ -19,7 +19,7 @@ export class MockData {
     const mockedUsers: UserProps[] = [];
     for (let i = 0; i < count; i++) {
       const user = {
-        _id: this.generateHexId(),
+        id: this.generateHexId(),
         username: faker.person.firstName(),
         email: faker.internet.email(),
         cpf: faker.string.numeric({ length: 11 }),
@@ -44,7 +44,7 @@ export class MockData {
     const mockedChains: RestaurantChainProps[] = [];
     for (let i = 0; i < count; i++) {
       const chain = {
-        _id: this.generateHexId(),
+        id: this.generateHexId(),
         name: faker.company.name(),
         cnpj: faker.string.numeric({ length: 11 }),
         iconUrl: faker.image.url(),
@@ -59,7 +59,7 @@ export class MockData {
     const mockedRestaurants: RestaurantProps[] = [];
     for (let i = 0; i < count; i++) {
       const restaurant = {
-        _id: this.generateHexId(),
+        id: this.generateHexId(),
         restaurantChainId: this.generateHexId(),
         adminId: this.generateHexId(),
         isOpen: faker.helpers.arrayElement([true, false]),
@@ -81,7 +81,7 @@ export class MockData {
     const mockedDishes: DishProps[] = [];
     for (let i = 0; i < count; i++) {
       const dish = {
-        _id: this.generateHexId(),
+        id: this.generateHexId(),
         name: faker.food.dish(),
         description: faker.food.description(),
         price: faker.helpers.arrayElement([40.5, 38, 11, 55, 87, 120.99]),
@@ -97,7 +97,7 @@ export class MockData {
     const mockedPayments: PaymentProps[] = [];
     for (let i = 0; i < count; i++) {
       const payment = {
-        _id: this.generateHexId(),
+        id: this.generateHexId(),
         orderId: this.generateHexId(),
         paymentMethod: faker.helpers.enumValue(PaymentMethod),
         status: faker.helpers.arrayElement(['paid', 'pending', 'failed']),
@@ -111,7 +111,7 @@ export class MockData {
     const mockedOrders: OrderProps[] = [];
     for (let i = 0; i < count; i++) {
       const order = {
-        _id: this.generateHexId(),
+        id: this.generateHexId(),
         customerId: this.generateHexId(),
         restaurantId: this.generateHexId(),
         dishes: [
@@ -146,7 +146,7 @@ export class MockData {
     const mockedDeliveries: DeliveryProps[] = [];
     for (let i = 0; i < count; i++) {
       const delivery = {
-        _id: this.generateHexId(),
+        id: this.generateHexId(),
         orderId: this.generateHexId(),
         driverId: this.generateHexId(),
         status: faker.helpers.enumValue(DeliveryStatus),

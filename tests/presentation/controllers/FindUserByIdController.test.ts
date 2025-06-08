@@ -23,7 +23,7 @@ describe('Testing DeleteUseController', () => {
 
     const request = {
       params: {
-        id: targetUser._id?.toString()
+        id: targetUser.id?.toString()
       }
     }
 
@@ -31,7 +31,7 @@ describe('Testing DeleteUseController', () => {
     const foundUser = response.body
 
     expect(response.statusCode).toBe(200);
-    expect(foundUser._id).toBe(targetUser._id);
+    expect(foundUser.id).toBe(targetUser.id);
     expect(foundUser.username).toBe(targetUser.username);
     expect(foundUser.email).toBe(targetUser.email);
   });
@@ -44,7 +44,7 @@ describe('Testing DeleteUseController', () => {
 
     const request = {
       params: {
-        id: mokedUser._id?.toString()
+        id: mokedUser.id?.toString()
       }
     }
 

@@ -4,17 +4,17 @@ import { DeliveryProps } from "../../../src/domain/entities/delivery-props";
 export class SpyDeliveryRepository implements DeliveryRepository {
   deliveryDatabase: DeliveryProps[] = [];
   addParams: {
-    delivery?: DeliveryProps
+    delivery?: DeliveryProps;
   } = {};
   findDeliveryByIdParams: {
-    id?: string,
+    id?: string;
   } = {};
   updateParams: {
-    deliveryId?: string,
-    delivery?: Omit<DeliveryProps, '_id'>,
+    deliveryId?: string;
+    delivery?: Omit<DeliveryProps, 'id'>;
   } = {};
   removeParams: {
-    deliveryId?: string,
+    deliveryId?: string;
   } = {};
 
   async findAllDeliverys(): Promise<DeliveryProps[]> {
@@ -24,7 +24,7 @@ export class SpyDeliveryRepository implements DeliveryRepository {
   async findDeliveryById(id: string): Promise<DeliveryProps | null> {
     this.findDeliveryByIdParams = { id };
     for (let i = 0; i < this.deliveryDatabase.length; i++) {
-      if (this.deliveryDatabase[i]._id?.toString() === id) {
+      if (this.deliveryDatabase[i].id?.toString() === id) {
         return this.deliveryDatabase[i];
       }
     }
@@ -35,10 +35,13 @@ export class SpyDeliveryRepository implements DeliveryRepository {
     this.addParams = { delivery };
   }
 
-  async update(deliveryId: string, delivery: Omit<DeliveryProps, '_id'>): Promise<void> {
+  async update(
+    deliveryId: string,
+    delivery: Omit<DeliveryProps, 'id'>
+  ): Promise<void> {
     this.updateParams = {
       deliveryId,
-      delivery
+      delivery,
     };
   }
 

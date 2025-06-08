@@ -13,14 +13,14 @@ const adminId1 = generateHexId();
 
 const RestaurantChains = [
   {
-    _id: generateHexId(),
+    id: generateHexId(),
     name: 'Pizzaria do Ivan',
     cnpj: '12345678901234',
     iconUrl: 'fadsfsf1s1f65afd',
     adminId: adminId0,
   },
   {
-    _id: generateHexId(),
+    id: generateHexId(),
     name: 'RestaurantChaine do Yakumoto',
     cnpj: '12345678901235',
     iconUrl: 'fadsfsf1s1f6599d',
@@ -92,7 +92,7 @@ describe('Testing MongodbRestaurantChainRepository', () => {
     // Adding new RestaurantChain to database
     await RestaurantChainCollection.insertOne(RestaurantChainMapper.toRestaurantChainDocument(RestaurantChains[0]));
 
-    const foundRestaurantChain = await repository.findRestaurantChainById(RestaurantChains[0]._id.toString());
+    const foundRestaurantChain = await repository.findRestaurantChainById(RestaurantChains[0].id.toString());
 
     expect(foundRestaurantChain?.name)
       .toBe(RestaurantChains[0].name);
@@ -139,9 +139,9 @@ describe('Testing MongodbRestaurantChainRepository', () => {
       adminId: updatedAdminId,
     }
 
-    await repository.update(RestaurantChains[0]._id.toString(), updatedRestaurantChain);
+    await repository.update(RestaurantChains[0].id.toString(), updatedRestaurantChain);
 
-    const foundRestaurantChain = await repository.findRestaurantChainById(RestaurantChains[0]._id.toString());
+    const foundRestaurantChain = await repository.findRestaurantChainById(RestaurantChains[0].id.toString());
 
     expect(foundRestaurantChain?.name)
       .toBe(updatedRestaurantChain.name);
@@ -161,9 +161,9 @@ describe('Testing MongodbRestaurantChainRepository', () => {
     // Adding new RestaurantChain to database
     await RestaurantChainCollection.insertOne(RestaurantChainMapper.toRestaurantChainDocument(RestaurantChains[0]));
 
-    await repository.remove(RestaurantChains[0]._id.toString());
+    await repository.remove(RestaurantChains[0].id.toString());
 
-    const foundRestaurantChain = await repository.findRestaurantChainById(RestaurantChains[0]._id.toString());
+    const foundRestaurantChain = await repository.findRestaurantChainById(RestaurantChains[0].id.toString());
 
     expect(foundRestaurantChain)
       .toBeFalsy();

@@ -18,7 +18,7 @@ describe('Testing RegisterUseController', () => {
     const registerUserController = makeSut().registerUserController;
 
     const [mockedUser] = MockData.mockUser();
-    const {_id, ...userWithoutId} = mockedUser;
+    const {id, ...userWithoutId} = mockedUser;
 
     const request = {
       body: userWithoutId
@@ -33,7 +33,7 @@ describe('Testing RegisterUseController', () => {
     const registerUserController = makeSut().registerUserController;
 
     const [mockedUser] = MockData.mockUser();
-    const {_id, address, ...userWithoutId} = mockedUser;
+    const {id, address, ...userWithoutId} = mockedUser;
 
     const request = {
       body: userWithoutId
@@ -52,7 +52,7 @@ describe('Testing RegisterUseController', () => {
     // Add the mocked user in the fake database manualy
     spyUserRepository.userDatabase.push(mockedUser);
 
-    const {_id, ...userWithoutId} = mockedUser;
+    const {id, ...userWithoutId} = mockedUser;
 
     const request = {
       body: userWithoutId
@@ -67,7 +67,7 @@ describe('Testing RegisterUseController', () => {
     const registerUserController = makeSut().registerUserController;
 
     const [mockedUser] = MockData.mockUser();
-    const {_id, username, ...userWithoutId} = mockedUser;
+    const {id, username, ...userWithoutId} = mockedUser;
 
     const request = {
       body: userWithoutId
@@ -82,7 +82,7 @@ describe('Testing RegisterUseController', () => {
     const registerUserController = makeSut().registerUserController;
 
     const [mockedUser] = MockData.mockUser();
-    const {_id, email, ...userWithoutId} = mockedUser;
+    const {id, email, ...userWithoutId} = mockedUser;
 
     const request = {
       body: userWithoutId
@@ -97,7 +97,7 @@ describe('Testing RegisterUseController', () => {
     const registerUserController = makeSut().registerUserController;
 
     const [mockedUser] = MockData.mockUser();
-    const {_id, phone, ...userWithoutId} = mockedUser;
+    const {id, phone, ...userWithoutId} = mockedUser;
 
     const request = {
       body: userWithoutId
@@ -112,7 +112,7 @@ describe('Testing RegisterUseController', () => {
     const registerUserController = makeSut().registerUserController;
 
     const [mockedUser] = MockData.mockUser();
-    const {_id, cpf, ...userWithoutId} = mockedUser;
+    const {id, cpf, ...userWithoutId} = mockedUser;
 
     const request = {
       body: userWithoutId
@@ -127,7 +127,7 @@ describe('Testing RegisterUseController', () => {
     const registerUserController = makeSut().registerUserController;
 
     const [mockedUser] = MockData.mockUser();
-    const {_id, authentication, ...userWithoutId} = mockedUser;
+    const {id, authentication, ...userWithoutId} = mockedUser;
 
     const request = {
       body: userWithoutId

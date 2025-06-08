@@ -5,7 +5,7 @@ import { mongoHelper } from "../mongo-helper";
 export class UserMapper {
   /* Converts database documents into User type objects */
   static toUser (data: WithId<Document>): UserProps {
-    const _id = data._id.toString();
+    const id = data._id.toString();
     const {
         username,
         email,
@@ -18,7 +18,7 @@ export class UserMapper {
     } = data;
 
     return {
-      _id,
+      id,
       username,
       email,
       cpf,
@@ -26,12 +26,12 @@ export class UserMapper {
       role,
       address,
       authentication,
-      bankInfo
-    }
+      bankInfo,
+    };
   }
 
   static toUserDocument (data: UserProps): WithId<Document>{
-    const _id = mongoHelper.toObjectId(data._id);
+    const _id = mongoHelper.toObjectId(data.id);
     const {
         username,
         email,

@@ -6,7 +6,7 @@ import { mongoHelper } from "../mongo-helper";
 export class DeliveryMapper {
   /* Converts database documents into Delivery type objects */
   static toDelivery (data: WithId<Document>): DeliveryProps {
-    const _id = data._id.toString();
+    const id = data._id.toString();
     const {
       orderId,
       driverId,
@@ -15,16 +15,16 @@ export class DeliveryMapper {
     } = data;
 
     return {
-      _id,
+      id,
       orderId,
       driverId,
       status,
       timeEstimateInMinutes,
-    }
+    };
   }
 
   static toDeliveryDocument(data: DeliveryProps): WithId<Document> {
-    const _id = mongoHelper.toObjectId(data._id);
+    const _id = mongoHelper.toObjectId(data.id);
     const {
       orderId,
       driverId,

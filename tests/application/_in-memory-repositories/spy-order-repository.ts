@@ -14,7 +14,7 @@ export class SpyOrderRepository implements OrderRepository {
   } = {};
   updateParams: {
     id?: string,
-    order?: Omit<OrderProps, '_id'>,
+    order?: Omit<OrderProps, 'id'>,
   } = {};
   removeParams: {
     id?: string,
@@ -27,7 +27,7 @@ export class SpyOrderRepository implements OrderRepository {
   async findOrderById(id: string): Promise<OrderProps | null> {
     this.findOrderByIdParams = { id };
     for (let i = 0; i < this.orderDatabase.length; i++) {
-      if (this.orderDatabase[i]._id?.toString() === id) {
+      if (this.orderDatabase[i].id?.toString() === id) {
         return this.orderDatabase[i];
       }
     }
@@ -37,7 +37,7 @@ export class SpyOrderRepository implements OrderRepository {
   async findOrderByOrderId(id: string): Promise<OrderProps | null> {
     this.findOrderByOrderIdParams = { id };
     for (let i = 0; i < this.orderDatabase.length; i++) {
-      if (this.orderDatabase[i]._id?.toString() === id) {
+      if (this.orderDatabase[i].id?.toString() === id) {
         return this.orderDatabase[i];
       }
     }
@@ -48,7 +48,7 @@ export class SpyOrderRepository implements OrderRepository {
     this.addParams = { order };
   }
 
-  async update(id: string, order: Omit<OrderProps, '_id'>): Promise<void> {
+  async update(id: string, order: Omit<OrderProps, 'id'>): Promise<void> {
     this.updateParams = {
       id,
       order

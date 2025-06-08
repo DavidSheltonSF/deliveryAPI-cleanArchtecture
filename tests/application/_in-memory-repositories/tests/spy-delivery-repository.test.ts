@@ -20,7 +20,7 @@ describe('Testing SpyDeliveryRepository', () => {
 
     spyDeliveryRepository.deliveryDatabase.push(mockedDelivery);
 
-    const deliveryIdStr = mockedDelivery._id?.toString();
+    const deliveryIdStr = mockedDelivery.id?.toString();
 
     if (!deliveryIdStr) {
       throw Error('Delivery id is undefined');
@@ -29,7 +29,7 @@ describe('Testing SpyDeliveryRepository', () => {
     const foundDelivery = await spyDeliveryRepository.findDeliveryById(deliveryIdStr);
     
     expect(spyDeliveryRepository.findDeliveryByIdParams.id).toEqual(deliveryIdStr);
-    expect(foundDelivery?._id).toBe(mockedDelivery._id);
+    expect(foundDelivery?.id).toBe(mockedDelivery.id);
   });
 
   test('Should add a new delivery', async () => {
@@ -57,7 +57,7 @@ describe('Testing SpyDeliveryRepository', () => {
     const spyDeliveryRepository = new SpyDeliveryRepository();
 
     const updatedData = {
-      _id: null,
+      id: null,
       orderId: 'order123-updated',
       driverId: 'driver456-updated',
       status: 'delivered',

@@ -27,7 +27,7 @@ describe('Testing UpdateUseController', () => {
 
     const request = {
       params: {
-        id: mockedUser._id
+        id: mockedUser.id
       },
       body: userData
     };
@@ -51,7 +51,7 @@ describe('Testing UpdateUseController', () => {
 
     const request = {
       params: {
-        id: mockedUser._id
+        id: mockedUser.id
       },
       body: userData
     };
@@ -75,7 +75,7 @@ describe('Testing UpdateUseController', () => {
 
     const request = {
       params: {
-        id: mockedUser._id
+        id: mockedUser.id
       },
       body: userData
     };
@@ -97,7 +97,7 @@ describe('Testing UpdateUseController', () => {
 
     const request = {
       params: {
-        id: mockedUser._id
+        id: mockedUser.id
       },
       body: userData
     };

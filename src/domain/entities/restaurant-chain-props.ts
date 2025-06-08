@@ -1,5 +1,5 @@
 export interface RestaurantChainProps {
-  _id?: string;
+  id?: string;
   name: string;
   cnpj: string;
   iconUrl: string;

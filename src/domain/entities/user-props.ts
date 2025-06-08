@@ -5,7 +5,7 @@ import {
 } from './validation/_interfaces';
 
 export interface UserProps {
-  _id?: string;
+  id?: string;
   username: string;
   email: string;
   cpf: string;

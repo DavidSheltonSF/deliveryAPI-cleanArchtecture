@@ -15,7 +15,7 @@ const adminId1 = generateHexId();
 
 const restaurants = [
   {
-    _id: generateHexId(),
+    id: generateHexId(),
     restaurantChainId: restaurantChainId0,
     adminId: adminId0,
     isOpen: false,
@@ -29,7 +29,7 @@ const restaurants = [
     },
   },
   {
-    _id: generateHexId(),
+    id: generateHexId(),
     restaurantChainId: restaurantChainId1,
     adminId: adminId1, 
     isOpen: true,
@@ -113,7 +113,7 @@ describe('Testing MongodbRestaurantRepository', () => {
     // Adding new restaurant to database
     await restaurantCollection.insertOne(RestaurantMapper.toRestaurantDocument(restaurants[0]));
 
-    const foundRestaurant = await repository.findRestaurantById(restaurants[0]._id.toString());
+    const foundRestaurant = await repository.findRestaurantById(restaurants[0].id.toString());
 
     expect(foundRestaurant?.restaurantChainId)
       .toBe(restaurants[0].restaurantChainId);
@@ -177,9 +177,9 @@ describe('Testing MongodbRestaurantRepository', () => {
       },
     }
 
-    await repository.update(restaurants[0]._id.toString(), updatedRestaurant);
+    await repository.update(restaurants[0].id.toString(), updatedRestaurant);
 
-    const foundRestaurant = await repository.findRestaurantById(restaurants[0]._id.toString());
+    const foundRestaurant = await repository.findRestaurantById(restaurants[0].id.toString());
 
     expect(foundRestaurant?.restaurantChainId)
     .toBe(updatedRestaurant.restaurantChainId);
@@ -204,9 +204,9 @@ describe('Testing MongodbRestaurantRepository', () => {
     await restaurantCollection.insertOne(RestaurantMapper.toRestaurantDocument(restaurants[0]));
 
 
-    await repository.remove(restaurants[0]._id.toString());
+    await repository.remove(restaurants[0].id.toString());
 
-    const foundRestaurant = await repository.findRestaurantById(restaurants[0]._id.toString());
+    const foundRestaurant = await repository.findRestaurantById(restaurants[0].id.toString());
 
     expect(foundRestaurant)
       .toBeFalsy();

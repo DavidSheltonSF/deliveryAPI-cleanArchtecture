@@ -6,7 +6,7 @@ import { mongoHelper } from "../mongo-helper";
 export class OrderMapper {
   /* Converts database documents into Order type objects */
   static toOrder (data: WithId<Document>): OrderProps {
-    const _id = data._id.toString();
+    const id = data._id.toString();
     const {
       customerId,
       restaurantId,
@@ -17,18 +17,18 @@ export class OrderMapper {
     } = data;
 
     return {
-      _id,
+      id,
       customerId,
       restaurantId,
       dishes,
       totalPrice,
       status,
-      address
-    }
+      address,
+    };
   }
 
   static toOrderDocument(data: OrderProps): WithId<Document> {
-    const _id = mongoHelper.toObjectId(data._id);
+    const _id = mongoHelper.toObjectId(data.id);
     const {
       customerId,
       restaurantId,

@@ -5,7 +5,7 @@ import { mongoHelper } from "../mongo-helper";
 export class DishMapper {
   /* Converts database documents into Dish type objects */
   static toDish (data: WithId<Document>): DishProps {
-    const _id = data._id.toString();
+    const id = data._id.toString();
     const {
         name,
         description,
@@ -15,17 +15,17 @@ export class DishMapper {
     } = data;
 
     return {
-      _id,
+      id,
       name,
       description,
       price,
       restaurantId,
       imageUrl,
-    }
+    };
   }
 
   static toDishDocument(data: DishProps): WithId<Document> {
-    const _id = mongoHelper.toObjectId(data._id);
+    const _id = mongoHelper.toObjectId(data.id);
     const {
       name,
       description,

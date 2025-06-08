@@ -20,7 +20,7 @@ describe('Testing SpyOrderRepository', () => {
 
     spyOrderRepository.orderDatabase.push(mockedOrder);
 
-    const orderIdStr = mockedOrder._id?.toString();
+    const orderIdStr = mockedOrder.id?.toString();
 
     if (!orderIdStr) {
       throw Error('Order id is undefined');
@@ -29,7 +29,7 @@ describe('Testing SpyOrderRepository', () => {
     const foundOrder = await spyOrderRepository.findOrderById(orderIdStr);
     
     expect(spyOrderRepository.findOrderByIdParams.id).toEqual(orderIdStr);
-    expect(foundOrder?._id).toBe(mockedOrder._id);
+    expect(foundOrder?.id).toBe(mockedOrder.id);
   });
 
   test('Should add a new order', async () => {
@@ -65,7 +65,7 @@ describe('Testing SpyOrderRepository', () => {
     const spyOrderRepository = new SpyOrderRepository();
 
     const updatedData = {
-      _id: null,
+      id: null,
       customerId: 'costumerId-updated',
       restaurantId: 'restaurantId-updated',
       dishes: [{

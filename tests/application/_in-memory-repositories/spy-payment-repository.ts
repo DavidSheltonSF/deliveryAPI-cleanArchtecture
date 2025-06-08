@@ -14,7 +14,7 @@ export class SpyPaymentRepository implements PaymentRepository {
   } = {};
   updateParams: {
     paymentId?: string,
-    payment?: Omit<PaymentProps, '_id'>,
+    payment?: Omit<PaymentProps, 'id'>,
   } = {};
   removeParams: {
     paymentId?: string,
@@ -27,7 +27,7 @@ export class SpyPaymentRepository implements PaymentRepository {
   async findPaymentById(id: string): Promise<PaymentProps | null> {
     this.findPaymentByIdParams = { id };
     for (let i = 0; i < this.paymentDatabase.length; i++) {
-      if (this.paymentDatabase[i]._id?.toString() === id) {
+      if (this.paymentDatabase[i].id?.toString() === id) {
         return this.paymentDatabase[i];
       }
     }
@@ -48,7 +48,7 @@ export class SpyPaymentRepository implements PaymentRepository {
     this.addParams = { payment };
       }
 
-  async update(paymentId: string, payment: Omit<PaymentProps, '_id'>): Promise<void> {
+  async update(paymentId: string, payment: Omit<PaymentProps, 'id'>): Promise<void> {
     this.updateParams = {
       paymentId,
       payment

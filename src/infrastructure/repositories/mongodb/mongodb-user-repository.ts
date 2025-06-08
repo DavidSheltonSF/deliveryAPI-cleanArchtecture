@@ -67,9 +67,9 @@ export class MongodbUserRepository implements UserRepository {
     ).then(result => result.insertedId.toString());
 
     const registeredUser: UserProps = {
-      _id: registeredUserId,
-      ...user
-    }
+      id: registeredUserId,
+      ...user,
+    };
 
     return registeredUser
   }
