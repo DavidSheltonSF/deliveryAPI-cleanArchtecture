@@ -71,7 +71,7 @@ export class MongodbRestaurantRepository implements RestaurantRepository {
 
   async update(
     restaurantId: string,
-    restaurantProps: Omit<RestaurantProps, 'id'>
+    restaurantProps: Partial<RestaurantProps>
   ): Promise<void> {
     const restaurantCollection = mongoHelper.getCollection('restaurants');
     await restaurantCollection.updateOne(

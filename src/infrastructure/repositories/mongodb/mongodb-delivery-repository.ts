@@ -40,7 +40,7 @@ export class MongodbDeliveryRepository implements DeliveryRepository {
 
   async update(
     deliveryId: string,
-    delivery: Omit<DeliveryProps, 'id'>
+    delivery: Partial<DeliveryProps>
   ): Promise<void> {
     const deliveryCollection = mongoHelper.getCollection('delivery');
     await deliveryCollection.updateOne(

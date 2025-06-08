@@ -53,7 +53,7 @@ export class MongodbPaymentRepository implements PaymentRepository {
 
   async update(
     paymentId: string,
-    payment: Omit<PaymentProps, 'id'>
+    payment: Partial<PaymentProps>
   ): Promise<void> {
     const paymentCollection = mongoHelper.getCollection('payment');
     await paymentCollection.updateOne(

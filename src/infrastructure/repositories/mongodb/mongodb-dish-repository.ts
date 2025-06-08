@@ -36,7 +36,7 @@ export class MongodbDishRepository implements DishRepository {
     await dishCollection?.insertOne(DishMapper.toDishDocument(dish));
   }
 
-  async update(dishId: string, dish: Omit<DishProps, 'id'>): Promise<void> {
+  async update(dishId: string, dish: Partial<DishProps>): Promise<void> {
     const dishCollection = mongoHelper.getCollection('dish');
     await dishCollection.updateOne(
       { _id: mongoHelper.toObjectId(dishId) },

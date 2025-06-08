@@ -65,7 +65,7 @@ export class MongodbRestaurantChainRepository
 
   async update(
     restaurantChainPropsId: string,
-    restaurantChainProps: Omit<RestaurantChainProps, 'id'>
+    restaurantChainProps: Partial<RestaurantChainProps>
   ): Promise<void> {
     const restaurantchainpropsCollection =
       mongoHelper.getCollection('restaurantChain');
