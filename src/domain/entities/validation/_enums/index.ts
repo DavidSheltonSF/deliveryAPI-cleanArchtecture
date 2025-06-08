@@ -14,7 +14,7 @@ export enum UserRole {
 }
 
 export enum PaymentStatus {
-  PAYD = 'paid',
+  PAID = 'paid',
   PENDING = 'pending',
   FAILED = 'failed',
 }
