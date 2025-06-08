@@ -3,6 +3,7 @@ import { HttpRequest } from "../../_ports/http";
 import { ok, serverError } from "../../_helpers/http-helper";
 import { HttpResponse } from "../../_ports/http";
 import { Controller } from "../Controller";
+import { serializeUser } from "../helpers/serializeUser";
 
 export class FindAllUsersController implements Controller {
 
@@ -15,7 +16,9 @@ export class FindAllUsersController implements Controller {
   async handle(request: HttpRequest): Promise<HttpResponse> {
     try{
 
-      const response = await this.findAllUsers.execute();
+      const users = await this.findAllUsers.execute();
+
+      const response = users.map(serializeUser);
 
       return ok(response);
 
