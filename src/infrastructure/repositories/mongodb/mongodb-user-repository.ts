@@ -11,12 +11,7 @@ export class MongodbUserRepository implements UserRepository {
     // Select all fields but not
     // authentication.salt nor authentication.sessionToken
     const result = (await userCollection
-      .find()
-      .project({
-        'authentication.salt': 0,
-        'authentication.sessionToken': 0,
-      })
-      .toArray()) as WithId<Document>[];
+      .find().toArray());
 
     if (result) {
       const users = result.map((elem) => {
