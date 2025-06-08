@@ -81,13 +81,12 @@ export class User {
 
     const validatedFields: Partial<Record<keyof typeof validators, any>> = {};
 
+    const optionalFields = ['bankInfo', 'address'];
+
     // Iterate throught validators to validate all fields in userData
     for (const [key, value] of Object.entries(validators)) {
       // If it is an optional field and it was not provided, then skip its validation
-      if (
-        ['bankInfo', 'address'].includes(key) &&
-        userData[key] === undefined
-      ) {
+      if (optionalFields.includes(key) && userData[key] === undefined) {
         continue;
       }
 
