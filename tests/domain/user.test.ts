@@ -1,5 +1,5 @@
-import { User } from "../../src/domain/entities/validation";
-import { UserProps } from "../../src/domain/entities/user-props";
+import { User } from '../../src/domain/entities/validation';
+import { UserProps } from '../../src/domain/entities/user-props';
 
 const users: UserProps[] = [
   {
@@ -12,7 +12,7 @@ const users: UserProps[] = [
       street: 'Rua dos Bobos',
       city: 'São Paulo',
       state: 'SP',
-      zipCode: '12345-678'
+      zipCode: '12345-678',
     },
     authentication: {
       password: 'Joao@2508',
@@ -23,21 +23,18 @@ const users: UserProps[] = [
         holderName: 'João',
         cardNumber: '1234567890123456',
         expiryDate: '12/23',
-        cvv: '123'
+        cvv: '123',
       },
-    }
-  }
-]
+    },
+  },
+];
 
-
-describe("Testing User validator", () => {
-  test("Trying to create a valid complete user", () => {
+describe('Testing User validator', () => {
+  test('Trying to create a valid complete user', () => {
     const validUser = users[0];
     const userOrError = User.createFull(validUser);
-    //console.log(userOrError.getLeft());
-    const gotUser = userOrError.getRight();
 
-    console.log(gotUser.address.get())
+    const gotUser = userOrError.getRight();
 
     expect(userOrError.isRight()).toBeTruthy();
     expect(validUser.username).toBe(gotUser.username.get());
@@ -48,8 +45,8 @@ describe("Testing User validator", () => {
     expect(validUser.address).toBe(gotUser.address.get());
   });
 
-  test("Trying to create a valid user, but without address", () => {
-    const {address, ...validUser} = users[0];
+  test('Trying to create a valid user, but without address', () => {
+    const { address, ...validUser } = users[0];
     const userOrError = User.createFull(validUser);
     //console.log(userOrError.getLeft());
     const gotUser = userOrError.getRight();
@@ -62,7 +59,7 @@ describe("Testing User validator", () => {
     expect(validUser.role).toBe(gotUser.role.get());
   });
 
-  test("Trying to create an user without user name", () => {
+  test('Trying to create an user without user name', () => {
     const noUserNameUser = users[0];
     noUserNameUser.username = '';
     const userOrError = User.createFull(noUserNameUser);
@@ -72,8 +69,8 @@ describe("Testing User validator", () => {
 
   // User.createPartial() ------------------------------
 
-  test("Trying to create a valid user, but without name", () => {
-    const {username, ...validUser} = users[0];
+  test('Trying to create a valid user, but without name', () => {
+    const { username, ...validUser } = users[0];
     const userOrError = User.createPartial(validUser);
     //console.log(userOrError.getLeft());
     const gotUser = userOrError.getRight();
@@ -85,10 +82,10 @@ describe("Testing User validator", () => {
     expect(validUser.role).toBe(gotUser.role.get());
   });
 
-  test("Trying to create a user providing only the username", () => {
+  test('Trying to create a user providing only the username', () => {
     const validUser = {
-      username: "newUser"
-    }
+      username: 'newUser',
+    };
     const userOrError = User.createPartial(validUser);
     //console.log(userOrError.getLeft());
     const gotUser = userOrError.getRight();
@@ -96,5 +93,4 @@ describe("Testing User validator", () => {
     expect(userOrError.isRight()).toBeTruthy();
     expect(validUser.username).toBe(gotUser.username.get());
   });
-
-})
+});
