@@ -141,7 +141,7 @@ export class User {
 
     const validatedFields: Partial<Record<keyof typeof validators, any>> = {};
 
-    // Iterate throught validators to validate all fields in userData
+    // Iterate throught userData to validate all fields inside it
     for (const [key, value] of Object.entries(userData)) {
       const fieldOrError = validators[key](value);
 
