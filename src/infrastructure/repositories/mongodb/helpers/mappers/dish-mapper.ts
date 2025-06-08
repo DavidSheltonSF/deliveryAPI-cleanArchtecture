@@ -1,18 +1,12 @@
-import { WithId, Document } from "mongodb";
-import { DishProps } from "../../../../../domain/entities/dish-props";
-import { mongoHelper } from "../mongo-helper";
+import { WithId, Document } from 'mongodb';
+import { DishProps } from '../../../../../domain/entities/dish-props';
+import { mongoHelper } from '../mongo-helper';
 
 export class DishMapper {
   /* Converts database documents into Dish type objects */
-  static toDish (data: WithId<Document>): DishProps {
+  static toDish(data: WithId<Document>): DishProps {
     const id = data._id.toString();
-    const {
-        name,
-        description,
-        price,
-        restaurantId,
-        imageUrl,
-    } = data;
+    const { name, description, price, restaurantId, imageUrl } = data;
 
     return {
       id,
@@ -26,13 +20,7 @@ export class DishMapper {
 
   static toDishDocument(data: DishProps): WithId<Document> {
     const _id = mongoHelper.toObjectId(data.id);
-    const {
-      name,
-      description,
-      price,
-      restaurantId,
-      imageUrl,
-    } = data;
+    const { name, description, price, restaurantId, imageUrl } = data;
 
     return {
       _id,
@@ -41,6 +29,6 @@ export class DishMapper {
       price,
       restaurantId,
       imageUrl,
-    }
+    };
   }
 }

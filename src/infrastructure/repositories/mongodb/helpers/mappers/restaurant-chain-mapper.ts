@@ -1,18 +1,12 @@
-import { WithId, Document } from "mongodb";
-import { RestaurantChainProps } from "../../../../../domain/entities/restaurant-chain-props";
-import { mongoHelper } from "../mongo-helper";
-
+import { WithId, Document } from 'mongodb';
+import { RestaurantChainProps } from '../../../../../domain/entities/restaurant-chain-props';
+import { mongoHelper } from '../mongo-helper';
 
 export class RestaurantChainMapper {
   /* Converts database documents into RestaurantChain type objects */
-  static toRestaurantChain (data: WithId<Document>): RestaurantChainProps {
+  static toRestaurantChain(data: WithId<Document>): RestaurantChainProps {
     const id = data._id.toString();
-    const {
-        name,
-        cnpj,
-        iconUrl,
-        adminId,
-    } = data;
+    const { name, cnpj, iconUrl, adminId } = data;
 
     return {
       id,
@@ -23,14 +17,11 @@ export class RestaurantChainMapper {
     };
   }
 
-  static toRestaurantChainDocument(data: RestaurantChainProps): WithId<Document> {
+  static toRestaurantChainDocument(
+    data: RestaurantChainProps
+  ): WithId<Document> {
     const _id = mongoHelper.toObjectId(data.id);
-    const {
-      name,
-      cnpj,
-      iconUrl,
-      adminId,
-    } = data;
+    const { name, cnpj, iconUrl, adminId } = data;
 
     return {
       _id,
@@ -38,6 +29,6 @@ export class RestaurantChainMapper {
       cnpj,
       iconUrl,
       adminId,
-    }
+    };
   }
 }
