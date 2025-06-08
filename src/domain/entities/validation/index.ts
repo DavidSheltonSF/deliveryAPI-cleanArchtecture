@@ -7,4 +7,4 @@ export * from './role';
 export * from './bankInfo';
 export * from './authentication';
 export * from './user';
-export * from './id'
+export * from './id';

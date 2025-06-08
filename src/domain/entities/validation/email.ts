@@ -1,26 +1,25 @@
-import { Either } from "./../../../shared/either";
-import { InvalidEmailError } from "../errors";
+import { Either } from './../../../shared/either';
+import { InvalidEmailError } from '../errors';
 
 export class Email {
   private readonly email: string;
 
-  constructor(email: string){
+  constructor(email: string) {
     this.email = email;
     Object.freeze(this);
-  };
+  }
 
-  static validate(email: string): Boolean{
-
+  static validate(email: string): Boolean {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
     if (!email || email.trim().length > 255) {
       return false;
     }
 
-    if(!email.match(emailRegex)) {
-      return false
+    if (!email.match(emailRegex)) {
+      return false;
     }
-    
+
     return true;
   }
 

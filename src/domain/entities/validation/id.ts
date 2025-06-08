@@ -1,20 +1,20 @@
-import { Either } from "../../../shared/either";
-import { InvalidIdError } from "../errors";
-import { mongoHelper } from "../../../infrastructure/repositories/mongodb/helpers/mongo-helper";
+import { Either } from '../../../shared/either';
+import { InvalidIdError } from '../errors';
+import { mongoHelper } from '../../../infrastructure/repositories/mongodb/helpers/mongo-helper';
 
 export class ID {
   private readonly id: string;
 
-  constructor(id: string){
+  constructor(id: string) {
     this.id = id;
     Object.freeze(this);
-  };
+  }
 
-  static validate(id: string): boolean{
+  static validate(id: string): boolean {
     try {
       mongoHelper.toObjectId(id);
       return true;
-    }catch{
+    } catch {
       return false;
     }
   }

@@ -1,21 +1,20 @@
-import { Either } from "./../../../shared/either";
-import { InvalidRoleError } from "../errors";
-import { UserRole } from "./_enums";
+import { Either } from './../../../shared/either';
+import { InvalidRoleError } from '../errors';
+import { UserRole } from './_enums';
 
 export class Role {
   private readonly role: string;
 
-  constructor(role: string){
+  constructor(role: string) {
     this.role = role;
     Object.freeze(this);
-  };
+  }
 
-  static validate(role: string): Boolean{
-
+  static validate(role: string): Boolean {
     if (!Object.values(UserRole).includes(role as UserRole)) {
       return false;
     }
-    
+
     return true;
   }
 

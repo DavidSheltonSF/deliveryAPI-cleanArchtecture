@@ -1,27 +1,32 @@
-import { Either } from "../../../shared/either";
-import { InvalidAddressError } from "../errors/InvalidAddressError";
-import { AddressProps } from "./_interfaces";
+import { Either } from '../../../shared/either';
+import { InvalidAddressError } from '../errors/InvalidAddressError';
+import { AddressProps } from './_interfaces';
 
 export class Address {
   private readonly address: AddressProps;
 
-  constructor(address: AddressProps){
+  constructor(address: AddressProps) {
     this.address = address;
     Object.freeze(this);
-  };
+  }
 
-  static validate(address: AddressProps): Boolean{
-
+  static validate(address: AddressProps): Boolean {
     const zipCodeRegex = /^\d{5}\-?\d{3}$/;
 
-    if (!address || !address.street || !address.city || !address.state || !address.zipCode) {
+    if (
+      !address ||
+      !address.street ||
+      !address.city ||
+      !address.state ||
+      !address.zipCode
+    ) {
       return false;
     }
 
-    if (!address.zipCode.match(zipCodeRegex)){
+    if (!address.zipCode.match(zipCodeRegex)) {
       return false;
     }
-    
+
     return true;
   }
 

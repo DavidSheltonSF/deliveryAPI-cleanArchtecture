@@ -1,22 +1,21 @@
-import { Either } from "./../../../shared/either";
-import { InvalidPhoneError } from "../errors";
+import { Either } from './../../../shared/either';
+import { InvalidPhoneError } from '../errors';
 
 export class Phone {
   private readonly phone: string;
 
-  constructor(phone: string){
+  constructor(phone: string) {
     this.phone = phone;
     Object.freeze(this);
-  };
+  }
 
-  static validate(phone: string): Boolean{
-
+  static validate(phone: string): Boolean {
     const phoneRegex = /^\d{2}\-?\d{9}$/;
 
-    if(!phone.match(phoneRegex)) {
-      return false
+    if (!phone.match(phoneRegex)) {
+      return false;
     }
-    
+
     return true;
   }
 

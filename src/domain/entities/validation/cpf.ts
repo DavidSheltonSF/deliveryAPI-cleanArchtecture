@@ -1,22 +1,21 @@
-import { Either } from "./../../../shared/either";
-import { InvalidCpfError } from "../errors";
+import { Either } from './../../../shared/either';
+import { InvalidCpfError } from '../errors';
 
 export class Cpf {
   private readonly cpf: string;
 
-  constructor(cpf: string){
+  constructor(cpf: string) {
     this.cpf = cpf;
     Object.freeze(this);
-  };
+  }
 
-  static validate(cpf: string): Boolean{
-
+  static validate(cpf: string): Boolean {
     const cpfRegex = /^\d{3}\.?\d{3}\.?\d{3}\-?\d{2}$/;
 
-    if(!cpf.match(cpfRegex)) {
-      return false
+    if (!cpf.match(cpfRegex)) {
+      return false;
     }
-    
+
     return true;
   }
 
