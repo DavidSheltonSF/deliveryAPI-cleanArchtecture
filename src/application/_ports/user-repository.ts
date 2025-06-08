@@ -4,7 +4,7 @@ export interface UserRepository {
   findAllUsers: () => Promise<UserProps[]>;
   findUserById: (userId: string) => Promise<UserProps | null>;
   findUserByEmail: (email: string) => Promise<UserProps | null>;
-  add: (user: Omit<UserProps, "_id">) => Promise<void>;
+  add: (user: Omit<UserProps, "_id">) => Promise<UserProps>;
   remove: (userId: string) => Promise<void>;
   update: (userId: string, userData: Partial<UserProps>) => Promise<void>;
 }

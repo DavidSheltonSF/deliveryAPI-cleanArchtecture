@@ -1,10 +1,11 @@
 import { UserRepository } from "../../../src/application/_ports/user-repository";
 import { UserProps } from "../../../src/domain/entities/user-props";
+import { MockData } from "../../_helpers/mockData";
 
 export class SpyUserRepository implements UserRepository {
   userDatabase: UserProps[] = [];
   addParams: {
-    user?: Omit<UserProps, "_id">
+    user?: UserProps
   } = {};
   findUserByIdParams: {
     id?: string,
@@ -55,8 +56,15 @@ export class SpyUserRepository implements UserRepository {
     return false
   }
 
-  async add(user: Omit<UserProps, "_id">): Promise<void> {
+  async add(user: Omit<UserProps, "_id">): Promise<UserProps> {
     this.addParams = { user };
+
+    const fakeRegistredUser = {
+      _id: MockData.generateHexId(),
+      ...user
+    }
+    
+    return fakeRegistredUser;
   }
 
   async update(userId: string, userData: Partial<Omit<UserProps, "_id">>): Promise<void> {

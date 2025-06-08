@@ -22,4 +22,4 @@ export type RegisterUserResponse = Either<InvalidNameError
   | InvalidCardNumberError
   | InvalidPaymentMethodError
   | InvalidPasswordError
-  | DuplicatedDataError, Omit<UserProps, "_id">>;
+  | DuplicatedDataError, UserProps>;

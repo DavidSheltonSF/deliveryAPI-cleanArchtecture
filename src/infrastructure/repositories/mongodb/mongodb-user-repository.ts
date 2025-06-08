@@ -59,9 +59,19 @@ export class MongodbUserRepository implements UserRepository {
     return false
   }
 
-  async add (user: UserProps): Promise<void> {
+  async add (user: UserProps): Promise<UserProps> {
     const userCollection = mongoHelper.getCollection('users');
-    await userCollection?.insertOne(UserMapper.toUserDocument(user));
+
+    const registeredUserId = await userCollection?.insertOne(
+      UserMapper.toUserDocument(user)
+    ).then(result => result.insertedId.toString());
+
+    const registeredUser: UserProps = {
+      _id: registeredUserId,
+      ...user
+    }
+
+    return registeredUser
   }
 
   async update (userId: string, userProps: Partial<UserProps>): Promise<void> {
