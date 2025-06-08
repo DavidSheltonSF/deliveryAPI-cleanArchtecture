@@ -11,7 +11,7 @@ export class DeliveryMapper {
       orderId,
       driverId,
       status,
-      timeEstimate,
+      timeEstimateInMinutes,
     } = data;
 
     return {
@@ -19,7 +19,7 @@ export class DeliveryMapper {
       orderId,
       driverId,
       status,
-      timeEstimate,
+      timeEstimateInMinutes,
     }
   }
 
@@ -29,7 +29,7 @@ export class DeliveryMapper {
       orderId,
       driverId,
       status,
-      timeEstimate,
+      timeEstimateInMinutes,
     } = data;
 
     return {
@@ -37,7 +37,7 @@ export class DeliveryMapper {
       orderId,
       driverId,
       status,
-      timeEstimate,
+      timeEstimateInMinutes,
     }
   }
 }

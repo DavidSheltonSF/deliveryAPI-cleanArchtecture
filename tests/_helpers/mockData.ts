@@ -150,7 +150,7 @@ export class MockData {
         orderId: this.generateHexId(),
         driverId: this.generateHexId(),
         status: faker.helpers.enumValue(DeliveryStatus),
-        timeEstimate: faker.helpers.arrayElement([60, 30, 20]),
+        timeEstimateInMinutes: faker.helpers.arrayElement([60, 30, 20]),
       };
       mockedDeliveries.push(delivery);
     }

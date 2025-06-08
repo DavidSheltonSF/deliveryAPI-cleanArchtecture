@@ -48,8 +48,8 @@ describe('Testing SpyDeliveryRepository', () => {
       .toBe(fakeDelivery.driverId);
     expect(deliveryInserted?.status)
       .toBe(fakeDelivery.status);
-    expect(deliveryInserted?.timeEstimate)
-      .toBe(fakeDelivery.timeEstimate);
+    expect(deliveryInserted?.timeEstimateInMinutes)
+      .toBe(fakeDelivery.timeEstimateInMinutes);
   });
 
   test('Should update delivery by id', async () => {
@@ -61,7 +61,7 @@ describe('Testing SpyDeliveryRepository', () => {
       orderId: 'order123-updated',
       driverId: 'driver456-updated',
       status: 'delivered',
-      timeEstimate: 54,
+      timeEstimateInMinutes: 54,
     }
 
     const fakeDeliveryId = MockData.generateHexId();
@@ -80,8 +80,8 @@ describe('Testing SpyDeliveryRepository', () => {
       .toBe(updatedData.driverId);
     expect(updatedDelivery?.status)
       .toBe(updatedData.status);
-    expect(updatedDelivery?.timeEstimate)
-      .toBe(updatedData.timeEstimate);
+    expect(updatedDelivery?.timeEstimateInMinutes)
+      .toBe(updatedData.timeEstimateInMinutes);
   });
   
   test('Should remove delivery by id', async () => {

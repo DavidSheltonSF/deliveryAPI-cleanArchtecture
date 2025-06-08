@@ -20,14 +20,14 @@ const deliverys = [
     orderId: orderId0,
     driverId: driverId0,
     status: 'delivered',
-    timeEstimate: 0
+    timeEstimateInMinutes: 0
   },
   { 
     _id: generateHexId(),
     orderId: orderId1,
     driverId: driverId1,
     status: 'on_the_way',
-    timeEstimate: 20
+    timeEstimateInMinutes: 20
   },
 ]
 
@@ -70,8 +70,8 @@ describe('Testing MongodbDeliveryRepository', () => {
       .toBe(deliverys[0].driverId);
     expect(foundDelivery?.status)
       .toBe(deliverys[0].status);
-    expect(foundDelivery?.timeEstimate)
-      .toBe(deliverys[0].timeEstimate);
+    expect(foundDelivery?.timeEstimateInMinutes)
+      .toBe(deliverys[0].timeEstimateInMinutes);
   });
 
   test('Should return all deliverys in the database', async () => {
@@ -104,8 +104,8 @@ describe('Testing MongodbDeliveryRepository', () => {
       .toBe(deliverys[0].driverId);
     expect(foundDelivery?.status)
       .toBe(deliverys[0].status);
-    expect(foundDelivery?.timeEstimate)
-      .toBe(deliverys[0].timeEstimate);
+    expect(foundDelivery?.timeEstimateInMinutes)
+      .toBe(deliverys[0].timeEstimateInMinutes);
   });
 
   test('Should update Delivery by id', async () => {
@@ -122,7 +122,7 @@ describe('Testing MongodbDeliveryRepository', () => {
       orderId: updatedorderI,
       driverId: updatedDriverId,
       status: 'delivered-updated',
-      timeEstimate: 999
+      timeEstimateInMinutes: 999
     }
 
     await repository.update(deliverys[0]._id, updatedDelivery);
@@ -135,8 +135,8 @@ describe('Testing MongodbDeliveryRepository', () => {
       .toBe(updatedDelivery.driverId);
     expect(foundDelivery?.status)
       .toBe(updatedDelivery.status);
-    expect(foundDelivery?.timeEstimate)
-      .toBe(updatedDelivery.timeEstimate);
+    expect(foundDelivery?.timeEstimateInMinutes)
+      .toBe(updatedDelivery.timeEstimateInMinutes);
   });
 
   test('Should remove Delivery by id', async () => {

@@ -3,5 +3,5 @@ export interface DeliveryProps {
   orderId: string,
   driverId: string,
   status: string,
-  timeEstimate: number
+  timeEstimateInMinutes: number
 }
