@@ -1,9 +1,11 @@
-import { RestaurantChainRepository } from "../../../application/_ports/restaurant-chain-repository";
-import { RestaurantChainProps } from "../../../domain/entities/restaurant-chain-props";
-import { RestaurantChainMapper } from "./helpers/mappers/restaurant-chain-mapper";
-import { mongoHelper } from "./helpers/mongo-helper";
+import { RestaurantChainRepository } from '../../../application/_ports/restaurant-chain-repository';
+import { RestaurantChainProps } from '../../../domain/entities/restaurant-chain-props';
+import { RestaurantChainMapper } from './helpers/mappers/restaurant-chain-mapper';
+import { mongoHelper } from './helpers/mongo-helper';
 
-export class MongodbRestaurantChainRepository implements RestaurantChainRepository {
+export class MongodbRestaurantChainRepository
+  implements RestaurantChainRepository
+{
   async findAllRestaurantChains(): Promise<RestaurantChainProps[]> {
     const restaurantchainpropsCollection =
       mongoHelper.getCollection('restaurantChain');

@@ -1,22 +1,24 @@
-import { WithId, Document } from "mongodb";
-import { UserRepository } from "../../../application/_ports/user-repository";
-import { UserProps } from "../../../domain/entities/user-props";
-import { UserMapper } from "./helpers/mappers/user-mapper";
-import { mongoHelper } from "./helpers/mongo-helper";
+import { WithId, Document } from 'mongodb';
+import { UserRepository } from '../../../application/_ports/user-repository';
+import { UserProps } from '../../../domain/entities/user-props';
+import { UserMapper } from './helpers/mappers/user-mapper';
+import { mongoHelper } from './helpers/mongo-helper';
 
 export class MongodbUserRepository implements UserRepository {
-  
-  async findAllUsers (): Promise<UserProps[]> {
+  async findAllUsers(): Promise<UserProps[]> {
     const userCollection = mongoHelper.getCollection('users');
 
-    // Select all fields but not 
+    // Select all fields but not
     // authentication.salt nor authentication.sessionToken
-    const result = await userCollection.find().project({
-      'authentication.salt': 0,
-      'authentication.sessionToken': 0
-    }).toArray() as WithId<Document>[];
+    const result = (await userCollection
+      .find()
+      .project({
+        'authentication.salt': 0,
+        'authentication.sessionToken': 0,
+      })
+      .toArray()) as WithId<Document>[];
 
-    if (result){
+    if (result) {
       const users = result.map((elem) => {
         return UserMapper.toUser(elem);
       });
@@ -26,66 +28,64 @@ export class MongodbUserRepository implements UserRepository {
     return [];
   }
 
-  async findUserByEmail (email: string): Promise<UserProps | null> {
+  async findUserByEmail(email: string): Promise<UserProps | null> {
     const userCollection = mongoHelper.getCollection('users');
     const result = await userCollection?.findOne({ email });
 
-    if (result){
+    if (result) {
       return UserMapper.toUser(result);
     }
 
     return null;
   }
 
-  async findUserById (userId: string): Promise<UserProps | null> {
+  async findUserById(userId: string): Promise<UserProps | null> {
     const userCollection = mongoHelper.getCollection('users');
     // Its necessary to mapper the id string into an ObjectId
     const objId = mongoHelper.toObjectId(userId);
-    const result = await userCollection?.findOne({_id: objId});
+    const result = await userCollection?.findOne({ _id: objId });
 
-    if (result){
+    if (result) {
       return UserMapper.toUser(result);
     }
 
     return null;
   }
 
-  async exists (email: string): Promise<boolean> {
+  async exists(email: string): Promise<boolean> {
     const existingUser = this.findUserByEmail(email);
-    if (existingUser){
+    if (existingUser) {
       return true;
     }
 
-    return false
+    return false;
   }
 
-  async add (user: UserProps): Promise<UserProps> {
+  async add(user: UserProps): Promise<UserProps> {
     const userCollection = mongoHelper.getCollection('users');
 
-    const registeredUserId = await userCollection?.insertOne(
-      UserMapper.toUserDocument(user)
-    ).then(result => result.insertedId.toString());
+    const registeredUserId = await userCollection
+      ?.insertOne(UserMapper.toUserDocument(user))
+      .then((result) => result.insertedId.toString());
 
     const registeredUser: UserProps = {
       id: registeredUserId,
       ...user,
     };
 
-    return registeredUser
+    return registeredUser;
   }
 
-  async update (userId: string, userProps: Partial<UserProps>): Promise<void> {
+  async update(userId: string, userProps: Partial<UserProps>): Promise<void> {
     const userCollection = mongoHelper.getCollection('users');
     await userCollection.updateOne(
-      {_id: mongoHelper.toObjectId(userId)},
-      {$set: userProps}
+      { _id: mongoHelper.toObjectId(userId) },
+      { $set: userProps }
     );
   }
 
-  async remove (userId: string): Promise<void> {
+  async remove(userId: string): Promise<void> {
     const userCollection = mongoHelper.getCollection('users');
-    await userCollection.deleteOne(
-      {_id: mongoHelper.toObjectId(userId)}
-    );
+    await userCollection.deleteOne({ _id: mongoHelper.toObjectId(userId) });
   }
 }

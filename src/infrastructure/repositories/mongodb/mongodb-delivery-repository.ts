@@ -1,7 +1,7 @@
-import { DeliveryRepository } from "../../../application/_ports/delivery-repository";
-import { DeliveryProps } from "../../../domain/entities/delivery-props";
-import { DeliveryMapper } from "./helpers/mappers/delivery-mapper";
-import { mongoHelper } from "./helpers/mongo-helper";
+import { DeliveryRepository } from '../../../application/_ports/delivery-repository';
+import { DeliveryProps } from '../../../domain/entities/delivery-props';
+import { DeliveryMapper } from './helpers/mappers/delivery-mapper';
+import { mongoHelper } from './helpers/mongo-helper';
 
 export class MongodbDeliveryRepository implements DeliveryRepository {
   async findAllDeliverys(): Promise<DeliveryProps[]> {
