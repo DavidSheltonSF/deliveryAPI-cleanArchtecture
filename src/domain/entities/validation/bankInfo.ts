@@ -4,10 +4,10 @@ import { BankInfoProps } from "./_interfaces";
 import { InvalidPaymentMethodError, InvalidCardNumberError } from "../errors";
 
 export class BankInfo {
-  private readonly bankinfo: BankInfoProps;
+  private readonly bankInfo: BankInfoProps;
 
-  constructor(bankinfo: BankInfoProps){
-    this.bankinfo = bankinfo;
+  constructor(bankInfo: BankInfoProps){
+    this.bankInfo = bankInfo;
     Object.freeze(this);
   };
 
@@ -28,13 +28,13 @@ export class BankInfo {
     return true;
   }
 
-  static validate(bankinfo: BankInfoProps): Boolean{
-    if (!this.validatePaymentMethod(bankinfo.paymentMethod)) {
+  static validate(bankInfo: BankInfoProps): Boolean{
+    if (!this.validatePaymentMethod(bankInfo.paymentMethod)) {
       return false;
     }
 
-    if (bankinfo.paymentMethod === PaymentMethod.CREDIT_CARD) {
-      if (!this.validateCardNumber(bankinfo.paymentInfo.cardNumber)) {
+    if (bankInfo.paymentMethod === PaymentMethod.CREDIT_CARD) {
+      if (!this.validateCardNumber(bankInfo.paymentInfo.cardNumber)) {
         return false;
       }
     }
@@ -42,21 +42,21 @@ export class BankInfo {
     return true;
   }
 
-  static create(bankinfo: BankInfoProps): Either<InvalidPaymentMethodError | InvalidCardNumberError, BankInfo> {
-    if (!this.validatePaymentMethod(bankinfo.paymentMethod)) {
-      return Either.left(new InvalidPaymentMethodError(bankinfo.paymentMethod));
+  static create(bankInfo: BankInfoProps): Either<InvalidPaymentMethodError | InvalidCardNumberError, BankInfo> {
+    if (!this.validatePaymentMethod(bankInfo.paymentMethod)) {
+      return Either.left(new InvalidPaymentMethodError(bankInfo.paymentMethod));
     }
 
-    if (bankinfo.paymentMethod === PaymentMethod.CREDIT_CARD) {
-      if (!this.validateCardNumber(bankinfo.paymentInfo.cardNumber)) {
-        return Either.left(new InvalidCardNumberError(bankinfo.paymentInfo.cardNumber));
+    if (bankInfo.paymentMethod === PaymentMethod.CREDIT_CARD) {
+      if (!this.validateCardNumber(bankInfo.paymentInfo.cardNumber)) {
+        return Either.left(new InvalidCardNumberError(bankInfo.paymentInfo.cardNumber));
       }
     }
 
-    return Either.right(new BankInfo(bankinfo));
+    return Either.right(new BankInfo(bankInfo));
   }
 
   get(): BankInfoProps {
-    return this.bankinfo;
+    return this.bankInfo;
   }
 }
