@@ -1,4 +1,3 @@
-import { WithId, Document } from 'mongodb';
 import { UserRepository } from '../../../application/_ports/user-repository';
 import { UserProps } from '../../../domain/entities/user-props';
 import { UserMapper } from './helpers/mappers/user-mapper';
