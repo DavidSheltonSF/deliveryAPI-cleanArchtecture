@@ -24,7 +24,7 @@ export class RegisterUserUseCase implements RegisterUserUseCase {
     const existingUser = await this.userRepository.findUserByEmail(userData.email);
 
     if(existingUser){
-      return Either.left(new DuplicatedDataError(`User with email ${userData.email} already existis.`))
+      return Either.left(new DuplicatedDataError(`User with email ${userData.email} already exists.`))
     }
 
     const registeredUser = await this.userRepository.add(userData);
