@@ -13,7 +13,7 @@ export class RegisterUserUseCase implements RegisterUserUseCase {
     this.userRepository = userRepo;
   }
 
-  async execute(userData: Omit<UserProps, "_id">): Promise<RegisterUserResponse> {
+  async execute(userData: Omit<UserProps, "id">): Promise<RegisterUserResponse> {
 
     const userOrError = User.createFull(userData);
 
