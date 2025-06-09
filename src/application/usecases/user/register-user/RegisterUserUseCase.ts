@@ -6,7 +6,7 @@ import { RegisterUserResponse } from "./response";
 import { Either } from "../../../../shared/either";
 import { DuplicatedDataError } from "../../../_errors/duplicated-data";
 
-export class RegisterUserUseCase implements RegisterUserUseCase {
+export class RegisterUserUseCase implements RegisterUser {
 
   private readonly userRepository: UserRepository;
   constructor(userRepo: UserRepository){
