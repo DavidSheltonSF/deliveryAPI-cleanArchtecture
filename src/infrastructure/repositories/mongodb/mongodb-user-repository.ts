@@ -58,7 +58,7 @@ export class MongodbUserRepository implements UserRepository {
     const userCollection = mongoHelper.getCollection('users');
 
     const registeredUserId = await userCollection
-      ?.insertOne(newUser)
+      .insertOne(newUser)
       .then((result) => result.insertedId.toString());
 
     const registeredUser: UserProps = {
