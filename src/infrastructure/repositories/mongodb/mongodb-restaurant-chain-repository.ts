@@ -1,6 +1,6 @@
 import { RestaurantChainRepository } from '../../../application/_ports/restaurant-chain-repository';
 import { RestaurantChainProps } from '../../../domain/entities/restaurant-chain-props';
-import { RestaurantChainMapper } from './helpers/mappers/restaurant-chain-mapper';
+import { MongodbMapper } from './helpers/MongodbMapper';
 import { mongoHelper } from './helpers/mongo-helper';
 
 export class MongodbRestaurantChainRepository
@@ -13,7 +13,7 @@ export class MongodbRestaurantChainRepository
 
     if (result) {
       const restaurantchainpropss = result.map((elem) => {
-        return RestaurantChainMapper.toRestaurantChain(elem);
+        return MongodbMapper.toRestaurantChain(elem);
       });
 
       return restaurantchainpropss;
@@ -33,7 +33,7 @@ export class MongodbRestaurantChainRepository
     });
 
     if (result) {
-      return RestaurantChainMapper.toRestaurantChain(result);
+      return MongodbMapper.toRestaurantChain(result);
     }
 
     return null;
@@ -49,7 +49,7 @@ export class MongodbRestaurantChainRepository
     });
 
     if (result) {
-      return RestaurantChainMapper.toRestaurantChain(result);
+      return MongodbMapper.toRestaurantChain(result);
     }
 
     return null;
@@ -59,7 +59,7 @@ export class MongodbRestaurantChainRepository
     const restaurantchainpropsCollection =
       mongoHelper.getCollection('restaurantChain');
     await restaurantchainpropsCollection?.insertOne(
-      RestaurantChainMapper.toRestaurantChainDocument(restaurantChainProps)
+      MongodbMapper.toMongodbDocument(restaurantChainProps)
     );
   }
 

@@ -1,6 +1,6 @@
 import { DeliveryRepository } from '../../../application/_ports/delivery-repository';
 import { DeliveryProps } from '../../../domain/entities/delivery-props';
-import { DeliveryMapper } from './helpers/mappers/delivery-mapper';
+import { MongodbMapper } from './helpers/MongodbMapper';
 import { mongoHelper } from './helpers/mongo-helper';
 
 export class MongodbDeliveryRepository implements DeliveryRepository {
@@ -10,7 +10,7 @@ export class MongodbDeliveryRepository implements DeliveryRepository {
 
     if (result) {
       const deliverys = result.map((elem) => {
-        return DeliveryMapper.toDelivery(elem);
+        return MongodbMapper.toDelivery(elem);
       });
 
       return deliverys;
@@ -25,7 +25,7 @@ export class MongodbDeliveryRepository implements DeliveryRepository {
     const result = await deliveryCollection?.findOne({ _id: objId });
 
     if (result) {
-      return DeliveryMapper.toDelivery(result);
+      return MongodbMapper.toDelivery(result);
     }
 
     return null;
@@ -34,7 +34,7 @@ export class MongodbDeliveryRepository implements DeliveryRepository {
   async add(delivery: DeliveryProps): Promise<void> {
     const deliveryCollection = mongoHelper.getCollection('delivery');
     await deliveryCollection?.insertOne(
-      DeliveryMapper.toDeliveryDocument(delivery)
+      MongodbMapper.toMongodbDocument(delivery)
     );
   }
 

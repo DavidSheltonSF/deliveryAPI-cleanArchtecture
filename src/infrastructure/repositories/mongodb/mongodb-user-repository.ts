@@ -1,6 +1,6 @@
 import { UserRepository } from '../../../application/_ports/user-repository';
 import { UserProps } from '../../../domain/entities/user-props';
-import { UserMapper } from './helpers/mappers/user-mapper';
+import { MongodbMapper } from './helpers/MongodbMapper';
 import { mongoHelper } from './helpers/mongo-helper';
 
 export class MongodbUserRepository implements UserRepository {
@@ -14,7 +14,7 @@ export class MongodbUserRepository implements UserRepository {
 
     if (result) {
       const users = result.map((elem) => {
-        return UserMapper.toUser(elem);
+        return MongodbMapper.toUser(elem);
       });
 
       return users;
@@ -27,7 +27,7 @@ export class MongodbUserRepository implements UserRepository {
     const result = await userCollection?.findOne({ email });
 
     if (result) {
-      return UserMapper.toUser(result);
+      return MongodbMapper.toUser(result);
     }
 
     return null;
@@ -40,7 +40,7 @@ export class MongodbUserRepository implements UserRepository {
     const result = await userCollection?.findOne({ _id: objId });
 
     if (result) {
-      return UserMapper.toUser(result);
+      return MongodbMapper.toUser(result);
     }
 
     return null;

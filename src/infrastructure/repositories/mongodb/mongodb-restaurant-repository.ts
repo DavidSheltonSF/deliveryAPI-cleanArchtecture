@@ -1,6 +1,6 @@
 import { RestaurantRepository } from '../../../application/_ports/restaurant-repository';
 import { RestaurantProps } from '../../../domain/entities/restaurant-props';
-import { RestaurantMapper } from './helpers/mappers/restaurant-mapper';
+import { MongodbMapper } from './helpers/MongodbMapper';
 import { mongoHelper } from './helpers/mongo-helper';
 
 export class MongodbRestaurantRepository implements RestaurantRepository {
@@ -10,7 +10,7 @@ export class MongodbRestaurantRepository implements RestaurantRepository {
 
     if (result) {
       const restaurants = result.map((elem) => {
-        return RestaurantMapper.toRestaurant(elem);
+        return MongodbMapper.toRestaurant(elem);
       });
 
       return restaurants;
@@ -27,7 +27,7 @@ export class MongodbRestaurantRepository implements RestaurantRepository {
     const result = await restaurantCollection?.findOne({ _id: objId });
 
     if (result) {
-      return RestaurantMapper.toRestaurant(result);
+      return MongodbMapper.toRestaurant(result);
     }
 
     return null;
@@ -40,7 +40,7 @@ export class MongodbRestaurantRepository implements RestaurantRepository {
     const result = await restaurantCollection?.findOne({ adminId: adminId });
 
     if (result) {
-      return RestaurantMapper.toRestaurant(result);
+      return MongodbMapper.toRestaurant(result);
     }
 
     return null;
@@ -56,7 +56,7 @@ export class MongodbRestaurantRepository implements RestaurantRepository {
     });
 
     if (result) {
-      return RestaurantMapper.toRestaurant(result);
+      return MongodbMapper.toRestaurant(result);
     }
 
     return null;
@@ -65,7 +65,7 @@ export class MongodbRestaurantRepository implements RestaurantRepository {
   async add(restaurantProps: RestaurantProps): Promise<void> {
     const restaurantCollection = mongoHelper.getCollection('restaurants');
     await restaurantCollection?.insertOne(
-      RestaurantMapper.toRestaurantDocument(restaurantProps)
+      MongodbMapper.toMongodbDocument(restaurantProps)
     );
   }
 

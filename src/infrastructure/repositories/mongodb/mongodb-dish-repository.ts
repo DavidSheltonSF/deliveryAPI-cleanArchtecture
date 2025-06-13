@@ -1,6 +1,6 @@
 import { DishRepository } from '../../../application/_ports/dish-repository';
 import { DishProps } from '../../../domain/entities/dish-props';
-import { DishMapper } from './helpers/mappers/dish-mapper';
+import { MongodbMapper } from './helpers/MongodbMapper';
 import { mongoHelper } from './helpers/mongo-helper';
 
 export class MongodbDishRepository implements DishRepository {
@@ -10,7 +10,7 @@ export class MongodbDishRepository implements DishRepository {
 
     if (result) {
       const dishs = result.map((elem) => {
-        return DishMapper.toDish(elem);
+        return MongodbMapper.toDish(elem);
       });
 
       return dishs;
@@ -25,7 +25,7 @@ export class MongodbDishRepository implements DishRepository {
     const result = await dishCollection?.findOne({ _id: objId });
 
     if (result) {
-      return DishMapper.toDish(result);
+      return MongodbMapper.toDish(result);
     }
 
     return null;
@@ -33,7 +33,7 @@ export class MongodbDishRepository implements DishRepository {
 
   async add(dish: DishProps): Promise<void> {
     const dishCollection = mongoHelper.getCollection('dish');
-    await dishCollection?.insertOne(DishMapper.toDishDocument(dish));
+    await dishCollection?.insertOne(MongodbMapper.toMongodbDocument(dish));
   }
 
   async update(dishId: string, dish: Partial<DishProps>): Promise<void> {

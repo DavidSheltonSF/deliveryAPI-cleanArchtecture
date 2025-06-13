@@ -1,6 +1,6 @@
 import { PaymentRepository } from '../../../application/_ports/payment-repository';
 import { PaymentProps } from '../../../domain/entities/payment-props';
-import { PaymentMapper } from './helpers/mappers/payment-mapper';
+import { MongodbMapper } from './helpers/MongodbMapper';
 import { mongoHelper } from './helpers/mongo-helper';
 
 export class MongodbPaymentRepository implements PaymentRepository {
@@ -10,7 +10,7 @@ export class MongodbPaymentRepository implements PaymentRepository {
 
     if (result) {
       const payments = result.map((elem) => {
-        return PaymentMapper.toPayment(elem);
+        return MongodbMapper.toPayment(elem);
       });
 
       return payments;
@@ -25,7 +25,7 @@ export class MongodbPaymentRepository implements PaymentRepository {
     const result = await paymentCollection?.findOne({ _id: objId });
 
     if (result) {
-      return PaymentMapper.toPayment(result);
+      return MongodbMapper.toPayment(result);
     }
 
     return null;
@@ -38,7 +38,7 @@ export class MongodbPaymentRepository implements PaymentRepository {
     const result = await paymentCollection?.findOne({ orderId: objId });
 
     if (result) {
-      return PaymentMapper.toPayment(result);
+      return MongodbMapper.toPayment(result);
     }
 
     return null;
@@ -47,7 +47,7 @@ export class MongodbPaymentRepository implements PaymentRepository {
   async add(payment: PaymentProps): Promise<void> {
     const paymentCollection = mongoHelper.getCollection('payment');
     await paymentCollection?.insertOne(
-      PaymentMapper.toPaymentDocument(payment)
+      MongodbMapper.toMongodbDocument(payment)
     );
   }
 

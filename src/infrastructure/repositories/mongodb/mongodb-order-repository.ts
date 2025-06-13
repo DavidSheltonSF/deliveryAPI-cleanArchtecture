@@ -1,6 +1,6 @@
 import { OrderRepository } from '../../../application/_ports/order-repository';
 import { OrderProps } from '../../../domain/entities/order-props';
-import { OrderMapper } from './helpers/mappers/order-mapper';
+import { MongodbMapper } from './helpers/MongodbMapper';
 import { mongoHelper } from './helpers/mongo-helper';
 
 export class MongodbOrderRepository implements OrderRepository {
@@ -10,7 +10,7 @@ export class MongodbOrderRepository implements OrderRepository {
 
     if (result) {
       const orders = result.map((elem) => {
-        return OrderMapper.toOrder(elem);
+        return MongodbMapper.toOrder(elem);
       });
 
       return orders;
@@ -25,7 +25,7 @@ export class MongodbOrderRepository implements OrderRepository {
     const result = await orderCollection?.findOne({ _id: objId });
 
     if (result) {
-      return OrderMapper.toOrder(result);
+      return MongodbMapper.toOrder(result);
     }
 
     return null;
@@ -33,7 +33,7 @@ export class MongodbOrderRepository implements OrderRepository {
 
   async add(order: OrderProps): Promise<void> {
     const orderCollection = mongoHelper.getCollection('order');
-    await orderCollection?.insertOne(OrderMapper.toOrderDocument(order));
+    await orderCollection?.insertOne(MongodbMapper.toMongodbDocument(order));
   }
 
   async update(orderId: string, order: Partial<OrderProps>): Promise<void> {
