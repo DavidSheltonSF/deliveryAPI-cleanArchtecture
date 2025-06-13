@@ -9,8 +9,7 @@ export class MongodbUserRepository implements UserRepository {
 
     // Select all fields but not
     // authentication.salt nor authentication.sessionToken
-    const result = (await userCollection
-      .find().toArray());
+    const result = await userCollection.find().toArray();
 
     if (result) {
       const users = result.map((elem) => {
@@ -55,16 +54,16 @@ export class MongodbUserRepository implements UserRepository {
     return false;
   }
 
-  async add(user: UserProps): Promise<UserProps> {
+  async add(newUser: Omit<UserProps, "id">): Promise<UserProps> {
     const userCollection = mongoHelper.getCollection('users');
 
     const registeredUserId = await userCollection
-      ?.insertOne(user)
+      ?.insertOne(newUser)
       .then((result) => result.insertedId.toString());
 
     const registeredUser: UserProps = {
       id: registeredUserId,
-      ...user,
+      ...newUser,
     };
 
     return registeredUser;
