@@ -58,7 +58,7 @@ export class MongodbRestaurantChainRepository
   async add(restaurantChainProps: RestaurantChainProps): Promise<void> {
     const restaurantchainpropsCollection =
       mongoHelper.getCollection('restaurantChain');
-    await restaurantchainpropsCollection?.insertOne(
+    await restaurantchainpropsCollection.insertOne(
       MongodbMapper.toMongodbDocument(restaurantChainProps)
     );
   }

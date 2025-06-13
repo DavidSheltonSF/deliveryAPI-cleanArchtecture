@@ -33,7 +33,7 @@ export class MongodbDeliveryRepository implements DeliveryRepository {
 
   async add(delivery: DeliveryProps): Promise<void> {
     const deliveryCollection = mongoHelper.getCollection('delivery');
-    await deliveryCollection?.insertOne(
+    await deliveryCollection.insertOne(
       MongodbMapper.toMongodbDocument(delivery)
     );
   }
