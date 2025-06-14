@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: 🚀 Trigger Render Deploy
-        uses: renderinc/render-action@v1
+        uses: johnbeynon/render-deploy-action@v0.0.8
         with:
           serviceId: ${{ secrets.RENDER_SERVICE_ID }}
           apiKey: ${{ secrets.RENDER_API_KEY }}
