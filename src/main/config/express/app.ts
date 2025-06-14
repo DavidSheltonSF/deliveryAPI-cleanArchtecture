@@ -4,7 +4,7 @@ import setupMiddlewares from "./middlewares";
 
 const app = express();
 setupMiddlewares(app);
-console.log("Middlwares are ready");
+console.log("Express middlewares are ready");
 setupRoutes(app);
-console.log("Routes are ready");
+console.log('Express routes are ready');
 export default app;
