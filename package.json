@@ -10,8 +10,8 @@
     "test": "jest --onlyChanged --silent=false --detectOpenHandles",
     "prepare": "husky",
     "build": "tsc",
-    "dev": "npx tsx src/main/server.ts",
-    "start": "node dist/main/server.js"
+    "dev": "npx tsx src/server.ts",
+    "start": "node dist/server.js"
   },
   "repository": {
     "type": "git",
