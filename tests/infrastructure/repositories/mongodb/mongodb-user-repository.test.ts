@@ -107,15 +107,11 @@ describe('Testing MongodbUserRepository', () => {
     const user = users[0]
     const userMogongoDocument = MongodbMapper.toMongodbDocument(user);
 
-    console.log(userMogongoDocument)
-
     // Adding new user to database
     await userCollection.insertOne(
       MongodbMapper.toMongodbDocument(userMogongoDocument)
     );
 
-    console.log(user.id)
-    console.log('M')
     const foundUser = await repository.findUserById(user.id);
 
     expect(foundUser?.username).toBe(user.username);
