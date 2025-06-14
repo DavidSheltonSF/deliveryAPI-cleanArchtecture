@@ -31,10 +31,10 @@ export class MongodbDeliveryRepository implements DeliveryRepository {
     return null;
   }
 
-  async add(delivery: Omit<DeliveryProps, "id">): Promise<void> {
+  async add(newDelivery: Omit<DeliveryProps, "id">): Promise<void> {
     const deliveryCollection = mongoHelper.getCollection('delivery');
     await deliveryCollection.insertOne(
-      MongodbMapper.toMongodbDocument(delivery)
+      MongodbMapper.toMongodbDocument(newDelivery)
     );
   }
 

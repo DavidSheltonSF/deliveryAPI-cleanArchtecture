@@ -53,11 +53,11 @@ export class MongodbRestaurantChainRepository implements RestaurantChainReposito
     return null;
   }
 
-  async add(restaurantChainProps: Omit<RestaurantChainProps, "id">): Promise<void> {
+  async add(newRestaurantChain: Omit<RestaurantChainProps, "id">): Promise<void> {
     const restaurantchainpropsCollection =
       mongoHelper.getCollection('restaurantChain');
     await restaurantchainpropsCollection.insertOne(
-      MongodbMapper.toMongodbDocument(restaurantChainProps)
+      MongodbMapper.toMongodbDocument(newRestaurantChain)
     );
   }
 

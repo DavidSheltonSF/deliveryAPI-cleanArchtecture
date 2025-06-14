@@ -44,9 +44,11 @@ export class MongodbPaymentRepository implements PaymentRepository {
     return null;
   }
 
-  async add(payment: Omit<PaymentProps, "id">): Promise<void> {
+  async add(newPayment: Omit<PaymentProps, "id">): Promise<void> {
     const paymentCollection = mongoHelper.getCollection('payment');
-    await paymentCollection.insertOne(MongodbMapper.toMongodbDocument(payment));
+    await paymentCollection.insertOne(
+      MongodbMapper.toMongodbDocument(newPayment)
+    );
   }
 
   async update(
