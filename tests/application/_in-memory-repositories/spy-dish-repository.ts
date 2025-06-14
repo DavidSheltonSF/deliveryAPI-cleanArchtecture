@@ -1,5 +1,6 @@
-import { DishRepository } from "../../../src/application/_ports/dish-repository";
-import { DishProps } from "../../../src/domain/entities/dish-props";
+import { DishRepository } from '../../../src/application/_ports/dish-repository';
+import { DishProps } from '../../../src/domain/entities/dish-props';
+import { MockData } from '../../_helpers/mockData';
 
 export class SpyDishRepository implements DishRepository {
   dishDatabase: DishProps[] = [];
@@ -31,8 +32,13 @@ export class SpyDishRepository implements DishRepository {
     return null;
   }
 
-  async add(newDish: DishProps): Promise<void> {
+  async add(newDish: DishProps): Promise<DishProps> {
     this.addParams = { newDish };
+
+    return {
+      id: MockData.generateHexId(),
+      ...newDish,
+    };
   }
 
   async update(dishId: string, dish: Omit<DishProps, 'id'>): Promise<void> {

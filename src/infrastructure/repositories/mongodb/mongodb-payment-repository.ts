@@ -44,11 +44,19 @@ export class MongodbPaymentRepository implements PaymentRepository {
     return null;
   }
 
-  async add(newPayment: Omit<PaymentProps, "id">): Promise<void> {
+  async add(newPayment: Omit<PaymentProps, 'id'>): Promise<PaymentProps> {
     const paymentCollection = mongoHelper.getCollection('payment');
-    await paymentCollection.insertOne(
-      MongodbMapper.toMongodbDocument(newPayment)
-    );
+
+    const newPaymentId = (
+      await paymentCollection.insertOne(
+        MongodbMapper.toMongodbDocument(newPayment)
+      )
+    ).insertedId.toString();
+
+    return {
+      id: newPaymentId,
+      ...newPayment,
+    };
   }
 
   async update(

@@ -31,11 +31,19 @@ export class MongodbDeliveryRepository implements DeliveryRepository {
     return null;
   }
 
-  async add(newDelivery: Omit<DeliveryProps, "id">): Promise<void> {
+  async add(newDelivery: Omit<DeliveryProps, 'id'>): Promise<DeliveryProps> {
     const deliveryCollection = mongoHelper.getCollection('delivery');
-    await deliveryCollection.insertOne(
-      MongodbMapper.toMongodbDocument(newDelivery)
-    );
+
+    const newDeliveryId = (
+      await deliveryCollection.insertOne(
+        MongodbMapper.toMongodbDocument(newDelivery)
+      )
+    ).insertedId.toString();
+
+    return {
+      id: newDeliveryId,
+      ...newDelivery,
+    };
   }
 
   async update(

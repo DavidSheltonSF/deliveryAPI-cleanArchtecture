@@ -1,23 +1,24 @@
-import { PaymentRepository } from "../../../src/application/_ports/payment-repository";
-import { PaymentProps } from "../../../src/domain/entities/payment-props";
+import { PaymentRepository } from '../../../src/application/_ports/payment-repository';
+import { PaymentProps } from '../../../src/domain/entities/payment-props';
+import { MockData } from '../../_helpers/mockData';
 
 export class SpyPaymentRepository implements PaymentRepository {
   paymentDatabase: PaymentProps[] = [];
   addParams: {
-    newPayment?: PaymentProps
+    newPayment?: PaymentProps;
   } = {};
   findPaymentByIdParams: {
-    id?: string,
+    id?: string;
   } = {};
   findPaymentByOrderIdParams: {
-    orderId?: string,
+    orderId?: string;
   } = {};
   updateParams: {
-    paymentId?: string,
-    payment?: Omit<PaymentProps, 'id'>,
+    paymentId?: string;
+    payment?: Omit<PaymentProps, 'id'>;
   } = {};
   removeParams: {
-    paymentId?: string,
+    paymentId?: string;
   } = {};
 
   async findAllPayments(): Promise<PaymentProps[]> {
@@ -44,18 +45,26 @@ export class SpyPaymentRepository implements PaymentRepository {
     return null;
   }
 
-  async add(newPayment: PaymentProps): Promise<void> {
+  async add(newPayment: PaymentProps): Promise<PaymentProps> {
     this.addParams = { newPayment };
-      }
 
-  async update(paymentId: string, payment: Omit<PaymentProps, 'id'>): Promise<void> {
+    return {
+      id: MockData.generateHexId(),
+      ...newPayment,
+    };
+  }
+
+  async update(
+    paymentId: string,
+    payment: Omit<PaymentProps, 'id'>
+  ): Promise<void> {
     this.updateParams = {
       paymentId,
-      payment
+      payment,
     };
   }
 
   async remove(paymentId: string): Promise<void> {
-    this.removeParams = {paymentId};
+    this.removeParams = { paymentId };
   }
 }

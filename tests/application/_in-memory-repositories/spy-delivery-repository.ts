@@ -1,5 +1,6 @@
-import { DeliveryRepository } from "../../../src/application/_ports/delivery-repository";
-import { DeliveryProps } from "../../../src/domain/entities/delivery-props";
+import { DeliveryRepository } from '../../../src/application/_ports/delivery-repository';
+import { DeliveryProps } from '../../../src/domain/entities/delivery-props';
+import { MockData } from '../../_helpers/mockData';
 
 export class SpyDeliveryRepository implements DeliveryRepository {
   deliveryDatabase: DeliveryProps[] = [];
@@ -31,8 +32,13 @@ export class SpyDeliveryRepository implements DeliveryRepository {
     return null;
   }
 
-  async add(newDelivery: DeliveryProps): Promise<void> {
+  async add(newDelivery: DeliveryProps): Promise<DeliveryProps> {
     this.addParams = { newDelivery };
+
+    return {
+      id: MockData.generateHexId(),
+      ...newDelivery,
+    };
   }
 
   async update(

@@ -1,5 +1,6 @@
-import { OrderRepository } from "../../../src/application/_ports/order-repository";
-import { OrderProps } from "../../../src/domain/entities/order-props";
+import { OrderRepository } from '../../../src/application/_ports/order-repository';
+import { OrderProps } from '../../../src/domain/entities/order-props';
+import { MockData } from '../../_helpers/mockData';
 
 export class SpyOrderRepository implements OrderRepository {
   orderDatabase: OrderProps[] = [];
@@ -44,8 +45,13 @@ export class SpyOrderRepository implements OrderRepository {
     return null;
   }
 
-  async add(newOrder: OrderProps): Promise<void> {
+  async add(newOrder: OrderProps): Promise<OrderProps> {
     this.addParams = { newOrder };
+
+    return {
+      id: MockData.generateHexId(),
+      ...newOrder,
+    };
   }
 
   async update(id: string, order: Omit<OrderProps, 'id'>): Promise<void> {
