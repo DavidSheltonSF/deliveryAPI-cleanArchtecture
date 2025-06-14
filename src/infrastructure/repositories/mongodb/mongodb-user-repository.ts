@@ -54,7 +54,7 @@ export class MongodbUserRepository implements UserRepository {
     return false;
   }
 
-  async add(newUser: Omit<UserProps, "id">): Promise<UserProps> {
+  async add(newUser: Omit<UserProps, 'id'>): Promise<UserProps> {
     const userCollection = mongoHelper.getCollection('users');
 
     const newUserId = await userCollection
