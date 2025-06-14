@@ -31,7 +31,7 @@ export class MongodbDeliveryRepository implements DeliveryRepository {
     return null;
   }
 
-  async add(delivery: DeliveryProps): Promise<void> {
+  async add(delivery: Omit<DeliveryProps, "id">): Promise<void> {
     const deliveryCollection = mongoHelper.getCollection('delivery');
     await deliveryCollection.insertOne(
       MongodbMapper.toMongodbDocument(delivery)
