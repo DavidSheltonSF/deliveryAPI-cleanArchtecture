@@ -7,8 +7,6 @@ export class MongodbUserRepository implements UserRepository {
   async findAllUsers(): Promise<UserProps[]> {
     const userCollection = mongoHelper.getCollection('users');
 
-    // Select all fields but not
-    // authentication.salt nor authentication.sessionToken
     const result = await userCollection.find().toArray();
 
     if (result) {
