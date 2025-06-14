@@ -4,20 +4,20 @@ import { OrderProps } from "../../../src/domain/entities/order-props";
 export class SpyOrderRepository implements OrderRepository {
   orderDatabase: OrderProps[] = [];
   addParams: {
-    order?: OrderProps
+    newOrder?: OrderProps;
   } = {};
   findOrderByIdParams: {
-    id?: string,
+    id?: string;
   } = {};
   findOrderByOrderIdParams: {
-    id?: string,
+    id?: string;
   } = {};
   updateParams: {
-    id?: string,
-    order?: Omit<OrderProps, 'id'>,
+    id?: string;
+    order?: Omit<OrderProps, 'id'>;
   } = {};
   removeParams: {
-    id?: string,
+    id?: string;
   } = {};
 
   async findAllOrders(): Promise<OrderProps[]> {
@@ -44,14 +44,14 @@ export class SpyOrderRepository implements OrderRepository {
     return null;
   }
 
-  async add(order: OrderProps): Promise<void> {
-    this.addParams = { order };
+  async add(newOrder: OrderProps): Promise<void> {
+    this.addParams = { newOrder };
   }
 
   async update(id: string, order: Omit<OrderProps, 'id'>): Promise<void> {
     this.updateParams = {
       id,
-      order
+      order,
     };
   }
 

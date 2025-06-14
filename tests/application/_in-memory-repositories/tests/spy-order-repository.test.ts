@@ -40,7 +40,7 @@ describe('Testing SpyOrderRepository', () => {
 
     await spyOrderRepository.add(fakeOrder);
 
-    const orderInserted = spyOrderRepository.addParams.order;
+    const orderInserted = spyOrderRepository.addParams.newOrder;
 
     expect(orderInserted?.customerId)
       .toBe(fakeOrder.customerId);

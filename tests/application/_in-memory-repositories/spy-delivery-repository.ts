@@ -4,7 +4,7 @@ import { DeliveryProps } from "../../../src/domain/entities/delivery-props";
 export class SpyDeliveryRepository implements DeliveryRepository {
   deliveryDatabase: DeliveryProps[] = [];
   addParams: {
-    delivery?: DeliveryProps;
+    newDelivery?: DeliveryProps;
   } = {};
   findDeliveryByIdParams: {
     id?: string;
@@ -31,8 +31,8 @@ export class SpyDeliveryRepository implements DeliveryRepository {
     return null;
   }
 
-  async add(delivery: DeliveryProps): Promise<void> {
-    this.addParams = { delivery };
+  async add(newDelivery: DeliveryProps): Promise<void> {
+    this.addParams = { newDelivery };
   }
 
   async update(

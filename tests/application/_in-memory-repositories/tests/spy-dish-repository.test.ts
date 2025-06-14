@@ -40,7 +40,7 @@ describe('Testing SpyDishRepository', () => {
 
     await spyDishRepository.add(fakeDish);
 
-    const dishInserted = spyDishRepository.addParams.dish;
+    const dishInserted = spyDishRepository.addParams.newDish;
 
     expect(dishInserted?.name)
       .toBe(fakeDish.name);

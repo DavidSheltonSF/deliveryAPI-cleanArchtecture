@@ -40,7 +40,7 @@ const [mockedPayment] = MockData.mockPayment();
 
     await spyPaymentRepository.add(fakePayment);
 
-    const paymentInserted = spyPaymentRepository.addParams.payment;
+    const paymentInserted = spyPaymentRepository.addParams.newPayment;
 
     expect(paymentInserted?.orderId)
       .toBe(fakePayment.orderId);

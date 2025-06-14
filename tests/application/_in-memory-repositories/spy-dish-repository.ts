@@ -4,7 +4,7 @@ import { DishProps } from "../../../src/domain/entities/dish-props";
 export class SpyDishRepository implements DishRepository {
   dishDatabase: DishProps[] = [];
   addParams: {
-    dish?: DishProps;
+    newDish?: DishProps;
   } = {};
   findDishByIdParams: {
     id?: string;
@@ -31,8 +31,8 @@ export class SpyDishRepository implements DishRepository {
     return null;
   }
 
-  async add(dish: DishProps): Promise<void> {
-    this.addParams = { dish };
+  async add(newDish: DishProps): Promise<void> {
+    this.addParams = { newDish };
   }
 
   async update(dishId: string, dish: Omit<DishProps, 'id'>): Promise<void> {

@@ -40,7 +40,7 @@ describe('Testing SpyDeliveryRepository', () => {
 
     await spyDeliveryRepository.add(fakeDelivery);
 
-    const deliveryInserted = spyDeliveryRepository.addParams.delivery;
+    const deliveryInserted = spyDeliveryRepository.addParams.newDelivery;
 
     expect(deliveryInserted?.orderId)
       .toBe(fakeDelivery.orderId);

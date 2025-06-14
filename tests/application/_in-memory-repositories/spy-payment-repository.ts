@@ -4,7 +4,7 @@ import { PaymentProps } from "../../../src/domain/entities/payment-props";
 export class SpyPaymentRepository implements PaymentRepository {
   paymentDatabase: PaymentProps[] = [];
   addParams: {
-    payment?: PaymentProps
+    newPayment?: PaymentProps
   } = {};
   findPaymentByIdParams: {
     id?: string,
@@ -44,8 +44,8 @@ export class SpyPaymentRepository implements PaymentRepository {
     return null;
   }
 
-  async add(payment: PaymentProps): Promise<void> {
-    this.addParams = { payment };
+  async add(newPayment: PaymentProps): Promise<void> {
+    this.addParams = { newPayment };
       }
 
   async update(paymentId: string, payment: Omit<PaymentProps, 'id'>): Promise<void> {
