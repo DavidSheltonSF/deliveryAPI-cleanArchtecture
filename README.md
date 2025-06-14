@@ -1,6 +1,16 @@
-# 🧼 Clean Architecture Delivery API
-
+# 🧼 Delivery API — Clean Architecture with Node.js & TypeScript
 Welcome to my Delivery API project! This project is structured based on Uncle Bob's Clean Architecture principles, aiming for high maintainability, testability, and separation of concerns.
+
+## 🔧 Technologies
+- Node.js
+- TypeScript
+- ExpressJS
+- Jest (test framework)
+- MongoDB
+- Husky (run tests before commits)
+- Docker (containerization)
+- Git Hub Actions (CI/CD)
+- Render (deployment)
 
 ## 📋 Prerequisites
 
@@ -112,16 +122,6 @@ The project includes **Spy Repositories** to allow easy unit testing without rea
 ```bash
 npm run test
 ```
-
-## 🔧 Technologies
-- Node.js
-- TypeScript
-- ExpressJS
-- Jest (test framework)
-- MongoDB
-- Husky (run tests before commits)
-- Docker (containerization)
-
 
 ## 📌 Goals
 - Apply Clean Architecture for separation of concerns
