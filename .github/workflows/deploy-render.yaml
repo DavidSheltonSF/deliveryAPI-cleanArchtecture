@@ -14,5 +14,5 @@ jobs:
       - name: 🚀 Trigger Render Deploy
         uses: sws2apps/render-deployment@main
         with:
-          service_id: ${{ secrets.RENDER_SERVICE_ID }}
-          api_key: ${{ secrets.RENDER_API_KEY }}
+          serviceId: ${{ secrets.RENDER_SERVICE_ID }}
+          apiKey: ${{ secrets.RENDER_API_KEY }}
