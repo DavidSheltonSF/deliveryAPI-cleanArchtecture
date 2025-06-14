@@ -1,7 +1,9 @@
 # 🧼 Delivery API — Clean Architecture with Node.js & TypeScript
+
 Welcome to my Delivery API project! This project is structured based on Uncle Bob's Clean Architecture principles, aiming for high maintainability, testability, and separation of concerns.
 
 ## 🔧 Technologies
+
 - Node.js
 - TypeScript
 - ExpressJS
@@ -17,13 +19,13 @@ Welcome to my Delivery API project! This project is structured based on Uncle Bo
 Before running this project, make sure you have one of the following options set up:
 
 - 🐳 **[Docker](https://www.docker.com/)** – Recommended. Node.js is already included inside the container.
-- 🧑‍💻 **[Node.js](https://nodejs.org/)** – Only needed if you're running the app *without Docker*.
+- 🧑‍💻 **[Node.js](https://nodejs.org/)** – Only needed if you're running the app _without Docker_.
 
 ## 🚧 Work in Progress
 
 Currently implemented features:
-- ✅ **User routes** 
 
+- ✅ **User routes**
 
 ### 📘 User Routes
 
@@ -52,8 +54,8 @@ Example request body:
     "password": "Ga8485**549"
   }
 }
-
 ```
+
 **🔄 Update a user by ID**
 
 PUT /app/users/:id
@@ -92,6 +94,7 @@ GET /app/users/email/:email
 No body required.
 
 ## 📦 Installation
+
 ```bash
 git clone https://github.com/DavidSheltonSF/deliveryAPI-cleanArchtecture
 cd deliveryAPI-cleanArchtecture
@@ -124,6 +127,7 @@ npm run test
 ```
 
 ## 📌 Goals
+
 - Apply Clean Architecture for separation of concerns
 
 - Keep business logic independent from frameworks and databases
@@ -131,11 +135,12 @@ npm run test
 - Write maintainable and testable code
 
 ## 📂 Future Plans
+
 - Implement authentication
 - Deploy the API
 
-
 ## 🧬 Entities
+
 - User (admin, client, restaurant_owner, driver)
 - Restaurant
 - Restaurant Chain
