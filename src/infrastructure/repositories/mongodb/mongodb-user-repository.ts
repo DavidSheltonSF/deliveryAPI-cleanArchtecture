@@ -57,12 +57,12 @@ export class MongodbUserRepository implements UserRepository {
   async add(newUser: Omit<UserProps, "id">): Promise<UserProps> {
     const userCollection = mongoHelper.getCollection('users');
 
-    const registeredUserId = await userCollection
+    const newUserId = await userCollection
       .insertOne(newUser)
       .then((result) => result.insertedId.toString());
 
     const registeredUser: UserProps = {
-      id: registeredUserId,
+      id: newUserId,
       ...newUser,
     };
 
