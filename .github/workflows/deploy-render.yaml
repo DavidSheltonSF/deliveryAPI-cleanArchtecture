@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: 🚀 Trigger Render Deploy
-        uses: sws2apps/render-deploy-action@v1.4.4
+        uses: sws2apps/render-deployment@main
         with:
           service_id: ${{ secrets.RENDER_SERVICE_ID }}
           api_key: ${{ secrets.RENDER_API_KEY }}
