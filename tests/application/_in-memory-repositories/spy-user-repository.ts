@@ -5,22 +5,21 @@ import { MockData } from "../../_helpers/mockData";
 export class SpyUserRepository implements UserRepository {
   userDatabase: UserProps[] = [];
   addParams: {
-    user?: UserProps
+    newUser?: UserProps;
   } = {};
   findUserByIdParams: {
-    id?: string,
+    id?: string;
   } = {};
   findUserByEmailParams: {
-    email?: string,
+    email?: string;
   } = {};
   updateParams: {
-    userId?: string,
-    userData?: Partial<Omit<UserProps, "id">>,
+    userId?: string;
+    userData?: Partial<Omit<UserProps, 'id'>>;
   } = {};
   removeParams: {
-    userId?: string,
+    userId?: string;
   } = {};
-
 
   async findAllUsers(): Promise<UserProps[]> {
     return this.userDatabase;
@@ -28,8 +27,8 @@ export class SpyUserRepository implements UserRepository {
 
   async findUserById(id: string): Promise<UserProps | null> {
     this.findUserByIdParams = { id };
-    for (let i=0; i<this.userDatabase.length; i++){
-      if (this.userDatabase[i].id?.toString() == id){
+    for (let i = 0; i < this.userDatabase.length; i++) {
+      if (this.userDatabase[i].id?.toString() == id) {
         return this.userDatabase[i];
       }
     }
@@ -38,44 +37,46 @@ export class SpyUserRepository implements UserRepository {
 
   async findUserByEmail(email: string): Promise<UserProps | null> {
     this.findUserByEmailParams = { email };
-    for (let i=0; i<this.userDatabase.length; i++){
-      if (this.userDatabase[i].email == email){
+    for (let i = 0; i < this.userDatabase.length; i++) {
+      if (this.userDatabase[i].email == email) {
         return this.userDatabase[i];
       }
     }
     return null;
   }
 
-  async exists(email: string): Promise<boolean>{
-    for (let i=0; i<this.userDatabase.length; i++){
-      if (this.userDatabase[i].email == email){
+  async exists(email: string): Promise<boolean> {
+    for (let i = 0; i < this.userDatabase.length; i++) {
+      if (this.userDatabase[i].email == email) {
         return true;
       }
     }
 
-    return false
+    return false;
   }
 
-  async add(user: Omit<UserProps, "id">): Promise<UserProps> {
-    this.addParams = { user };
+  async add(newUser: Omit<UserProps, 'id'>): Promise<UserProps> {
+    this.addParams = { newUser };
 
     const fakeRegistredUser = {
       id: MockData.generateHexId(),
-      ...user
-    }
-    
+      ...newUser,
+    };
+
     return fakeRegistredUser;
   }
 
-  async update(userId: string, userData: Partial<Omit<UserProps, "id">>): Promise<void> {
+  async update(
+    userId: string,
+    userData: Partial<Omit<UserProps, 'id'>>
+  ): Promise<void> {
     this.updateParams = {
       userId,
-      userData
+      userData,
     };
   }
 
   async remove(userId: string): Promise<void> {
-    this.removeParams = {userId};
+    this.removeParams = { userId };
   }
-
 }

@@ -55,7 +55,7 @@ describe('Testing SpyUserRepository', () => {
 
     await spyUserRepository.add(mokedUser);
 
-    const userInserted = spyUserRepository.addParams.user;
+    const userInserted = spyUserRepository.addParams.newUser;
     
     expect(userInserted?.username)
       .toBe(mokedUser.username);

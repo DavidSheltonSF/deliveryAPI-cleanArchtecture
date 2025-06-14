@@ -8,36 +8,45 @@ const makeSut = () => {
 
   return {
     registerUser,
-    spyUserRepository
-  }
-}
+    spyUserRepository,
+  };
+};
 
 describe('Testing RegisterUserUseCase', () => {
-
   test('Should register a new user', async () => {
     const { spyUserRepository, registerUser } = makeSut();
 
     const [mockedUser] = MockData.mockUser();
-    const {id, ...mockedUserWithoutId} = mockedUser;
+    const { id, ...mockedUserWithoutId } = mockedUser;
 
     await registerUser.execute(mockedUserWithoutId);
 
-    expect(spyUserRepository.addParams.user?.username).toBe(mockedUser.username);
-    expect(spyUserRepository.addParams.user?.email).toBe(mockedUser.email);
-    expect(spyUserRepository.addParams.user?.cpf).toBe(mockedUser.cpf);
-    expect(spyUserRepository.addParams.user?.phone).toBe(mockedUser.phone);
-    expect(spyUserRepository.addParams.user?.role).toBe(mockedUser.role);
-    expect(spyUserRepository.addParams.user?.address?.city).toBe(mockedUser.address?.city);
-    expect(spyUserRepository.addParams.user?.address?.street).toBe(mockedUser.address?.street);
-    expect(spyUserRepository.addParams.user?.address?.state).toBe(mockedUser.address?.state);
-    expect(spyUserRepository.addParams.user?.address?.zipCode).toBe(mockedUser.address?.zipCode);
+    expect(spyUserRepository.addParams.newUser?.username).toBe(
+      mockedUser.username
+    );
+    expect(spyUserRepository.addParams.newUser?.email).toBe(mockedUser.email);
+    expect(spyUserRepository.addParams.newUser?.cpf).toBe(mockedUser.cpf);
+    expect(spyUserRepository.addParams.newUser?.phone).toBe(mockedUser.phone);
+    expect(spyUserRepository.addParams.newUser?.role).toBe(mockedUser.role);
+    expect(spyUserRepository.addParams.newUser?.address?.city).toBe(
+      mockedUser.address?.city
+    );
+    expect(spyUserRepository.addParams.newUser?.address?.street).toBe(
+      mockedUser.address?.street
+    );
+    expect(spyUserRepository.addParams.newUser?.address?.state).toBe(
+      mockedUser.address?.state
+    );
+    expect(spyUserRepository.addParams.newUser?.address?.zipCode).toBe(
+      mockedUser.address?.zipCode
+    );
   });
 
   test('Should not register a duplicated user', async () => {
     const { spyUserRepository, registerUser } = makeSut();
 
     const [mockedUser] = MockData.mockUser();
-    const {id, ...mockedUserWithoutId} = mockedUser;
+    const { id, ...mockedUserWithoutId } = mockedUser;
 
     // Adding a user in the fake repository
     spyUserRepository.userDatabase.push(mockedUser);
@@ -46,7 +55,5 @@ describe('Testing RegisterUserUseCase', () => {
     const registerError = await registerUser.execute(mockedUserWithoutId);
 
     expect(registerError.isLeft()).toBeTruthy();
-
   });
-  
-})
+});
