@@ -1,5 +1,6 @@
 import { RestaurantRepository } from "../../../src/application/_ports/restaurant-repository";
 import { RestaurantProps } from "../../../src/domain/entities/restaurant-props";
+import { MockData } from "../../_helpers/mockData";
 
 export class SpyRestaurantRepository implements RestaurantRepository {
   restaurantDatabase: RestaurantProps[] = [];
@@ -55,8 +56,13 @@ export class SpyRestaurantRepository implements RestaurantRepository {
      return null;
    }
 
-  async add(restaurant: RestaurantProps): Promise<void> {
-    this.addParams = { restaurant };
+  async add(newRestaurant: RestaurantProps): Promise<RestaurantProps> {
+    this.addParams = { newRestaurant };
+
+    return {
+      id: MockData.generateHexId(),
+      ...newRestaurant
+    }
   }
 
   async update(restaurantId: string, restaurant: Omit<RestaurantProps, 'id'>): Promise<void> {

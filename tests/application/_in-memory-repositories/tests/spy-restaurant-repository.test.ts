@@ -58,7 +58,7 @@ describe('Testing SpyRestaurantRepository', () => {
 
     await spyRestaurantRepository.add(fakeRestaurant);
 
-    const restaurantInserted = spyRestaurantRepository.addParams.restaurant;
+    const restaurantInserted = spyRestaurantRepository.addParams.newRestaurant;
     
     expect(restaurantInserted.restaurantChainId)
       .toBe(fakeRestaurant.restaurantChainId);

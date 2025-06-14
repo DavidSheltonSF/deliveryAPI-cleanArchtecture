@@ -62,12 +62,17 @@ export class MongodbRestaurantRepository implements RestaurantRepository {
     return null;
   }
 
-  async add(newRestaurant: Omit<RestaurantProps, "id">): Promise<void> {
+  async add(newRestaurant: Omit<RestaurantProps, 'id'>): Promise<RestaurantProps> {
     const restaurantCollection = mongoHelper.getCollection('restaurants');
-    
-    await restaurantCollection.insertOne(
-      MongodbMapper.toMongodbDocument(newRestaurant)
-    );
+
+    const newRestaurantId = await restaurantCollection
+      .insertOne(MongodbMapper.toMongodbDocument(newRestaurant))
+      .then((result) => result.insertedId.toString());
+
+    return {
+      id: newRestaurantId,
+      ...newRestaurant
+    }
   }
 
   async update(

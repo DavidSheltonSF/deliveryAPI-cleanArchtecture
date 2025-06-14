@@ -3,7 +3,9 @@ import { RestaurantChainProps } from '../../../domain/entities/restaurant-chain-
 import { MongodbMapper } from './helpers/MongodbMapper';
 import { mongoHelper } from './helpers/mongo-helper';
 
-export class MongodbRestaurantChainRepository implements RestaurantChainRepository {
+export class MongodbRestaurantChainRepository
+  implements RestaurantChainRepository
+{
   async findAllRestaurantChains(): Promise<RestaurantChainProps[]> {
     const restaurantchainpropsCollection =
       mongoHelper.getCollection('restaurantChain');
@@ -53,12 +55,20 @@ export class MongodbRestaurantChainRepository implements RestaurantChainReposito
     return null;
   }
 
-  async add(newRestaurantChain: Omit<RestaurantChainProps, "id">): Promise<void> {
+  async add(
+    newRestaurantChain: Omit<RestaurantChainProps, 'id'>
+  ): Promise<RestaurantChainProps> {
     const restaurantchainpropsCollection =
       mongoHelper.getCollection('restaurantChain');
-    await restaurantchainpropsCollection.insertOne(
-      MongodbMapper.toMongodbDocument(newRestaurantChain)
-    );
+
+    const newRestaurantChainId = await restaurantchainpropsCollection
+      .insertOne(MongodbMapper.toMongodbDocument(newRestaurantChain))
+      .then((result) => result.insertedId.toString());
+
+    return {
+      id: newRestaurantChainId,
+      ...newRestaurantChain,
+    };
   }
 
   async update(
