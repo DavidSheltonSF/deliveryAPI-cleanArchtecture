@@ -1,5 +1,5 @@
-import { mongoHelper } from '../infrastructure/repositories/mongodb/helpers/mongo-helper';
-import app from './config/express/app';
+import { mongoHelper } from './infrastructure/repositories/mongodb/helpers/mongo-helper';
+import app from './main/config/express/app';
 import { config } from 'dotenv';
 
 config();
