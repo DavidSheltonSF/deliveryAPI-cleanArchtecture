@@ -1,10 +1,10 @@
-import { BaseUserDTO } from "./base-user-dto";
+import { BaseUserDTO } from './base-user-dto';
 
-export interface UserDTO extends BaseUserDTO{
+export interface DriverDTO extends BaseUserDTO {
   cpf: string;
   phone: string;
-  role: "custumer" | "driver";
-  address: {
+  role: 'driver';
+  address?: {
     street: string;
     city: string;
     state: string;
