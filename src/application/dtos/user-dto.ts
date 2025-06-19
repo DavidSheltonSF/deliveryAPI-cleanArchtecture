@@ -4,13 +4,13 @@ export interface UserDTO extends BaseUserDTO{
   cpf: string;
   phone: string;
   role: "custumer" | "driver";
-  address?: {
+  address: {
     street: string;
     city: string;
     state: string;
     zipCode: string;
   };
-  bankInfo?: {
+  bankInfo: {
     paymentMethod: string;
     paymentInfo: {
       holderName: string;
