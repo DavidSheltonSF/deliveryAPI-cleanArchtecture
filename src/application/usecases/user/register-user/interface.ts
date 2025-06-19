@@ -1,7 +1,6 @@
-import { UserProps} from "../../../../domain/entities/user-props";
-import { RegisterUserResponse } from "./response";
-
+import { CustomerDTO } from '../../../../presentation/dtos/custumer-dto';
+import { RegisterUserResponse } from './response';
 
 export interface RegisterUser {
-  execute: (user: Omit<UserProps, "_id">) => Promise<RegisterUserResponse>;
+  execute: (user: CustomerDTO) => Promise<RegisterUserResponse>;
 }
