@@ -6,7 +6,7 @@ import { HttpResponse } from "../../_ports/http";
 import { MissingRequestBodyError } from "../../_errors/missing-request-body-error";
 import { Controller } from "../Controller";
 
-export class RegisterUserController implements Controller{
+export class RegisterCustomerController implements Controller{
 
   private readonly registerUser: RegisterUser
 
