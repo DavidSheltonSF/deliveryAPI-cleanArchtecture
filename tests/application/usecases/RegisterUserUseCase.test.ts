@@ -16,10 +16,9 @@ describe('Testing RegisterUserUseCase', () => {
   test('Should register a new user', async () => {
     const { spyUserRepository, registerUser } = makeSut();
 
-    const [mockedUser] = MockData.mockUser();
-    const { id, ...mockedUserWithoutId } = mockedUser;
+    const [mockedUser] = MockData.mockCustomerDTO();
 
-    await registerUser.execute(mockedUserWithoutId);
+    await registerUser.execute(mockedUser);
 
     expect(spyUserRepository.addParams.newUser?.username).toBe(
       mockedUser.username
@@ -45,14 +44,12 @@ describe('Testing RegisterUserUseCase', () => {
   test('Should not register a duplicated user', async () => {
     const { spyUserRepository, registerUser } = makeSut();
 
-    const [mockedUser] = MockData.mockUser();
-    const { id, ...mockedUserWithoutId } = mockedUser;
-
+    const [mockedUser] = MockData.mockCustomerDTO();
     // Adding a user in the fake repository
     spyUserRepository.userDatabase.push(mockedUser);
 
     // Trying to register the same user again
-    const registerError = await registerUser.execute(mockedUserWithoutId);
+    const registerError = await registerUser.execute(mockedUser);
 
     expect(registerError.isLeft()).toBeTruthy();
   });

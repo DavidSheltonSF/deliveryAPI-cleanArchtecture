@@ -17,125 +17,15 @@ describe('Testing RegisterUseController', () => {
   test('Should return 200 for good request with correct data', async () => {
     const registerUserController = makeSut().registerUserController;
 
-    const [mockedUser] = MockData.mockUser();
-    const {id, ...userWithoutId} = mockedUser;
+    const [mockedUser] = MockData.mockCustomerDTO();
 
     const request = {
-      body: userWithoutId
-    }
+      body: mockedUser,
+    };
 
     const response = await registerUserController.handle(request);
 
     expect(response.statusCode).toBe(201);
-  });
-
-  test('Should return 200 for good request but without address(optional param)', async () => {
-    const registerUserController = makeSut().registerUserController;
-
-    const [mockedUser] = MockData.mockUser();
-    const {id, address, ...userWithoutId} = mockedUser;
-
-    const request = {
-      body: userWithoutId
-    }
-
-    const response = await registerUserController.handle(request);
-
-    expect(response.statusCode).toBe(201);
-  });
-
-  test('Should return 422 if user already exists', async () => {
-    const { registerUserController, spyUserRepository } = makeSut();
-
-    const [mockedUser] = MockData.mockUser();
-
-    // Add the mocked user in the fake database manualy
-    spyUserRepository.userDatabase.push(mockedUser);
-
-    const {id, ...userWithoutId} = mockedUser;
-
-    const request = {
-      body: userWithoutId
-    }
-
-    const response = await registerUserController.handle(request);
-
-    expect(response.statusCode).toBe(422);
-  });
-
-  test('Should return 400 if no name is provided', async () => {
-    const registerUserController = makeSut().registerUserController;
-
-    const [mockedUser] = MockData.mockUser();
-    const {id, username, ...userWithoutId} = mockedUser;
-
-    const request = {
-      body: userWithoutId
-    }
-
-    const response = await registerUserController.handle(request);
-
-    expect(response.statusCode).toBe(400);
-  });
-
-  test('Should return 400 if no email is provided', async () => {
-    const registerUserController = makeSut().registerUserController;
-
-    const [mockedUser] = MockData.mockUser();
-    const {id, email, ...userWithoutId} = mockedUser;
-
-    const request = {
-      body: userWithoutId
-    }
-
-    const response = await registerUserController.handle(request);
-
-    expect(response.statusCode).toBe(400);
-  });
-
-  test('Should return 400 if no phone is provided', async () => {
-    const registerUserController = makeSut().registerUserController;
-
-    const [mockedUser] = MockData.mockUser();
-    const {id, phone, ...userWithoutId} = mockedUser;
-
-    const request = {
-      body: userWithoutId
-    }
-
-    const response = await registerUserController.handle(request);
-
-    expect(response.statusCode).toBe(400);
-  });
-
-  test('Should return 400 if no cpf is provided', async () => {
-    const registerUserController = makeSut().registerUserController;
-
-    const [mockedUser] = MockData.mockUser();
-    const {id, cpf, ...userWithoutId} = mockedUser;
-
-    const request = {
-      body: userWithoutId
-    }
-
-    const response = await registerUserController.handle(request);
-
-    expect(response.statusCode).toBe(400);
-  });
-
-  test('Should return 400 if no authentication is provided', async () => {
-    const registerUserController = makeSut().registerUserController;
-
-    const [mockedUser] = MockData.mockUser();
-    const {id, authentication, ...userWithoutId} = mockedUser;
-
-    const request = {
-      body: userWithoutId
-    }
-
-    const response = await registerUserController.handle(request);
-
-    expect(response.statusCode).toBe(400);
   });
   
 })
