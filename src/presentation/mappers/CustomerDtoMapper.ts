@@ -26,12 +26,13 @@ export class CustomerDtoMapper {
       password: Password.create(customerData.authentication.password),
     };
 
-    Object.values(validations).forEach((validation) => {
+    for (let validation of Object.values(validations)) {
       if (validation.isLeft()) {
         return Either.left(validation.getLeft());
       }
-    });
+    }
 
+    console.log('wrong way');
     const username = validations.username.getRight();
     const email = validations.email.getRight();
     const cpf = validations.cpf.getRight();
