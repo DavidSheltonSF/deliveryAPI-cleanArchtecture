@@ -56,4 +56,20 @@ export class CustomerDtoMapper {
       authentication: validAuthentication,
     });
   }
+
+  static fromPropsToDto(customerData: CustomerProps): CustomerDTO {
+
+    return {
+      username: customerData.username.get(),
+      email: customerData.email.get(),
+      cpf: customerData.cpf.get(),
+      phone: customerData.phone.get(),
+      role: customerData.role.get(),
+      address: customerData.address.get(),
+      authentication: {
+        password: customerData.authentication.passwordHash.get(),
+        sessionToken: customerData.authentication.sessionToken,
+      },
+    };
+  }
 }
