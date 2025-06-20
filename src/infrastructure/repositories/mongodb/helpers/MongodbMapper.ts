@@ -1,11 +1,10 @@
 import { WithId, Document } from 'mongodb';
 import { mongoHelper } from './mongo-helper';
-import { CustomerModel } from '../../../models/customer-model';
+import { CustomerModel } from '../../../models/mongodb/customer-model';
 
 export class MongodbMapper {
   static fromCustomerDbToModel(data: WithId<Document>): CustomerModel {
-
-    if(data === null){
+    if (data === null) {
       return null;
     }
 
@@ -18,7 +17,7 @@ export class MongodbMapper {
       role,
       address,
       authentication,
-      createdAt
+      createdAt,
     } = data;
 
     return {
@@ -35,12 +34,12 @@ export class MongodbMapper {
   }
 
   static toMongodbDocument(data: any): WithId<Document> {
-    const {id, ...dataWithoutId} = data
+    const { id, ...dataWithoutId } = data;
     const _id = mongoHelper.toObjectId(id);
 
     return {
       _id,
-      ...dataWithoutId
-    }
+      ...dataWithoutId,
+    };
   }
 }

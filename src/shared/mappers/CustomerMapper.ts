@@ -9,7 +9,7 @@ import {
   Role,
   Email,
 } from '../../domain/entities/validation';
-import { CustomerModel } from '../../infrastructure/models/customer-model';
+import { CustomerModel } from '../../infrastructure/models/mongodb/customer-model';
 import { CustomerDTO } from '../../presentation/dtos/custumer-dto';
 import { Either } from '../either';
 
