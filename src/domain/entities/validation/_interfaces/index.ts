@@ -17,11 +17,6 @@ export interface PaymentInfoProps {
   };
 }
 
-export interface AuthenticationProps {
-  password: string;
-  sesstionToken?: string
-}
-
 export interface BankInfoProps {
   paymentMethod: string;
   paymentInfo: PaymentInfoProps;
