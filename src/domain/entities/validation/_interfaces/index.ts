@@ -19,8 +19,7 @@ export interface PaymentInfoProps {
 
 export interface AuthenticationProps {
   password: string;
-  salt?: { type: String; select: false };
-  sesstionToken?: { type: String; select: false };
+  sesstionToken?: string
 }
 
 export interface BankInfoProps {
