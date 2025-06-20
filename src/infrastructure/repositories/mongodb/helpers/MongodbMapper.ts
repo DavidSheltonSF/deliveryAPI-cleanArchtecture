@@ -4,6 +4,11 @@ import { CustomerModel } from '../../../models/customer-model';
 
 export class MongodbMapper {
   static fromCustomerDbToModel(data: WithId<Document>): CustomerModel {
+
+    if(data === null){
+      return null;
+    }
+
     const _id = data?._id.toString();
     const {
       username,
