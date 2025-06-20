@@ -19,6 +19,7 @@ export class MongodbCustomerRepository implements CustomerRepository {
         passwordHash: customerData.authentication.passwordHash.get(),
         sessionToken: customerData.authentication?.sessionToken,
       },
+      createdAT: new Date(),
     };
 
     const newCustomerId = await customerCollection
@@ -28,6 +29,8 @@ export class MongodbCustomerRepository implements CustomerRepository {
     const registeredCustomer = await customerCollection.findOne({
       _id: newCustomerId,
     });
+
+    console.log(registeredCustomer);
 
     return MongodbMapper.fromCustomerDbToModel(registeredCustomer);
   }
