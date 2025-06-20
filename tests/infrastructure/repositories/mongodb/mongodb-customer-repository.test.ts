@@ -2,18 +2,15 @@ import { mongoHelper } from '../../../../src/infrastructure/repositories/mongodb
 import { config } from 'dotenv';
 import { MongodbCustomerRepository } from '../../../../src/infrastructure/repositories/mongodb/mongodb-customer-repository';
 import { generateHexId } from '../../../../src/shared/generateHexId';
-import {CustomerMapper} from '../../../../src/application/mappers/CustomerMapper'
+import { CustomerMapper } from '../../../../src/shared/mappers/CustomerMapper';
+import { CustomerDTO } from '../../../../src/presentation/dtos/custumer-dto';
 
 config();
 
 const repository = new MongodbCustomerRepository();
 
-const customerId0 = '5a071d9379964c1c8ed80efa';
-const customerId1 = generateHexId();
-
-const customers = [
+const customers: CustomerDTO[] = [
   {
-    id: customerId0,
     username: 'Marta',
     email: 'mart@bugmail.com',
     cpf: '88888888888',
@@ -30,7 +27,6 @@ const customers = [
     },
   },
   {
-    id: customerId1,
     username: 'Oswaldo',
     email: 'oswald@bugmail.com',
     cpf: '88888888588',
@@ -70,22 +66,21 @@ describe('Testing MongodbCustomerRepository', () => {
   test('Should add a new customer in the database', async () => {
     const customerCollection = mongoHelper.getCollection('customers');
 
-    const { id, ...customerWithoudID } = customers[0];
+    const customer = customers[0];
 
-
-    const customerOrError = CustomerMapper.fromDtoToProps(customerWithoudID)
+    const customerOrError = CustomerMapper.fromDtoToProps(customer);
 
     // Adding new customers to database
     const response = await repository.add(customerOrError.getRight());
 
-    const foundCustomer = await customerCollection.findOne({ email: customerWithoudID.email });
+    const foundCustomer = await customerCollection.findOne({
+      email: customer.email,
+    });
 
-    expect(foundCustomer?.customername).toBe(customerWithoudID.username);
-    expect(foundCustomer?.email).toBe(customerWithoudID.email);
-    expect(foundCustomer?.cpf).toBe(customerWithoudID.cpf);
-    expect(foundCustomer?.phone).toBe(customerWithoudID.phone);
-    expect(foundCustomer?.role).toBe(customerWithoudID.role);
-
+    expect(foundCustomer?.customername).toBe(customer.username);
+    expect(foundCustomer?.email).toBe(customer.email);
+    expect(foundCustomer?.cpf).toBe(customer.cpf);
+    expect(foundCustomer?.phone).toBe(customer.phone);
+    expect(foundCustomer?.role).toBe(customer.role);
   });
-
 });
