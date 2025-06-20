@@ -1,10 +1,10 @@
 import { WithId, Document } from 'mongodb';
-import { UserProps } from '../../../../domain/entities/user-props';
 import { mongoHelper } from './mongo-helper';
+import { CustomerModel } from '../../../models/customer-model';
 
 export class MongodbMapper {
-  static toUser(data: WithId<Document>): UserProps {
-    const id = data._id.toString();
+  static fromCustomerDbToModel(data: WithId<Document>): CustomerModel {
+    const _id = data?._id.toString();
     const {
       username,
       email,
@@ -13,11 +13,11 @@ export class MongodbMapper {
       role,
       address,
       authentication,
-      bankInfo,
+      createdAt
     } = data;
 
     return {
-      id,
+      _id,
       username,
       email,
       cpf,
@@ -25,7 +25,7 @@ export class MongodbMapper {
       role,
       address,
       authentication,
-      bankInfo,
+      createdAt,
     };
   }
 
