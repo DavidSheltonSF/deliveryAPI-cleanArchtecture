@@ -5,7 +5,7 @@ import { MongodbMapper } from './helpers/MongodbMapper';
 import { mongoHelper } from './helpers/mongo-helper';
 
 export class MongodbCustomerRepository implements CustomerRepository {
-  async add(customerData: CustomerProps): Promise<any> {
+  async add(customerData: CustomerProps): Promise<CustomerModel> {
     const customerCollection = mongoHelper.getCollection('customers');
 
     const newCustomer = {
@@ -29,6 +29,6 @@ export class MongodbCustomerRepository implements CustomerRepository {
       _id: newCustomerId,
     });
 
-    return registeredCustomer;
+    return MongodbMapper.fromCustomerDbToModel(registeredCustomer);
   }
 }
