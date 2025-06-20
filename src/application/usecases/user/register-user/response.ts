@@ -1,25 +1,9 @@
-import { Either } from "../../../../shared/either";
-import { 
-  InvalidNameError,
-  InvalidEmailError,
-  InvalidPhoneError,
-  InvalidCpfError,
-  InvalidRoleError,
-  InvalidAddressError,
-  InvalidCardNumberError,
-  InvalidPaymentMethodError,
-  InvalidPasswordError
- } from "../../../../domain/entities/errors";
- import { DuplicatedDataError } from "../../../_errors/duplicated-data";
-import { UserProps } from "../../../../domain/entities/user-props";
+import { Either } from '../../../../shared/either';
+import { DuplicatedDataError } from '../../../_errors/duplicated-data';
+import { CustomerProps } from '../../../../domain/entities/customer-props';
+import { customerValidationError } from '../../../../domain/entities/errors/customerValidationError';
 
-export type RegisterUserResponse = Either<InvalidNameError
-  | InvalidEmailError
-  | InvalidPhoneError
-  | InvalidCpfError
-  | InvalidRoleError
-  | InvalidAddressError
-  | InvalidCardNumberError
-  | InvalidPaymentMethodError
-  | InvalidPasswordError
-  | DuplicatedDataError, UserProps>;
+export type RegisterCustomerResponse = Either<
+  customerValidationError | DuplicatedDataError,
+  CustomerProps
+>;
