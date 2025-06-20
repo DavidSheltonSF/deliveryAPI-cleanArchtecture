@@ -9,7 +9,7 @@ export class MongodbMapper {
       return null;
     }
 
-    const _id = data?._id.toString();
+    const _id = data?._id;
     const {
       username,
       email,
