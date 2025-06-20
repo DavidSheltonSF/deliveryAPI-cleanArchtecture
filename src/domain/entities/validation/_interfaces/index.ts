@@ -1,9 +1,4 @@
-export interface AddressProps {
-  street: string;
-  city: string;
-  state: string;
-  zipCode: string;
-}
+
 
 export interface PaymentInfoProps {
   holderName: string;
