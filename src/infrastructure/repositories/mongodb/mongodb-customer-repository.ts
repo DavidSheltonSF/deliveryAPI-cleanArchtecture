@@ -30,8 +30,6 @@ export class MongodbCustomerRepository implements CustomerRepository {
       _id: newCustomerId,
     });
 
-    console.log(registeredCustomer);
-
     return MongodbMapper.fromCustomerDbToModel(registeredCustomer);
   }
 }
