@@ -1,13 +1,9 @@
 import { BaseUserProps } from "./base-user-props";
+import { Address, Cpf, Phone, Role } from "./validation";
 
 export interface CustomerProps extends BaseUserProps {
-  cpf: string;
-  phone: string;
-  role: string;
-  address: {
-    street: string;
-    city: string;
-    state: string;
-    zipCode: string;
-  };
+  cpf: Cpf;
+  phone: Phone;
+  role: Role;
+  address: Address;
 }

@@ -1,8 +1,11 @@
+import { Email, Name } from "./validation";
+import { Password } from "./validation/Password";
+
 export interface BaseUserProps {
-  username: string;
-  email: string;
+  username: Name;
+  email: Email;
   authentication: {
-    passwordHash: string;
+    passwordHash: Password;
     sessionToken?: string;
   };
 }
