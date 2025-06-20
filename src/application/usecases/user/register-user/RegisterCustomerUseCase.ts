@@ -1,4 +1,3 @@
-
 import { CustomerRepository } from '../../../_ports/customer-repository';
 import { RegisterCustomer } from './interface';
 import { RegisterCustomerResponse } from './response';
@@ -6,7 +5,7 @@ import { Either } from '../../../../shared/either';
 import { DuplicatedDataError } from '../../../_errors/duplicated-data';
 import { CustomerDTO } from '../../../../presentation/dtos/custumer-dto';
 import { CustomerProps } from '../../../../domain/entities/customer-props';
-import { CustomerMapper } from '../../../mappers/CustomerMapper';
+import { CustomerMapper } from '../../../../shared/mappers/CustomerMapper';
 
 export class RegisterCustomerUseCase implements RegisterCustomer {
   private readonly customerRepository: CustomerRepository;

@@ -11,7 +11,7 @@ import {
 } from '../../domain/entities/validation';
 import { CustomerModel } from '../../infrastructure/models/customer-model';
 import { CustomerDTO } from '../../presentation/dtos/custumer-dto';
-import { Either } from '../../shared/either';
+import { Either } from '../either';
 
 export class CustomerMapper {
   static fromDtoToProps(
@@ -130,4 +130,6 @@ export class CustomerMapper {
       },
     };
   }
+
+  static fromPropsToModel() {}
 }
