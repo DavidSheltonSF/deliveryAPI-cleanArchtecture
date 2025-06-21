@@ -1,16 +1,16 @@
-import { Role } from "../../src/domain/entities/validation"
+import { Role } from '../../src/domain/entities/value-objects';
 
 const validRoles = [
   'admin',
   'customer',
-  'restaurant', 
+  'restaurant',
   'restaurant_admin',
   'restaurant_chain_admin',
-  'driver'
-]
+  'driver',
+];
 
-describe("Testing Role validator", () => {
-  test("Trying to create a valid roles", () => {
+describe('Testing Role validator', () => {
+  test('Trying to create a valid roles', () => {
     const validRole = validRoles[0];
     const roleOrError = Role.create(validRole);
     const gotRole = roleOrError.getRight();
@@ -19,11 +19,10 @@ describe("Testing Role validator", () => {
     expect(validRole).toBe(gotRole.get());
   });
 
-  test("Trying to create an invalid role", () => {
+  test('Trying to create an invalid role', () => {
     const invalidRole = 'invalidRole';
     const roleOrError = Role.create(invalidRole);
 
     expect(roleOrError.isLeft()).toBeTruthy();
   });
-
-})
+});

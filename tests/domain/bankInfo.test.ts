@@ -1,4 +1,4 @@
-import { BankInfo } from "../../src/domain/entities/validation"
+import { BankInfo } from "../../src/domain/entities/value-objects"
 
 const validbankInfos = [
   {

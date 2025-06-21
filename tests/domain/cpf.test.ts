@@ -1,4 +1,4 @@
-import { Cpf } from "../../src/domain/entities/validation"
+import { Cpf } from "../../src/domain/entities/value-objects"
 
 describe("Testing Cpf validator", () => {
   test("Trying to create a valid cpf", () => {
