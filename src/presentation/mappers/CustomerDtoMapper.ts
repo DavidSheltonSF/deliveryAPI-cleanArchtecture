@@ -8,7 +8,7 @@ import {
   Phone,
   Role,
   Email,
-} from '../../domain/entities/validation';
+} from '../../domain/entities/value-objects';
 import { CustomerDTO } from '../dtos/custumer-dto';
 import { Either } from '../../shared/either';
 
@@ -58,7 +58,6 @@ export class CustomerDtoMapper {
   }
 
   static fromPropsToDto(customerData: CustomerProps): CustomerDTO {
-
     return {
       username: customerData.username.get(),
       email: customerData.email.get(),

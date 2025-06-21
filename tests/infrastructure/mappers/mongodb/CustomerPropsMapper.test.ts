@@ -9,7 +9,7 @@ import {
   Phone,
   Role,
   Password,
-} from '../../../../src/domain/entities/validation';
+} from '../../../../src/domain/entities/value-objects';
 import { MockData } from '../../../_helpers/mockData';
 import { mongoHelper } from '../../../../src/infrastructure/repositories/mongodb/helpers/mongo-helper';
 
@@ -64,7 +64,6 @@ describe('Testing CustomerPropsMapper', () => {
     );
   });
 
-
   test('Should map a CustomerModel to CustomerProps', async () => {
     const customerModel: CustomerModel = {
       _id: mongoHelper.toObjectId(MockData.generateHexId()),
@@ -82,11 +81,12 @@ describe('Testing CustomerPropsMapper', () => {
       authentication: {
         passwordHash: 'teste123*Testing',
       },
-      createdAt: new Date()
+      createdAt: new Date(),
     };
 
-  const mappedCustomerProps = CustomerPropsMapper.fromModelToProps(customerModel);
+    const mappedCustomerProps =
+      CustomerPropsMapper.fromModelToProps(customerModel);
 
-  expect(mappedCustomerProps.getRight()).toBeTruthy();
-  })
+    expect(mappedCustomerProps.getRight()).toBeTruthy();
+  });
 });

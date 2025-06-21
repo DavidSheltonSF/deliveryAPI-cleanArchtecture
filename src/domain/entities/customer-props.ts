@@ -1,5 +1,5 @@
-import { BaseUserProps } from "./base-user-props";
-import { Address, Cpf, Phone, Role } from "./validation";
+import { BaseUserProps } from './base-user-props';
+import { Address, Cpf, Phone, Role } from './value-objects';
 
 export interface CustomerProps extends BaseUserProps {
   cpf: Cpf;

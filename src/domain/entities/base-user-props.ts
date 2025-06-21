@@ -1,5 +1,5 @@
-import { Email, Name } from "./validation";
-import { Password } from "./validation/Password";
+import { Email, Name } from './value-objects';
+import { Password } from './value-objects/Password';
 
 export interface AuthenticationProps {
   passwordHash: Password;

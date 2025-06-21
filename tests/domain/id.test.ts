@@ -1,4 +1,4 @@
-import { ID } from "../../src/domain/entities/validation";
+import { ID } from "../../src/domain/entities/value-objects";
 import { MockData } from "../_helpers/mockData";
 
 describe("Testing ID validator", () => {

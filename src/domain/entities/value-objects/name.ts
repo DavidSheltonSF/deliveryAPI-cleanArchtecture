@@ -1,4 +1,4 @@
-import { Either } from './../../../shared/either';
+import { Either } from '../../../shared/either';
 import { InvalidNameError } from '../errors';
 
 export class Name {

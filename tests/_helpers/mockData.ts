@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 import { v4 as uuidv4 } from 'uuid';
-import {CustomerDTO} from "../../src/presentation/dtos/custumer-dto"
-import { UserRole } from '../../src/domain/entities/validation/_enums';
+import { CustomerDTO } from '../../src/presentation/dtos/custumer-dto';
+import { UserRole } from '../../src/domain/entities/value-objects/_enums';
 
 export class MockData {
   static generateHexId(): string {
@@ -16,7 +16,7 @@ export class MockData {
         email: faker.internet.email(),
         cpf: faker.string.numeric({ length: 11 }),
         phone: faker.string.numeric({ length: 11 }),
-        role: "customer",
+        role: 'customer',
         address: {
           street: faker.location.street(),
           city: faker.location.city(),

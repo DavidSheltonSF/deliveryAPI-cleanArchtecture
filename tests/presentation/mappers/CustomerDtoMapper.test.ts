@@ -9,7 +9,7 @@ import {
   Phone,
   Role,
   Password,
-} from '../../../src/domain/entities/validation';
+} from '../../../src/domain/entities/value-objects';
 
 describe('Testing CustomerDtoMapper', () => {
   test('Should map a CustomerDto to CustomerProps', async () => {

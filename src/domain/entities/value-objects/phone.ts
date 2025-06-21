@@ -1,4 +1,4 @@
-import { Either } from './../../../shared/either';
+import { Either } from '../../../shared/either';
 import { InvalidPhoneError } from '../errors';
 
 export class Phone {

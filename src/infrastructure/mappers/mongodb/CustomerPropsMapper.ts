@@ -8,7 +8,7 @@ import {
   Phone,
   Role,
   Email,
-} from '../../../domain/entities/validation';
+} from '../../../domain/entities/value-objects';
 import { CustomerModel } from '../../models/mongodb/customer-model';
 import { Either } from '../../../shared/either';
 import { mongoHelper } from '../../repositories/mongodb/helpers/mongo-helper';
