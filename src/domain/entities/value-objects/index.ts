@@ -5,5 +5,6 @@ export * from './name';
 export * from './phone';
 export * from './role';
 export * from './bankInfo';
-export * from './Password'
+export * from './Password';
+export * from './HashedPassword';
 export * from './id';
