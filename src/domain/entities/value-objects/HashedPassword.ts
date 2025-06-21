@@ -4,6 +4,7 @@ import { Hasher } from '../../contracts/Hasher';
 import { InvalidPasswordError } from '../errors';
 import { MissingComparerError } from '../errors/MissingComparerError';
 import { MissingHasherError } from '../errors/MissingHasherError';
+import { Password } from './Password';
 
 export class HashedPassword {
   private readonly hashedPassword: string;
@@ -14,29 +15,27 @@ export class HashedPassword {
   }
 
   static async create(
-    raw: string,
+    password: Password,
     hasher: Hasher
   ): Promise<
     Either<InvalidPasswordError | MissingHasherError, HashedPassword>
   > {
-    if (raw === '') {
-      return Either.left(new InvalidPasswordError("''"));
-    }
+
     if (!hasher) {
       return Either.left(new MissingHasherError());
     }
 
-    return Either.right(new HashedPassword(await hasher.hash(raw)));
+    return Either.right(new HashedPassword(await hasher.hash(password.get())));
   }
 
   async compare(
-    raw: string,
+    password: Password,
     comparer: Comparer
   ): Promise<Either<MissingComparerError, boolean>> {
     if (!comparer) {
       return Either.left(new MissingComparerError());
     }
-    return Either.right(await comparer.compare(raw, this.hashedPassword));
+    return Either.right(await comparer.compare(password.get(), this.hashedPassword));
   }
 
   get(): string {
