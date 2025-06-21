@@ -1,8 +1,8 @@
 import { Email, Name } from './value-objects';
-import { Password } from './value-objects/Password';
+import { HashedPassword } from './value-objects';
 
 export interface AuthenticationProps {
-  passwordHash: Password;
+  hashedPassword: HashedPassword;
   sessionToken?: string;
 }
 

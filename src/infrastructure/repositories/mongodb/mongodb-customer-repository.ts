@@ -16,7 +16,7 @@ export class MongodbCustomerRepository implements CustomerRepository {
       role: customerData.role.get(),
       address: customerData.address.get(),
       authentication: {
-        passwordHash: customerData.authentication.passwordHash.get(),
+        passwordHash: customerData.authentication.hashedPassword.get(),
         sessionToken: customerData.authentication?.sessionToken,
       },
       createdAT: new Date(),

@@ -3,6 +3,7 @@ import { customerValidationError } from '../../domain/entities/errors/customerVa
 import {
   Address,
   Password,
+  HashedPassword,
   Cpf,
   Name,
   Phone,
@@ -11,11 +12,12 @@ import {
 } from '../../domain/entities/value-objects';
 import { CustomerDTO } from '../dtos/custumer-dto';
 import { Either } from '../../shared/either';
+import { BcryptHasher } from '../../infrastructure/cryptography/BcryptHasher';
 
 export class CustomerDtoMapper {
-  static fromDtoToProps(
+  static  async fromDtoToProps(
     customerData: CustomerDTO
-  ): Either<customerValidationError, CustomerProps> {
+  ): Promise<Either<customerValidationError, CustomerProps>> {
     const validations = {
       username: Name.create(customerData.username),
       email: Email.create(customerData.email),
@@ -32,6 +34,14 @@ export class CustomerDtoMapper {
       }
     }
 
+    const hasher = new BcryptHasher(12)
+
+    const hashedPasswordOrError = await HashedPassword.create(validations.password.getRight(), hasher);
+
+    if(hashedPasswordOrError.isLeft()){
+      return Either.left(hashedPasswordOrError.getLeft());
+    }
+
     console.log('wrong way');
     const username = validations.username.getRight();
     const email = validations.email.getRight();
@@ -39,12 +49,8 @@ export class CustomerDtoMapper {
     const phone = validations.phone.getRight();
     const role = validations.role.getRight();
     const address = validations.address.getRight();
-    const password = validations.password.getRight();
+    const hashedPassword = hashedPasswordOrError.getRight()
 
-    const validAuthentication = {
-      passwordHash: password,
-      sessionToken: customerData.authentication?.sessionToken,
-    };
 
     return Either.right({
       username,
@@ -53,7 +59,10 @@ export class CustomerDtoMapper {
       phone,
       role,
       address,
-      authentication: validAuthentication,
+      authentication: {
+        hashedPassword: hashedPassword,
+        sessionToken: customerData.authentication?.sessionToken,
+      },
     });
   }
 
@@ -66,7 +75,7 @@ export class CustomerDtoMapper {
       role: customerData.role.get(),
       address: customerData.address.get(),
       authentication: {
-        password: customerData.authentication.passwordHash.get(),
+        password: customerData.authentication.hashedPassword.get(),
         sessionToken: customerData.authentication.sessionToken,
       },
     };

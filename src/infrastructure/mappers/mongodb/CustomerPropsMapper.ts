@@ -8,10 +8,12 @@ import {
   Phone,
   Role,
   Email,
+  HashedPassword,
 } from '../../../domain/entities/value-objects';
 import { CustomerModel } from '../../models/mongodb/customer-model';
 import { Either } from '../../../shared/either';
 import { mongoHelper } from '../../repositories/mongodb/helpers/mongo-helper';
+import { BcryptHasher } from '../../cryptography/BcryptHasher';
 
 export class CustomerPropsMapper {
   static fromPropsToModel(
@@ -27,15 +29,15 @@ export class CustomerPropsMapper {
       role: customerData.role.get(),
       address: customerData.address.get(),
       authentication: {
-        passwordHash: customerData.authentication.passwordHash.get(),
+        passwordHash: customerData.authentication.hashedPassword.get(),
         sessionToken: customerData.authentication.sessionToken,
       },
     };
   }
 
-  static fromModelToProps(
+  static async fromModelToProps(
     customerData: CustomerModel
-  ): Either<customerValidationError, CustomerProps> {
+  ): Promise<Either<customerValidationError, CustomerProps>> {
     const usernameOrError = Name.create(customerData.username);
     const emailOrError = Email.create(customerData.email);
     const cpfOrError = Cpf.create(customerData.cpf);
@@ -68,10 +70,16 @@ export class CustomerPropsMapper {
       return Either.left(passwordOrError.getLeft());
     }
 
-    const validAuthentication = {
-      passwordHash: passwordOrError.getRight(),
-      sessionToken: customerData.authentication?.sessionToken,
-    };
+    const salt = 12;
+    const hasher = new BcryptHasher(salt);
+    const hashedPasswordOrError = await HashedPassword.create(
+      passwordOrError.getRight(),
+      hasher
+    );
+
+    if (hashedPasswordOrError.isLeft()){
+      return Either.left(hashedPasswordOrError.getLeft());
+    }
 
     return Either.right({
       username: usernameOrError.getRight(),
@@ -80,7 +88,10 @@ export class CustomerPropsMapper {
       phone: phoneOrError.getRight(),
       role: roleOrError.getRight(),
       address: addressOrError.getRight(),
-      authentication: validAuthentication,
+      authentication: {
+        hashedPassword: hashedPasswordOrError.getRight(),
+        sessionToken: customerData.authentication?.sessionToken,
+      },
     });
   }
 }

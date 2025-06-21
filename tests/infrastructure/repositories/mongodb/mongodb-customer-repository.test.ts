@@ -2,7 +2,7 @@ import { mongoHelper } from '../../../../src/infrastructure/repositories/mongodb
 import { config } from 'dotenv';
 import { MongodbCustomerRepository } from '../../../../src/infrastructure/repositories/mongodb/mongodb-customer-repository';
 import { generateHexId } from '../../../../src/shared/generateHexId';
-import { CustomerMapper } from '../../../../src/shared/mappers/CustomerMapper';
+import { CustomerDtoMapper } from '../../../../src/presentation/mappers/CustomerDtoMapper';
 import { CustomerDTO } from '../../../../src/presentation/dtos/custumer-dto';
 
 config();
@@ -68,7 +68,7 @@ describe('Testing MongodbCustomerRepository', () => {
 
     const customer = customers[0];
 
-    const customerOrError = CustomerMapper.fromDtoToProps(customer);
+    const customerOrError = await CustomerDtoMapper.fromDtoToProps(customer);
 
     // Adding new customers to database
     const response = await repository.add(customerOrError.getRight());

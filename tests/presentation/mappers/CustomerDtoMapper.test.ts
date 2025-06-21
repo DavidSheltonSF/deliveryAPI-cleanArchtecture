@@ -9,7 +9,10 @@ import {
   Phone,
   Role,
   Password,
+  HashedPassword,
 } from '../../../src/domain/entities/value-objects';
+import { BcryptHasher } from '../../../src/infrastructure/cryptography/BcryptHasher';
+import bcrypt from 'bcryptjs';
 
 describe('Testing CustomerDtoMapper', () => {
   test('Should map a CustomerDto to CustomerProps', async () => {
@@ -30,7 +33,9 @@ describe('Testing CustomerDtoMapper', () => {
       },
     };
 
-    const customerPropsOrError = CustomerDtoMapper.fromDtoToProps(customerDto);
+    const customerPropsOrError = await CustomerDtoMapper.fromDtoToProps(
+      customerDto
+    );
 
     expect(customerPropsOrError.isRight()).toBeTruthy();
   });
@@ -53,7 +58,9 @@ describe('Testing CustomerDtoMapper', () => {
       },
     };
 
-    const customerPropsOrError = CustomerDtoMapper.fromDtoToProps(customerDto);
+    const customerPropsOrError = await CustomerDtoMapper.fromDtoToProps(
+      customerDto
+    );
 
     expect(customerPropsOrError.isLeft()).toBeTruthy();
   });
@@ -76,7 +83,9 @@ describe('Testing CustomerDtoMapper', () => {
       },
     };
 
-    const customerPropsOrError = CustomerDtoMapper.fromDtoToProps(customerDto);
+    const customerPropsOrError = await CustomerDtoMapper.fromDtoToProps(
+      customerDto
+    );
 
     expect(customerPropsOrError.isLeft()).toBeTruthy();
   });
@@ -99,7 +108,9 @@ describe('Testing CustomerDtoMapper', () => {
       },
     };
 
-    const customerPropsOrError = CustomerDtoMapper.fromDtoToProps(customerDto);
+    const customerPropsOrError = await CustomerDtoMapper.fromDtoToProps(
+      customerDto
+    );
 
     expect(customerPropsOrError.isLeft()).toBeTruthy();
   });
@@ -122,6 +133,12 @@ describe('Testing CustomerDtoMapper', () => {
       },
     };
 
+    const salt = 12;
+    const hasher = new BcryptHasher(salt);
+    const password = Password.create(
+      customerDto.authentication.password
+    ).getRight();
+
     const customerProps: CustomerProps = {
       username: Name.create(customerDto.username).getRight(),
       email: Email.create(customerDto.email).getRight(),
@@ -130,8 +147,8 @@ describe('Testing CustomerDtoMapper', () => {
       role: Role.create(customerDto.role).getRight(),
       address: Address.create(customerDto.address).getRight(),
       authentication: {
-        passwordHash: Password.create(
-          customerDto.authentication.password
+        hashedPassword: (
+          await HashedPassword.create(password, hasher)
         ).getRight(),
       },
     };
@@ -144,8 +161,11 @@ describe('Testing CustomerDtoMapper', () => {
     expect(mappedCustomerDto.phone).toBe(customerDto.phone);
     expect(mappedCustomerDto.role).toBe(customerDto.role);
     expect(mappedCustomerDto.address).toEqual(customerDto.address);
-    expect(mappedCustomerDto.authentication.password).toBe(
-      customerDto.authentication.password
-    );
+    expect(
+      bcrypt.compare(
+        mappedCustomerDto.authentication.password,
+        customerDto.authentication.password
+      )
+    ).toBeTruthy();
   });
 });

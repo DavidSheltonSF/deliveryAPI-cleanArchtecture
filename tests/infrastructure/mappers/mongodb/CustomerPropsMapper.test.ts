@@ -9,9 +9,12 @@ import {
   Phone,
   Role,
   Password,
+  HashedPassword,
 } from '../../../../src/domain/entities/value-objects';
 import { MockData } from '../../../_helpers/mockData';
 import { mongoHelper } from '../../../../src/infrastructure/repositories/mongodb/helpers/mongo-helper';
+import { BcryptHasher } from '../../../../src/infrastructure/cryptography/BcryptHasher';
+import bcrypt from 'bcryptjs';
 
 describe('Testing CustomerPropsMapper', () => {
   test('Should map a CustomerProps to CustomerModel', async () => {
@@ -32,6 +35,12 @@ describe('Testing CustomerPropsMapper', () => {
       },
     };
 
+    const salt = 12;
+    const hasher = new BcryptHasher(salt);
+    const password = Password.create(
+      customerData.authentication.password
+    ).getRight();
+
     const customerId = MockData.generateHexId();
     const customerProps: CustomerProps = {
       username: Name.create(customerData.username).getRight(),
@@ -41,8 +50,8 @@ describe('Testing CustomerPropsMapper', () => {
       role: Role.create(customerData.role).getRight(),
       address: Address.create(customerData.address).getRight(),
       authentication: {
-        passwordHash: Password.create(
-          customerData.authentication.password
+        hashedPassword: (
+          await HashedPassword.create(password, hasher)
         ).getRight(),
       },
     };
@@ -59,9 +68,12 @@ describe('Testing CustomerPropsMapper', () => {
     expect(mappedCustomerModel.phone).toBe(customerData.phone);
     expect(mappedCustomerModel.role).toBe(customerData.role);
     expect(mappedCustomerModel.address).toEqual(customerData.address);
-    expect(mappedCustomerModel.authentication.passwordHash).toBe(
-      customerData.authentication.password
-    );
+    expect(
+      bcrypt.compare(
+        customerData.authentication.password,
+        mappedCustomerModel.authentication.passwordHash
+      )
+    ).toBeTruthy();
   });
 
   test('Should map a CustomerModel to CustomerProps', async () => {
@@ -84,8 +96,9 @@ describe('Testing CustomerPropsMapper', () => {
       createdAt: new Date(),
     };
 
-    const mappedCustomerProps =
-      CustomerPropsMapper.fromModelToProps(customerModel);
+    const mappedCustomerProps = await CustomerPropsMapper.fromModelToProps(
+      customerModel
+    );
 
     expect(mappedCustomerProps.getRight()).toBeTruthy();
   });
