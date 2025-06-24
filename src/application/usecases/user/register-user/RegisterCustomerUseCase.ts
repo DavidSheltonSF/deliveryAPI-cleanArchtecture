@@ -4,8 +4,9 @@ import { RegisterCustomerResponse } from './response';
 import { Either } from '../../../../shared/either';
 import { DuplicatedDataError } from '../../../_errors/duplicated-data';
 import { CustomerProps } from '../../../../domain/entities/customer/CustomerProps';
-import { CustomerPropsMapper } from '../../../../infrastructure/mappers/mongodb/CustomerPropsMapper';
+import { CustomerPropsMapper } from '../../../../infrastructure/mappers/mongodb/CustomerModelMapper';
 import { Customer } from '../../../../domain/entities/customer/Customer';
+import { response } from 'express';
 
 export class RegisterCustomerUseCase implements RegisterCustomer {
   private readonly customerRepository: CustomerRepository;
@@ -13,8 +14,9 @@ export class RegisterCustomerUseCase implements RegisterCustomer {
     this.customerRepository = customerRepo;
   }
 
-  async execute(customerData: CustomerProps): Promise<RegisterCustomerResponse> {
-
+  async execute(
+    customerData: CustomerProps
+  ): Promise<RegisterCustomerResponse> {
     const customer = new Customer(customerData);
 
     const existingCustomer = await this.customerRepository.findCustomerByEmail(
@@ -29,12 +31,18 @@ export class RegisterCustomerUseCase implements RegisterCustomer {
       );
     }
 
-    const response = await this.customerRepository.add(
-      customer
-    );
+    const registredCustomer = await this.customerRepository.add(customer);
 
-    const registedCustomer = await CustomerPropsMapper.fromModelToUseCaseDto(response);
+    const response = {
+      id: registredCustomer._id.toString(),
+      username: registredCustomer.username,
+      name: registredCustomer.name,
+      email: registredCustomer.email,
+      phone: registredCustomer.phone,
+      role: registredCustomer.role,
+      address: registredCustomer.address,
+    };
 
-    return Either.right(registedCustomer);
+    return Either.right(response);
   }
 }
