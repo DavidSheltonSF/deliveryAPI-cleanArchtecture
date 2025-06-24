@@ -1,7 +1,7 @@
 import { Either } from '../../../shared/either';
 import { InvalidUserNameError } from '../errors';
 
-export class Username {
+export class UserName {
   private readonly username: string;
 
   constructor(username: string) {
