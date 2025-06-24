@@ -1,4 +1,4 @@
-import { Email, Name } from './value-objects';
+import { Email, UserName } from './value-objects';
 import { HashedPassword } from './value-objects';
 
 export interface AuthenticationProps {
@@ -7,7 +7,7 @@ export interface AuthenticationProps {
 }
 
 export interface BaseUserProps {
-  username: Name;
+  username: UserName;
   email: Email;
   authentication: AuthenticationProps;
 }
