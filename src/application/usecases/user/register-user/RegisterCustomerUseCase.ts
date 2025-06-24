@@ -4,9 +4,7 @@ import { RegisterCustomerResponse } from './response';
 import { Either } from '../../../../shared/either';
 import { DuplicatedDataError } from '../../../_errors/duplicated-data';
 import { CustomerProps } from '../../../../domain/entities/customer/CustomerProps';
-import { CustomerPropsMapper } from '../../../../infrastructure/mappers/mongodb/CustomerModelMapper';
 import { Customer } from '../../../../domain/entities/customer/Customer';
-import { response } from 'express';
 
 export class RegisterCustomerUseCase implements RegisterCustomer {
   private readonly customerRepository: CustomerRepository;
