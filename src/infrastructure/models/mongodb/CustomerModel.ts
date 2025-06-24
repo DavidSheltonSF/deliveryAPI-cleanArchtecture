@@ -1,8 +1,8 @@
-import { AddressModel } from "./addressModel.ts";
-import { BaseUserModel } from "./base-user-props";
+import { AddressModel } from './addressModel.ts.js';
+import { BaseUserModel } from './BaseUserModel.js';
 
 export interface CustomerModel extends BaseUserModel {
-  name: string
+  name: string;
   cpf: string;
   phone: string;
   role: string;

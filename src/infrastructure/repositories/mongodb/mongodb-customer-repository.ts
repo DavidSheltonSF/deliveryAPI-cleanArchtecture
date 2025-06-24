@@ -1,6 +1,6 @@
 import { CustomerRepository } from '../../../application/_ports/customer-repository';
 import { CustomerProps } from '../../../domain/entities/customer-props';
-import { CustomerModel } from '../../models/mongodb/customer-model';
+import { CustomerModel } from '../../models/mongodb/CustomerModel';
 import { MongodbMapper } from './helpers/MongodbMapper';
 import { mongoHelper } from './helpers/mongo-helper';
 

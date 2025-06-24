@@ -1,6 +1,6 @@
 import { WithId, Document } from 'mongodb';
 import { mongoHelper } from './mongo-helper';
-import { CustomerModel } from '../../../models/mongodb/customer-model';
+import { CustomerModel } from '../../../models/mongodb/CustomerModel';
 
 export class MongodbMapper {
   static fromCustomerDbToModel(data: WithId<Document>): CustomerModel {
