@@ -10,6 +10,7 @@ import {
   Email,
   HashedPassword,
 } from '../../../domain/entities/value-objects';
+import { Document, WithId } from 'mongodb';
 import { CustomerModel } from '../../models/mongodb/CustomerModel';
 import { Either } from '../../../shared/either';
 import { mongoHelper } from '../../repositories/mongodb/helpers/mongo-helper';
@@ -17,7 +18,7 @@ import { BcryptHasher } from '../../cryptography/BcryptHasher';
 import { CustomerUseCaseDto } from '../../../application/useCaseDtos/CustomerUseCaseDto';
 import { Customer } from '../../../domain/entities/customer/Customer';
 
-export class CustomerPropsMapper {
+export class CustomerModelMapper {
   static fromEntityToModel(
     customerData: Customer
   ): Omit<CustomerModel, 'createdAt' | '_id'> {
@@ -36,17 +37,23 @@ export class CustomerPropsMapper {
     };
   }
 
-  static async fromModelToUseCaseDto(
-    customerData: CustomerModel
-  ): Promise<CustomerUseCaseDto> {
+  static fromMongodbDocumentToModel(
+    data: WithId<Document> | Document
+  ): CustomerModel | null {
+    if (data === null) {
+      return null;
+    }
     return {
-      id: customerData._id.toString(),
-      username: customerData.username,
-      name: customerData.name,
-      email: customerData.email,
-      phone: customerData.phone,
-      role: customerData.role,
-      address: customerData.address,
+      _id: data._id,
+      username: data.username,
+      name: data.name,
+      email: data.email,
+      cpf: data.cpf,
+      phone: data.phone,
+      role: data.role,
+      address: data.address,
+      authentication: data.authentication,
+      createdAt: data.createdAt,
     };
   }
 }
