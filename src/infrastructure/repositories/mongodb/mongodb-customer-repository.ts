@@ -1,24 +1,27 @@
 import { CustomerRepository } from '../../../application/_ports/customer-repository';
-import { CustomerProps } from '../../../domain/entities/customer-props';
+import { Customer } from '../../../domain/entities/customer/Customer';
+import { CustomerProps } from '../../../domain/entities/customer/CustomerProps';
+import { CustomerModelMapper } from '../../mappers/mongodb/CustomerModelMapper';
 import { CustomerModel } from '../../models/mongodb/CustomerModel';
 import { MongodbMapper } from './helpers/MongodbMapper';
 import { mongoHelper } from './helpers/mongo-helper';
 
 export class MongodbCustomerRepository implements CustomerRepository {
-  async add(customerData: CustomerProps): Promise<CustomerModel> {
+  async findCustomerByEmail(email: string): Promise<CustomerModel> {
     const customerCollection = mongoHelper.getCollection('customers');
 
+    const foundCustomer = await customerCollection.findOne({ email: email });
+
+    return CustomerModelMapper.fromMongodbDocumentToModel(foundCustomer);
+  }
+
+  async add(customer: Customer): Promise<CustomerModel> {
+    const customerCollection = mongoHelper.getCollection('customers');
+
+    const customerModel = CustomerModelMapper.fromEntityToModel(customer);
+
     const newCustomer = {
-      customername: customerData.username.get(),
-      email: customerData.email.get(),
-      cpf: customerData.cpf.get(),
-      phone: customerData.phone.get(),
-      role: customerData.role.get(),
-      address: customerData.address.get(),
-      authentication: {
-        passwordHash: customerData.authentication.hashedPassword.get(),
-        sessionToken: customerData.authentication?.sessionToken,
-      },
+      ...customerModel,
       createdAT: new Date(),
     };
 
@@ -30,6 +33,9 @@ export class MongodbCustomerRepository implements CustomerRepository {
       _id: newCustomerId,
     });
 
-    return MongodbMapper.fromCustomerDbToModel(registeredCustomer);
+    return CustomerModelMapper.fromMongodbDocumentToModel({
+      _id: newCustomerId,
+      ...registeredCustomer,
+    });
   }
 }
