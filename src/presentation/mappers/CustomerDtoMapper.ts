@@ -1,4 +1,4 @@
-import { CustomerProps } from '../../domain/entities/customer-props';
+import { CustomerProps } from '../../domain/entities/customer/CustomerProps';
 import { customerValidationError } from '../../domain/entities/errors/customerValidationError';
 import {
   Address,
@@ -9,6 +9,7 @@ import {
   Phone,
   Role,
   Email,
+  UserName,
 } from '../../domain/entities/value-objects';
 import { CustomerDTO } from '../dtos/custumer-dto';
 import { Either } from '../../shared/either';
@@ -19,7 +20,8 @@ export class CustomerDtoMapper {
     customerData: CustomerDTO
   ): Promise<Either<customerValidationError, CustomerProps>> {
     const validations = {
-      username: Name.create(customerData.username),
+      username: UserName.create(customerData.username),
+      name: Name.create(customerData.username),
       email: Email.create(customerData.email),
       cpf: Cpf.create(customerData.cpf),
       phone: Phone.create(customerData.phone),
@@ -44,6 +46,7 @@ export class CustomerDtoMapper {
 
     console.log('wrong way');
     const username = validations.username.getRight();
+    const name = validations.name.getRight();
     const email = validations.email.getRight();
     const cpf = validations.cpf.getRight();
     const phone = validations.phone.getRight();
@@ -54,6 +57,7 @@ export class CustomerDtoMapper {
 
     return Either.right({
       username,
+      name,
       email,
       cpf,
       phone,
@@ -69,6 +73,7 @@ export class CustomerDtoMapper {
   static fromPropsToDto(customerData: CustomerProps): CustomerDTO {
     return {
       username: customerData.username.get(),
+      name: customerData.name.get(),
       email: customerData.email.get(),
       cpf: customerData.cpf.get(),
       phone: customerData.phone.get(),
