@@ -81,7 +81,11 @@ export class Customer {
     this._authentication.hashedPassword = value;
   }
 
-  activeSession(sessionToken: string){
+  get sessionToken(): string {
+    return this._authentication.sessionToken;
+  }
+
+  activeSession(sessionToken: string) {
     this._authentication.sessionToken = sessionToken;
   }
 
