@@ -4,6 +4,7 @@ export * from './InvalidCardNumberError';
 export * from './InvalidCpfError';
 export * from './InvalidEmailError';
 export * from './InvalidNameError';
+export * from './InvalidUserNameError';
 export * from './InvalidPasswordError';
 export * from './InvalidPhoneError';
 export * from './InvalidRoleError';
