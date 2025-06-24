@@ -27,12 +27,12 @@ export class UserName {
     return true;
   }
 
-  static create(username: string): Either<InvalidUserNameError, Username> {
+  static create(username: string): Either<InvalidUserNameError, UserName> {
     if (!this.validate(username)) {
       return Either.left(new InvalidUserNameError(username));
     }
 
-    return Either.right(new Username(username));
+    return Either.right(new UserName(username));
   }
 
   get(): string {
