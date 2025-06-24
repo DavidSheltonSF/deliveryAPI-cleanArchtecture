@@ -5,8 +5,5 @@ import { CustomerUseCaseDto } from '../../../useCaseDtos/CustomerUseCaseDto';
 
 export type RegisterCustomerResponse = Either<
   customerValidationError | DuplicatedDataError,
-  {
-    id: string;
-    customerData: CustomerUseCaseDto;
-  }
+  CustomerUseCaseDto
 >;
