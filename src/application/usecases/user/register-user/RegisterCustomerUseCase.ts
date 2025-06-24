@@ -3,9 +3,9 @@ import { RegisterCustomer } from './interface';
 import { RegisterCustomerResponse } from './response';
 import { Either } from '../../../../shared/either';
 import { DuplicatedDataError } from '../../../_errors/duplicated-data';
-import { CustomerDTO } from '../../../../presentation/dtos/custumer-dto';
-import { CustomerProps } from '../../../../domain/entities/customer-props';
-import { CustomerMapper } from '../../../../shared/mappers/CustomerMapper';
+import { CustomerProps } from '../../../../domain/entities/customer/CustomerProps';
+import { CustomerPropsMapper } from '../../../../infrastructure/mappers/mongodb/CustomerPropsMapper';
+import { Customer } from '../../../../domain/entities/customer/Customer';
 
 export class RegisterCustomerUseCase implements RegisterCustomer {
   private readonly customerRepository: CustomerRepository;
@@ -13,35 +13,28 @@ export class RegisterCustomerUseCase implements RegisterCustomer {
     this.customerRepository = customerRepo;
   }
 
-  async execute(customerData: CustomerDTO): Promise<RegisterCustomerResponse> {
-    const customerOrError = CustomerMapper.fromDtoToProps(customerData);
+  async execute(customerData: CustomerProps): Promise<RegisterCustomerResponse> {
 
-    if (customerOrError.isLeft()) {
-      return Either.left(customerOrError.getLeft());
-    }
+    const customer = new Customer(customerData);
 
-    // const existingCustomer = await this.customerRepository.findCustomerByEmail(
-    //   customerData.email
-    // );
-
-    // if (existingCustomer) {
-    //   return Either.left(
-    //     new DuplicatedDataError(
-    //       `Customer with email ${customerData.email} already exists.`
-    //     )
-    //   );
-    // }
-
-    const response = await this.customerRepository.add(
-      customerOrError.getRight()
+    const existingCustomer = await this.customerRepository.findCustomerByEmail(
+      customer.email.get()
     );
 
-    const registeredCustomerOrError = CustomerMapper.fromModelToProps(response);
-
-    if (registeredCustomerOrError.getLeft()) {
-      return Either.left(registeredCustomerOrError.getLeft());
+    if (existingCustomer) {
+      return Either.left(
+        new DuplicatedDataError(
+          `Customer with email ${customerData.email} already exists.`
+        )
+      );
     }
 
-    return Either.right(registeredCustomerOrError.getRight());
+    const response = await this.customerRepository.add(
+      customer
+    );
+
+    const registedCustomer = await CustomerPropsMapper.fromModelToUseCaseDto(response);
+
+    return Either.right(registedCustomer);
   }
 }
