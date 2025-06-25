@@ -25,21 +25,24 @@ Before running this project, make sure you have one of the following options set
 
 Currently implemented features:
 
-- ✅ **User routes**
+ATENTION! Because of a recent refactoring some features are not available 🚫️ temporarily
 
-### 📘 User Routes
+- ✅ **Customer routes**
 
-These are the available endpoints for interacting with the User resource in the API:
+### 📘 Customer Routes
 
-**➕ Register a new user**
+These are the available endpoints for interacting with the Customer resource in the API:
 
-POST /app/users
+**➕ Register a new customer**
+
+POST /app/customers
 
 Example request body:
 
 ```json
 {
   "username": "Marcos",
+  "name": "Marcos Del Rei",
   "email": "marcos@bugmail.com",
   "cpf": "15888747425",
   "phone": "21555777777",
@@ -56,40 +59,40 @@ Example request body:
 }
 ```
 
-**🔄 Update a user by ID**
+**🔄 Update a customer by ID** 🚫️
 
-PUT /app/users/:id
+PUT /app/customers/:id
 
 Example request body (all fields are optional):
 
 ```json
 {
-  "username": "Ash K.",
+  "customername": "Ash K.",
   "email": "ashk@pallet.com"
 }
 ```
 
-**❌ Delete a user**
+**❌ Delete a customer** 🚫️
 
-DELETE /app/users/:id
-
-No body required.
-
-**📋 Get all users**
-
-GET /app/users
+DELETE /app/customers/:id
 
 No body required.
 
-**🔍 Get user by ID**
+**📋 Get all customers** 🚫️
 
-GET /app/users/id/:id
+GET /app/customers
 
 No body required.
 
-**🔍 Get user by Email**
+**🔍 Get customer by ID** 🚫️
 
-GET /app/users/email/:email
+GET /app/customers/id/:id
+
+No body required.
+
+**🔍 Get customer by Email** 🚫️
+
+GET /app/customers/email/:email
 
 No body required.
 
@@ -141,9 +144,11 @@ npm run test
 
 ## 🧬 Entities
 
-- User (admin, client, restaurant_owner, driver)
+- Customer
+- Admin
+- Driver
+- Restaurant Admin
 - Restaurant
-- Restaurant Chain
 - Payment
 - Order
 - Dish
