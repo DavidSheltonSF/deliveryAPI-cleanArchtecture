@@ -21,7 +21,7 @@ export class RegisterCustomerUseCase implements RegisterCustomer {
       customer.email.get()
     );
 
-    if (existingCustomer) {
+    if (existingCustomer.email === customer.email.get()) {
       return Either.left(
         new DuplicatedDataError(
           `Customer with email ${customerData.email} already exists.`
