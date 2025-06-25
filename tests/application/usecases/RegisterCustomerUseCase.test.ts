@@ -1,6 +1,7 @@
 import { MongodbCustomerRepository } from '../../../src/infrastructure/repositories/mongodb/mongodb-customer-repository';
 import { RegisterCustomerUseCase } from '../../../src/application/usecases/customer/RegisterCustomer/RegisterCustomerUseCase';
 import { MockData } from '../../_helpers/mockData';
+import { Customer } from '../../../src/domain/entities/customer/Customer';
 
 describe('RegisterUserUseCase', () => {
   test('Should register a new customer', async () => {
@@ -13,12 +14,12 @@ describe('RegisterUserUseCase', () => {
 
     const usecase = new RegisterCustomerUseCase(mockRepository);
 
-    const [customerProps] = await MockData.mockCustomerProps();
+    const customerProps = await MockData.mockCustomerProps();
 
     const response = await usecase.execute(customerProps);
 
-    console.log(response)
+    const customerEntity = new Customer(customerProps)
 
-    expect(mockRepository.add).toHaveBeenCalled();
+    expect(mockRepository.add).toHaveBeenCalledWith(customerEntity);
   })
 });
