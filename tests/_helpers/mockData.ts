@@ -2,6 +2,11 @@ import { faker } from '@faker-js/faker';
 import { v4 as uuidv4 } from 'uuid';
 import { CustomerDTO } from '../../src/presentation/dtos/custumer-dto';
 import { UserRole } from '../../src/domain/entities/value-objects/_enums';
+import { CustomerModel } from '../../src/infrastructure/models/mongodb/CustomerModel';
+import { mongoHelper } from '../../src/infrastructure/repositories/mongodb/helpers/mongo-helper';
+import { CustomerProps } from '../../src/domain/entities/customer/CustomerProps';
+import { Address, Cpf, Email, HashedPassword, Name, Password, Phone, Role, UserName } from '../../src/domain/entities/value-objects';
+import { BcryptHasher } from '../../src/infrastructure/cryptography/BcryptHasher';
 
 export class MockData {
   static generateHexId(): string {
@@ -13,6 +18,7 @@ export class MockData {
     for (let i = 0; i < count; i++) {
       const user = {
         username: faker.person.firstName(),
+        name: faker.person.firstName(),
         email: faker.internet.email(),
         cpf: faker.string.numeric({ length: 11 }),
         phone: faker.string.numeric({ length: 11 }),
@@ -25,6 +31,64 @@ export class MockData {
         },
         authentication: {
           password: 'Senh4**Corret4',
+        },
+      };
+      mockedUsers.push(user);
+    }
+    return mockedUsers;
+  }
+
+  static mockCustomerModel(count: number = 1): CustomerModel[] {
+    const mockedUsers: CustomerModel[] = [];
+    for (let i = 0; i < count; i++) {
+      const user = {
+        _id: mongoHelper.toObjectId(this.generateHexId()),
+        username: faker.person.firstName(),
+        name: faker.person.firstName(),
+        email: faker.internet.email(),
+        cpf: faker.string.numeric({ length: 11 }),
+        phone: faker.string.numeric({ length: 11 }),
+        role: 'customer',
+        address: {
+          street: faker.location.street(),
+          city: faker.location.city(),
+          state: faker.location.state(),
+          zipCode: faker.location.zipCode('########'),
+        },
+        authentication: {
+          passwordHash: 'Senh4**Corret4',
+        },
+        createdAt: new Date(),
+      };
+      mockedUsers.push(user);
+    }
+    return mockedUsers;
+  }
+
+  static async mockCustomerProps(count: number = 1): Promise<CustomerProps[]> {
+    const hash = new BcryptHasher(12);
+    const password = Password.create('Senh4**Corret4').getRight();
+    const hashedPassword = (
+      await HashedPassword.create(password, hash)
+    ).getRight();
+
+    const mockedUsers: CustomerProps[] = [];
+    for (let i = 0; i < count; i++) {
+      const user = {
+        username: UserName.create(faker.person.firstName()).getRight(),
+        name: Name.create(faker.person.firstName()).getRight(),
+        email: Email.create(faker.internet.email()).getRight(),
+        cpf: Cpf.create(faker.string.numeric({ length: 11 })).getRight(),
+        phone: Phone.create(faker.string.numeric({ length: 11 })).getRight(),
+        role: Role.create('customer').getRight(),
+        address: Address.create({
+          street: faker.location.street(),
+          city: faker.location.city(),
+          state: faker.location.state(),
+          zipCode: faker.location.zipCode('########'),
+        }).getRight(),
+        authentication: {
+          hashedPassword: hashedPassword,
         },
       };
       mockedUsers.push(user);
