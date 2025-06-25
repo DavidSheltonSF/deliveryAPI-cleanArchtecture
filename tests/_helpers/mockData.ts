@@ -5,8 +5,19 @@ import { UserRole } from '../../src/domain/entities/value-objects/_enums';
 import { CustomerModel } from '../../src/infrastructure/models/mongodb/CustomerModel';
 import { mongoHelper } from '../../src/infrastructure/repositories/mongodb/helpers/mongo-helper';
 import { CustomerProps } from '../../src/domain/entities/customer/CustomerProps';
-import { Address, Cpf, Email, HashedPassword, Name, Password, Phone, Role, UserName } from '../../src/domain/entities/value-objects';
+import {
+  Address,
+  Cpf,
+  Email,
+  HashedPassword,
+  Name,
+  Password,
+  Phone,
+  Role,
+  UserName,
+} from '../../src/domain/entities/value-objects';
 import { BcryptHasher } from '../../src/infrastructure/cryptography/BcryptHasher';
+import { CustomerUseCaseDto } from '../../src/application/useCaseDtos/CustomerUseCaseDto';
 
 export class MockData {
   static generateHexId(): string {
@@ -82,5 +93,22 @@ export class MockData {
       },
     };
     return user;
+  }
+
+  static mockCustomerUseCaseDto(): CustomerUseCaseDto {
+    const customer = {
+      username: faker.person.firstName(),
+      name: faker.person.firstName(),
+      email: faker.internet.email(),
+      phone: faker.string.numeric({ length: 11 }),
+      role: 'customer',
+      address: {
+        street: faker.location.street(),
+        city: faker.location.city(),
+        state: faker.location.state(),
+        zipCode: faker.location.zipCode('########'),
+      },
+    };
+    return customer;
   }
 }
