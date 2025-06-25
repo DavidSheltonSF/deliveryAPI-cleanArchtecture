@@ -1,4 +1,4 @@
-import { RegisterUser } from '../../../application/usecases/customer/RegisterCustomer/interface';
+import { RegisterCustomer } from '../../../application/usecases/customer/RegisterCustomer/interface';
 import { HttpRequest } from '../../_ports/http';
 import { MissingFieldError } from '../../_errors/missing-field';
 import {
@@ -10,11 +10,12 @@ import {
 import { HttpResponse } from '../../_ports/http';
 import { MissingRequestBodyError } from '../../_errors/missing-request-body-error';
 import { Controller } from '../Controller';
+import { CustomerDtoMapper } from '../../mappers/CustomerDtoMapper';
 
 export class RegisterCustomerController implements Controller {
-  private readonly registerUser: RegisterUser;
+  private readonly registerUser: RegisterCustomer;
 
-  constructor(registerUser: RegisterUser) {
+  constructor(registerUser: RegisterCustomer) {
     this.registerUser = registerUser;
   }
 
@@ -22,22 +23,23 @@ export class RegisterCustomerController implements Controller {
     try {
       const requiredFields = [
         'username',
+        'name',
         'email',
         'phone',
         'role',
         'cpf',
         'authentication',
       ];
-      const userData = request.body;
+      const customerData = request.body;
 
-      if (!userData) {
+      if (!customerData) {
         return badRequest(new MissingRequestBodyError());
       }
 
       const missingFields = [];
 
       for (let i in requiredFields) {
-        if (!Object.keys(userData).includes(requiredFields[i])) {
+        if (!Object.keys(customerData).includes(requiredFields[i])) {
           missingFields.push(requiredFields[i]);
         }
       }
@@ -46,7 +48,17 @@ export class RegisterCustomerController implements Controller {
         return badRequest(new MissingFieldError(missingFields));
       }
 
-      const response = await this.registerUser.execute(userData);
+      const customerDtoOrError = await CustomerDtoMapper.fromDtoToProps(
+        customerData
+      );
+
+      if (customerDtoOrError.isLeft()) {
+        unprocessableEntity(customerDtoOrError.getLeft());
+      }
+
+      const response = await this.registerUser.execute(
+        customerDtoOrError.getRight()
+      );
 
       if (response.isLeft()) {
         return unprocessableEntity(response.getLeft());
