@@ -101,8 +101,6 @@ describe('Testing MongodbCustomerRepository', () => {
       email: customer.email,
     });
 
-    console.log(foundCustomer?.email);
-
     expect(foundCustomer?.username).toBe(customer.username);
     expect(foundCustomer?.email).toBe(customer.email);
     expect(foundCustomer?.cpf).toBe(customer.cpf);
