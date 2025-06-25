@@ -55,7 +55,7 @@ export class RegisterCustomerController implements Controller {
       if (customerDtoOrError.isLeft()) {
         unprocessableEntity(customerDtoOrError.getLeft());
       }
-
+      console.log(customerDtoOrError.getRight())
       const response = await this.registerUser.execute(
         customerDtoOrError.getRight()
       );

@@ -2,15 +2,15 @@ import { RegisterCustomerUseCase } from '../../../../application/usecases/custom
 import { MongodbCustomerRepository } from '../../../../infrastructure/repositories/mongodb/mongodb-customer-repository';
 import { RegisterCustomerController } from '../../../../presentation/controllers/customer/RegisterCustomerController';
 
-export class UserControllerFactory {
-  private static userRepository = new MongodbCustomerRepository();
+export class CustomerControllerFactory {
+  private static customerRepository = new MongodbCustomerRepository();
 
   private constructor() {
     throw new Error('This class is static and cannot be instantied.');
   }
 
   static makeRegisterCustomerController(): RegisterCustomerController {
-    const useCase = new RegisterCustomerUseCase(this.userRepository);
+    const useCase = new RegisterCustomerUseCase(this.customerRepository);
     return new RegisterCustomerController(useCase);
   }
 }
