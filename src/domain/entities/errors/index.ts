@@ -9,4 +9,4 @@ export * from './InvalidPasswordError';
 export * from './InvalidPhoneError';
 export * from './InvalidRoleError';
 export * from './InvalidPaymentMethodError';
-
+export * from './InvalidBirthDayError';
