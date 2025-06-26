@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "jest --onlyChanged --silent=false --detectOpenHandles",
-    "prepare": "husky",
+    "prepare": "husky || true",
     "build": "tsc",
     "dev": "npx tsx src/server.ts",
     "start": "node dist/server.js"
