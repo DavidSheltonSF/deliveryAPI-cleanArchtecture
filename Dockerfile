@@ -4,6 +4,7 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 
 COPY package*.json ./
+ENV HUSKY_SKIP_HOOKS=1
 RUN npm install
 
 COPY . .
@@ -15,6 +16,7 @@ FROM node:20-alpine
 WORKDIR /app
 
 COPY package*.json ./
+ENV HUSKY_SKIP_HOOKS=1
 RUN npm ci --omit=dev
 
 COPY --from=builder /app/dist ./dist
