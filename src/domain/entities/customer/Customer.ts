@@ -4,7 +4,6 @@ import {
   Phone,
   Role,
   Address,
-  Password,
   Name,
   UserName,
   HashedPassword,
