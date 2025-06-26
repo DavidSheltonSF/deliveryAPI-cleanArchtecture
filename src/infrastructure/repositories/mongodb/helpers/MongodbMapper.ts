@@ -11,6 +11,7 @@ export class MongodbMapper {
     const _id = data?._id;
     const {
       username,
+      name,
       email,
       cpf,
       phone,
@@ -23,6 +24,7 @@ export class MongodbMapper {
     return {
       _id,
       username,
+      name,
       email,
       cpf,
       phone,
