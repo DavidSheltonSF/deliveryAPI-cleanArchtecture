@@ -1,5 +1,15 @@
-import { Email, Cpf, Phone, Role, Address, Password, Name, UserName, HashedPassword } from "../value-objects";
-import { CustomerProps } from "./CustomerProps";
+import {
+  Email,
+  Cpf,
+  Phone,
+  Role,
+  Address,
+  Password,
+  Name,
+  UserName,
+  HashedPassword,
+} from '../value-objects';
+import { CustomerProps } from './CustomerProps';
 
 export class Customer {
   private _username: UserName;
