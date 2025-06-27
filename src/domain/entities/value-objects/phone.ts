@@ -9,7 +9,7 @@ export class Phone {
     Object.freeze(this);
   }
 
-  static validate(phone: string): Boolean {
+  static validate(phone: string): boolean {
     const phoneRegex = /^\d{2}\-?\d{9}$/;
 
     if (!phone.match(phoneRegex)) {

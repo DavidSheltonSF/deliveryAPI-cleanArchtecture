@@ -9,7 +9,7 @@ export class Cpf {
     Object.freeze(this);
   }
 
-  static validate(cpf: string): Boolean {
+  static validate(cpf: string): boolean {
     const cpfRegex = /^\d{3}\.?\d{3}\.?\d{3}\-?\d{2}$/;
 
     if (!cpf.match(cpfRegex)) {

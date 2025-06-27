@@ -9,7 +9,7 @@ export class Birthday {
     Object.freeze(this);
   }
 
-  static validate(birthday: string): Boolean {
+  static validate(birthday: string): boolean {
     const birthDayDate = new Date(birthday);
 
     if (isNaN(birthDayDate.getDate())) {

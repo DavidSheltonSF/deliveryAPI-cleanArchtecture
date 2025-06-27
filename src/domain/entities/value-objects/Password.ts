@@ -9,7 +9,7 @@ export class Password {
     Object.freeze(this);
   }
 
-  static validate(password: string): Boolean {
+  static validate(password: string): boolean {
     // At least 8 characters
     // A mix of uppercase and lowercase letters
     // At least one number

@@ -9,7 +9,7 @@ export class Email {
     Object.freeze(this);
   }
 
-  static validate(email: string): Boolean {
+  static validate(email: string): boolean {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
     if (!email || email.trim().length > 255) {

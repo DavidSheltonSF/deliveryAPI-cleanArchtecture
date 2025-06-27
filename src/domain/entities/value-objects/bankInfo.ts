@@ -27,7 +27,7 @@ export class BankInfo {
     Object.freeze(this);
   }
 
-  static validateCardNumber(cardNumber: string): Boolean {
+  static validateCardNumber(cardNumber: string): boolean {
     const cardNumberRegex = /^\d{4}\s?\d{4}\s?\d{4}\s?\d{4}$/;
 
     if (!cardNumber || !cardNumber.match(cardNumberRegex)) {
@@ -36,7 +36,7 @@ export class BankInfo {
     return true;
   }
 
-  static validatePaymentMethod(paymentMethod: string): Boolean {
+  static validatePaymentMethod(paymentMethod: string): boolean {
     if (
       !Object.values(PaymentMethod).includes(paymentMethod as PaymentMethod)
     ) {
@@ -45,7 +45,7 @@ export class BankInfo {
     return true;
   }
 
-  static validate(bankInfo: BankInfoProps): Boolean {
+  static validate(bankInfo: BankInfoProps): boolean {
     if (!this.validatePaymentMethod(bankInfo.paymentMethod)) {
       return false;
     }

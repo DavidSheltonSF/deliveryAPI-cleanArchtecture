@@ -20,7 +20,6 @@ export class HashedPassword {
   ): Promise<
     Either<InvalidPasswordError | MissingHasherError, HashedPassword>
   > {
-
     if (!hasher) {
       return Either.left(new MissingHasherError());
     }
@@ -35,7 +34,9 @@ export class HashedPassword {
     if (!comparer) {
       return Either.left(new MissingComparerError());
     }
-    return Either.right(await comparer.compare(password.get(), this.hashedPassword));
+    return Either.right(
+      await comparer.compare(password.get(), this.hashedPassword)
+    );
   }
 
   get(): string {

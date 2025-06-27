@@ -9,7 +9,7 @@ export class Name {
     Object.freeze(this);
   }
 
-  static validate(name: string): Boolean {
+  static validate(name: string): boolean {
     const nameRegex = /^[a-zA-ZÀ-ÿ]+(([',. -][a-zA-ZÀ-ÿ ])?[a-zA-ZÀ-ÿ]*)*$/;
 
     if (!name || name.trim().length < 2 || name.trim().length > 255) {
