@@ -15,4 +15,13 @@ describe('Testing Birhtday value object', () => {
 
     expect(birthdayOrError.isLeft()).toBeTruthy();
   });
+
+  test('Should return the current age related the birthday', () => {
+    const validDate = '2002-02-26';
+    const currentYear = new Date().getFullYear();
+    const calculatedAge = currentYear - new Date(validDate).getFullYear();
+    const birthday = new Birthday(validDate);
+
+    expect(birthday.getAge()).toBe(calculatedAge);
+  });
 });
