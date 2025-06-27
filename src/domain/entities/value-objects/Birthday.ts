@@ -30,4 +30,10 @@ export class Birthday {
   get(): string {
     return this.birthday;
   }
+
+  getAge(): number {
+    const currentYear = new Date().getFullYear();
+    const birthDayYear = new Date(this.birthday).getFullYear();
+    return currentYear - birthDayYear;
+  }
 }
