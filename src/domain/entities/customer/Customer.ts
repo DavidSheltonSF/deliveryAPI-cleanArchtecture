@@ -5,6 +5,7 @@ import {
   Role,
   Address,
   Name,
+  Birthday,
   UserName,
   HashedPassword,
 } from '../value-objects';
@@ -17,6 +18,7 @@ export class Customer {
   private _cpf: Cpf;
   private _phone: Phone;
   private _role: Role;
+  private _birthday: Birthday;
   private _address: Address;
   private _authentication: {
     hashedPassword: HashedPassword;
@@ -30,6 +32,7 @@ export class Customer {
     this._cpf = customerData.cpf;
     this._phone = customerData.phone;
     this._role = customerData.role;
+    this._birthday = customerData.birthDay;
     this._address = customerData.address;
     this._authentication = customerData.authentication;
   }
@@ -76,6 +79,13 @@ export class Customer {
     this._role = value;
   }
 
+  get birthday(): Birthday {
+    return this._birthday;
+  }
+  set birthday(value: Birthday) {
+    this._birthday = value;
+  }
+
   get address(): Address {
     return this._address;
   }
@@ -100,5 +110,15 @@ export class Customer {
 
   desactiveSession() {
     this._authentication.sessionToken = undefined;
+  }
+
+  isAdult(): boolean {
+    const age = this.birthday.getAge();
+    // Adult age in Brazil
+    if (age < 18) {
+      return false;
+    }
+
+    return true;
   }
 }
