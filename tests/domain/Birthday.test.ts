@@ -8,4 +8,11 @@ describe('Testing Birhtday value object', () => {
     expect(birthdayOrError.isRight()).toBeTruthy();
     expect(birthdayOrError.getRight().get()).toBe(validBirthday);
   });
+
+  test('Should not create Birthday with invalid date', () => {
+    const invalidBirthday = '2002--26#';
+    const birthdayOrError = Birthday.create(invalidBirthday);
+
+    expect(birthdayOrError.isLeft()).toBeTruthy();
+  });
 });
