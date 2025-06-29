@@ -78,10 +78,9 @@ describe('Testing MongodbCustomerRepository', () => {
     await customerCollection.insertOne(customerModel1);
     await customerCollection.insertOne(customerModel2);
 
-
     const foundCustomer = await repository.findCustomerByEmail(
       customerModel1.email
-    );;
+    );
 
     expect(foundCustomer?.username).toBe(customerModel1.username);
     expect(foundCustomer?.name).toBe(customerModel1.name);
@@ -95,7 +94,7 @@ describe('Testing MongodbCustomerRepository', () => {
     const customerCollection = mongoHelper.getCollection('customers');
 
     const customerProps = await MockData.mockCustomerProps();
-    const customerEntity = new Customer(customerProps)
+    const customerEntity = new Customer(customerProps);
 
     // Adding new customers to database
     const response = await repository.add(customerEntity);
