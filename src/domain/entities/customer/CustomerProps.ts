@@ -6,6 +6,6 @@ export interface CustomerProps extends BaseUserProps {
   cpf: Cpf;
   phone: Phone;
   role: Role;
-  birthDay: Birthday
+  birthday: Birthday
   address: Address;
 }
