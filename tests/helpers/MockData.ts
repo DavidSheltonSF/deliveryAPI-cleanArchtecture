@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 import { v4 as uuidv4 } from 'uuid';
-import { CustomerDTO } from '../../src/presentation/dtos/custumer-dto';
+import { CustomerDto } from '../../src/presentation/dtos/custumer-dto';
 import { UserRole } from '../../src/domain/entities/value-objects/_enums';
 import { CustomerModel } from '../../src/infrastructure/models/mongodb/CustomerModel';
 import { mongoHelper } from '../../src/infrastructure/repositories/mongodb/helpers/mongo-helper';
@@ -24,7 +24,7 @@ export class MockData {
     return uuidv4().replace(/-/g, '').slice(0, 24);
   }
 
-  static mockCustomerDTO(): CustomerDTO {
+  static mockCustomerDto(): CustomerDto {
     const user = {
       username: faker.person.firstName(),
       name: faker.person.firstName(),
