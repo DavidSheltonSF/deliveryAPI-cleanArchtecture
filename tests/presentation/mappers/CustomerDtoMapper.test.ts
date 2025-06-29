@@ -1,4 +1,4 @@
-import { CustomerDTO } from '../../../src/presentation/dtos/custumer-dto';
+import { CustomerDto } from '../../../src/presentation/dtos/custumer-dto';
 import { CustomerProps } from '../../../src/domain/entities/customer/CustomerProps';
 import { CustomerDtoMapper } from '../../../src/presentation/mappers/CustomerDtoMapper';
 import {
@@ -11,19 +11,21 @@ import {
   Password,
   HashedPassword,
   UserName,
+  Birthday,
 } from '../../../src/domain/entities/value-objects';
 import { BcryptHasher } from '../../../src/infrastructure/cryptography/BcryptHasher';
 import bcrypt from 'bcryptjs';
 
 describe('Testing CustomerDtoMapper', () => {
   test('Should map a CustomerDto to CustomerProps', async () => {
-    const customerDto: CustomerDTO = {
+    const customerDto: CustomerDto = {
       username: 'Marta',
       name: 'Marta Sanshes',
       email: 'mart@bugmail.com',
       cpf: '88888888888',
       phone: '21555777777',
       role: 'admin',
+      birthday: '2005-05-05',
       address: {
         street: 'test streed',
         city: 'Belford Roxo',
@@ -43,13 +45,14 @@ describe('Testing CustomerDtoMapper', () => {
   });
 
   test('Should return an error when tryng to map an customer with invalid name', async () => {
-    const customerDto: CustomerDTO = {
+    const customerDto: CustomerDto = {
       username: 'Marta15',
       name: 'Marta Sanshes',
       email: 'mart@bugmail.com',
       cpf: '88888888888',
       phone: '21555777777',
       role: 'admin',
+      birthday: '2005-05-05',
       address: {
         street: 'test streed',
         city: 'Belford Roxo',
@@ -69,13 +72,14 @@ describe('Testing CustomerDtoMapper', () => {
   });
 
   test('Should return an error when tryng to map an user with invalid email', async () => {
-    const customerDto: CustomerDTO = {
+    const customerDto: CustomerDto = {
       username: 'Marta',
       name: 'Marta Sanshes',
       email: 'bugmail.com',
       cpf: '88888888888',
       phone: '21555777777',
       role: 'admin',
+      birthday: '2005-05-05',
       address: {
         street: 'test streed',
         city: 'Belford Roxo',
@@ -95,13 +99,14 @@ describe('Testing CustomerDtoMapper', () => {
   });
 
   test('Should return an error when tryng to map an user with invalid email', async () => {
-    const customerDto: CustomerDTO = {
+    const customerDto: CustomerDto = {
       username: 'Marta',
       name: 'Marta Sanshes',
       email: 'bugmail.com',
       cpf: '88888888888',
       phone: '21555777777',
       role: 'admin',
+      birthday: '2005-05-05',
       address: {
         street: 'test streed',
         city: 'Belford Roxo',
@@ -121,13 +126,14 @@ describe('Testing CustomerDtoMapper', () => {
   });
 
   test('Should map a CustomerProps to CustomerDto', async () => {
-    const customerDto: CustomerDTO = {
+    const customerDto: CustomerDto = {
       username: 'Marta',
       name: 'Marta Sanshes',
       email: 'mart@bugmail.com',
       cpf: '88888888888',
       phone: '21555777777',
       role: 'admin',
+      birthday: '2005-05-05',
       address: {
         street: 'test streed',
         city: 'Belford Roxo',
@@ -153,6 +159,7 @@ describe('Testing CustomerDtoMapper', () => {
       phone: Phone.create(customerDto.phone).getRight(),
       role: Role.create(customerDto.role).getRight(),
       address: Address.create(customerDto.address).getRight(),
+      birthday: Birthday.create(customerDto.birthday).getRight(),
       authentication: {
         hashedPassword: (
           await HashedPassword.create(password, hasher)
