@@ -82,7 +82,7 @@ export class CustomerDtoMapper {
       cpf: customerData.cpf.get(),
       phone: customerData.phone.get(),
       role: customerData.role.get(),
-      birthday: customerData.birthDay.get(),
+      birthday: customerData.birthday.get(),
       address: customerData.address.get(),
       authentication: {
         password: customerData.authentication.hashedPassword.get(),
