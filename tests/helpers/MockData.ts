@@ -22,6 +22,7 @@ import { CustomerUseCaseDto } from '../../src/application/useCaseDtos/CustomerUs
 export class MockData {
   static generateHexId(): string {
     return uuidv4().replace(/-/g, '').slice(0, 24);
+    
   }
 
   static mockCustomerDto(): CustomerDto {
@@ -32,6 +33,7 @@ export class MockData {
       cpf: faker.string.numeric({ length: 11 }),
       phone: faker.string.numeric({ length: 11 }),
       role: 'customer',
+      birthday: faker.date.birthdate().toString(),
       address: {
         street: faker.location.street(),
         city: faker.location.city(),
