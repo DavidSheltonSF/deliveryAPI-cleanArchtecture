@@ -17,26 +17,26 @@ import { BcryptHasher } from '../../../src/infrastructure/cryptography/BcryptHas
 import bcrypt from 'bcryptjs';
 
 describe('Testing CustomerDtoMapper', () => {
-  test('Should map a CustomerDto to CustomerProps', async () => {
-    const customerDto: CustomerDto = {
-      username: 'Marta',
-      name: 'Marta Sanshes',
-      email: 'mart@bugmail.com',
-      cpf: '88888888888',
-      phone: '21555777777',
-      role: 'admin',
-      birthday: '2005-05-05',
-      address: {
-        street: 'test streed',
-        city: 'Belford Roxo',
-        state: 'Rio de Janeiro',
-        zipCode: '22222220',
-      },
-      authentication: {
-        password: 'teste123*Testing',
-      },
-    };
+  const customerDto: CustomerDto = {
+    username: 'Marta',
+    name: 'Marta Sanshes',
+    email: 'mart@bugmail.com',
+    cpf: '88888888888',
+    phone: '21555777777',
+    role: 'admin',
+    birthday: '2005-05-05',
+    address: {
+      street: 'test streed',
+      city: 'Belford Roxo',
+      state: 'Rio de Janeiro',
+      zipCode: '22222220',
+    },
+    authentication: {
+      password: 'teste123*Testing',
+    },
+  };
 
+  test('Should map a CustomerDto to CustomerProps', async () => {
     const customerPropsOrError = await CustomerDtoMapper.fromDtoToProps(
       customerDto
     );
@@ -45,106 +45,29 @@ describe('Testing CustomerDtoMapper', () => {
   });
 
   test('Should return an error when tryng to map an customer with invalid name', async () => {
-    const customerDto: CustomerDto = {
-      username: 'Marta15',
-      name: 'Marta Sanshes',
-      email: 'mart@bugmail.com',
-      cpf: '88888888888',
-      phone: '21555777777',
-      role: 'admin',
-      birthday: '2005-05-05',
-      address: {
-        street: 'test streed',
-        city: 'Belford Roxo',
-        state: 'Rio de Janeiro',
-        zipCode: '22222220',
-      },
-      authentication: {
-        password: 'teste123*Testing',
-      },
-    };
+
+    const customerWithInvalidName = { ...customerDto };
+    customerWithInvalidName.name = 'MaiaraSanshes1488asf#';
 
     const customerPropsOrError = await CustomerDtoMapper.fromDtoToProps(
-      customerDto
+      customerWithInvalidName
     );
 
     expect(customerPropsOrError.isLeft()).toBeTruthy();
   });
 
   test('Should return an error when tryng to map an user with invalid email', async () => {
-    const customerDto: CustomerDto = {
-      username: 'Marta',
-      name: 'Marta Sanshes',
-      email: 'bugmail.com',
-      cpf: '88888888888',
-      phone: '21555777777',
-      role: 'admin',
-      birthday: '2005-05-05',
-      address: {
-        street: 'test streed',
-        city: 'Belford Roxo',
-        state: 'Rio de Janeiro',
-        zipCode: '22222220',
-      },
-      authentication: {
-        password: 'teste123*Testing',
-      },
-    };
+    const customerWithInvalidEmail = { ...customerDto };
+    customerWithInvalidEmail.email = 'email#';
 
     const customerPropsOrError = await CustomerDtoMapper.fromDtoToProps(
-      customerDto
-    );
-
-    expect(customerPropsOrError.isLeft()).toBeTruthy();
-  });
-
-  test('Should return an error when tryng to map an user with invalid email', async () => {
-    const customerDto: CustomerDto = {
-      username: 'Marta',
-      name: 'Marta Sanshes',
-      email: 'bugmail.com',
-      cpf: '88888888888',
-      phone: '21555777777',
-      role: 'admin',
-      birthday: '2005-05-05',
-      address: {
-        street: 'test streed',
-        city: 'Belford Roxo',
-        state: 'Rio de Janeiro',
-        zipCode: '22222220',
-      },
-      authentication: {
-        password: 'teste123*Testing',
-      },
-    };
-
-    const customerPropsOrError = await CustomerDtoMapper.fromDtoToProps(
-      customerDto
+      customerWithInvalidEmail
     );
 
     expect(customerPropsOrError.isLeft()).toBeTruthy();
   });
 
   test('Should map a CustomerProps to CustomerDto', async () => {
-    const customerDto: CustomerDto = {
-      username: 'Marta',
-      name: 'Marta Sanshes',
-      email: 'mart@bugmail.com',
-      cpf: '88888888888',
-      phone: '21555777777',
-      role: 'admin',
-      birthday: '2005-05-05',
-      address: {
-        street: 'test streed',
-        city: 'Belford Roxo',
-        state: 'Rio de Janeiro',
-        zipCode: '22222220',
-      },
-      authentication: {
-        password: 'teste123*Testing',
-      },
-    };
-
     const salt = 12;
     const hasher = new BcryptHasher(salt);
     const password = Password.create(
@@ -153,7 +76,7 @@ describe('Testing CustomerDtoMapper', () => {
 
     const customerProps: CustomerProps = {
       username: UserName.create(customerDto.username).getRight(),
-      name: Name.create(customerDto.username).getRight(),
+      name: Name.create(customerDto.name).getRight(),
       email: Email.create(customerDto.email).getRight(),
       cpf: Cpf.create(customerDto.cpf).getRight(),
       phone: Phone.create(customerDto.phone).getRight(),
@@ -170,6 +93,7 @@ describe('Testing CustomerDtoMapper', () => {
     const mappedCustomerDto = CustomerDtoMapper.fromPropsToDto(customerProps);
 
     expect(mappedCustomerDto.username).toBe(customerDto.username);
+    expect(mappedCustomerDto.name).toBe(customerDto.name);
     expect(mappedCustomerDto.email).toBe(customerDto.email);
     expect(mappedCustomerDto.cpf).toBe(customerDto.cpf);
     expect(mappedCustomerDto.phone).toBe(customerDto.phone);
