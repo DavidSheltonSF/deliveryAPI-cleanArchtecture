@@ -7,6 +7,7 @@ import { mongoHelper } from '../../src/infrastructure/repositories/mongodb/helpe
 import { CustomerProps } from '../../src/domain/entities/customer/CustomerProps';
 import {
   Address,
+  Birthday,
   Cpf,
   Email,
   HashedPassword,
@@ -91,6 +92,7 @@ export class MockData {
       cpf: Cpf.create(faker.string.numeric({ length: 11 })).getRight(),
       phone: Phone.create(faker.string.numeric({ length: 11 })).getRight(),
       role: Role.create('customer').getRight(),
+      birthday: Birthday.create(faker.date.birthdate().toString()).getRight(),
       address: Address.create({
         street: faker.location.street(),
         city: faker.location.city(),
