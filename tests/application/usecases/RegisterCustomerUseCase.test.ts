@@ -1,6 +1,6 @@
 import { MongodbCustomerRepository } from '../../../src/infrastructure/repositories/mongodb/mongodb-customer-repository';
 import { RegisterCustomerUseCase } from '../../../src/application/usecases/customer/RegisterCustomer/RegisterCustomerUseCase';
-import { MockData } from '../../_helpers/mockData';
+import { MockData } from '../../helpers/MockData';
 import { Customer } from '../../../src/domain/entities/customer/Customer';
 import { Email } from '../../../src/domain/entities/value-objects';
 
