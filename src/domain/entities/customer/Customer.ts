@@ -32,7 +32,7 @@ export class Customer {
     this._cpf = customerData.cpf;
     this._phone = customerData.phone;
     this._role = customerData.role;
-    this._birthday = customerData.birthDay;
+    this._birthday = customerData.birthday;
     this._address = customerData.address;
     this._authentication = customerData.authentication;
   }
