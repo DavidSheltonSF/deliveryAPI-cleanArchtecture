@@ -28,6 +28,7 @@ export class RegisterCustomerController implements Controller {
         'phone',
         'role',
         'cpf',
+        'birthday',
         'authentication',
       ];
       const customerData = request.body;
