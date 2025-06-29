@@ -1,6 +1,6 @@
 import { MongodbCustomerRepository } from '../../../src/infrastructure/repositories/mongodb/mongodb-customer-repository';
 import { RegisterCustomerUseCase } from '../../../src/application/usecases/customer/RegisterCustomer/RegisterCustomerUseCase';
-import { MockData } from '../../_helpers/mockData';
+import {MockData} from "../../helpers/MockData"
 import { Customer } from '../../../src/domain/entities/customer/Customer';
 import { RegisterCustomerController } from '../../../src/presentation/controllers/customer/RegisterCustomerController';
 import { CustomerDtoMapper } from '../../../src/presentation/mappers/CustomerDtoMapper';
@@ -19,7 +19,7 @@ describe('RegisterCustomerController', () => {
     const controller = new RegisterCustomerController(usecase);
 
     const request = {
-      body: MockData.mockCustomerDTO(),
+      body: MockData.mockCustomerDto(),
     };
 
     const response = await controller.handle(request);
