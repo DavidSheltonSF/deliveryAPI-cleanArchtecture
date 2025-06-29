@@ -53,7 +53,7 @@ export class CustomerDtoMapper {
     const cpf = validations.cpf.getRight();
     const phone = validations.phone.getRight();
     const role = validations.role.getRight();
-    const birthDay = validations.birthday.getRight();
+    const birthday = validations.birthday.getRight();
     const address = validations.address.getRight();
     const hashedPassword = hashedPasswordOrError.getRight()
 
@@ -65,7 +65,7 @@ export class CustomerDtoMapper {
       cpf,
       phone,
       role,
-      birthDay,
+      birthday,
       address,
       authentication: {
         hashedPassword: hashedPassword,
