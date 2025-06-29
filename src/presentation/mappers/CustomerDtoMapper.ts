@@ -46,7 +46,6 @@ export class CustomerDtoMapper {
       return Either.left(hashedPasswordOrError.getLeft());
     }
 
-    console.log('wrong way');
     const username = validations.username.getRight();
     const name = validations.name.getRight();
     const email = validations.email.getRight();
