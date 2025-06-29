@@ -4,6 +4,7 @@ import { MongodbCustomerRepository } from '../../../../src/infrastructure/reposi
 import { CustomerDtoMapper } from '../../../../src/presentation/mappers/CustomerDtoMapper';
 import { CustomerDto } from '../../../../src/presentation/dtos/custumer-dto';
 import { Customer } from '../../../../src/domain/entities/customer/Customer';
+import { MockData } from '../../../helpers/MockData';
 
 config();
 
@@ -70,42 +71,54 @@ describe('Testing MongodbCustomerRepository', () => {
   test('Should  find a user by email', async () => {
     const customerCollection = mongoHelper.getCollection('customers');
 
-    const customer = customers[0];
+    const customerModel1 = MockData.mockCustomerModel(true);
+    const customerModel2 = MockData.mockCustomerModel(true);
 
     // Adding new customers to database
-    await customerCollection.insertOne(customer);
+    await customerCollection.insertOne(customerModel1);
+    await customerCollection.insertOne(customerModel2);
 
 
-    const foundCustomer = await repository.findCustomerByEmail(customer.email);;
+    const foundCustomer = await repository.findCustomerByEmail(
+      customerModel1.email
+    );;
 
-    expect(foundCustomer?.username).toBe(customer.username);
-    expect(foundCustomer?.name).toBe(customer.name);
-    expect(foundCustomer?.email).toBe(customer.email);
-    expect(foundCustomer?.cpf).toBe(customer.cpf);
-    expect(foundCustomer?.phone).toBe(customer.phone);
-    expect(foundCustomer?.role).toBe(customer.role);
+    expect(foundCustomer?.username).toBe(customerModel1.username);
+    expect(foundCustomer?.name).toBe(customerModel1.name);
+    expect(foundCustomer?.email).toBe(customerModel1.email);
+    expect(foundCustomer?.cpf).toBe(customerModel1.cpf);
+    expect(foundCustomer?.phone).toBe(customerModel1.phone);
+    expect(foundCustomer?.role).toBe(customerModel1.role);
   });
 
   test('Should add a new customer in the database', async () => {
     const customerCollection = mongoHelper.getCollection('customers');
 
-    const customer = customers[0];
-
-    const customerOrError = (await CustomerDtoMapper.fromDtoToProps(customer)).getRight();
-
-    const customerEntity = new Customer(customerOrError)
+    const customerProps = await MockData.mockCustomerProps();
+    const customerEntity = new Customer(customerProps)
 
     // Adding new customers to database
     const response = await repository.add(customerEntity);
 
     const foundCustomer = await customerCollection.findOne({
-      email: customer.email,
+      email: customerEntity.email.get(),
     });
 
-    expect(foundCustomer?.username).toBe(customer.username);
-    expect(foundCustomer?.email).toBe(customer.email);
-    expect(foundCustomer?.cpf).toBe(customer.cpf);
-    expect(foundCustomer?.phone).toBe(customer.phone);
-    expect(foundCustomer?.role).toBe(customer.role);
+    expect(response?._id).toBeTruthy();
+    expect(response?.username).toBe(customerEntity.username.get());
+    expect(response?.name).toBe(customerEntity.name.get());
+    expect(response?.email).toBe(customerEntity.email.get());
+    expect(response?.cpf).toBe(customerEntity.cpf.get());
+    expect(response?.phone).toBe(customerEntity.phone.get());
+    expect(response?.role).toBe(customerEntity.role.get());
+    expect(response?.birthday).toBe(customerEntity.birthday.get());
+
+    expect(foundCustomer?.username).toBe(customerEntity.username.get());
+    expect(foundCustomer?.name).toBe(customerEntity.name.get());
+    expect(foundCustomer?.email).toBe(customerEntity.email.get());
+    expect(foundCustomer?.cpf).toBe(customerEntity.cpf.get());
+    expect(foundCustomer?.phone).toBe(customerEntity.phone.get());
+    expect(foundCustomer?.role).toBe(customerEntity.role.get());
+    expect(foundCustomer?.birthday).toBe(customerEntity.birthday.get());
   });
 });
