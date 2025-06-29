@@ -1,7 +1,6 @@
 import { mongoHelper } from '../../../../src/infrastructure/repositories/mongodb/helpers/mongo-helper';
 import { config } from 'dotenv';
 import { MongodbCustomerRepository } from '../../../../src/infrastructure/repositories/mongodb/mongodb-customer-repository';
-import { generateHexId } from '../../../../src/shared/generateHexId';
 import { CustomerDtoMapper } from '../../../../src/presentation/mappers/CustomerDtoMapper';
 import { CustomerDto } from '../../../../src/presentation/dtos/custumer-dto';
 import { Customer } from '../../../../src/domain/entities/customer/Customer';
