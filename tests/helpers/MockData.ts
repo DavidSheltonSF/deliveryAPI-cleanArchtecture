@@ -57,6 +57,7 @@ export class MockData {
       cpf: faker.string.numeric({ length: 11 }),
       phone: faker.string.numeric({ length: 11 }),
       role: 'customer',
+      birthday: faker.date.birthdate().toString(),
       address: {
         street: faker.location.street(),
         city: faker.location.city(),
