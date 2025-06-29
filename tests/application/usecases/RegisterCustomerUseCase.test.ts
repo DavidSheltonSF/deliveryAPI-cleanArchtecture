@@ -22,6 +22,7 @@ describe('RegisterUserUseCase', () => {
     const customerEntity = new Customer(customerProps);
 
     expect(mockRepository.add).toHaveBeenCalledWith(customerEntity);
+    expect(mockRepository.findCustomerByEmail).toHaveBeenCalledWith(customerEntity.email.get());
   });
 
   test('Should not register a customer with duplicated email', async () => {
