@@ -22,7 +22,7 @@ export class CustomerDtoMapper {
   ): Promise<Either<customerValidationError, CustomerProps>> {
     const validations = {
       username: UserName.create(customerData.username),
-      name: Name.create(customerData.username),
+      name: Name.create(customerData.name),
       email: Email.create(customerData.email),
       cpf: Cpf.create(customerData.cpf),
       phone: Phone.create(customerData.phone),
