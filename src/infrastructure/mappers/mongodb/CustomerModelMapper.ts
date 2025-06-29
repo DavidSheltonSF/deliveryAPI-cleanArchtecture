@@ -30,6 +30,7 @@ export class CustomerModelMapper {
       phone: customerData.phone.get(),
       role: customerData.role.get(),
       address: customerData.address.get(),
+      birthday: customerData.birthday.get(),
       authentication: {
         passwordHash: customerData.hashedPassword.get(),
         sessionToken: customerData.sessionToken,
@@ -51,6 +52,7 @@ export class CustomerModelMapper {
       cpf: data.cpf,
       phone: data.phone,
       role: data.role,
+      birthday: data.birthday,
       address: data.address,
       authentication: data.authentication,
       createdAt: data.createdAt,
