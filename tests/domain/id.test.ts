@@ -1,5 +1,5 @@
 import { ID } from "../../src/domain/entities/value-objects";
-import { MockData } from "../_helpers/mockData";
+import { MockData } from "../helpers/MockData";
 
 describe("Testing ID validator", () => {
   test("Should create a ID succesfully", () => {
