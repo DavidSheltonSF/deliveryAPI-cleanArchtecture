@@ -10,45 +10,6 @@ config();
 
 const repository = new MongodbCustomerRepository();
 
-const customers: CustomerDto[] = [
-  {
-    username: 'Marta',
-    name: 'Maria dos Anjos',
-    email: 'mart@bugmail.com',
-    cpf: '88888888888',
-    phone: '21555777777',
-    role: 'admin',
-    birthday: '2005-02-08',
-    address: {
-      street: 'test streed',
-      city: 'Belford Roxo',
-      state: 'Rio de Janeiro',
-      zipCode: '22222220',
-    },
-    authentication: {
-      password: 'teste123*Testing',
-    },
-  },
-  {
-    username: 'Oswaldo',
-    name: 'Oswaldo Sanches',
-    email: 'oswald@bugmail.com',
-    cpf: '88888888588',
-    phone: '21558777777',
-    role: 'restaurant_admin',
-    birthday: '2005-02-08',
-    address: {
-      street: 'test streed',
-      city: 'Belford Roxo',
-      state: 'Rio de Janeiro',
-      zipCode: '22224420',
-    },
-    authentication: {
-      password: 'teste1553*Testing',
-    },
-  },
-];
-
 describe('Testing MongodbCustomerRepository', () => {
   beforeAll(async () => {
     const MONGO_URI = process.env.MONGO_URI;
