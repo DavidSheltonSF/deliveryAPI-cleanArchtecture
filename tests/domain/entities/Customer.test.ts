@@ -29,7 +29,7 @@ describe('Customer Model', () => {
       cpf: Cpf.create('12588774825').getRight(),
       phone: Phone.create('21585874596').getRight(),
       role: Role.create('admin').getRight(),
-      birthday: Birthday.create('2002-26-02').getRight(),
+      birthday: Birthday.create('2002-02-26').getRight(),
       address: Address.create({
         street: 'Rua dos Morangos',
         city: 'Cidade dos Anjos',
