@@ -1,9 +1,7 @@
 import { CustomerRepository } from '../../../application/_ports/customer-repository';
 import { Customer } from '../../../domain/entities/customer/Customer';
-import { CustomerProps } from '../../../domain/entities/customer/CustomerProps';
 import { CustomerModelMapper } from '../../mappers/mongodb/CustomerModelMapper';
 import { CustomerModel } from '../../models/mongodb/CustomerModel';
-import { MongodbMapper } from './helpers/MongodbMapper';
 import { mongoHelper } from './helpers/mongo-helper';
 
 export class MongodbCustomerRepository implements CustomerRepository {
