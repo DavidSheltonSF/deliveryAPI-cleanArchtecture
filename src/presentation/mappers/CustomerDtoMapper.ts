@@ -10,6 +10,7 @@ import {
   Role,
   Email,
   UserName,
+  Birthday,
 } from '../../domain/entities/value-objects';
 import { CustomerDTO } from '../dtos/custumer-dto';
 import { Either } from '../../shared/either';
@@ -26,6 +27,7 @@ export class CustomerDtoMapper {
       cpf: Cpf.create(customerData.cpf),
       phone: Phone.create(customerData.phone),
       role: Role.create(customerData.role),
+      birthday: Birthday.create(customerData.birthday),
       address: Address.create(customerData.address),
       password: Password.create(customerData.authentication.password),
     };
@@ -51,6 +53,7 @@ export class CustomerDtoMapper {
     const cpf = validations.cpf.getRight();
     const phone = validations.phone.getRight();
     const role = validations.role.getRight();
+    const birthDay = validations.birthday.getRight();
     const address = validations.address.getRight();
     const hashedPassword = hashedPasswordOrError.getRight()
 
@@ -62,6 +65,7 @@ export class CustomerDtoMapper {
       cpf,
       phone,
       role,
+      birthDay,
       address,
       authentication: {
         hashedPassword: hashedPassword,
@@ -78,6 +82,7 @@ export class CustomerDtoMapper {
       cpf: customerData.cpf.get(),
       phone: customerData.phone.get(),
       role: customerData.role.get(),
+      birthday: customerData.birthDay.get(),
       address: customerData.address.get(),
       authentication: {
         password: customerData.authentication.hashedPassword.get(),
