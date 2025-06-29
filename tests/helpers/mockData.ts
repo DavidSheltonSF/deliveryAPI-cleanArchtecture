@@ -45,7 +45,7 @@ export class MockData {
     return user;
   }
 
-  static mockCustomerModel(): CustomerModel {
+  static mockCustomerModel(withoudId: boolean = false): CustomerModel | Omit<CustomerModel, "_id"> {
     const user = {
       _id: mongoHelper.toObjectId(this.generateHexId()),
       username: faker.person.firstName(),
@@ -65,6 +65,13 @@ export class MockData {
       },
       createdAt: new Date(),
     };
+
+    if(withoudId){
+      const {_id, ...customerWithoutId} = user
+
+      return customerWithoutId;
+    }
+
     return user;
   }
 
