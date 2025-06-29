@@ -6,5 +6,6 @@ export interface CustomerModel extends BaseUserModel {
   cpf: string;
   phone: string;
   role: string;
+  birthday: string;
   address: AddressModel;
 }
