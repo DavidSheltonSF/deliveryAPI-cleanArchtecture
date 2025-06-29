@@ -12,13 +12,13 @@ import {
   UserName,
   Birthday,
 } from '../../domain/entities/value-objects';
-import { CustomerDTO } from '../dtos/custumer-dto';
+import { CustomerDto } from '../dtos/custumer-dto';
 import { Either } from '../../shared/either';
 import { BcryptHasher } from '../../infrastructure/cryptography/BcryptHasher';
 
 export class CustomerDtoMapper {
   static  async fromDtoToProps(
-    customerData: CustomerDTO
+    customerData: CustomerDto
   ): Promise<Either<customerValidationError, CustomerProps>> {
     const validations = {
       username: UserName.create(customerData.username),
@@ -74,7 +74,7 @@ export class CustomerDtoMapper {
     });
   }
 
-  static fromPropsToDto(customerData: CustomerProps): CustomerDTO {
+  static fromPropsToDto(customerData: CustomerProps): CustomerDto {
     return {
       username: customerData.username.get(),
       name: customerData.name.get(),

@@ -1,6 +1,6 @@
 import { BaseUserDTO } from './base-user-dto';
 
-export interface CustomerDTO extends BaseUserDTO {
+export interface CustomerDto extends BaseUserDTO {
   name: string;
   cpf: string;
   phone: string;
