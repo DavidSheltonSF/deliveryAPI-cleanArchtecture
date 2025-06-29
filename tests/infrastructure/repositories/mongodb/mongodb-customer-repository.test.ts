@@ -3,14 +3,14 @@ import { config } from 'dotenv';
 import { MongodbCustomerRepository } from '../../../../src/infrastructure/repositories/mongodb/mongodb-customer-repository';
 import { generateHexId } from '../../../../src/shared/generateHexId';
 import { CustomerDtoMapper } from '../../../../src/presentation/mappers/CustomerDtoMapper';
-import { CustomerDTO } from '../../../../src/presentation/dtos/custumer-dto';
+import { CustomerDto } from '../../../../src/presentation/dtos/custumer-dto';
 import { Customer } from '../../../../src/domain/entities/customer/Customer';
 
 config();
 
 const repository = new MongodbCustomerRepository();
 
-const customers: CustomerDTO[] = [
+const customers: CustomerDto[] = [
   {
     username: 'Marta',
     name: 'Maria dos Anjos',
@@ -18,6 +18,7 @@ const customers: CustomerDTO[] = [
     cpf: '88888888888',
     phone: '21555777777',
     role: 'admin',
+    birthday: '2005-02-08',
     address: {
       street: 'test streed',
       city: 'Belford Roxo',
@@ -35,6 +36,7 @@ const customers: CustomerDTO[] = [
     cpf: '88888888588',
     phone: '21558777777',
     role: 'restaurant_admin',
+    birthday: '2005-02-08',
     address: {
       street: 'test streed',
       city: 'Belford Roxo',
