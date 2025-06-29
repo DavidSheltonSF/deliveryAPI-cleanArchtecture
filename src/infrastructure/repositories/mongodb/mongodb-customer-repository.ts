@@ -7,7 +7,6 @@ import { mongoHelper } from './helpers/mongo-helper';
 export class MongodbCustomerRepository implements CustomerRepository {
   async findCustomerByEmail(email: string): Promise<CustomerModel | null> {
     const customerCollection = mongoHelper.getCollection('customers');
-
     const foundCustomer = await customerCollection.findOne({ email: email });
 
     return CustomerModelMapper.fromMongodbDocumentToModel(foundCustomer);
@@ -15,7 +14,6 @@ export class MongodbCustomerRepository implements CustomerRepository {
 
   async add(customer: Customer): Promise<CustomerModel> {
     const customerCollection = mongoHelper.getCollection('customers');
-
     const customerModel = CustomerModelMapper.fromEntityToModel(customer);
 
     const newCustomer = {
