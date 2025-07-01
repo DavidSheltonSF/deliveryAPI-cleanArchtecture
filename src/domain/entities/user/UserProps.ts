@@ -16,7 +16,7 @@ export interface UserProps {
   birthday?: Birthday;
   role: Role;
   address?: AddressProps;
-  bankAccount: BankAccountProps;
+  bankAccount?: BankAccountProps;
   authentication: AuthenticationProps;
 }
 
