@@ -46,14 +46,12 @@ export class Customer {
   set username(value: UserName) {
     this._username = value;
   }
-
   get name(): Name {
     return this._name;
   }
   set name(value: Name) {
     this._name = value;
   }
-
   get email(): Email {
     return this._email;
   }
