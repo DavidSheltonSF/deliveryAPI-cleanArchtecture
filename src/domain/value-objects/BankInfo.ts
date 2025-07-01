@@ -1,9 +1,6 @@
 import { PaymentMethod } from './_enums';
 import { Either } from '../../shared/either';
-import {
-  InvalidPaymentMethodError,
-  InvalidCardNumberError,
-} from '../entities/errors';
+import { InvalidPaymentMethodError, InvalidCardNumberError } from '../errors';
 
 export interface PaymentInfoProps {
   holderName: string;

@@ -1,9 +1,9 @@
 import { Either } from '../../shared/either';
 import { Comparer } from '../contracts/Comparer';
 import { Hasher } from '../contracts/Hasher';
-import { InvalidPasswordError } from '../entities/errors';
-import { MissingComparerError } from '../entities/errors/MissingComparerError';
-import { MissingHasherError } from '../entities/errors/MissingHasherError';
+import { InvalidPasswordError } from '../errors';
+import { MissingComparerError } from '../errors/MissingComparerError';
+import { MissingHasherError } from '../errors/MissingHasherError';
 import { Password } from './Password';
 
 export class HashedPassword {

@@ -1,5 +1,5 @@
 import { Either } from '../../shared/either';
-import { InvalidCpfError } from '../entities/errors';
+import { InvalidCpfError } from '../errors';
 
 export class Cpf {
   private readonly cpf: string;

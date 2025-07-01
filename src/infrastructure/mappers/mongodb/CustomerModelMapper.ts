@@ -1,5 +1,5 @@
 import { CustomerProps } from '../../../domain/entities/customer/CustomerProps';
-import { customerValidationError } from '../../../domain/entities/errors/customerValidationError';
+import { customerValidationError } from '../../../domain/errors/customerValidationError';
 import {
   Address,
   Password,

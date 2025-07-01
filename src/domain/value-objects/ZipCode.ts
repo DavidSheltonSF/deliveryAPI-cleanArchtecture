@@ -1,5 +1,5 @@
 import { Either } from '../../shared/either';
-import { InvalidAddressError } from '../entities/errors/InvalidAddressError';
+import { InvalidAddressError } from '../errors/InvalidAddressError';
 
 export class ZipCode {
   private readonly zipCode: string;

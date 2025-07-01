@@ -1,5 +1,5 @@
 import { Either } from '../../shared/either';
-import { InvalidPasswordError } from '../entities/errors';
+import { InvalidPasswordError } from '../errors';
 
 export class Password {
   private readonly password: string;

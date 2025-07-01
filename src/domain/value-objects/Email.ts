@@ -1,5 +1,5 @@
 import { Either } from '../../shared/either';
-import { InvalidEmailError } from '../entities/errors';
+import { InvalidEmailError } from '../errors';
 
 export class Email {
   private readonly email: string;
