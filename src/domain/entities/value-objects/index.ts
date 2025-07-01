@@ -1,4 +1,5 @@
 export * from './address';
+export * from './ZipCode';
 export * from './cpf';
 export * from './email';
 export * from './name';
@@ -9,4 +10,4 @@ export * from './bankInfo';
 export * from './Password';
 export * from './HashedPassword';
 export * from './id';
-export * from '././Birthday'
+export * from '././Birthday';
