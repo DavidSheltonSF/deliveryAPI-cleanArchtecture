@@ -1,5 +1,5 @@
-import { Either } from '../../../shared/either';
-import { InvalidPhoneError } from '../errors';
+import { Either } from '../../shared/either';
+import { InvalidPhoneError } from '../entities/errors';
 
 export class Phone {
   private readonly phone: string;

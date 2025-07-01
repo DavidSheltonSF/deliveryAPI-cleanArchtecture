@@ -11,13 +11,13 @@ import {
   Email,
   UserName,
   Birthday,
-} from '../../domain/entities/value-objects';
+} from '../../domain/value-objects';
 import { CustomerDto } from '../dtos/custumer-dto';
 import { Either } from '../../shared/either';
 import { BcryptHasher } from '../../infrastructure/cryptography/BcryptHasher';
 
 export class CustomerDtoMapper {
-  static  async fromDtoToProps(
+  static async fromDtoToProps(
     customerData: CustomerDto
   ): Promise<Either<customerValidationError, CustomerProps>> {
     const validations = {
@@ -38,11 +38,14 @@ export class CustomerDtoMapper {
       }
     }
 
-    const hasher = new BcryptHasher(12)
+    const hasher = new BcryptHasher(12);
 
-    const hashedPasswordOrError = await HashedPassword.create(validations.password.getRight(), hasher);
+    const hashedPasswordOrError = await HashedPassword.create(
+      validations.password.getRight(),
+      hasher
+    );
 
-    if(hashedPasswordOrError.isLeft()){
+    if (hashedPasswordOrError.isLeft()) {
       return Either.left(hashedPasswordOrError.getLeft());
     }
 
@@ -54,8 +57,7 @@ export class CustomerDtoMapper {
     const role = validations.role.getRight();
     const birthday = validations.birthday.getRight();
     const address = validations.address.getRight();
-    const hashedPassword = hashedPasswordOrError.getRight()
-
+    const hashedPassword = hashedPasswordOrError.getRight();
 
     return Either.right({
       username,

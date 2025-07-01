@@ -9,7 +9,7 @@ import {
   Role,
   Email,
   HashedPassword,
-} from '../../../domain/entities/value-objects';
+} from '../../../domain/value-objects';
 import { Document, WithId } from 'mongodb';
 import { CustomerModel } from '../../models/mongodb/CustomerModel';
 import { Either } from '../../../shared/either';

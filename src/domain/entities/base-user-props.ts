@@ -1,5 +1,5 @@
-import { Email, UserName } from './value-objects';
-import { HashedPassword } from './value-objects';
+import { Email, UserName } from '../value-objects';
+import { HashedPassword } from '../value-objects';
 
 export interface AuthenticationProps {
   hashedPassword: HashedPassword;

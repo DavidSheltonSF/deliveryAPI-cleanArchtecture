@@ -1,5 +1,5 @@
-import { Either } from '../../../shared/either';
-import { InvalidBirthdayError } from '../errors';
+import { Either } from '../../shared/either';
+import { InvalidBirthdayError } from '../entities/errors';
 
 export class Birthday {
   private readonly birthday: string;

@@ -1,4 +1,4 @@
-import { ZipCode } from '../value-objects/ZipCode';
+import { ZipCode } from '../../value-objects/ZipCode';
 
 export interface AddressProps {
   street: string;

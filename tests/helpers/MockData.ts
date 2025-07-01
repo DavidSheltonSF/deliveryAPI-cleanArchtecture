@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 import { v4 as uuidv4 } from 'uuid';
 import { CustomerDto } from '../../src/presentation/dtos/custumer-dto';
-import { UserRole } from '../../src/domain/entities/value-objects/_enums';
+import { UserRole } from '../../src/domain/value-objects/_enums';
 import { CustomerModel } from '../../src/infrastructure/models/mongodb/CustomerModel';
 import { mongoHelper } from '../../src/infrastructure/repositories/mongodb/helpers/mongo-helper';
 import { CustomerProps } from '../../src/domain/entities/customer/CustomerProps';
@@ -16,7 +16,7 @@ import {
   Phone,
   Role,
   UserName,
-} from '../../src/domain/entities/value-objects';
+} from '../../src/domain/value-objects';
 import { BcryptHasher } from '../../src/infrastructure/cryptography/BcryptHasher';
 import { CustomerUseCaseDto } from '../../src/application/useCaseDtos/CustomerUseCaseDto';
 

@@ -12,7 +12,7 @@ import {
   HashedPassword,
   UserName,
   Birthday,
-} from '../../../src/domain/entities/value-objects';
+} from '../../../src/domain/value-objects';
 import { BcryptHasher } from '../../../src/infrastructure/cryptography/BcryptHasher';
 import bcrypt from 'bcryptjs';
 

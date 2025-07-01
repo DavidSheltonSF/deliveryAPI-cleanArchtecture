@@ -2,7 +2,7 @@ import { MongodbCustomerRepository } from '../../../src/infrastructure/repositor
 import { RegisterCustomerUseCase } from '../../../src/application/usecases/customer/RegisterCustomer/RegisterCustomerUseCase';
 import { MockData } from '../../helpers/MockData';
 import { Customer } from '../../../src/domain/entities/customer/Customer';
-import { Email } from '../../../src/domain/entities/value-objects';
+import { Email } from '../../../src/domain/value-objects';
 
 describe('RegisterUserUseCase', () => {
   test('Should register a new customer', async () => {

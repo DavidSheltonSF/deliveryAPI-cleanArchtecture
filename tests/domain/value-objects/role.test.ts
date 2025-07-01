@@ -1,4 +1,4 @@
-import { Role } from '../../../src/domain/entities/value-objects';
+import { Role } from '../../../src/domain/value-objects';
 
 const validRoles = [
   'admin',

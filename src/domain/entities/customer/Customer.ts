@@ -8,7 +8,7 @@ import {
   Birthday,
   UserName,
   HashedPassword,
-} from '../value-objects';
+} from '../../value-objects';
 import { CustomerProps } from './CustomerProps';
 
 export class Customer {
