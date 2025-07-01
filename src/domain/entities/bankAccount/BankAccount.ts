@@ -20,7 +20,7 @@ export class BankAccount {
     this._id = id;
     this._holderName = bankAccountData.holderName;
     this._cpf = bankAccountData.cpf;
-    this._bankCode = bankAccountData.bank;
+    this._bankCode = bankAccountData.bankCode;
     this._agency = bankAccountData.agency;
     this._accountNumber = bankAccountData.accountNumber;
     this._accountType = bankAccountData.accountType;
