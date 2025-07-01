@@ -12,6 +12,7 @@ import {
 import { CustomerProps } from './CustomerProps';
 
 export class Customer {
+  private _id: string;
   private _username: UserName;
   private _name: Name;
   private _email: Email;
@@ -36,7 +37,9 @@ export class Customer {
     this._address = customerData.address;
     this._authentication = customerData.authentication;
   }
-
+  get id(): string {
+    return this._id;
+  }
   get username(): UserName {
     return this._username;
   }
