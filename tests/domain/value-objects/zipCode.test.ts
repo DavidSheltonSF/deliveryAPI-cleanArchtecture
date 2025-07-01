@@ -1,4 +1,4 @@
-import { ZipCode } from '../../../src/domain/entities/value-objects/';
+import { ZipCode } from '../../../src/domain/entities/value-objects';
 
 describe('Testing ZipCode validator', () => {
   test('Trying to create a valid zipcode', () => {

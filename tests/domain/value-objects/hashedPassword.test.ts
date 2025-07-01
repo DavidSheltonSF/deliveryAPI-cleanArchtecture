@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
-import { HashedPassword } from '../../src/domain/entities/value-objects';
-import { Password } from '../../src/domain/entities/value-objects';
-import { BcryptHasher } from '../../src/infrastructure/cryptography/BcryptHasher';
+import { HashedPassword } from '../../../src/domain/entities/value-objects';
+import { Password } from '../../../src/domain/entities/value-objects';
+import { BcryptHasher } from '../../../src/infrastructure/cryptography/BcryptHasher';
 
 describe('Testing Phone validator', () => {
   test('Should create a hash password', async () => {

@@ -1,4 +1,4 @@
-import { Email } from "../../src/domain/entities/value-objects"
+import { Email } from "../../../src/domain/entities/value-objects"
 
 describe("Testing Email validator", () => {
   test("Trying to create a valid email", () => {

@@ -1,4 +1,4 @@
-import { Address } from "../../src/domain/entities/value-objects"
+import { Address } from "../../../src/domain/entities/value-objects"
 
 const validAddresses = [
   {
