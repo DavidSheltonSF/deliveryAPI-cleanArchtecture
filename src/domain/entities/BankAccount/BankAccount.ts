@@ -5,16 +5,22 @@ export class BankAccount {
   private _id: string;
   private _holderName: Name;
   private _cpf: Cpf;
-  private _bank: string;
+  private _bankCode: string;
   private _agency: string;
   private _accountNumber: string;
   private _accountType: string;
+  private static suportedBanks: Record<string, string> = {
+    BancoDoBrasil: '001',
+    Bradesco: '237',
+    Nubank: '260',
+    Itau: '341',
+  };
 
   constructor(id: string, bankAccountData: BankAccountProps) {
     this._id = id;
     this._holderName = bankAccountData.holderName;
     this._cpf = bankAccountData.cpf;
-    this._bank = bankAccountData.bank;
+    this._bankCode = bankAccountData.bank;
     this._agency = bankAccountData.agency;
     this._accountNumber = bankAccountData.accountNumber;
     this._accountType = bankAccountData.accountType;
@@ -40,12 +46,12 @@ export class BankAccount {
     this._cpf = cpf;
   }
 
-  get bank(): string {
-    return this._bank;
+  get bankCode(): string {
+    return this._bankCode;
   }
 
-  set bank(bank: string) {
-    this._bank = bank;
+  set bankCode(bankCode: string) {
+    this._bankCode = bankCode;
   }
 
   get agency(): string {
@@ -70,5 +76,9 @@ export class BankAccount {
 
   set accountType(accountType: string) {
     this._accountType = accountType;
+  }
+
+  public bankIsSupported() {
+    return Object.values(BankAccount.suportedBanks).includes(this._bankCode);
   }
 }
