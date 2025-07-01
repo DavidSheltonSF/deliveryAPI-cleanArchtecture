@@ -9,5 +9,4 @@ export * from './role';
 export * from './bankInfo';
 export * from './Password';
 export * from './HashedPassword';
-export * from './id';
 export * from '././Birthday';
