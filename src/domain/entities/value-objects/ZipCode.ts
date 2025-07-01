@@ -11,7 +11,7 @@ export class ZipCode {
   }
 
   static validate(zipCode: string): Boolean {
-    const zipCodeRegex = /^\d{5}\-?\d{3}$/;
+    const zipCodeRegex = /^\d{8}$/;
 
     if (!zipCode.match(zipCodeRegex)) {
       return false;
