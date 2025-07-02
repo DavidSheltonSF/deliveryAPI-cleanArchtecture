@@ -1,6 +1,6 @@
 import { ObjectId } from 'mongodb';
 
-export interface Authentication {
+export interface AuthenticationModel {
   _id: ObjectId;
   email: string;
   passwordHash: string;
