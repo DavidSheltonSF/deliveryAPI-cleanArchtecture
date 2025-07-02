@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { Customer } from '../../../src/domain/entities/customer/Customer';
+import { Customer } from '../../../src/domain/entities/user/customer/Customer';
 import { Address } from '../../../src/domain/entities/address/Address';
 
 import {

@@ -1,4 +1,4 @@
-import { CustomerProps } from '../../../domain/entities/customer/CustomerProps';
+import { CustomerProps } from '../../../domain/entities/user/customer/CustomerProps';
 import { customerValidationError } from '../../../domain/errors/customerValidationError';
 import {
   Address,
@@ -16,7 +16,7 @@ import { Either } from '../../../shared/either';
 import { mongoHelper } from '../../repositories/mongodb/helpers/mongo-helper';
 import { BcryptHasher } from '../../cryptography/BcryptHasher';
 import { CustomerUseCaseDto } from '../../../application/useCaseDtos/CustomerUseCaseDto';
-import { Customer } from '../../../domain/entities/customer/Customer';
+import { Customer } from '../../../domain/entities/user/customer/Customer';
 
 export class CustomerModelMapper {
   static fromEntityToModel(

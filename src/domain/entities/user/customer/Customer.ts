@@ -6,10 +6,10 @@ import {
   Role,
   Email,
   Cpf,
-} from '../../value-objects';
-import { Address } from '../address/Address';
-import { Authentication } from '../authentication/Authentication';
-import { User } from '../user/User';
+} from '../../../value-objects';
+import { Address } from '../../address/Address';
+import { Authentication } from '../../authentication/Authentication';
+import { User } from '../User';
 
 export class Customer extends User {
   private _phone: Phone;

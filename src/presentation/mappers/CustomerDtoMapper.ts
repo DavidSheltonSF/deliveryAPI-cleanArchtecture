@@ -1,4 +1,4 @@
-import { CustomerProps } from '../../domain/entities/customer/CustomerProps';
+import { CustomerProps } from '../../domain/entities/user/customer/CustomerProps';
 import { customerValidationError } from '../../domain/errors/customerValidationError';
 import {
   Address,

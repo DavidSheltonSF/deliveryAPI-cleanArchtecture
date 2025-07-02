@@ -1,4 +1,4 @@
-import { Customer } from '../../domain/entities/customer/Customer';
+import { Customer } from '../../domain/entities/user/customer/Customer';
 import { CustomerModel } from '../../infrastructure/models/mongodb/CustomerModel';
 import { CustomerUseCaseDto } from '../useCaseDtos/CustomerUseCaseDto';
 

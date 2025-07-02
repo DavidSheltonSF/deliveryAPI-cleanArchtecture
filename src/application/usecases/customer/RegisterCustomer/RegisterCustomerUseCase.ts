@@ -3,8 +3,8 @@ import { RegisterCustomer } from './interface';
 import { RegisterCustomerResponse } from './response';
 import { Either } from '../../../../shared/either';
 import { DuplicatedDataError } from '../../../_errors/duplicated-data';
-import { CustomerProps } from '../../../../domain/entities/customer/CustomerProps';
-import { Customer } from '../../../../domain/entities/customer/Customer';
+import { CustomerProps } from '../../../../domain/entities/user/customer/CustomerProps';
+import { Customer } from '../../../../domain/entities/user/customer/Customer';
 
 export class RegisterCustomerUseCase implements RegisterCustomer {
   private readonly customerRepository: CustomerRepository;

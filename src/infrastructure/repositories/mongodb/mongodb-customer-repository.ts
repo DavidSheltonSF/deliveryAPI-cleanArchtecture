@@ -1,5 +1,5 @@
 import { CustomerRepository } from '../../../application/_ports/customer-repository';
-import { Customer } from '../../../domain/entities/customer/Customer';
+import { Customer } from '../../../domain/entities/user/customer/Customer';
 import { CustomerModelMapper } from '../../mappers/mongodb/CustomerModelMapper';
 import { CustomerModel } from '../../models/mongodb/CustomerModel';
 import { mongoHelper } from './helpers/mongo-helper';
