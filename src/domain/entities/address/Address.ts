@@ -1,5 +1,4 @@
 import { ZipCode } from '../../value-objects/ZipCode';
-import { AddressProps } from './AddressProps';
 
 export class Address {
   private _street: string;
@@ -7,11 +6,11 @@ export class Address {
   private _state: string;
   private _zipCode: ZipCode;
 
-  constructor(addressData: AddressProps) {
-    this.street = addressData.street;
-    this.city = addressData.city;
-    this.state = addressData.state;
-    this.zipCode = addressData.zipCode;
+  constructor(street: string, city: string, state: string, zipCode: ZipCode) {
+    this.street = street;
+    this.city = city;
+    this.state = state;
+    this.zipCode = zipCode;
   }
 
   get street(): string {
