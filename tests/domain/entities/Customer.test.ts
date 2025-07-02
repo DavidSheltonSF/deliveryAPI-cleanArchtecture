@@ -1,7 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
 import { Customer } from '../../../src/domain/entities/customer/Customer';
+import { Address } from '../../../src/domain/entities/address/Address';
+
 import {
-  Address,
   Birthday,
   Cpf,
   Email,
@@ -11,6 +12,7 @@ import {
   Phone,
   Role,
   UserName,
+  ZipCode,
 } from '../../../src/domain/value-objects';
 import { BcryptHasher } from '../../../src/infrastructure/cryptography/BcryptHasher';
 import { Authentication } from '../../../src/domain/entities/authentication/Authentication';
@@ -25,12 +27,12 @@ describe('Customer Model', () => {
     const role = Role.create('admin').getRight();
     const phone = Phone.create('21858740555').getRight();
     const birthday = Birthday.create('2002-02-26').getRight();
-    const address = new Address({
-      street: 'fake street',
-      city: 'fake city',
-      state: 'fakestate',
-      zipCode: '26555485',
-    });
+    const address = new Address(
+      'fake street',
+      'fake city',
+      'fakestate',
+      ZipCode.create('26555485').getRight()
+    );
 
     // Creating hash password
     const hasher = new BcryptHasher(12);
