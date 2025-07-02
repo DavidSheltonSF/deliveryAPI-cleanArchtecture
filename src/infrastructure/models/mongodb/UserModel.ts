@@ -9,4 +9,5 @@ export interface UserProps {
   phone?: string;
   birthday?: Date;
   role: string;
+  createdAt: Date
 }
