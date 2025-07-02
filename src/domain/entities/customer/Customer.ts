@@ -1,6 +1,5 @@
 import {
   Phone,
-  Address,
   Birthday,
   UserName,
   Name,
@@ -8,6 +7,7 @@ import {
   Email,
   Cpf,
 } from '../../value-objects';
+import { Address } from '../address/Address';
 import { Authentication } from '../authentication/Authentication';
 import { User } from '../user/User';
 
