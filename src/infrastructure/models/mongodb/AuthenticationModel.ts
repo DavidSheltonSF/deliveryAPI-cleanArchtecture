@@ -4,6 +4,7 @@ export interface AuthenticationModel {
   _id: ObjectId;
   email: string;
   passwordHash: string;
-  sessionToken: string;
+  sessionToken?: string;
+  userId: ObjectId;
   createdAt: Date;
 }
