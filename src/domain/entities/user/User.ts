@@ -108,4 +108,8 @@ export class User {
   desactiveSession() {
     this._authentication.updateSessionToken(undefined);
   }
+
+  isAdmin(): boolean {
+    return this._role.get() === 'admin';
+  }
 }
