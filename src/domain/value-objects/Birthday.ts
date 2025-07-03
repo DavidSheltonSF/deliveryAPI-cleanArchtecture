@@ -2,38 +2,38 @@ import { Either } from '../../shared/either';
 import { InvalidBirthdayError } from '../errors';
 
 export class Birthday {
-  private readonly birthday: string;
+  private readonly birthday: Date;
 
-  constructor(birthday: string) {
+  constructor(birthday: Date) {
     this.birthday = birthday;
     Object.freeze(this);
   }
 
-  static validate(birthday: string): boolean {
-    const birthDayDate = new Date(birthday);
-
-    if (isNaN(birthDayDate.getDate())) {
+  static validate(birthday: Date): boolean {
+    if (isNaN(birthday.getDate())) {
       return false;
     }
 
     return true;
   }
 
-  static create(birthday: string): Either<InvalidBirthdayError, Birthday> {
+  static create(birthday: Date): Either<InvalidBirthdayError, Birthday> {
     if (!this.validate(birthday)) {
-      return Either.left(new InvalidBirthdayError(birthday));
+      return Either.left(
+        new InvalidBirthdayError(birthday.toLocaleDateString())
+      );
     }
 
     return Either.right(new Birthday(birthday));
   }
 
-  get(): string {
+  get(): Date {
     return this.birthday;
   }
 
   getAge(): number {
     const currentYear = new Date().getFullYear();
-    const birthDayYear = new Date(this.birthday).getFullYear();
+    const birthDayYear = this.birthday.getFullYear();
     return currentYear - birthDayYear;
   }
 }
