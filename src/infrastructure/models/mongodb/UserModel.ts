@@ -7,7 +7,7 @@ export interface UserModel {
   email: string;
   cpf: string;
   phone: string;
-  birthday: Date;
   role: string;
+  birthday: Date;
   createdAt: Date;
 }
