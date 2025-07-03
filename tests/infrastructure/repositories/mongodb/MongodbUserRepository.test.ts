@@ -2,7 +2,7 @@ import { mongoHelper } from '../../../../src/infrastructure/repositories/mongodb
 import { config } from 'dotenv';
 import { MongodbUserRepository } from '../../../../src/infrastructure/repositories/mongodb/MongodbUserRepository';
 import { MockData } from '../../../helpers/MockData';
-import { Customer } from '../../../../src/domain/entities/user/customer/Customer';
+import { CustomerUser } from '../../../../src/domain/entities/user/customer/CustomerUser';
 import { Address } from '../../../../src/domain/entities/address/Address';
 import { ZipCode } from '../../../../src/domain/value-objects';
 import { Authentication } from '../../../../src/domain/entities/authentication/Authentication';
@@ -92,7 +92,7 @@ describe('Testing MongodbUserRepository', () => {
     );
 
     const customerId = new ObjectId().toString();
-    const userEntity = new Customer(
+    const userEntity = new CustomerUser(
       customerId,
       username,
       name,

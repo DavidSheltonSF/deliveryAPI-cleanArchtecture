@@ -1,12 +1,15 @@
-import { Either } from "../../shared/either";
-import { IdGenerator } from "../contracts/IdGenerator";
-import { Address } from "../entities/address/Address";
-import { Authentication } from "../entities/authentication/Authentication";
-import { Customer } from "../entities/user/customer/Customer";
-import { UserProps } from "../entities/user/UserProps";
+import { Either } from '../../shared/either';
+import { IdGenerator } from '../contracts/IdGenerator';
+import { Address } from '../entities/address/Address';
+import { Authentication } from '../entities/authentication/Authentication';
+import { CustomerUser } from '../entities/user/customer/CustomerUser';
+import { UserProps } from '../entities/user/UserProps';
 
 export class UserFactory {
-  static create(idGenerator: IdGenerator, userData: UserProps): Customer | null {
+  static create(
+    idGenerator: IdGenerator,
+    userData: UserProps
+  ): CustomerUser | null {
     const {
       username,
       name,
@@ -45,7 +48,7 @@ export class UserFactory {
         email,
         authentication.passwordHash
       );
-      return new Customer(
+      return new CustomerUser(
         idGenerator.generate(),
         username,
         name,

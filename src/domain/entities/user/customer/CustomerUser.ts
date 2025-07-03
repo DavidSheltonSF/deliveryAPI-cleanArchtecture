@@ -11,7 +11,7 @@ import { Address } from '../../address/Address';
 import { Authentication } from '../../authentication/Authentication';
 import { User } from '../User';
 
-export class Customer extends User {
+export class CustomerUser extends User {
   private _address: Address;
   constructor(
     id: string,

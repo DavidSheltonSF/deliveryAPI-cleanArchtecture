@@ -1,5 +1,5 @@
 import { UserRepository } from '../../../application/_ports/UserRepository';
-import { Customer } from '../../../domain/entities/user/customer/Customer';
+import { CustomerUser } from '../../../domain/entities/user/customer/CustomerUser';
 import { UserModel } from '../../models/mongodb/UserModel';
 import { mongoHelper } from './helpers/mongo-helper';
 
@@ -21,7 +21,7 @@ export class MongodbUserRepository implements UserRepository {
     };
   }
 
-  async add(user: Customer): Promise<UserModel | null> {
+  async add(user: CustomerUser): Promise<UserModel | null> {
     const userCollection = mongoHelper.getCollection('users');
     const userUserModel: UserModel = {
       _id: mongoHelper.toObjectId(user.id),

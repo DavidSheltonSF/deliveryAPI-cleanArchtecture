@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { Customer } from '../../../src/domain/entities/user/customer/Customer';
+import { CustomerUser } from '../../../src/domain/entities/user/customer/CustomerUser';
 import { Address } from '../../../src/domain/entities/address/Address';
 
 import {
@@ -69,7 +69,7 @@ describe('Customer Model', () => {
   test('should create a customer with valid properties', async () => {
     const customerData = await makeSut();
 
-    const customer = new Customer(
+    const customer = new CustomerUser(
       customerData.id,
       customerData.username,
       customerData.name,
@@ -98,7 +98,7 @@ describe('Customer Model', () => {
   test('should check if a customer is an adult properly', async () => {
     const customerData = await makeSut();
 
-    const adultCustomer = new Customer(
+    const adultCustomer = new CustomerUser(
       customerData.id,
       customerData.username,
       customerData.name,
@@ -111,7 +111,7 @@ describe('Customer Model', () => {
       customerData.authentication
     );
 
-    const nonAdultCustomer = new Customer(
+    const nonAdultCustomer = new CustomerUser(
       customerData.id,
       customerData.username,
       customerData.name,
