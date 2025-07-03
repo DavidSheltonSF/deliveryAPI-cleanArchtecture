@@ -1,12 +1,13 @@
 import { faker } from '@faker-js/faker';
 import { v4 as uuidv4 } from 'uuid';
-import { CustomerDto } from '../../src/presentation/dtos/custumer-dto';
+import { UserDto } from '../../src/presentation/dtos/UserDto';
 import { UserRole } from '../../src/domain/value-objects/_enums';
-import { CustomerModel } from '../../src/infrastructure/models/mongodb/CustomerModel';
+import { UserModel } from '../../src/infrastructure/models/mongodb/UserModel';
 import { mongoHelper } from '../../src/infrastructure/repositories/mongodb/helpers/mongo-helper';
-import { CustomerProps } from '../../src/domain/entities/customer/CustomerProps';
+import { UserProps } from '../../src/domain/entities/user/UserProps';
+import { AddressProps } from '../../src/domain/entities/address/AddressProps';
 import {
-  Address,
+  ZipCode,
   Birthday,
   Cpf,
   Email,
@@ -18,23 +19,27 @@ import {
   UserName,
 } from '../../src/domain/value-objects';
 import { BcryptHasher } from '../../src/infrastructure/cryptography/BcryptHasher';
-import { CustomerUseCaseDto } from '../../src/application/useCaseDtos/CustomerUseCaseDto';
+import { UserUseCaseDto } from '../../src/application/useCaseDtos/UserUseCaseDto';
 
 export class MockData {
   static generateHexId(): string {
     return uuidv4().replace(/-/g, '').slice(0, 24);
-    
   }
 
-  static mockCustomerDto(): CustomerDto {
+  static mockUserDto(): UserDto {
     const user = {
       username: faker.person.firstName(),
       name: faker.person.firstName(),
       email: faker.internet.email(),
       cpf: faker.string.numeric({ length: 11 }),
       phone: faker.string.numeric({ length: 11 }),
-      role: 'customer',
       birthday: faker.date.birthdate().toString(),
+      role: faker.helpers.arrayElement([
+        'admin',
+        'customer',
+        'driver',
+        'restaurantAdmin',
+      ]),
       address: {
         street: faker.location.street(),
         city: faker.location.city(),
@@ -48,7 +53,9 @@ export class MockData {
     return user;
   }
 
-  static mockCustomerModel(withoudId: boolean = false): CustomerModel | Omit<CustomerModel, "_id"> {
+  static mockUserModel(
+    withoudId: boolean = false
+  ): UserModel | Omit<UserModel, '_id'> {
     const user = {
       _id: mongoHelper.toObjectId(this.generateHexId()),
       username: faker.person.firstName(),
@@ -56,30 +63,21 @@ export class MockData {
       email: faker.internet.email(),
       cpf: faker.string.numeric({ length: 11 }),
       phone: faker.string.numeric({ length: 11 }),
-      role: 'customer',
-      birthday: faker.date.birthdate().toString(),
-      address: {
-        street: faker.location.street(),
-        city: faker.location.city(),
-        state: faker.location.state(),
-        zipCode: faker.location.zipCode('########'),
-      },
-      authentication: {
-        passwordHash: 'Senh4**Corret4',
-      },
+      role: 'user',
+      birthday: faker.date.birthdate(),
       createdAt: new Date(),
     };
 
-    if(withoudId){
-      const {_id, ...customerWithoutId} = user
+    if (withoudId) {
+      const { _id, ...userWithoutId } = user;
 
-      return customerWithoutId;
+      return userWithoutId;
     }
 
     return user;
   }
 
-  static async mockCustomerProps(): Promise<CustomerProps> {
+  static async mockUserProps(): Promise<UserProps> {
     const hash = new BcryptHasher(12);
     const password = Password.create('Senh4**Corret4').getRight();
     const hashedPassword = (
@@ -92,14 +90,14 @@ export class MockData {
       email: Email.create(faker.internet.email()).getRight(),
       cpf: Cpf.create(faker.string.numeric({ length: 11 })).getRight(),
       phone: Phone.create(faker.string.numeric({ length: 11 })).getRight(),
-      role: Role.create('customer').getRight(),
-      birthday: Birthday.create(faker.date.birthdate().toString()).getRight(),
-      address: Address.create({
+      role: Role.create('user').getRight(),
+      birthday: Birthday.create(faker.date.birthdate()).getRight(),
+      address: {
         street: faker.location.street(),
         city: faker.location.city(),
         state: faker.location.state(),
-        zipCode: faker.location.zipCode('########'),
-      }).getRight(),
+        zipCode: ZipCode.create(faker.location.zipCode('########')).getRight(),
+      },
       authentication: {
         hashedPassword: hashedPassword,
       },
@@ -107,13 +105,14 @@ export class MockData {
     return user;
   }
 
-  static mockCustomerUseCaseDto(): CustomerUseCaseDto {
-    const customer = {
+  static mockUserUseCaseDto(): UserUseCaseDto {
+    const user = {
       username: faker.person.firstName(),
       name: faker.person.firstName(),
       email: faker.internet.email(),
+      cpf: faker.string.numeric({ length: 11 }),
       phone: faker.string.numeric({ length: 11 }),
-      role: 'customer',
+      role: 'user',
       address: {
         street: faker.location.street(),
         city: faker.location.city(),
@@ -121,6 +120,6 @@ export class MockData {
         zipCode: faker.location.zipCode('########'),
       },
     };
-    return customer;
+    return user;
   }
 }
