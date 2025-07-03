@@ -1,22 +1,20 @@
 import { faker } from '@faker-js/faker';
 import { v4 as uuidv4 } from 'uuid';
 import { UserDto } from '../../src/presentation/dtos/UserDto';
-import { UserRole } from '../../src/domain/value-objects/_enums';
 import { UserModel } from '../../src/infrastructure/models/mongodb/UserModel';
 import { mongoHelper } from '../../src/infrastructure/repositories/mongodb/helpers/mongo-helper';
 import { UserProps } from '../../src/domain/entities/user/UserProps';
-import { AddressProps } from '../../src/domain/entities/address/AddressProps';
 import {
   ZipCode,
   Birthday,
   Cpf,
   Email,
-  HashedPassword,
   Name,
   Password,
   Phone,
   Role,
   UserName,
+  PasswordHash,
 } from '../../src/domain/value-objects';
 import { BcryptHasher } from '../../src/infrastructure/cryptography/BcryptHasher';
 import { UserUseCaseDto } from '../../src/application/useCaseDtos/UserUseCaseDto';
@@ -77,12 +75,20 @@ export class MockData {
     return user;
   }
 
-  static async mockUserProps(): Promise<UserProps> {
+  static async mockUserProps(role: string = ''): Promise<UserProps> {
     const hash = new BcryptHasher(12);
     const password = Password.create('Senh4**Corret4').getRight();
-    const hashedPassword = (
-      await HashedPassword.create(password, hash)
+    const passwordHash = (
+      await PasswordHash.create(password, hash)
     ).getRight();
+
+    const roles = ['admin', 'customer', 'driver', 'restaurantAdmin'];
+
+    let userRole = role;
+
+    if (!roles.includes(userRole)) {
+      userRole = faker.helpers.arrayElement(roles);
+    }
 
     const user = {
       username: UserName.create(faker.person.firstName()).getRight(),
@@ -90,7 +96,7 @@ export class MockData {
       email: Email.create(faker.internet.email()).getRight(),
       cpf: Cpf.create(faker.string.numeric({ length: 11 })).getRight(),
       phone: Phone.create(faker.string.numeric({ length: 11 })).getRight(),
-      role: Role.create('user').getRight(),
+      role: Role.create(userRole).getRight(),
       birthday: Birthday.create(faker.date.birthdate()).getRight(),
       address: {
         street: faker.location.street(),
@@ -99,7 +105,7 @@ export class MockData {
         zipCode: ZipCode.create(faker.location.zipCode('########')).getRight(),
       },
       authentication: {
-        hashedPassword: hashedPassword,
+        passwordHash: passwordHash,
       },
     };
     return user;
