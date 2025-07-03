@@ -1,6 +1,6 @@
 import { ObjectId } from 'mongodb';
 
-export interface UserProps {
+export interface UserModel {
   _id: ObjectId;
   username: string;
   name: string;
@@ -9,5 +9,5 @@ export interface UserProps {
   phone?: string;
   birthday?: Date;
   role: string;
-  createdAt: Date
+  createdAt: Date;
 }
