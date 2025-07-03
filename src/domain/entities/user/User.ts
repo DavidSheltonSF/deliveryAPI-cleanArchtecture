@@ -5,8 +5,11 @@ import {
   Name,
   UserName,
   PasswordHash,
+  Phone,
+  Birthday,
 } from '../../value-objects';
 import { Authentication } from '../authentication/Authentication';
+import { Address } from '../address/Address';
 
 export class User {
   private _id: string;
@@ -14,7 +17,10 @@ export class User {
   private _name: Name;
   private _email: Email;
   private _cpf: Cpf;
+  private _phone: Phone;
   private _role: Role;
+  private _birthday: Birthday;
+  private _address: Address;
   private _authentication: Authentication;
 
   constructor(
@@ -23,7 +29,10 @@ export class User {
     name: Name,
     email: Email,
     cpf: Cpf,
+    phone: Phone,
     role: Role,
+    birthday: Birthday,
+    address: Address,
     authentication: Authentication
   ) {
     this._id = id;
@@ -31,9 +40,13 @@ export class User {
     this._name = name;
     this._email = email;
     this._cpf = cpf;
+    this._phone = phone;
     this._role = role;
+    this._birthday = birthday;
+    this._address = address;
     this._authentication = authentication;
   }
+
   get id(): string {
     return this._id;
   }
@@ -63,11 +76,32 @@ export class User {
     this._cpf = value;
   }
 
+  get phone(): Phone {
+    return this._phone;
+  }
+  set phone(value: Phone) {
+    this._phone = value;
+  }
+
   get role(): Role {
     return this._role;
   }
   set role(value: Role) {
     this._role = value;
+  }
+
+  get birthday(): Birthday {
+    return this._birthday;
+  }
+  set birthday(value: Birthday) {
+    this._birthday = value;
+  }
+
+  get address(): Address {
+    return this._address;
+  }
+  set address(value: Address) {
+    this._address = value;
   }
 
   get passwordHash(): PasswordHash {
