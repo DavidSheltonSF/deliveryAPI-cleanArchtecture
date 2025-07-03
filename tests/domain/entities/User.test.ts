@@ -61,7 +61,6 @@ describe('User Model', () => {
       phone,
       role,
       birthday,
-      address,
       authentication,
     };
   }
