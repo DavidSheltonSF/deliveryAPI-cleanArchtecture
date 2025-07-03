@@ -1,6 +1,7 @@
-import { AddressProps, Birthday, Cpf, Email, Name, Phone, Role, UserName } from '../../value-objects';
+import { Birthday, Cpf, Email, Name, Phone, Role, UserName } from '../../value-objects';
 import { HashedPassword } from '../../value-objects';
 import { BankAccountProps } from '../bankAccount/BankAccountProps';
+import { AddressProps } from '../address/AddressProps';
 
 export interface AuthenticationProps {
   hashedPassword: HashedPassword;
@@ -12,9 +13,9 @@ export interface UserProps {
   name: Name;
   email: Email;
   cpf: Cpf;
-  phone?: Phone;
-  birthday?: Birthday;
+  phone: Phone;
   role: Role;
+  birthday: Birthday;
   address?: AddressProps;
   bankAccount?: BankAccountProps;
   authentication: AuthenticationProps;
