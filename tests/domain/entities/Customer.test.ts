@@ -16,6 +16,7 @@ import {
 } from '../../../src/domain/value-objects';
 import { BcryptHasher } from '../../../src/infrastructure/cryptography/BcryptHasher';
 import { Authentication } from '../../../src/domain/entities/authentication/Authentication';
+import { ObjectId } from 'mongodb';
 
 describe('Customer Model', () => {
   async function makeSut() {
@@ -24,14 +25,17 @@ describe('Customer Model', () => {
     const name = Name.create('Carlos Montenegro').getRight();
     const email = Email.create('carlos@bugmail.com').getRight();
     const cpf = Cpf.create('12588774825').getRight();
+    const phone = Phone.create('21585470558').getRight();
     const role = Role.create('admin').getRight();
-    const phone = Phone.create('21858740555').getRight();
-    const birthday = Birthday.create('2002-02-26').getRight();
+    const birthday = Birthday.create(new Date('2005-08-14')).getRight();
+
+    const addressId = new ObjectId().toString();
     const address = new Address(
-      'fake street',
-      'fake city',
-      'fakestate',
-      ZipCode.create('26555485').getRight()
+      addressId,
+      'Fake street',
+      'Fake City',
+      'Fake State',
+      ZipCode.create('24786252').getRight()
     );
 
     // Creating hash password
@@ -42,7 +46,7 @@ describe('Customer Model', () => {
     ).getRight();
 
     // Creating authntication
-    const authenticationId = uuidv4();
+    const authenticationId = new ObjectId().toString();
     const authentication = new Authentication(
       authenticationId,
       email,
@@ -55,14 +59,13 @@ describe('Customer Model', () => {
       name,
       email,
       cpf,
-      role,
       phone,
-      birthday,
+      role,
       address,
+      birthday,
       authentication,
     };
   }
-
   test('should create a customer with valid properties', async () => {
     const customerData = await makeSut();
 
@@ -72,8 +75,8 @@ describe('Customer Model', () => {
       customerData.name,
       customerData.email,
       customerData.cpf,
-      customerData.role,
       customerData.phone,
+      customerData.role,
       customerData.birthday,
       customerData.address,
       customerData.authentication
@@ -101,9 +104,9 @@ describe('Customer Model', () => {
       customerData.name,
       customerData.email,
       customerData.cpf,
-      customerData.role,
       customerData.phone,
-      Birthday.create('2000-02-23').getRight(),
+      customerData.role,
+      Birthday.create(new Date('2000-02-23')).getRight(),
       customerData.address,
       customerData.authentication
     );
@@ -114,9 +117,9 @@ describe('Customer Model', () => {
       customerData.name,
       customerData.email,
       customerData.cpf,
-      customerData.role,
       customerData.phone,
-      Birthday.create('2015-02-23').getRight(),
+      customerData.role,
+      Birthday.create(new Date('2015-02-23')).getRight(),
       customerData.address,
       customerData.authentication
     );

@@ -12,6 +12,7 @@ import { Authentication } from '../../authentication/Authentication';
 import { User } from '../User';
 
 export class Customer extends User {
+  private _address: Address;
   constructor(
     id: string,
     username: UserName,
@@ -33,9 +34,13 @@ export class Customer extends User {
       phone,
       role,
       birthday,
-      address,
       authentication
     );
+    this._address = address;
+  }
+
+  get address(): Address {
+    return this._address;
   }
 
   isAdult(): boolean {
