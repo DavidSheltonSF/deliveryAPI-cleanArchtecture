@@ -22,7 +22,7 @@ export class MongodbUserRepository implements UserRepository {
   }
 
   async add(user: Customer): Promise<UserModel | null> {
-    const userCollection = mongoHelper.getCollection('user');
+    const userCollection = mongoHelper.getCollection('users');
     const userUserModel: UserModel = {
       _id: mongoHelper.toObjectId(user.id),
       username: user.username.get(),
@@ -55,7 +55,7 @@ export class MongodbUserRepository implements UserRepository {
       cpf: registeredUser.cpf,
       phone: registeredUser.phone,
       role: registeredUser.role,
-      birthday: registeredUser.bithday,
+      birthday: registeredUser.birthday,
       createdAt: registeredUser.createdAt,
     };
   }
