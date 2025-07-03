@@ -109,6 +109,13 @@ export class User {
     this._authentication.updateSessionToken(undefined);
   }
 
+  isAdult(): boolean {
+    if (this.birthday.getAge() < 18) {
+      return false;
+    }
+    return true;
+  }
+
   isAdmin(): boolean {
     return this._role.get() === 'admin';
   }

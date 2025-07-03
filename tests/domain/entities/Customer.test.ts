@@ -95,38 +95,5 @@ describe('Customer Model', () => {
     );
   });
 
-  test('should check if a customer is an adult properly', async () => {
-    const customerData = await makeSut();
-
-    const adultCustomer = new CustomerUser(
-      customerData.id,
-      customerData.username,
-      customerData.name,
-      customerData.email,
-      customerData.cpf,
-      customerData.phone,
-      customerData.role,
-      Birthday.create(new Date('2000-02-23')).getRight(),
-      customerData.address,
-      customerData.authentication
-    );
-
-    const nonAdultCustomer = new CustomerUser(
-      customerData.id,
-      customerData.username,
-      customerData.name,
-      customerData.email,
-      customerData.cpf,
-      customerData.phone,
-      customerData.role,
-      Birthday.create(new Date('2015-02-23')).getRight(),
-      customerData.address,
-      customerData.authentication
-    );
-
-    expect(adultCustomer.isAdult()).toBeTruthy();
-    expect(nonAdultCustomer.isAdult()).toBeFalsy();
-  });
-
   // Add more tests as needed
 });

@@ -137,6 +137,41 @@ describe('User Model', () => {
     expect(user.sessionToken).toBe(undefined);
   });
 
+  test('should check if a customer is an adult properly', async () => {
+    const userData = await makeSut();
+
+    const adultUserId = new ObjectId().toString()
+    const adultUser = new User(
+      adultUserId,
+      userData.username,
+      userData.name,
+      userData.email,
+      userData.cpf,
+      userData.phone,
+      userData.role,
+      Birthday.create(new Date('2000-02-23')).getRight(),
+      userData.authentication
+    );
+
+
+    const nonAdultUserId = new ObjectId().toString();
+    const nonAdultUser = new User(
+      nonAdultUserId,
+      userData.username,
+      userData.name,
+      userData.email,
+      userData.cpf,
+      userData.phone,
+      userData.role,
+      Birthday.create(new Date('2015-02-23')).getRight(),
+      userData.authentication
+    );
+
+    expect(adultUser.isAdult()).toBeTruthy();
+    expect(nonAdultUser.isAdult()).toBeFalsy();
+  });
+
+
   test('should inform if user is admin properly', async () => {
     7;
     const userData = await makeSut();

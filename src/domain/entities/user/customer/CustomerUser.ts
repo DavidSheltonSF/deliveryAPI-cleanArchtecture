@@ -43,10 +43,4 @@ export class CustomerUser extends User {
     return this._address;
   }
 
-  isAdult(): boolean {
-    if (this.birthday.getAge() < 18) {
-      return false;
-    }
-    return true;
-  }
 }
