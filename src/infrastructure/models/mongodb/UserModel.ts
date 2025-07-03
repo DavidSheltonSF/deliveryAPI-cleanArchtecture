@@ -6,8 +6,8 @@ export interface UserModel {
   name: string;
   email: string;
   cpf: string;
-  phone?: string;
-  birthday?: Date;
+  phone: string;
+  birthday: Date;
   role: string;
   createdAt: Date;
 }
