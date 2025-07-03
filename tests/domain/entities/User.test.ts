@@ -16,10 +16,10 @@ import { BcryptHasher } from '../../../src/infrastructure/cryptography/BcryptHas
 import { Authentication } from '../../../src/domain/entities/authentication/Authentication';
 import { Address } from '../../../src/domain/entities/address/Address';
 import { ObjectId } from 'mongodb';
+import { UserRole } from '../../../src/domain/value-objects/_enums';
 
 describe('User Model', () => {
   async function makeSut() {
-    const id = uuidv4();
     const username = UserName.create('Carlos').getRight();
     const name = Name.create('Carlos Montenegro').getRight();
     const email = Email.create('carlos@bugmail.com').getRight();
@@ -53,7 +53,6 @@ describe('User Model', () => {
     );
 
     return {
-      id,
       username,
       name,
       email,
@@ -68,8 +67,9 @@ describe('User Model', () => {
   test('should create a user with valid properties', async () => {
     const userData = await makeSut();
 
+    const userId = new ObjectId().toString();
     const user = new User(
-      userData.id,
+      userId,
       userData.username,
       userData.name,
       userData.email,
@@ -81,7 +81,7 @@ describe('User Model', () => {
     );
 
     expect(user.name.get()).toBe(userData.name.get());
-    expect(user.id).toBe(userData.id);
+    expect(user.id).toBe(userId);
     expect(user.username.get()).toBe(userData.username.get());
     expect(user.email.get()).toBe(userData.email.get());
     expect(user.cpf.get()).toBe(userData.cpf.get());
@@ -93,8 +93,9 @@ describe('User Model', () => {
     7;
     const userData = await makeSut();
 
+    const userId = new ObjectId().toString();
     const user = new User(
-      userData.id,
+      userId,
       userData.username,
       userData.name,
       userData.email,
@@ -115,8 +116,9 @@ describe('User Model', () => {
     7;
     const userData = await makeSut();
 
+    const userId = new ObjectId().toString();
     const user = new User(
-      userData.id,
+      userId,
       userData.username,
       userData.name,
       userData.email,
@@ -133,6 +135,40 @@ describe('User Model', () => {
     user.desactiveSession();
 
     expect(user.sessionToken).toBe(undefined);
+  });
+
+  test('should inform if user is admin properly', async () => {
+    7;
+    const userData = await makeSut();
+
+    const adminUserId = new ObjectId().toString();
+    const adminUser = new User(
+      adminUserId,
+      userData.username,
+      userData.name,
+      userData.email,
+      userData.cpf,
+      userData.phone,
+      Role.create(UserRole.admin).getRight(),
+      userData.birthday,
+      userData.authentication
+    );
+
+    const nonAdminUserID = new ObjectId().toString();
+    const nonAdminUser = new User(
+      nonAdminUserID,
+      userData.username,
+      userData.name,
+      userData.email,
+      userData.cpf,
+      userData.phone,
+      Role.create(UserRole.driver).getRight(),
+      userData.birthday,
+      userData.authentication
+    );
+
+    expect(adminUser.isAdmin()).toBeTruthy();
+    expect(nonAdminUser.isAdmin()).toBeFalsy();
   });
 
   // Add more tests as needed
