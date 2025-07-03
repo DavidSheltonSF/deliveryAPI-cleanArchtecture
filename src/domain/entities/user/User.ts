@@ -20,7 +20,6 @@ export class User {
   private _phone: Phone;
   private _role: Role;
   private _birthday: Birthday;
-  private _address: Address;
   private _authentication: Authentication;
 
   constructor(
@@ -32,7 +31,6 @@ export class User {
     phone: Phone,
     role: Role,
     birthday: Birthday,
-    address: Address,
     authentication: Authentication
   ) {
     this._id = id;
@@ -43,7 +41,6 @@ export class User {
     this._phone = phone;
     this._role = role;
     this._birthday = birthday;
-    this._address = address;
     this._authentication = authentication;
   }
 
@@ -95,13 +92,6 @@ export class User {
   }
   set birthday(value: Birthday) {
     this._birthday = value;
-  }
-
-  get address(): Address {
-    return this._address;
-  }
-  set address(value: Address) {
-    this._address = value;
   }
 
   get passwordHash(): PasswordHash {

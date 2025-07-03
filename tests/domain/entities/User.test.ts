@@ -1,16 +1,21 @@
 import { v4 as uuidv4 } from 'uuid';
 import { User } from '../../../src/domain/entities/user/User';
 import {
+  Birthday,
   Cpf,
   Email,
   Name,
   Password,
   PasswordHash,
+  Phone,
   Role,
   UserName,
+  ZipCode,
 } from '../../../src/domain/value-objects';
 import { BcryptHasher } from '../../../src/infrastructure/cryptography/BcryptHasher';
 import { Authentication } from '../../../src/domain/entities/authentication/Authentication';
+import { Address } from '../../../src/domain/entities/address/Address';
+import { ObjectId } from 'mongodb';
 
 describe('User Model', () => {
   async function makeSut() {
@@ -19,7 +24,18 @@ describe('User Model', () => {
     const name = Name.create('Carlos Montenegro').getRight();
     const email = Email.create('carlos@bugmail.com').getRight();
     const cpf = Cpf.create('12588774825').getRight();
+    const phone = Phone.create('21585470558').getRight();
     const role = Role.create('admin').getRight();
+    const birthday = Birthday.create(new Date('2005-08-14')).getRight();
+
+    const addressId = new ObjectId().toString();
+    const address = new Address(
+      addressId,
+      'Fake street',
+      'Fake City',
+      'Fake State',
+      ZipCode.create('24786252').getRight()
+    );
 
     // Creating hash password
     const hasher = new BcryptHasher(12);
@@ -29,7 +45,7 @@ describe('User Model', () => {
     ).getRight();
 
     // Creating authntication
-    const authenticationId = uuidv4();
+    const authenticationId = new ObjectId().toString();
     const authentication = new Authentication(
       authenticationId,
       email,
@@ -42,7 +58,10 @@ describe('User Model', () => {
       name,
       email,
       cpf,
+      phone,
       role,
+      birthday,
+      address,
       authentication,
     };
   }
@@ -56,7 +75,9 @@ describe('User Model', () => {
       userData.name,
       userData.email,
       userData.cpf,
+      userData.phone,
       userData.role,
+      userData.birthday,
       userData.authentication
     );
 
@@ -79,7 +100,9 @@ describe('User Model', () => {
       userData.name,
       userData.email,
       userData.cpf,
+      userData.phone,
       userData.role,
+      userData.birthday,
       userData.authentication
     );
 
@@ -99,7 +122,9 @@ describe('User Model', () => {
       userData.name,
       userData.email,
       userData.cpf,
+      userData.phone,
       userData.role,
+      userData.birthday,
       userData.authentication
     );
 
