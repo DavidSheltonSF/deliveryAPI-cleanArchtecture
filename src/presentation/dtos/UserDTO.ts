@@ -1,5 +1,3 @@
-import { BaseUserDTO } from './base-user-dto';
-
 export interface BankAccountDto {
   holderName: string;
   cpf: string;
