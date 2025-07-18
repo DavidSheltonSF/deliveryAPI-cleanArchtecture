@@ -15,10 +15,6 @@ export const mongoHelper = {
     return this.client.db().collection(name);
   },
 
-  toObjectId(id: string): ObjectId {
-    return new ObjectId(id);
-  },
-
   async clearCollection(name: string): Promise<void> {
     await this.client.db().collection(name).deleteMany({});
   },
