@@ -9,10 +9,10 @@ import {
   Birthday,
 } from '../../value-objects';
 import { Authentication } from '../authentication/Authentication';
-import { Address } from '../address/Address';
+import { UserProps } from './UserProps';
 
 export class User {
-  private _id: string;
+  private _id?: string;
   private _username: UserName;
   private _name: Name;
   private _email: Email;
@@ -23,26 +23,16 @@ export class User {
   private _authentication: Authentication;
   private _createdAt: Date
 
-  constructor(
-    id: string,
-    username: UserName,
-    name: Name,
-    email: Email,
-    cpf: Cpf,
-    phone: Phone,
-    role: Role,
-    birthday: Birthday,
-    authentication: Authentication
-  ) {
-    this._id = id;
-    this._username = username;
-    this._name = name;
-    this._email = email;
-    this._cpf = cpf;
-    this._phone = phone;
-    this._role = role;
-    this._birthday = birthday;
-    this._authentication = authentication;
+  constructor(userData: UserProps) {
+    this._id = userData.id;
+    this._username = userData.username;
+    this._name = userData.name;
+    this._email = userData.email;
+    this._cpf = userData.cpf;
+    this._phone = userData.phone;
+    this._role = userData.role;
+    this._birthday = userData.birthday;
+    this._authentication = userData.authentication;
   }
 
   get id(): string {
