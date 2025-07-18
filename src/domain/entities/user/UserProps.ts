@@ -1,13 +1,17 @@
-import { Birthday, Cpf, Email, Name, PasswordHash, Phone, Role, UserName } from '../../value-objects';
-import { BankAccountProps } from '../bankAccount/BankAccountProps';
-import { AddressProps } from '../address/AddressProps';
-
-export interface AuthenticationProps {
-  passwordHash: PasswordHash;
-  sessionToken?: string;
-}
+import {
+  Birthday,
+  Cpf,
+  Email,
+  Name,
+  Phone,
+  Role,
+  UserName,
+} from '../../value-objects';
+import { Address } from '../address/Address';
+import { Authentication } from '../authentication/Authentication';
 
 export interface UserProps {
+  id?: string;
   username: UserName;
   name: Name;
   email: Email;
@@ -15,10 +19,6 @@ export interface UserProps {
   phone: Phone;
   role: Role;
   birthday: Birthday;
-  address?: AddressProps;
-  bankAccount?: BankAccountProps;
-  authentication: AuthenticationProps;
+  address?: Address;
+  authentication: Authentication;
 }
-
-
-  
