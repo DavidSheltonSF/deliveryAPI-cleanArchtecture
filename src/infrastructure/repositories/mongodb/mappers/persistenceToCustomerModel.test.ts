@@ -1,5 +1,5 @@
 import { config } from 'dotenv';
-import { mongoHelper } from './mongo-helper';
+import { mongoHelper } from '../helpers/mongo-helper';
 import { persistenceToCustomerModel } from './persistenceToCustomerModel';
 
 config();
