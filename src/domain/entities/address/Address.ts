@@ -1,24 +1,19 @@
 import { ZipCode } from '../../value-objects/ZipCode';
+import { AddressProps } from './AddressProps';
 
 export class Address {
-  private _id: string;
+  private readonly _id?: string;
   private _street: string;
   private _city: string;
   private _state: string;
   private _zipCode: ZipCode;
 
-  constructor(
-    id: string,
-    street: string,
-    city: string,
-    state: string,
-    zipCode: ZipCode
-  ) {
-    this._id = id;
-    this._street = street;
-    this._city = city;
-    this._state = state;
-    this._zipCode = zipCode;
+  constructor(addressData: AddressProps) {
+    this._id = addressData.id;
+    this._street = addressData.street;
+    this._city = addressData.city;
+    this._state = addressData.state;
+    this._zipCode = addressData.zipCode;
   }
 
   get id(): string {
