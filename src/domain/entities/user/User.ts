@@ -21,6 +21,7 @@ export class User {
   private _role: Role;
   private _birthday: Birthday;
   private _authentication: Authentication;
+  private _createdAt: Date
 
   constructor(
     id: string,
@@ -99,6 +100,9 @@ export class User {
   }
   get sessionToken(): string {
     return this._authentication.sessionToken;
+  }
+  get createdAt(): Date {
+    return this._createdAt
   }
 
   activeSession(sessionToken: string) {
