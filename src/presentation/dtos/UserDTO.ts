@@ -1,4 +1,4 @@
-export interface BankAccountDto {
+export interface BankAccountDTO {
   holderName: string;
   cpf: string;
   bankCode: string;
@@ -7,19 +7,19 @@ export interface BankAccountDto {
   accountType: string;
 }
 
-export interface AddressDto {
+export interface AddressDTO {
   street: string;
   city: string;
   state: string;
   zipCode: string;
 }
 
-export interface AuthenticationDto {
+export interface AuthenticationDTO {
   password: string;
   sessionToken?: string;
 }
 
-export interface UserDto {
+export interface UserDTO {
   username: string;
   name: string;
   email: string;
@@ -27,7 +27,7 @@ export interface UserDto {
   phone: string;
   birthday: string;
   role: string;
-  address?: AddressDto;
-  bankAccount?: BankAccountDto;
-  authentication: AuthenticationDto;
+  address?: AddressDTO;
+  bankAccount?: BankAccountDTO;
+  authentication: AuthenticationDTO;
 }
