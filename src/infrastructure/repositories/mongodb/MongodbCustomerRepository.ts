@@ -2,7 +2,7 @@ import { CustomerRepository } from '../../../application/_ports/CustomerReposito
 import { CustomerUser } from '../../../domain/entities/user/customer/CustomerUser';
 import { CustomerModel } from '../../models/mongodb/CustomerModel';
 import { mongoHelper } from './helpers/mongo-helper';
-import { persistenceToCustomerModel } from './helpers/persistenceToCustomerModel';
+import { persistenceToCustomerModel } from './mappers/customerMappers';
 
 export class MongodbCustomerRepository implements CustomerRepository {
   async findAll(): Promise<CustomerModel[]> {
