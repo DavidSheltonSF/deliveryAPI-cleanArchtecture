@@ -1,11 +1,12 @@
 import { Either } from '../../shared/either';
 import { InvalidAddressError } from '../errors/InvalidAddressError';
+import { ZipCode } from './ZipCode';
 
 export interface AddressProps {
   street: string;
   city: string;
   state: string;
-  zipCode: string;
+  zipCode: ZipCode;
 }
 
 export class Address {
@@ -29,7 +30,7 @@ export class Address {
       return false;
     }
 
-    if (!address.zipCode.match(zipCodeRegex)) {
+    if (!address.zipCode.get().match(zipCodeRegex)) {
       return false;
     }
 
