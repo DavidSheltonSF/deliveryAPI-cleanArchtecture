@@ -1,16 +1,17 @@
 import { Email, PasswordHash } from '../../value-objects';
+import { AuthenticationProps } from './AuthenticationProps';
 
 export class Authentication {
-  private _id: string;
+  private _id?: string;
   private _email: Email;
   private _passwordHash: PasswordHash;
   private _sessionToken?: string;
 
-  constructor(id: string, email: Email, passwordHash: PasswordHash, sessionToken?: string) {
-    this._id = id;
-    this._email= email;
-    this._passwordHash = passwordHash;
-    this._sessionToken = sessionToken;
+  constructor(authenticationData: AuthenticationProps) {
+    this._id = authenticationData.id;
+    this._email = authenticationData.email;
+    this._passwordHash = authenticationData.passwordHash;
+    this._sessionToken = authenticationData.sessionToken;
   }
 
   get id(): string {
