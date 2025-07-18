@@ -19,6 +19,5 @@ export interface UserProps {
   phone: Phone;
   role: Role;
   birthday: Birthday;
-  address?: Address;
   authentication: Authentication;
 }
