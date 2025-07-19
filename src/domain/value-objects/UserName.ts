@@ -10,17 +10,11 @@ export class UserName {
   }
 
   static validate(username: string): Boolean {
-    const usernameRegex = /^[a-zA-ZÀ-ÿ]+(([',. -][a-zA-ZÀ-ÿ ])?[a-zA-ZÀ-ÿ]*)*$/;
-
     if (
       !username ||
       username.trim().length < 2 ||
       username.trim().length > 255
     ) {
-      return false;
-    }
-
-    if (!username.match(usernameRegex)) {
       return false;
     }
 
