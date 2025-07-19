@@ -21,7 +21,7 @@ export function rawAddressToProps(
     street: street,
     city: city,
     state: state,
-    zipCode: validZipCode,
+    zipCode: validZipCode.get(),
   };
   return Either.right(addressProps);
 }
