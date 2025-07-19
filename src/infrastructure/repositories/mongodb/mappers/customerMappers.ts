@@ -49,13 +49,13 @@ export function entityToCustomerModel(customer: CustomerUser): CustomerModel {
 
   return {
     _id: stringToObjectId(customer.id),
-    username: customer.username.get(),
-    name: customer.name.get(),
-    email: customer.email.get(),
-    cpf: customer.cpf.get(),
-    phone: customer.phone.get(),
-    role: customer.role.get(),
-    birthday: customer.birthday.get(),
+    username: customer.username,
+    name: customer.name,
+    email: customer.email,
+    cpf: customer.cpf,
+    phone: customer.phone,
+    role: customer.role,
+    birthday: customer.birthday,
     createdAt: customer.createdAt,
   };
 }
