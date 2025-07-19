@@ -56,7 +56,7 @@ export function entityToCustomerModel(customer: CustomerUser): CustomerModel {
     phone: customer.phone,
     role: customer.role,
     birthday: customer.birthday,
-    createdAt: customer.createdAt,
+    createdAt: new Date(),
   };
 }
 
