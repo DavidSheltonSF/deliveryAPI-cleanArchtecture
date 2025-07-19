@@ -5,5 +5,5 @@ export interface AddressProps {
   street: string;
   city: string;
   state: string;
-  zipCode: ZipCode;
+  zipCode: string;
 }
