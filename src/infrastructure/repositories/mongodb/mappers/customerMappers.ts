@@ -43,7 +43,7 @@ export function persistenceToCustomerModel(
 }
 
 export function entityToCustomerModel(customer: CustomerUser): CustomerModel {
-  if (document === null) {
+  if (customer === null) {
     throw Error('No entity provided.');
   }
 
