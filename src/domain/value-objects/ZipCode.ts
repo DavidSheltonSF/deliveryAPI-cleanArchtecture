@@ -1,5 +1,6 @@
 import { Either } from '../../shared/either';
 import { InvalidAddressError } from '../errors/InvalidAddressError';
+import { InvalidZipCodeError } from '../errors/InvalidZipCodeError';
 
 export class ZipCode {
   private readonly zipCode: string;
@@ -19,9 +20,9 @@ export class ZipCode {
     return true;
   }
 
-  static create(zipCode: string): Either<InvalidAddressError, ZipCode> {
+  static create(zipCode: string): Either<InvalidZipCodeError, ZipCode> {
     if (!this.validate(zipCode)) {
-      return Either.left(new InvalidAddressError(zipCode));
+      return Either.left(new InvalidZipCodeError(zipCode));
     }
 
     return Either.right(new ZipCode(zipCode));
