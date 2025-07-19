@@ -6,7 +6,7 @@ import { AuthenticationFactory } from './AuthenticationFactory';
 
 export class UserFactory {
   static create(userProps: UserProps): CustomerUser | null {
-    if (userProps.role.get() === 'customer') {
+    if (userProps.role === 'customer') {
       const {
         username,
         name,
@@ -20,7 +20,7 @@ export class UserFactory {
       } = userProps;
 
       const addressEntity = AddressFactory.create(address);
-      const authenticationEntity = AuthenticationFactory.create(authentication);
+      const authenticationEntity = AuthenticationFactory.create(authentication, email);
 
       return new CustomerUser(
         username,
