@@ -25,7 +25,7 @@ export class Address {
       return false;
     }
 
-    if (!address.zipCode.get().match(zipCodeRegex)) {
+    if (!address.zipCode.match(zipCodeRegex)) {
       return false;
     }
 
