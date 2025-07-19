@@ -7,8 +7,9 @@ import {
   Role,
   UserName,
 } from '../../value-objects';
-import { Address } from '../address/Address';
-import { Authentication } from '../authentication/Authentication';
+import { AddressProps } from '../address/AddressProps';
+import { AuthenticationProps } from '../authentication/AuthenticationProps';
+import { BankAccount } from '../bankAccount/BankAccount';
 
 export interface UserProps {
   id?: string;
@@ -19,5 +20,7 @@ export interface UserProps {
   phone: Phone;
   role: Role;
   birthday: Birthday;
-  authentication: Authentication;
+  address?: AddressProps;
+  bankAccount?: BankAccount;
+  authentication: AuthenticationProps;
 }
