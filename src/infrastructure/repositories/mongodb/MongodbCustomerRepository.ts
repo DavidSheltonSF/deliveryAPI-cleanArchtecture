@@ -1,3 +1,4 @@
+import { ObjectId } from 'mongodb';
 import { CustomerRepository } from '../../../application/_ports/CustomerRepository';
 import { CustomerUser } from '../../../domain/entities/user/customer/CustomerUser';
 import { CustomerModel } from '../../models/mongodb/CustomerModel';
@@ -43,5 +44,37 @@ export class MongodbCustomerRepository implements CustomerRepository {
     }
 
     return persistenceToCustomerModel(createdCustomer);
+  }
+
+  async update(customer: CustomerUser): Promise<CustomerModel | null> {
+    const userCollection = mongoHelper.getCollection('users');
+    const customerModel = entityToCustomerModel(customer);
+    const customerId = customerModel._id;
+    delete customerModel._id;
+    const updatedUser = await userCollection.findOneAndUpdate(
+      { _id: customerId },
+      { $set: customerModel },
+      { returnDocument: 'after' }
+    );
+
+    if (updatedUser === null) {
+      return null;
+    }
+
+    return persistenceToCustomerModel(updatedUser);
+  }
+
+  async delete(id: string): Promise<CustomerModel | null> {
+    const userCollection = mongoHelper.getCollection('users');
+    const customerId = new ObjectId(id);
+    const deletedCustomer = await userCollection.findOneAndDelete({
+      _id: customerId,
+    });
+
+    if (deletedCustomer === null) {
+      return null;
+    }
+
+    return persistenceToCustomerModel(deletedCustomer);
   }
 }
