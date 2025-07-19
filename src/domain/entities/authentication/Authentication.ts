@@ -7,11 +7,16 @@ export class Authentication {
   private _passwordHash: PasswordHash;
   private _sessionToken?: string;
 
-  constructor(authenticationData: AuthenticationProps) {
-    this._id = authenticationData.id;
-    this._email = authenticationData.email;
-    this._passwordHash = authenticationData.passwordHash;
-    this._sessionToken = authenticationData.sessionToken;
+  constructor(
+    email: Email,
+    passwordHash: PasswordHash,
+    sessionToken: string,
+    id?: string
+  ) {
+    this._id = id;
+    this._email = email;
+    this._passwordHash = passwordHash;
+    this._sessionToken = sessionToken;
   }
 
   get id(): string {
