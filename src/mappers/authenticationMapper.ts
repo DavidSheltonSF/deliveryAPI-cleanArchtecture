@@ -1,16 +1,9 @@
-import { Hasher } from '../../../../domain/contracts/Hasher';
-import { AuthenticationProps } from '../../../../domain/entities/authentication/AuthenticationProps';
-import {
-  InvalidEmailError,
-  InvalidPasswordError,
-} from '../../../../domain/errors';
-import {
-  Email,
-  Password,
-  PasswordHash,
-} from '../../../../domain/value-objects';
-import { AuthenticationDTO } from '../../../../presentation/dtos/UserDTO';
-import { Either } from '../../../../shared/either';
+import { Hasher } from '../domain/contracts/Hasher';
+import { AuthenticationProps } from '../domain/entities/authentication/AuthenticationProps';
+import { InvalidEmailError, InvalidPasswordError } from '../domain/errors';
+import { Email, Password, PasswordHash } from '../domain/value-objects';
+import { AuthenticationDTO } from '../presentation/dtos/UserDTO';
+import { Either } from '../shared/either';
 
 export async function rawAuthenticationToProps(
   authenticationDTO: AuthenticationDTO,
@@ -31,7 +24,6 @@ export async function rawAuthenticationToProps(
   if (emailOrError.isLeft()) {
     return Either.left(emailOrError.getLeft());
   }
-
 
   const validPassword = passwordOrError.getRight();
 

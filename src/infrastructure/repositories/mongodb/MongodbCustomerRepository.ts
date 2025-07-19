@@ -6,7 +6,7 @@ import { mongoHelper } from './helpers/mongo-helper';
 import {
   entityToCustomerModel,
   persistenceToCustomerModel,
-} from './mappers/customerMappers';
+} from '../../../mappers/customerMappers';
 
 export class MongodbCustomerRepository implements CustomerRepository {
   async findAll(): Promise<CustomerModel[]> {

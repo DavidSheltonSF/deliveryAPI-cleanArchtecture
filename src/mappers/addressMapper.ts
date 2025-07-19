@@ -1,9 +1,9 @@
-import { AddressProps } from '../../../../domain/entities/address/AddressProps';
-import { InvalidAddressError } from '../../../../domain/errors';
-import { InvalidZipCodeError } from '../../../../domain/errors/InvalidZipCodeError';
-import { ZipCode } from '../../../../domain/value-objects';
-import { AddressDTO } from '../../../../presentation/dtos/UserDTO';
-import { Either } from '../../../../shared/either';
+import { AddressProps } from '../domain/entities/address/AddressProps';
+import { InvalidAddressError } from '../domain/errors';
+import { InvalidZipCodeError } from '../domain/errors/InvalidZipCodeError';
+import { ZipCode } from '../domain/value-objects';
+import { AddressDTO } from '../presentation/dtos/UserDTO';
+import { Either } from '../shared/either';
 
 export function rawAddressToProps(
   addressDTO: AddressDTO

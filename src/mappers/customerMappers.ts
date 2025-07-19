@@ -1,9 +1,9 @@
 import { WithId, Document } from 'mongodb';
-import { CustomerModel } from '../../../models/mongodb/CustomerModel';
-import { stringToObjectId } from '../helpers/stringToObjectId';
-import { CustomerUser } from '../../../../domain/entities/user/customer/CustomerUser';
-import { UserDTO } from '../../../../presentation/dtos/UserDTO';
-import { UserProps } from '../../../../domain/entities/user/UserProps';
+import { CustomerModel } from '../infrastructure/models/mongodb/CustomerModel';
+import { stringToObjectId } from '../infrastructure/repositories/mongodb/helpers/stringToObjectId';
+import { CustomerUser } from '../domain/entities/user/customer/CustomerUser';
+import { UserDTO } from '../presentation/dtos/UserDTO';
+import { UserProps } from '../domain/entities/user/UserProps';
 import {
   Birthday,
   Cpf,
@@ -13,13 +13,13 @@ import {
   Role,
   UserName,
   ZipCode,
-} from '../../../../domain/value-objects';
-import { Address } from '../../../../domain/entities/address/Address';
-import { Either } from '../../../../shared/either';
-import { InvalidZipCodeError } from '../../../../domain/errors/InvalidZipCodeError';
-import { AddressFactory } from '../../../../domain/factories/AddressFactory';
+} from '../domain/value-objects';
+import { Address } from '../domain/entities/address/Address';
+import { Either } from '../shared/either';
+import { InvalidZipCodeError } from '../domain/errors/InvalidZipCodeError';
+import { AddressFactory } from '../domain/factories/AddressFactory';
 import { rawAddressToProps } from './addressMapper';
-import { Hasher } from '../../../../domain/contracts/Hasher';
+import { Hasher } from '../domain/contracts/Hasher';
 import { rawAuthenticationToProps } from './authenticationMapper';
 
 export function persistenceToCustomerModel(
@@ -86,17 +86,15 @@ export async function rawUserToCustomerProps(
     birthday: Birthday.create(new Date(birthday)),
   };
 
-  const validValueObjects = {}
+  const validValueObjects = {};
 
   for (const [k, v] of Object.entries(validations)) {
     if (v.isLeft()) {
       return Either.left(v.getLeft());
     }
     validValueObjects[k] = v.getRight();
-
   }
 
-  
   const authOrError = await rawAuthenticationToProps(
     authentication,
     email,
@@ -111,7 +109,7 @@ export async function rawUserToCustomerProps(
     return Either.left(addressOrError.getLeft());
   }
 
-  console.log('FLAG')
+  console.log('FLAG');
   const authenticationProps = authOrError.getRight();
   const addressProps = addressOrError.getRight();
 
