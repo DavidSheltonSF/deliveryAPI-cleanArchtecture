@@ -44,8 +44,7 @@ export async function rawAuthenticationToProps(
   const validPasswordHash = passwordHash.getRight();
 
   const authenticationProps: AuthenticationProps = {
-    email: emailOrError.getRight(),
-    passwordHash: validPasswordHash,
+    passwordHash: validPasswordHash.get(),
     sessionToken,
   };
 
