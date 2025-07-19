@@ -1,13 +1,8 @@
 import { Either } from '../../shared/either';
 import { InvalidAddressError } from '../errors/InvalidAddressError';
+import { AddressProps } from '../entities/address/AddressProps';
 import { ZipCode } from './ZipCode';
 
-export interface AddressProps {
-  street: string;
-  city: string;
-  state: string;
-  zipCode: ZipCode;
-}
 
 export class Address {
   private readonly address: AddressProps;
