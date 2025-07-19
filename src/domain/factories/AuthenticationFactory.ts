@@ -2,10 +2,10 @@ import { Authentication } from '../entities/authentication/Authentication';
 import { AuthenticationProps } from '../entities/authentication/AuthenticationProps';
 
 export class AuthenticationFactory {
-  static create(authenticationProps: AuthenticationProps): Authentication {
-    const { email, passwordHash, sessionToken } = authenticationProps;
+  static create(authenticationProps: AuthenticationProps, userEmail: string): Authentication {
+    const { passwordHash, sessionToken } = authenticationProps;
 
-    const addressEntity = new Authentication(email, passwordHash, sessionToken);
+    const addressEntity = new Authentication(userEmail, passwordHash, sessionToken);
 
     return addressEntity;
   }
