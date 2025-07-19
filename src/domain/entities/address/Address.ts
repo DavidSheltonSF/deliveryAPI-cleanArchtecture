@@ -8,12 +8,18 @@ export class Address {
   private _state: string;
   private _zipCode: ZipCode;
 
-  constructor(addressData: AddressProps) {
-    this._id = addressData.id;
-    this._street = addressData.street;
-    this._city = addressData.city;
-    this._state = addressData.state;
-    this._zipCode = addressData.zipCode;
+  constructor(
+    street: string,
+    city: string,
+    state: string,
+    zipCode: ZipCode,
+    id?: string
+  ) {
+    this._id = id;
+    this._street = street;
+    this._city = city;
+    this._state = state;
+    this._zipCode = zipCode;
   }
 
   get id(): string {
