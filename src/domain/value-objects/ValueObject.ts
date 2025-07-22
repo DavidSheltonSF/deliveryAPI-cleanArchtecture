@@ -1,9 +1,12 @@
 import { Either } from '../../shared/either';
 
-export interface ValueObject {
+export abstract class ValueObject {
   readonly value: any;
 
-  validate(value: any): boolean;
-  create(value: any): Either<any, any>;
-  getValue(): any;
+  create(value: any): Either<any, any> {
+    throw Error('Use a subclass.');
+  }
+  getValue() {
+    throw Error('Use a subclass.');
+  }
 }
