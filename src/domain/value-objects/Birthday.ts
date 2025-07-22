@@ -17,14 +17,15 @@ export class Birthday {
     return true;
   }
 
-  static create(birthday: Date): Either<InvalidBirthdayError, Birthday> {
-    if (!this.validate(birthday)) {
+  static create(date: Date | string): Either<InvalidBirthdayError, Birthday> {
+    const parsedDate = typeof date === 'string' ? new Date(date) : date;
+    if (!this.validate(parsedDate)) {
       return Either.left(
-        new InvalidBirthdayError(birthday.toLocaleDateString())
+        new InvalidBirthdayError(parsedDate.toLocaleDateString())
       );
     }
 
-    return Either.right(new Birthday(birthday));
+    return Either.right(new Birthday(parsedDate));
   }
 
   get(): Date {
