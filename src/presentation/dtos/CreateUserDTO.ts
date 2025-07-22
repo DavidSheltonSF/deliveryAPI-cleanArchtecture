@@ -2,7 +2,7 @@ import { AddressDTO } from './AddressDTO';
 import { AuthenticationDTO } from './AuthenticationDTO';
 import { BankAccountDTO } from './BankAccountDTO';
 
-export interface CreateUserRequestDTO {
+export interface CreateUserDTO {
   username: string;
   name: string;
   email: string;
