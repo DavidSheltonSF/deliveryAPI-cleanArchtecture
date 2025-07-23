@@ -1,6 +1,6 @@
 import { Either } from '../../shared/either';
 import { InvalidRoleError } from '../errors';
-import { UserRole } from './_enums';
+import { UserRole } from '../_enums';
 import { ValueObject } from './ValueObject';
 
 export class Role extends ValueObject {
