@@ -1,10 +1,12 @@
 import { Either } from '../../shared/either';
 import { InvalidNameError } from '../errors';
+import { ValueObject } from './ValueObject';
 
-export class Name {
+export class Name extends ValueObject {
   private readonly value: string;
 
   constructor(name: string) {
+    super();
     this.value = name;
     Object.freeze(this);
   }
