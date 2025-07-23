@@ -1,4 +1,4 @@
-import { ZipCode } from '../../value-objects/ZipCode';
+import { ZipCode } from '../../value-objects/AddressZipCode';
 import { AddressProps } from './AddressProps';
 
 export class Address {

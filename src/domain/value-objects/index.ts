@@ -1,4 +1,4 @@
-export * from './ZipCode';
+export * from './AddressZipCode';
 export * from './Cpf';
 export * from './Email';
 export * from './Name';
