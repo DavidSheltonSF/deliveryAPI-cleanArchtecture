@@ -1,14 +1,16 @@
 import { AuthenticationDTO } from '../../presentation/dtos/AuthenticationDTO';
 import { Either } from '../../shared/either';
+import { Hasher } from '../contracts/Hasher';
 import { Authentication } from '../entities/authentication/Authentication';
 import { authenticationErrorType } from '../errors/errorTypes';
 import { validateAuthentication } from '../helpers/validateAuthentication';
 
 export class AuthenticationFactory {
-  static create(
+  static async create(
     authenticationDTO: AuthenticationDTO,
-    email: string
-  ): Either<authenticationErrorType, Authentication> {
+    email: string,
+    hasher: Hasher
+  ): Promise<Either<authenticationErrorType, Authentication>> {
     const authenticationOrError = validateAuthentication(
       authenticationDTO,
       email
@@ -20,9 +22,13 @@ export class AuthenticationFactory {
 
     const validAuthentication = authenticationOrError.getRight();
 
+    const passwordHash = await hasher.hash(
+      validAuthentication.get('password').getValue()
+    );
+
     const authenticationEntity = new Authentication(
       validAuthentication.get('email').getValue(),
-      validAuthentication.get('password').getValue(),
+      passwordHash,
       authenticationDTO.sessionToken
     );
 

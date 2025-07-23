@@ -1,5 +1,6 @@
 import { CreateUserDTO } from '../../presentation/dtos/CreateUserDTO';
 import { Either } from '../../shared/either';
+import { Hasher } from '../contracts/Hasher';
 import { CustomerUser } from '../entities/user/customer/CustomerUser';
 import {
   addressErrorType,
@@ -11,12 +12,12 @@ import { AddressFactory } from './AddressFactory';
 import { AuthenticationFactory } from './AuthenticationFactory';
 
 export class UserFactory {
-  static create(
-    userDTO: CreateUserDTO
-  ): Either<
+  static async create(
+    userDTO: CreateUserDTO, hasher: Hasher
+  ): Promise<Either<
     userValidationErrorType | addressErrorType | authenticationErrorType,
     CustomerUser
-  > {
+  >> {
     const validUserOrError = validateUser(userDTO);
 
     if (validUserOrError.isLeft()) {
@@ -29,9 +30,10 @@ export class UserFactory {
 
     if (role === 'customer') {
       const validAddressOrError = AddressFactory.create(address);
-      const validAuthenticationOrError = AuthenticationFactory.create(
+      const validAuthenticationOrError = await AuthenticationFactory.create(
         authentication,
-        email
+        email,
+        hasher
       );
 
       if (validAddressOrError.isLeft()) {

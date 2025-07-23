@@ -6,14 +6,13 @@ describe('Testing UserName validator', () => {
     password: 'Ddfsed44%%@fa',
   };
 
-  test('Should create an Address domain entity properly', () => {
-    const hasher = new BcryptHasher();
+  test('Should create an Address domain entity properly', async () => {
+    const hasher = new BcryptHasher(12);
 
     const authEmail = 'teste@email.com';
 
-    const authenticationEntity = AuthenticationFactory.create(
-      authentication,
-      authEmail
+    const authenticationEntity = (
+      await AuthenticationFactory.create(authentication, authEmail, hasher)
     ).getRight();
 
     expect(authenticationEntity.email).toBe(authEmail);
