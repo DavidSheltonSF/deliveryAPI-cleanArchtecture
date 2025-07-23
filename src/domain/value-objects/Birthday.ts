@@ -19,14 +19,19 @@ export class Birthday extends ValueObject {
     return true;
   }
 
-  static create(birthday: Date): Either<InvalidBirthdayError, Birthday> {
-    if (!this.validate(birthday)) {
+  static create(
+    birthday: Date | string
+  ): Either<InvalidBirthdayError, Birthday> {
+    const parsedDate =
+      typeof birthday === 'string' ? new Date(birthday) : birthday;
+
+    if (!this.validate(parsedDate)) {
       return Either.left(
-        new InvalidBirthdayError(birthday.toLocaleDateString())
+        new InvalidBirthdayError(parsedDate.toLocaleDateString())
       );
     }
 
-    return Either.right(new Birthday(birthday));
+    return Either.right(new Birthday(parsedDate));
   }
 
   getValue(): Date {
