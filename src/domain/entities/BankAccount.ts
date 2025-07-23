@@ -1,10 +1,7 @@
-import { Cpf, Name } from '../value-objects';
-import { BankAccountProps } from './BankAccountProps';
-
 export class BankAccount {
   private _id: string;
-  private _holderName: Name;
-  private _cpf: Cpf;
+  private _holderName: string;
+  private _cpf: string;
   private _bankCode: string;
   private _agency: string;
   private _accountNumber: string;
@@ -16,33 +13,41 @@ export class BankAccount {
     Itau: '341',
   };
 
-  constructor(id: string, bankAccountData: BankAccountProps) {
+  constructor(
+    id: string,
+    holderName: string,
+    cpf: string,
+    bankCode: string,
+    agency: string,
+    accountNumber: string,
+    accountType: string
+  ) {
     this._id = id;
-    this._holderName = bankAccountData.holderName;
-    this._cpf = bankAccountData.cpf;
-    this._bankCode = bankAccountData.bankCode;
-    this._agency = bankAccountData.agency;
-    this._accountNumber = bankAccountData.accountNumber;
-    this._accountType = bankAccountData.accountType;
+    this._holderName = holderName;
+    this._cpf = cpf;
+    this._bankCode = bankCode;
+    this._agency = agency;
+    this._accountNumber = accountNumber;
+    this._accountType = accountType;
   }
 
   get id(): string {
     return this._id;
   }
 
-  get holderName(): Name {
+  get holderName(): string {
     return this._holderName;
   }
 
-  set holderName(name: Name) {
+  set holderName(name: string) {
     this._holderName = name;
   }
 
-  get cpf(): Cpf {
+  get cpf(): string {
     return this._cpf;
   }
 
-  set cpf(cpf: Cpf) {
+  set cpf(cpf: string) {
     this._cpf = cpf;
   }
 
