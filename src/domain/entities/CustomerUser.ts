@@ -1,6 +1,6 @@
 import { Address } from './Address';
 import { Authentication } from './Authentication';
-import { User } from '../User';
+import { User } from './User';
 
 export class CustomerUser extends User {
   private _address: Address;
