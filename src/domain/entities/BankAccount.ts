@@ -1,5 +1,5 @@
 export class BankAccount {
-  private _id: string;
+  private _id?: string;
   private _holderName: string;
   private _cpf: string;
   private _bankCode: string;
@@ -14,13 +14,13 @@ export class BankAccount {
   };
 
   constructor(
-    id: string,
     holderName: string,
     cpf: string,
     bankCode: string,
     agency: string,
     accountNumber: string,
-    accountType: string
+    accountType: string,
+    id?: string
   ) {
     this._id = id;
     this._holderName = holderName;
