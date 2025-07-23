@@ -7,9 +7,11 @@ import { InvalidPasswordError } from './InvalidPasswordError';
 import { InvalidPaymentMethodError } from './InvalidPaymentMethodError';
 import { InvalidPhoneError } from './InvalidPhoneError';
 import { InvalidRoleError } from './InvalidRoleError';
+import { InvalidZipCodeError } from './InvalidZipCodeError';
 
 export type customerValidationError =
   | InvalidNameError
+  | InvalidZipCodeError
   | InvalidAddressError
   | InvalidCardNumberError
   | InvalidCpfError
