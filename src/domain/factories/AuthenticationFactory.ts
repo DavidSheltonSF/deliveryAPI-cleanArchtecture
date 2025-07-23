@@ -7,11 +7,11 @@ import { validateAuthentication } from '../helpers/validateAuthentication';
 export class AuthenticationFactory {
   static create(
     authenticationDTO: AuthenticationDTO,
-    userEmail: string
+    email: string
   ): Either<authenticationErrorType, Authentication> {
     const authenticationOrError = validateAuthentication(
       authenticationDTO,
-      userEmail
+      email
     );
 
     if (authenticationOrError.isLeft()) {
