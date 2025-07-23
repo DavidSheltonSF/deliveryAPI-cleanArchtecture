@@ -1,5 +1,4 @@
 export * from './InvalidIdError';
-export * from './InvalidAddressError';
 export * from './InvalidCardNumberError';
 export * from './InvalidCpfError';
 export * from './InvalidEmailError';
@@ -10,3 +9,7 @@ export * from './InvalidPhoneError';
 export * from './InvalidRoleError';
 export * from './InvalidPaymentMethodError';
 export * from './InvalidBirthdayError';
+export * from './InvalidAddressCityError';
+export * from './InvalidAddressStateError';
+export * from './InvalidAddressStreetError';
+export * from './InvalidAddressZipCodeError';
