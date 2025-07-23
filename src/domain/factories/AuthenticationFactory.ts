@@ -23,7 +23,7 @@ export class AuthenticationFactory {
     const addressEntity = new Authentication(
       validAuthentication.get('email').getValue(),
       validAuthentication.get('password').getValue(),
-      validAuthentication.get('sessionToken').getValue()
+      authenticationDTO.sessionToken
     );
 
     return Either.right(addressEntity);
