@@ -6,7 +6,7 @@ describe('Testing ZipCode validator', () => {
     const zipCode = ZipCode.create(validZipCode);
 
     expect(zipCode.isRight()).toBeTruthy();
-    expect(zipCode.getRight().get()).toBe(validZipCode);
+    expect(zipCode.getRight().getValue()).toBe(validZipCode);
   });
 
   test('Trying to create a zipcode with less than 8 digits', () => {

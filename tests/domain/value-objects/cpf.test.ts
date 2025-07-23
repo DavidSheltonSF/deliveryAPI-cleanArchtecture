@@ -7,7 +7,7 @@ describe("Testing Cpf validator", () => {
     const gotCpf = cpfOrError.getRight();
 
     expect(cpfOrError.isRight()).toBeTruthy();
-    expect(validCpf).toBe(gotCpf.get());
+    expect(validCpf).toBe(gotCpf.getValue());
   });
 
 
@@ -17,7 +17,7 @@ describe("Testing Cpf validator", () => {
     const gotCpf = cpfOrError.getRight();
     
     expect(cpfOrError.isRight()).toBeTruthy();
-    expect(validCpf).toBe(gotCpf.get());
+    expect(validCpf).toBe(gotCpf.getValue());
   });
 
 

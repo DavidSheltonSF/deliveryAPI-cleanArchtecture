@@ -1,11 +1,13 @@
 import { Either } from '../../shared/either';
 import { InvalidBirthdayError } from '../errors';
+import { ValueObject } from './ValueObject';
 
-export class Birthday {
-  private readonly birthday: Date;
+export class Birthday extends ValueObject {
+  private readonly value: Date;
 
   constructor(birthday: Date) {
-    this.birthday = birthday;
+    super();
+    this.value = birthday;
     Object.freeze(this);
   }
 
@@ -17,18 +19,17 @@ export class Birthday {
     return true;
   }
 
-  static create(date: Date | string): Either<InvalidBirthdayError, Birthday> {
-    const parsedDate = typeof date === 'string' ? new Date(date) : date;
-    if (!this.validate(parsedDate)) {
+  static create(birthday: Date): Either<InvalidBirthdayError, Birthday> {
+    if (!this.validate(birthday)) {
       return Either.left(
-        new InvalidBirthdayError(parsedDate.toLocaleDateString())
+        new InvalidBirthdayError(birthday.toLocaleDateString())
       );
     }
 
-    return Either.right(new Birthday(parsedDate));
+    return Either.right(new Birthday(birthday));
   }
 
-  get(): Date {
-    return this.birthday;
+  getValue(): Date {
+    return this.value;
   }
 }

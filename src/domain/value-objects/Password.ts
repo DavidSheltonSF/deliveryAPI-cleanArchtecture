@@ -1,11 +1,13 @@
 import { Either } from '../../shared/either';
 import { InvalidPasswordError } from '../errors';
+import { ValueObject } from './ValueObject';
 
-export class Password {
-  private readonly password: string;
+export class Password extends ValueObject {
+  private readonly value: string;
 
   constructor(password: string) {
-    this.password = password;
+    super();
+    this.value = password;
     Object.freeze(this);
   }
 
@@ -36,7 +38,7 @@ export class Password {
     return Either.right(new Password(password));
   }
 
-  get(): string {
-    return this.password;
+  getValue(): string {
+    return this.value;
   }
 }

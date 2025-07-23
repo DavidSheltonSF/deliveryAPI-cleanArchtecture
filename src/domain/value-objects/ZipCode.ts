@@ -1,12 +1,14 @@
 import { Either } from '../../shared/either';
 import { InvalidAddressError } from '../errors/InvalidAddressError';
 import { InvalidZipCodeError } from '../errors/InvalidZipCodeError';
+import { ValueObject } from './ValueObject';
 
-export class ZipCode {
-  private readonly zipCode: string;
+export class ZipCode extends ValueObject {
+  private readonly value: string;
 
   constructor(zipCode: string) {
-    this.zipCode = zipCode;
+    super();
+    this.value = zipCode;
     Object.freeze(this);
   }
 
@@ -28,7 +30,7 @@ export class ZipCode {
     return Either.right(new ZipCode(zipCode));
   }
 
-  get(): string {
-    return this.zipCode;
+  getValue(): string {
+    return this.value;
   }
 }

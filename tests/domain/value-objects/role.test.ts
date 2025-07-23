@@ -16,7 +16,7 @@ describe('Testing Role validator', () => {
     const gotRole = roleOrError.getRight();
 
     expect(roleOrError.isRight()).toBeTruthy();
-    expect(validRole).toBe(gotRole.get());
+    expect(validRole).toBe(gotRole.getValue());
   });
 
   test('Trying to create an invalid role', () => {

@@ -7,7 +7,7 @@ describe("Testing Email validator", () => {
     const gotEmail = emailOrError.getRight();
 
     expect(emailOrError.isRight()).toBeTruthy();
-    expect(validEmail).toBe(gotEmail.get());
+    expect(validEmail).toBe(gotEmail.getValue());
   });
 
 

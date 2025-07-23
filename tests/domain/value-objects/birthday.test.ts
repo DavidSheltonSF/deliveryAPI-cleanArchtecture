@@ -6,7 +6,7 @@ describe('Testing Birhtday value object', () => {
     const birthdayOrError = Birthday.create(validDate);
 
     expect(birthdayOrError.isRight()).toBeTruthy();
-    expect(birthdayOrError.getRight().get()).toBe(validDate);
+    expect(birthdayOrError.getRight().getValue()).toBe(validDate);
   });
 
   test('Should not create Birthday with invalid date', () => {

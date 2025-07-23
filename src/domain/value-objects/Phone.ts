@@ -1,33 +1,35 @@
 import { Either } from '../../shared/either';
 import { InvalidPhoneError } from '../errors';
+import { ValueObject } from './ValueObject';
 
-export class Phone {
-  private readonly phone: string;
+export class Phone extends ValueObject {
+  private readonly value: string;
 
-  constructor(phone: string) {
-    this.phone = phone;
+  constructor(phoneNumber: string) {
+    super();
+    this.value = phoneNumber;
     Object.freeze(this);
   }
 
-  static validate(phone: string): boolean {
+  static validate(phoneNumber: string): boolean {
     const phoneRegex = /^\d{2}\-?\d{9}$/;
 
-    if (!phone.match(phoneRegex)) {
+    if (!phoneNumber.match(phoneRegex)) {
       return false;
     }
 
     return true;
   }
 
-  static create(phone: string): Either<InvalidPhoneError, Phone> {
-    if (!this.validate(phone)) {
-      return Either.left(new InvalidPhoneError(phone));
+  static create(phoneNumber: string): Either<InvalidPhoneError, Phone> {
+    if (!this.validate(phoneNumber)) {
+      return Either.left(new InvalidPhoneError(phoneNumber));
     }
 
-    return Either.right(new Phone(phone));
+    return Either.right(new Phone(phoneNumber));
   }
 
-  get(): string {
-    return this.phone;
+  getValue(): string {
+    return this.value;
   }
 }

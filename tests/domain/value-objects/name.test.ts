@@ -7,7 +7,7 @@ describe("Testing Name validator", () => {
     const gotName = nameOrError.getRight();
 
     expect(nameOrError.isRight()).toBeTruthy();
-    expect(validName).toBe(gotName.get());
+    expect(validName).toBe(gotName.getValue());
   });
 
   test("Trying to create a valid name with only 2 characteres", () => {
@@ -16,7 +16,7 @@ describe("Testing Name validator", () => {
     const gotName = nameOrError.getRight();
 
     expect(nameOrError.isRight()).toBeTruthy();
-    expect(validName).toBe(gotName.get());
+    expect(validName).toBe(gotName.getValue());
   });
 
   test("Trying to create name with special characteres", () => {

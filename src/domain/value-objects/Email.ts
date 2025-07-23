@@ -1,11 +1,13 @@
 import { Either } from '../../shared/either';
 import { InvalidEmailError } from '../errors';
+import { ValueObject } from './ValueObject';
 
-export class Email {
-  private readonly email: string;
+export class Email extends ValueObject {
+  private readonly value: string;
 
   constructor(email: string) {
-    this.email = email;
+    super();
+    this.value = email;
     Object.freeze(this);
   }
 
@@ -31,7 +33,7 @@ export class Email {
     return Either.right(new Email(email));
   }
 
-  get(): string {
-    return this.email;
+  getValue(): string {
+    return this.value;
   }
 }

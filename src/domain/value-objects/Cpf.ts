@@ -1,11 +1,13 @@
 import { Either } from '../../shared/either';
 import { InvalidCpfError } from '../errors';
+import { ValueObject } from './ValueObject';
 
-export class Cpf {
-  private readonly cpf: string;
+export class Cpf extends ValueObject {
+  private readonly value: string;
 
   constructor(cpf: string) {
-    this.cpf = cpf;
+    super();
+    this.value = cpf;
     Object.freeze(this);
   }
 
@@ -27,7 +29,7 @@ export class Cpf {
     return Either.right(new Cpf(cpf));
   }
 
-  get(): string {
-    return this.cpf;
+  getValue(): string {
+    return this.value;
   }
 }

@@ -1,15 +1,17 @@
 import { Either } from '../../shared/either';
 import { InvalidUserNameError } from '../errors';
+import { ValueObject } from './ValueObject';
 
-export class UserName {
-  private readonly username: string;
+export class UserName extends ValueObject {
+  private readonly value: string;
 
   constructor(username: string) {
-    this.username = username;
+    super();
+    this.value = username;
     Object.freeze(this);
   }
 
-  static validate(username: string): Boolean {
+  static validate(username: string): boolean {
     if (
       !username ||
       username.trim().length < 2 ||
@@ -21,7 +23,7 @@ export class UserName {
     return true;
   }
 
-  static create(username: string): Either<InvalidUserNameError, UserName> {
+  static create(username: string): Either<any, any> {
     if (!this.validate(username)) {
       return Either.left(new InvalidUserNameError(username));
     }
@@ -29,7 +31,7 @@ export class UserName {
     return Either.right(new UserName(username));
   }
 
-  get(): string {
-    return this.username;
+  getValue(): any {
+    return this.value;
   }
 }

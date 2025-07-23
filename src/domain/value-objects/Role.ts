@@ -1,12 +1,14 @@
 import { Either } from '../../shared/either';
 import { InvalidRoleError } from '../errors';
 import { UserRole } from './_enums';
+import { ValueObject } from './ValueObject';
 
-export class Role {
-  private readonly role: string;
+export class Role extends ValueObject {
+  private readonly value: string;
 
   constructor(role: string) {
-    this.role = role;
+    super();
+    this.value = role;
     Object.freeze(this);
   }
 
@@ -26,7 +28,7 @@ export class Role {
     return Either.right(new Role(role));
   }
 
-  get(): string {
-    return this.role;
+  getValue(): string {
+    return this.value;
   }
 }

@@ -7,6 +7,6 @@ describe('Testing Phone validator', () => {
     const passwordOrError = Password.create(validPassword);
 
     expect(passwordOrError.isRight()).toBeTruthy();
-    expect(passwordOrError.getRight().get()).toBe(validPassword)
+    expect(passwordOrError.getRight().getValue()).toBe(validPassword);
   });
 });

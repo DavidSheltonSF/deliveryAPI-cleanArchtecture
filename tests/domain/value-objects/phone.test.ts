@@ -7,7 +7,7 @@ describe('Testing Phone validator', () => {
     const gotPhone = phoneOrError.getRight();
 
     expect(phoneOrError.isRight()).toBeTruthy();
-    expect(validPhone).toBe(gotPhone.get());
+    expect(validPhone).toBe(gotPhone.getValue());
   });
 
   test('Trying to create phone without simbols', () => {
@@ -16,7 +16,7 @@ describe('Testing Phone validator', () => {
     const gotPhone = phoneOrError.getRight();
 
     expect(phoneOrError.isRight()).toBeTruthy();
-    expect(validPhone).toBe(gotPhone.get());
+    expect(validPhone).toBe(gotPhone.getValue());
   });
 
   test('Trying to create a phone with more than 12 characteres', () => {

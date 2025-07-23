@@ -2,10 +2,10 @@ import { Either } from '../../shared/either';
 import { InvalidNameError } from '../errors';
 
 export class Name {
-  private readonly name: string;
+  private readonly value: string;
 
   constructor(name: string) {
-    this.name = name;
+    this.value = name;
     Object.freeze(this);
   }
 
@@ -31,7 +31,7 @@ export class Name {
     return Either.right(new Name(name));
   }
 
-  get(): string {
-    return this.name;
+  getValue(): string {
+    return this.value;
   }
 }
