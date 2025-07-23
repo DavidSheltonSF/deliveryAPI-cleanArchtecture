@@ -1,6 +1,6 @@
 import { ObjectId } from 'mongodb';
 import { CustomerRepository } from '../../../application/_ports/CustomerRepository';
-import { CustomerUser } from '../../../domain/entities/user/customer/CustomerUser';
+import { CustomerUser } from '../../../domain/entities/CustomerUser';
 import { CustomerModel } from '../../models/mongodb/CustomerModel';
 import { mongoHelper } from './helpers/mongo-helper';
 import {

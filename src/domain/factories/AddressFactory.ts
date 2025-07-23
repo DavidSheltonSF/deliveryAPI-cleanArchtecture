@@ -1,6 +1,6 @@
 import { AddressDTO } from '../../presentation/dtos/AddressDTO';
 import { Either } from '../../shared/either';
-import { Address } from '../entities/address/Address';
+import { Address } from '../entities/Address';
 import { addressErrorType } from '../errors/errorTypes';
 import { validateAddress } from '../helpers/validateAddress';
 

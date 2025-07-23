@@ -1,5 +1,5 @@
-import { Address } from '../../address/Address';
-import { Authentication } from '../../authentication/Authentication';
+import { Address } from './Address';
+import { Authentication } from './Authentication';
 import { User } from '../User';
 
 export class CustomerUser extends User {

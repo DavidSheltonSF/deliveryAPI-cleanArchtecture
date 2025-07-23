@@ -7,7 +7,7 @@ import {
   Email,
   Cpf,
 } from '../../../value-objects';
-import { Authentication } from '../../authentication/Authentication';
+import { Authentication } from '../../Authentication';
 import { User } from '../User';
 
 export class AdminUser extends User {

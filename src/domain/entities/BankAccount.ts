@@ -1,4 +1,4 @@
-import { Cpf, Name } from '../../value-objects';
+import { Cpf, Name } from '../value-objects';
 import { BankAccountProps } from './BankAccountProps';
 
 export class BankAccount {

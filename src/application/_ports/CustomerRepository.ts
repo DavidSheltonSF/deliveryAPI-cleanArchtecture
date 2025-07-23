@@ -1,4 +1,4 @@
-import { CustomerUser } from '../../domain/entities/user/customer/CustomerUser';
+import { CustomerUser } from '../../domain/entities/CustomerUser';
 import { CustomerModel } from '../../infrastructure/models/mongodb/CustomerModel';
 
 export interface CustomerRepository {

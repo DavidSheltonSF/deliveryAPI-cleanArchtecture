@@ -1,7 +1,7 @@
 import { WithId, Document } from 'mongodb';
 import { CustomerModel } from '../infrastructure/models/mongodb/CustomerModel';
 import { stringToObjectId } from '../infrastructure/repositories/mongodb/helpers/stringToObjectId';
-import { CustomerUser } from '../domain/entities/user/customer/CustomerUser';
+import { CustomerUser } from '../domain/entities/CustomerUser';
 import { UserDTO } from '../presentation/dtos/UserDTO';
 import { UserProps } from '../domain/entities/user/UserProps';
 import {
@@ -14,7 +14,7 @@ import {
   UserName,
   ZipCode,
 } from '../domain/value-objects';
-import { Address } from '../domain/entities/address/Address';
+import { Address } from '../domain/entities/Address';
 import { Either } from '../shared/either';
 import { InvalidZipCodeError } from '../domain/errors/InvalidZipCodeError';
 import { AddressFactory } from '../domain/factories/AddressFactory';

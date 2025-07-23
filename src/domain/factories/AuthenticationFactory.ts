@@ -1,7 +1,7 @@
 import { AuthenticationDTO } from '../../presentation/dtos/AuthenticationDTO';
 import { Either } from '../../shared/either';
 import { Hasher } from '../contracts/Hasher';
-import { Authentication } from '../entities/authentication/Authentication';
+import { Authentication } from '../entities/Authentication';
 import { authenticationErrorType } from '../errors/errorTypes';
 import { validateAuthentication } from '../helpers/validateAuthentication';
 

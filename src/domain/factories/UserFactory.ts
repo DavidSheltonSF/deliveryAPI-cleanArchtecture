@@ -1,7 +1,7 @@
 import { CreateUserDTO } from '../../presentation/dtos/CreateUserDTO';
 import { Either } from '../../shared/either';
 import { Hasher } from '../contracts/Hasher';
-import { CustomerUser } from '../entities/user/customer/CustomerUser';
+import { CustomerUser } from '../entities/CustomerUser';
 import {
   addressErrorType,
   authenticationErrorType,
@@ -13,11 +13,14 @@ import { AuthenticationFactory } from './AuthenticationFactory';
 
 export class UserFactory {
   static async create(
-    userDTO: CreateUserDTO, hasher: Hasher
-  ): Promise<Either<
-    userValidationErrorType | addressErrorType | authenticationErrorType,
-    CustomerUser
-  >> {
+    userDTO: CreateUserDTO,
+    hasher: Hasher
+  ): Promise<
+    Either<
+      userValidationErrorType | addressErrorType | authenticationErrorType,
+      CustomerUser
+    >
+  > {
     const validUserOrError = validateUser(userDTO);
 
     if (validUserOrError.isLeft()) {

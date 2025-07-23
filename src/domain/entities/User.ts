@@ -1,4 +1,4 @@
-import { Authentication } from '../authentication/Authentication';
+import { Authentication } from '../Authentication';
 
 export class User {
   private _id?: string;
