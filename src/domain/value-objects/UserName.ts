@@ -23,7 +23,7 @@ export class UserName extends ValueObject {
     return true;
   }
 
-  static create(username: string): Either<any, any> {
+  static create(username: string): Either<InvalidUserNameError, UserName> {
     if (!this.validate(username)) {
       return Either.left(new InvalidUserNameError(username));
     }
@@ -31,7 +31,7 @@ export class UserName extends ValueObject {
     return Either.right(new UserName(username));
   }
 
-  getValue(): any {
+  getValue(): string {
     return this.value;
   }
 }
