@@ -7,7 +7,7 @@ export class Authentication {
   constructor(
     email: string,
     passwordHash: string,
-    sessionToken: string,
+    sessionToken?: string,
     id?: string
   ) {
     this._id = id;
