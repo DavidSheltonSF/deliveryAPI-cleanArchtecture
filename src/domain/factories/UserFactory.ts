@@ -7,16 +7,6 @@ import {
   userValidationErrorType,
 } from '../errors/errorTypes';
 import { validateUser } from '../helpers/validateUser';
-import {
-  Birthday,
-  Cpf,
-  Email,
-  Name,
-  Phone,
-  Role,
-  UserName,
-} from '../value-objects';
-import { ValueObject } from '../value-objects/ValueObject';
 import { AddressFactory } from './AddressFactory';
 import { AuthenticationFactory } from './AuthenticationFactory';
 
