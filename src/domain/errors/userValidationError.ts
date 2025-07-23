@@ -9,7 +9,7 @@ import { InvalidPhoneError } from './InvalidPhoneError';
 import { InvalidRoleError } from './InvalidRoleError';
 import { InvalidZipCodeError } from './InvalidZipCodeError';
 
-export type customerValidationError =
+export type userValidationError =
   | InvalidNameError
   | InvalidZipCodeError
   | InvalidAddressError
