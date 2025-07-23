@@ -20,12 +20,12 @@ export class AuthenticationFactory {
 
     const validAuthentication = authenticationOrError.getRight();
 
-    const addressEntity = new Authentication(
+    const authenticationEntity = new Authentication(
       validAuthentication.get('email').getValue(),
       validAuthentication.get('password').getValue(),
       authenticationDTO.sessionToken
     );
 
-    return Either.right(addressEntity);
+    return Either.right(authenticationEntity);
   }
 }
