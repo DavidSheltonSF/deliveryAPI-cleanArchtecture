@@ -8,7 +8,9 @@ import { AddressStreet } from '../value-objects/AddressStreet';
 import { ValueObject } from '../value-objects/ValueObject';
 import { validateEitherValues } from './validateEitherValues';
 
-export function validateAddress(addressDTO: AddressDTO): Either<addressErrorType, Map<string, ValueObject>> {
+export function validateAddress(
+  addressDTO: AddressDTO
+): Either<addressErrorType, Map<string, ValueObject>> {
   const { street, city, state, zipCode } = addressDTO;
 
   const validations = {
@@ -23,4 +25,8 @@ export function validateAddress(addressDTO: AddressDTO): Either<addressErrorType
   if (validValuesOrError.isLeft()) {
     return Either.left(validValuesOrError.getLeft());
   }
+
+  const validValues = validValuesOrError.getRight();
+
+  return Either.right(validValues);
 }
