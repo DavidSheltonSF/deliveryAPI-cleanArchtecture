@@ -11,7 +11,7 @@ import { InvalidAddressStreetError } from './InvalidAddressStreetError';
 import { InvalidAddressStateError } from './InvalidAddressStateError';
 import { InvalidAddressCityError } from './InvalidAddressCityError';
 
-export type userValidationError =
+export type userValidationErrorType =
   | InvalidNameError
   | InvalidCardNumberError
   | InvalidCpfError
