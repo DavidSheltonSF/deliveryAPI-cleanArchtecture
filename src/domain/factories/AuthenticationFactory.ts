@@ -1,12 +1,31 @@
+import { AuthenticationDTO } from '../../presentation/dtos/AuthenticationDTO';
+import { Either } from '../../shared/either';
 import { Authentication } from '../entities/authentication/Authentication';
-import { AuthenticationProps } from '../entities/authentication/AuthenticationProps';
+import { authenticationErrorType } from '../errors/errorTypes';
+import { validateAuthentication } from '../helpers/validateAuthentication';
 
 export class AuthenticationFactory {
-  static create(authenticationProps: AuthenticationProps, userEmail: string): Authentication {
-    const { passwordHash, sessionToken } = authenticationProps;
+  static create(
+    authenticationDTO: AuthenticationDTO,
+    userEmail: string
+  ): Either<authenticationErrorType, Authentication> {
+    const authenticationOrError = validateAuthentication(
+      authenticationDTO,
+      userEmail
+    );
 
-    const addressEntity = new Authentication(userEmail, passwordHash, sessionToken);
+    if (authenticationOrError.isLeft()) {
+      return Either.left(authenticationOrError.getLeft());
+    }
 
-    return addressEntity;
+    const validAuthentication = authenticationOrError.getRight();
+
+    const addressEntity = new Authentication(
+      validAuthentication.get('email').getValue(),
+      validAuthentication.get('password').getValue(),
+      validAuthentication.get('sessionToken').getValue()
+    );
+
+    return Either.right(addressEntity);
   }
 }
