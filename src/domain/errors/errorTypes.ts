@@ -1,5 +1,4 @@
 import { InvalidNameError } from './InvalidNameError';
-import { InvalidAddressError } from './InvalidAddressError';
 import { InvalidCardNumberError } from './InvalidCardNumberError';
 import { InvalidCpfError } from './InvalidCpfError';
 import { InvalidEmailError } from './InvalidEmailError';
@@ -14,7 +13,6 @@ import { InvalidAddressCityError } from './InvalidAddressCityError';
 
 export type userValidationError =
   | InvalidNameError
-  | InvalidAddressError
   | InvalidCardNumberError
   | InvalidCpfError
   | InvalidEmailError
