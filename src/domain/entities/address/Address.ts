@@ -1,6 +1,3 @@
-import { ZipCode } from '../../value-objects/AddressZipCode';
-import { AddressProps } from './AddressProps';
-
 export class Address {
   private readonly _id?: string;
   private _street: string;
