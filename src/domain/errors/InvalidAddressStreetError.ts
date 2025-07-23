@@ -1,8 +1,8 @@
 import { DomainError } from './DomainError';
 
-export class InvalidStreetError extends Error implements DomainError {
+export class InvalidAddressStreetError extends Error implements DomainError {
   constructor(street: string) {
     super(`The street ${street} is invalid`);
-    this.name = 'InvalidStreetError';
+    this.name = 'InvalidAddressStreetError';
   }
 }

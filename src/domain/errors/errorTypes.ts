@@ -7,14 +7,13 @@ import { InvalidPasswordError } from './InvalidPasswordError';
 import { InvalidPaymentMethodError } from './InvalidPaymentMethodError';
 import { InvalidPhoneError } from './InvalidPhoneError';
 import { InvalidRoleError } from './InvalidRoleError';
-import { InvalidZipCodeError } from './InvalidZipCodeError';
-import { InvalidStreetError } from './InvalidStreetNameError copy';
-import { InvalidStateError } from './InvalidStateError';
-import { InvalidCityError } from './InvalidCityError';
+import { InvalidAddressZipCodeError } from './InvalidAddressZipCodeError';
+import { InvalidAddressStreetError } from './InvalidAddressStreetError';
+import { InvalidAddressStateError } from './InvalidAddressStateError';
+import { InvalidAddressCityError } from './InvalidAddressCityError';
 
 export type userValidationError =
   | InvalidNameError
-  | InvalidZipCodeError
   | InvalidAddressError
   | InvalidCardNumberError
   | InvalidCpfError
@@ -25,7 +24,7 @@ export type userValidationError =
   | InvalidRoleError;
 
 export type addressErrorType =
-  | InvalidStreetError
-  | InvalidCityError
-  | InvalidStateError
-  | InvalidZipCodeError;
+  | InvalidAddressStreetError
+  | InvalidAddressCityError
+  | InvalidAddressStateError
+  | InvalidAddressZipCodeError;
