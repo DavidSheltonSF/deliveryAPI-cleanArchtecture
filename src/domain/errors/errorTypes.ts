@@ -26,3 +26,5 @@ export type addressErrorType =
   | InvalidAddressCityError
   | InvalidAddressStateError
   | InvalidAddressZipCodeError;
+
+export type authenticationErrorType = InvalidPasswordError | InvalidEmailError;
