@@ -9,7 +9,7 @@ export function validateAuthentication(
   authenticationDTO: AuthenticationDTO,
   email: string
 ): Either<authenticationErrorType, Map<string, ValueObject>> {
-  const { password, sessionToken } = authenticationDTO;
+  const { password } = authenticationDTO;
 
   const validations = {
     email: Email.create(email),
