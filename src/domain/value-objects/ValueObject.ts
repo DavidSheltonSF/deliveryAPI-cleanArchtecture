@@ -5,7 +5,7 @@ export abstract class ValueObject {
   create(value: any): Either<any, any> {
     throw Error('Use a subclass.');
   }
-  getValue() {
+  getValue(): any {
     throw Error('Use a subclass.');
   }
 }
