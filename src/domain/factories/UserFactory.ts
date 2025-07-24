@@ -7,6 +7,7 @@ import {
   authenticationErrorType,
   userValidationErrorType,
 } from '../errors/errorTypes';
+import { validateCreateUser } from '../helpers/validateCreateUser';
 import { validateUser } from '../helpers/validateUser';
 import { AddressFactory } from './AddressFactory';
 import { AuthenticationFactory } from './AuthenticationFactory';
@@ -21,13 +22,13 @@ export class UserFactory {
       CustomerUser
     >
   > {
-    const validUserOrError = validateUser(userDTO);
+    const userPropsOrError = validateCreateUser(userDTO);
 
-    if (validUserOrError.isLeft()) {
-      return Either.left(validUserOrError.getLeft());
+    if (userPropsOrError.isLeft()) {
+      return Either.left(userPropsOrError.getLeft());
     }
 
-    const validUser = validUserOrError.getRight();
+    const userProps = userPropsOrError.getRight();
 
     const { email, role, address, authentication } = userDTO;
 
@@ -40,13 +41,13 @@ export class UserFactory {
       );
 
       const customer = new CustomerUser(
-        validUser.get('username').getValue(),
-        validUser.get('name').getValue(),
-        validUser.get('email').getValue(),
-        validUser.get('cpf').getValue(),
-        validUser.get('phone').getValue(),
-        validUser.get('role').getValue(),
-        validUser.get('birthday').getValue(),
+        userProps.username.getValue(),
+        userProps.name.getValue(),
+        userProps.email.getValue(),
+        userProps.cpf.getValue(),
+        userProps.phone.getValue(),
+        userProps.role.getValue(),
+        userProps.birthday.getValue(),
         addressEntity,
         authenticationEntity
       );
