@@ -1,4 +1,4 @@
-export interface AddressUseCaseDto {
+export interface AddressUseCaseDTO {
   street: string;
   city: string;
   state: string;
