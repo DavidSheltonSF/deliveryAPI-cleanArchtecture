@@ -1,3 +1,4 @@
+import { AddressDTO } from '../../presentation/dtos/AddressDTO';
 import { CreateUserDTO } from '../../presentation/dtos/CreateUserDTO';
 import { Either } from '../../shared/either';
 import { UserRole } from '../_enums';
@@ -26,13 +27,11 @@ export class UserFactory {
 
     switch (role) {
       case UserRole.customer:
-        const addressEntity = AddressFactory.create(address);
         user = UserFactory.createCustomer(
           userDTO,
-          addressEntity,
+          address,
           authenticationEntity
         );
-
         break;
       case UserRole.admin:
         user = UserFactory.createAdmin(userDTO, authenticationEntity);
@@ -44,9 +43,11 @@ export class UserFactory {
 
   private static createCustomer(
     userDTO: CreateUserDTO,
-    addressEntity: Address,
+    address: AddressDTO,
     authenticationEntity: Authentication
   ): CustomerUser {
+    const addressEntity = AddressFactory.create(address);
+
     const customer = new CustomerUser(
       userDTO.username,
       userDTO.name,
