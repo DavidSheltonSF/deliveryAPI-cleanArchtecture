@@ -1,7 +1,9 @@
 import { CreateUserDTO } from '../../presentation/dtos/CreateUserDTO';
 import { Either } from '../../shared/either';
+import { UserRole } from '../_enums';
 import { Hasher } from '../contracts/Hasher';
 import { Address } from '../entities/Address';
+import { AdminUser } from '../entities/AdminUser';
 import { Authentication } from '../entities/Authentication';
 import { CustomerUser } from '../entities/CustomerUser';
 import { UserProps } from '../entities/props/UserProps';
@@ -40,16 +42,21 @@ export class UserFactory {
       hasher
     );
 
-    if (role === 'customer') {
-      const addressEntity = AddressFactory.create(address);
-      const customer = UserFactory.createCustomer(
-        userProps,
-        addressEntity,
-        authenticationEntity
-      );
+    let user = undefined;
 
-      return Either.right(customer)
+    switch (role) {
+      case UserRole.customer:
+        const addressEntity = AddressFactory.create(address);
+        user = UserFactory.createCustomer(
+          userProps,
+          addressEntity,
+          authenticationEntity
+        );
+
+        break;
     }
+
+    return Either.right(user);
   }
 
   private static createCustomer(
