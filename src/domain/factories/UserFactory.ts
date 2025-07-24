@@ -1,9 +1,7 @@
 import { AddressDTO } from '../../presentation/dtos/AddressDTO';
 import { CreateUserDTO } from '../../presentation/dtos/CreateUserDTO';
-import { Either } from '../../shared/either';
 import { UserRole } from '../_enums';
 import { Hasher } from '../contracts/Hasher';
-import { Address } from '../entities/Address';
 import { AdminUser } from '../entities/AdminUser';
 import { Authentication } from '../entities/Authentication';
 import { CustomerUser } from '../entities/CustomerUser';
