@@ -54,6 +54,9 @@ export class UserFactory {
         );
 
         break;
+      case UserRole.admin:
+        user = UserFactory.createAdmin(userProps, authenticationEntity);
+        break;
     }
 
     return Either.right(user);
