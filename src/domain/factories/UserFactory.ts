@@ -32,23 +32,12 @@ export class UserFactory {
     const { email, role, address, authentication } = userDTO;
 
     if (role === 'customer') {
-      const validAddressOrError = AddressFactory.create(address);
-      const validAuthenticationOrError = await AuthenticationFactory.create(
+      const addressEntity = AddressFactory.create(address);
+      const authenticationEntity = await AuthenticationFactory.create(
         authentication,
         email,
         hasher
       );
-
-      if (validAddressOrError.isLeft()) {
-        return Either.left(validAddressOrError.getLeft());
-      }
-
-      if (validAuthenticationOrError.isLeft()) {
-        return Either.left(validAuthenticationOrError.getLeft());
-      }
-
-      const validAddress = validAddressOrError.getRight();
-      const validAuthentication = validAuthenticationOrError.getRight();
 
       const customer = new CustomerUser(
         validUser.get('username').getValue(),
@@ -58,8 +47,8 @@ export class UserFactory {
         validUser.get('phone').getValue(),
         validUser.get('role').getValue(),
         validUser.get('birthday').getValue(),
-        validAddress,
-        validAuthentication
+        addressEntity,
+        authenticationEntity
       );
 
       return Either.right(customer);
