@@ -17,7 +17,7 @@ export class Password extends ValueObject {
     // At least one number
     // At least one special character
     const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d])(.{8,})$/;
 
     if (!password || password.length > 250) {
       return false;
