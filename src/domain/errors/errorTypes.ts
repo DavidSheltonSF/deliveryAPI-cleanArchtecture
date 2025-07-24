@@ -19,7 +19,9 @@ export type userValidationErrorType =
   | InvalidPasswordError
   | InvalidPaymentMethodError
   | InvalidPhoneError
-  | InvalidRoleError;
+  | InvalidRoleError
+  | addressErrorType
+  | authenticationErrorType;
 
 export type addressErrorType =
   | InvalidAddressStreetError
