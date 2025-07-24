@@ -1,7 +1,10 @@
 import { CreateUserDTO } from '../../presentation/dtos/CreateUserDTO';
 import { Either } from '../../shared/either';
 import { Hasher } from '../contracts/Hasher';
+import { Address } from '../entities/Address';
+import { Authentication } from '../entities/Authentication';
 import { CustomerUser } from '../entities/CustomerUser';
+import { UserProps } from '../entities/props/UserProps';
 import {
   addressErrorType,
   authenticationErrorType,
@@ -39,20 +42,33 @@ export class UserFactory {
 
     if (role === 'customer') {
       const addressEntity = AddressFactory.create(address);
-
-      const customer = new CustomerUser(
-        userProps.username.getValue(),
-        userProps.name.getValue(),
-        userProps.email.getValue(),
-        userProps.cpf.getValue(),
-        userProps.phone.getValue(),
-        userProps.role.getValue(),
-        userProps.birthday.getValue(),
+      const customer = UserFactory.createCustomer(
+        userProps,
         addressEntity,
         authenticationEntity
       );
 
-      return Either.right(customer);
+      return Either.right(customer)
     }
+  }
+
+  private static createCustomer(
+    userProps: UserProps,
+    addressEntity: Address,
+    authenticationEntity: Authentication
+  ): CustomerUser {
+    const customer = new CustomerUser(
+      userProps.username.getValue(),
+      userProps.name.getValue(),
+      userProps.email.getValue(),
+      userProps.cpf.getValue(),
+      userProps.phone.getValue(),
+      userProps.role.getValue(),
+      userProps.birthday.getValue(),
+      addressEntity,
+      authenticationEntity
+    );
+
+    return customer;
   }
 }
