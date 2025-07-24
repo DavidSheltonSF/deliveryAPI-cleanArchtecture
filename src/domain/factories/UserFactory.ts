@@ -78,4 +78,22 @@ export class UserFactory {
 
     return customer;
   }
+
+  private static createAdmin(
+    userProps: UserProps,
+    authenticationEntity: Authentication
+  ): AdminUser {
+    const customer = new AdminUser(
+      userProps.username.getValue(),
+      userProps.name.getValue(),
+      userProps.email.getValue(),
+      userProps.cpf.getValue(),
+      userProps.phone.getValue(),
+      userProps.role.getValue(),
+      userProps.birthday.getValue(),
+      authenticationEntity
+    );
+
+    return customer;
+  }
 }
