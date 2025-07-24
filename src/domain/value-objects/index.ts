@@ -8,3 +8,7 @@ export * from './Role';
 export * from './Password';
 export * from './PasswordHash';
 export * from './Birthday';
+export * from './AddressStreet';
+export * from './AddressCity';
+export * from './AddressState';
+export * from './AddressZipCode';
