@@ -10,28 +10,17 @@ export class AuthenticationFactory {
     authenticationDTO: AuthenticationDTO,
     email: string,
     hasher: Hasher
-  ): Promise<Either<authenticationErrorType, Authentication>> {
-    const authenticationOrError = validateAuthentication(
-      authenticationDTO,
-      email
-    );
+  ): Promise<Authentication> {
+    const { password, sessionToken } = authenticationDTO;
 
-    if (authenticationOrError.isLeft()) {
-      return Either.left(authenticationOrError.getLeft());
-    }
-
-    const validAuthentication = authenticationOrError.getRight();
-
-    const passwordHash = await hasher.hash(
-      validAuthentication.get('password').getValue()
-    );
+    const passwordHash = await hasher.hash(password);
 
     const authenticationEntity = new Authentication(
-      validAuthentication.get('email').getValue(),
+      email,
       passwordHash,
-      authenticationDTO.sessionToken
+      sessionToken
     );
 
-    return Either.right(authenticationEntity);
+    return authenticationEntity;
   }
 }

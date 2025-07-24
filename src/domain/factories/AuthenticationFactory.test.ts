@@ -13,7 +13,7 @@ describe('Testing UserName validator', () => {
 
     const authenticationEntity = (
       await AuthenticationFactory.create(authentication, authEmail, hasher)
-    ).getRight();
+    );
 
     expect(authenticationEntity.email).toBe(authEmail);
     expect(

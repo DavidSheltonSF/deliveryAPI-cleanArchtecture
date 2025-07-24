@@ -20,7 +20,7 @@ describe('Testing UserName validator', () => {
 
     const address = addresses[0];
 
-    const addressEntity = AddressFactory.create(address).getRight()
+    const addressEntity = AddressFactory.create(address)
 
     expect(addressEntity.street).toBe(address.street);
     expect(addressEntity.city).toBe(address.city);
