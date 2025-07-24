@@ -1,4 +1,4 @@
-import { RegisterCustomerUseCase } from '../../../../application/usecases/customer/RegisterCustomer/RegisterCustomerUseCase';
+import { RegisterCustomerUseCase } from '../../../../application/usecases/customer/RegisterCustomer/CreateCustomerUseCase';
 import { MongodbCustomerRepository } from '../../../../infrastructure/repositories/mongodb/mongodb-customer-repository';
 import { RegisterCustomerController } from '../../../../presentation/controllers/customer/RegisterCustomerController';
 

@@ -1,6 +1,6 @@
-import { CustomerProps } from '../../../../domain/entities/user/customer/CustomerProps';
-import { RegisterCustomerResponse } from './response';
+import { CreateUserDTO } from '../../../../presentation/dtos/CreateUserDTO';
+import { CreateUserResponse } from './response';
 
-export interface RegisterCustomer {
-  execute: (customer: CustomerProps) => Promise<RegisterCustomerResponse>;
+export interface CreateUser {
+  execute: (customerDTO: CreateUserDTO) => Promise<CreateUserResponse>;
 }

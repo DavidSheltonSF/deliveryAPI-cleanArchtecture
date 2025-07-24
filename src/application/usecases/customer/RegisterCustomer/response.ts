@@ -1,9 +1,9 @@
+import { userValidationErrorType } from '../../../../domain/errors/errorTypes';
 import { Either } from '../../../../shared/either';
 import { DuplicatedDataError } from '../../../_errors/duplicated-data';
-import { customerValidationError } from '../../../../domain/errors/userValidationError';
-import { CustomerUseCaseDto } from '../../../useCaseDtos/CustomerUseCaseDto';
+import { UserUseCaseDTO } from '../../../useCaseDtos/UserUseCaseDTO';
 
-export type RegisterCustomerResponse = Either<
-  customerValidationError | DuplicatedDataError,
-  CustomerUseCaseDto
+export type CreateUserResponse = Either<
+  userValidationErrorType | DuplicatedDataError,
+  UserUseCaseDTO
 >;

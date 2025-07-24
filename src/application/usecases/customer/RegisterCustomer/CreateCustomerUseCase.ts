@@ -1,12 +1,12 @@
 import { CustomerRepository } from '../../../_ports/customer-repository';
-import { RegisterCustomer } from './interface';
-import { RegisterCustomerResponse } from './response';
+import { CreateUser } from './interface';
+import { CreateUserResponse } from './response';
 import { Either } from '../../../../shared/either';
 import { DuplicatedDataError } from '../../../_errors/duplicated-data';
 import { CustomerProps } from '../../../../domain/entities/user/customer/CustomerProps';
 import { Customer } from '../../../../domain/entities/user/customer/Customer';
 
-export class RegisterCustomerUseCase implements RegisterCustomer {
+export class CreateUserUseCase implements CreateUser {
   private readonly customerRepository: CustomerRepository;
   constructor(customerRepo: CustomerRepository) {
     this.customerRepository = customerRepo;
