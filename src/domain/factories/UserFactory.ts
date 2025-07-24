@@ -8,7 +8,6 @@ import {
   userValidationErrorType,
 } from '../errors/errorTypes';
 import { validateCreateUser } from '../helpers/validateCreateUser';
-import { validateUser } from '../helpers/validateUser';
 import { AddressFactory } from './AddressFactory';
 import { AuthenticationFactory } from './AuthenticationFactory';
 
