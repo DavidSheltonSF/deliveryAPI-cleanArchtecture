@@ -6,13 +6,6 @@ import { Address } from '../entities/Address';
 import { AdminUser } from '../entities/AdminUser';
 import { Authentication } from '../entities/Authentication';
 import { CustomerUser } from '../entities/CustomerUser';
-import { UserProps } from '../entities/props/UserProps';
-import {
-  addressErrorType,
-  authenticationErrorType,
-  userValidationErrorType,
-} from '../errors/errorTypes';
-import { validateCreateUser } from '../helpers/validateCreateUser';
 import { AddressFactory } from './AddressFactory';
 import { AuthenticationFactory } from './AuthenticationFactory';
 
@@ -20,20 +13,7 @@ export class UserFactory {
   static async create(
     userDTO: CreateUserDTO,
     hasher: Hasher
-  ): Promise<
-    Either<
-      userValidationErrorType | addressErrorType | authenticationErrorType,
-      CustomerUser
-    >
-  > {
-    const userPropsOrError = validateCreateUser(userDTO);
-
-    if (userPropsOrError.isLeft()) {
-      return Either.left(userPropsOrError.getLeft());
-    }
-
-    const userProps = userPropsOrError.getRight();
-
+  ): Promise<CustomerUser> {
     const { email, role, address, authentication } = userDTO;
 
     const authenticationEntity = await AuthenticationFactory.create(
@@ -48,33 +28,33 @@ export class UserFactory {
       case UserRole.customer:
         const addressEntity = AddressFactory.create(address);
         user = UserFactory.createCustomer(
-          userProps,
+          userDTO,
           addressEntity,
           authenticationEntity
         );
 
         break;
       case UserRole.admin:
-        user = UserFactory.createAdmin(userProps, authenticationEntity);
+        user = UserFactory.createAdmin(userDTO, authenticationEntity);
         break;
     }
 
-    return Either.right(user);
+    return user;
   }
 
   private static createCustomer(
-    userProps: UserProps,
+    userDTO: CreateUserDTO,
     addressEntity: Address,
     authenticationEntity: Authentication
   ): CustomerUser {
     const customer = new CustomerUser(
-      userProps.username.getValue(),
-      userProps.name.getValue(),
-      userProps.email.getValue(),
-      userProps.cpf.getValue(),
-      userProps.phone.getValue(),
-      userProps.role.getValue(),
-      userProps.birthday.getValue(),
+      userDTO.username,
+      userDTO.name,
+      userDTO.email,
+      userDTO.cpf,
+      userDTO.phone,
+      userDTO.role,
+      new Date(userDTO.birthday),
       addressEntity,
       authenticationEntity
     );
@@ -83,17 +63,17 @@ export class UserFactory {
   }
 
   private static createAdmin(
-    userProps: UserProps,
+    userDTO: CreateUserDTO,
     authenticationEntity: Authentication
   ): AdminUser {
     const customer = new AdminUser(
-      userProps.username.getValue(),
-      userProps.name.getValue(),
-      userProps.email.getValue(),
-      userProps.cpf.getValue(),
-      userProps.phone.getValue(),
-      userProps.role.getValue(),
-      userProps.birthday.getValue(),
+      userDTO.username,
+      userDTO.name,
+      userDTO.email,
+      userDTO.cpf,
+      userDTO.phone,
+      userDTO.role,
+      new Date(userDTO.birthday),
       authenticationEntity
     );
 
