@@ -1,10 +1,16 @@
-import { Either } from '../../shared/either';
-import { addressErrorType, userValidationErrorType } from '../errors/errorTypes';
-import { ValueObject } from '../value-objects/ValueObject';
+import { Either } from '../shared/either';
+import {
+  addressErrorType,
+  userValidationErrorType,
+} from '../domain/errors/errorTypes';
+import { ValueObject } from '../domain/value-objects/ValueObject';
 
 export function validateEitherValues(
   validations: Record<string, Either<any, any>>
-): Either<userValidationErrorType | addressErrorType, Map<string, ValueObject>> {
+): Either<
+  userValidationErrorType | addressErrorType,
+  Map<string, ValueObject>
+> {
   const validValues: Map<string, ValueObject> = new Map();
 
   for (const [k, v] of Object.entries(validations)) {
