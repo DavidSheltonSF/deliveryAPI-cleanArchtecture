@@ -31,13 +31,14 @@ export class UserFactory {
 
     const { email, role, address, authentication } = userDTO;
 
+    const authenticationEntity = await AuthenticationFactory.create(
+      authentication,
+      email,
+      hasher
+    );
+
     if (role === 'customer') {
       const addressEntity = AddressFactory.create(address);
-      const authenticationEntity = await AuthenticationFactory.create(
-        authentication,
-        email,
-        hasher
-      );
 
       const customer = new CustomerUser(
         userProps.username.getValue(),
