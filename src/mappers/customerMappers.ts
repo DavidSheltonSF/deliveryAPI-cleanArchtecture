@@ -2,15 +2,6 @@ import { WithId, Document } from 'mongodb';
 import { CustomerModel } from '../infrastructure/models/mongodb/CustomerModel';
 import { stringToObjectId } from '../infrastructure/repositories/mongodb/helpers/stringToObjectId';
 import { CustomerUser } from '../domain/entities/CustomerUser';
-import { UserDTO } from '../presentation/dtos/UserDTO';
-import { UserProps } from '../domain/entities/user/UserProps';
-import { Address } from '../domain/entities/Address';
-import { Either } from '../shared/either';
-import { InvalidZipCodeError } from '../domain/errors/InvalidZipCodeError';
-import { AddressFactory } from '../domain/factories/AddressFactory';
-import { rawAddressToProps } from './addressMapper';
-import { Hasher } from '../domain/contracts/Hasher';
-import { rawAuthenticationToProps } from './authenticationMapper';
 
 export function persistenceToCustomerModel(
   document: WithId<Document>
@@ -49,4 +40,3 @@ export function entityToCustomerModel(customer: CustomerUser): CustomerModel {
     createdAt: new Date(),
   };
 }
-
