@@ -1,7 +1,6 @@
 export class Authentication {
   private _id?: string;
   private _userId: string;
-  private _email: string;
   private _passwordHash: string;
   private _sessionToken?: string;
   private _createdAt?: Date;
@@ -15,7 +14,6 @@ export class Authentication {
     id?: string
   ) {
     this._id = id;
-    this._email = email;
     this._passwordHash = passwordHash;
     this._sessionToken = sessionToken;
     this._createdAt = createdAt;
@@ -28,10 +26,6 @@ export class Authentication {
 
   get userId(): string {
     return this._userId;
-  }
-
-  get email(): string {
-    return this._email;
   }
 
   get passwordHash(): string {
