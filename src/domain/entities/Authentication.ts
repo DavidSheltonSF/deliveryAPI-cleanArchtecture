@@ -1,3 +1,5 @@
+import { Comparer } from '../contracts/Comparer';
+
 export class Authentication {
   private _id?: string;
   private _userId: string;
@@ -45,5 +47,13 @@ export class Authentication {
 
   updatePasswordHash(passwordHash: string) {
     this._passwordHash = passwordHash;
+  }
+
+  async compare(
+    password: string,
+    passwordHash: string,
+    comparer: Comparer
+  ): Promise<boolean> {
+    return await comparer.compare(password, passwordHash);
   }
 }
