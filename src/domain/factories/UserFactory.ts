@@ -1,3 +1,4 @@
+import { CustomerModel } from '../../infrastructure/models/mongodb/CustomerModel';
 import { AddressDTO } from '../../presentation/dtos/AddressDTO';
 import { CreateUserDTO } from '../../presentation/dtos/CreateUserDTO';
 import { UserRole } from '../_enums';
@@ -12,7 +13,7 @@ export class UserFactory {
   static async create(
     userDTO: CreateUserDTO,
     hasher: Hasher
-  ): Promise<CustomerUser> {
+  ): Promise<CustomerUser | AdminUser> {
     const { email, role, address, authentication } = userDTO;
 
     const authenticationEntity = await AuthenticationFactory.create(
