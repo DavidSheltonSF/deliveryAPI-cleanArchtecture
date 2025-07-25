@@ -43,4 +43,8 @@ export class Authentication {
   updateSessionToken(sessionToken: string) {
     this._sessionToken = sessionToken;
   }
+
+  updatePasswordHash(passwordHash: string) {
+    this._passwordHash = passwordHash;
+  }
 }
