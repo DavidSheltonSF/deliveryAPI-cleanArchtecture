@@ -1,15 +1,15 @@
 export class Authentication {
   private _id?: string;
+  private _userId: string;
   private _email: string;
   private _passwordHash: string;
   private _sessionToken?: string;
-  private _userId: string;
   private _createdAt?: Date;
 
   constructor(
+    userId: string,
     email: string,
     passwordHash: string,
-    userId: string,
     sessionToken?: string,
     createdAt?: Date,
     id?: string
@@ -26,6 +26,10 @@ export class Authentication {
     return this._id;
   }
 
+  get userId(): string {
+    return this._userId;
+  }
+
   get email(): string {
     return this._email;
   }
@@ -36,6 +40,10 @@ export class Authentication {
 
   get sessionToken(): string | undefined {
     return this._sessionToken;
+  }
+
+  get createdAt(): Date | undefined {
+    return this._createdAt;
   }
 
   updateSessionToken(sessionToken: string) {
