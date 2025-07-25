@@ -7,7 +7,6 @@ export class Authentication {
 
   constructor(
     userId: string,
-    email: string,
     passwordHash: string,
     sessionToken?: string,
     createdAt?: Date,
