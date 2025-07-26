@@ -1,3 +1,5 @@
+import { AddressProps } from './props/AddressProps';
+
 export class Address {
   private readonly _id?: string;
   private _street: string;
@@ -22,6 +24,7 @@ export class Address {
   get id(): string {
     return this._id;
   }
+
   get street(): string {
     return this._street;
   }
@@ -29,6 +32,7 @@ export class Address {
   get city(): string {
     return this._city;
   }
+
   get state(): string {
     return this._state;
   }
@@ -37,16 +41,21 @@ export class Address {
     return this._zipCode;
   }
 
-  update(street?: string, city?: string, state?: string, zipCode?: string) {
+  update(address: Partial<AddressProps>) {
+    const { street, city, state, zipCode } = address;
+
     if (street !== undefined) {
       this._street = street;
     }
+
     if (city !== undefined) {
       this._city = city;
     }
+
     if (state !== undefined) {
-      this._state = state;
+      this._state !== undefined;
     }
+
     if (zipCode !== undefined) {
       this._zipCode = zipCode;
     }
