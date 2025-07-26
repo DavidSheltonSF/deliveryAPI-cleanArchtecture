@@ -6,19 +6,27 @@ describe('Testing Authentication entity', () => {
 
   test('Should create a valid Authentication entity', () => {
     const authData = {
+      id: 'authIdf1341',
       userId: 'fakeUserId421451',
       password: 'D#434155fadfss',
       sessionToken: 'fakeSessionToken',
+      createdAt: new Date('2000-01-01'),
     };
 
     const authentication = new Authentication(
       authData.userId,
       authData.password,
-      authData.sessionToken
+      authData.sessionToken,
+      authData.createdAt,
+      authData.id
     );
     expect(authentication.userId).toBe(authData.userId);
     expect(authentication.passwordHash).toBe(authData.password);
     expect(authentication.sessionToken).toBe(authData.sessionToken);
+    expect(authentication.createdAt?.getTime()).toBe(
+      authData.createdAt.getTime()
+    );
+    expect(authentication.id).toBe(authData.id);
   });
 
   test('Should compare a raw password and a password hash properly', async () => {
@@ -53,13 +61,37 @@ describe('Testing Authentication entity', () => {
     expect(passwordComparizon2).toBeFalsy();
   });
 
-  test('Should update sessionToken properly', () => {
-    startSession(sessionToken: string) {
-    this._sessionToken = sessionToken;
-  }
+  test('Should start a session properly properly', () => {
+    const authData = {
+      userId: 'fakeUserId421451',
+      password: 'D#434155fadfss',
+    };
 
-  endSession() {
-    this._sessionToken = undefined;
-  }
-  })
+    const authentication = new Authentication(
+      authData.userId,
+      authData.password
+    );
+
+    const sessionToken = 'userSessionToken';
+    authentication.startSession(sessionToken);
+
+    expect(authentication.sessionToken).toBe(sessionToken);
+  });
+
+  test('Should end a session properly properly', () => {
+    const authData = {
+      userId: 'fakeUserId421451',
+      password: 'D#434155fadfss',
+      sessionToken: 'userSessionToken',
+    };
+
+    const authentication = new Authentication(
+      authData.userId,
+      authData.password
+    );
+
+    authentication.endSession();
+
+    expect(authentication.sessionToken).toBeFalsy();
+  });
 });
