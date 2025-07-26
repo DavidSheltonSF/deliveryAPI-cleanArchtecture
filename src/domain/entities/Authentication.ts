@@ -41,18 +41,19 @@ export class Authentication {
     return this._createdAt;
   }
 
-  updateSessionToken(sessionToken: string) {
+  startSession(sessionToken: string) {
     this._sessionToken = sessionToken;
+  }
+
+  endSession() {
+    this._sessionToken = undefined;
   }
 
   updatePasswordHash(passwordHash: string) {
     this._passwordHash = passwordHash;
   }
 
-  async compare(
-    password: string,
-    comparer: Comparer
-  ): Promise<boolean> {
+  async compare(password: string, comparer: Comparer): Promise<boolean> {
     return await comparer.compare(password, this._passwordHash);
   }
 }
