@@ -1,4 +1,4 @@
-import { Birthday } from '../../../src/domain/value-objects';
+import { Birthday } from '..';
 
 describe('Testing Birhtday value object', () => {
   test('Trying to create a valid date', () => {

@@ -1,4 +1,4 @@
-import { Phone } from '../../../src/domain/value-objects';
+import { Phone } from '../';
 
 describe('Testing Phone validator', () => {
   test('Trying to create a valid phone', () => {

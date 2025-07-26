@@ -1,4 +1,4 @@
-import { Password } from '../../../src/domain/value-objects';
+import { Password } from '../';
 
 
 describe('Testing Phone validator', () => {

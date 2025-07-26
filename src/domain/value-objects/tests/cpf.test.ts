@@ -1,7 +1,7 @@
-import { Cpf } from "../../../src/domain/value-objects"
+import { Cpf } from '..';
 
-describe("Testing Cpf validator", () => {
-  test("Trying to create a valid cpf", () => {
+describe('Testing Cpf validator', () => {
+  test('Trying to create a valid cpf', () => {
     const validCpf = '555.885.584-58';
     const cpfOrError = Cpf.create(validCpf);
     const gotCpf = cpfOrError.getRight();
@@ -10,21 +10,19 @@ describe("Testing Cpf validator", () => {
     expect(validCpf).toBe(gotCpf.getValue());
   });
 
-
-  test("Trying to create cpf without simbols", () => {
+  test('Trying to create cpf without simbols', () => {
     const validCpf = '55588558458';
     const cpfOrError = Cpf.create(validCpf);
     const gotCpf = cpfOrError.getRight();
-    
+
     expect(cpfOrError.isRight()).toBeTruthy();
     expect(validCpf).toBe(gotCpf.getValue());
   });
 
-
-  test("Trying to create a cpf with more than 14 characteres", () => {
+  test('Trying to create a cpf with more than 14 characteres', () => {
     let tooLongCpf = '';
-    
-    for (let i=0; i<256; i++) {
+
+    for (let i = 0; i < 256; i++) {
       tooLongCpf += '8';
     }
 
@@ -33,7 +31,7 @@ describe("Testing Cpf validator", () => {
     expect(cpfOrError.isLeft()).toBeTruthy();
   });
 
-  test("Trying to create with special characteres", () => {
+  test('Trying to create with special characteres', () => {
     let invalidCpf = '@555.555.777-56';
 
     const cpfOrError = Cpf.create(invalidCpf);
@@ -41,11 +39,11 @@ describe("Testing Cpf validator", () => {
     expect(cpfOrError.isLeft()).toBeTruthy();
   });
 
-  test("Trying to create cpf with wrong format", () => {
+  test('Trying to create cpf with wrong format', () => {
     let invalidCpf = '@555-555-777.56';
 
     const cpfOrError = Cpf.create(invalidCpf);
 
     expect(cpfOrError.isLeft()).toBeTruthy();
   });
-})
+});

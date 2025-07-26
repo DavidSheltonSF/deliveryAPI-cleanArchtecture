@@ -1,4 +1,4 @@
-import { UserName } from '../../../src/domain/value-objects';
+import { UserName } from '../';
 
 describe('Testing UserName validator', () => {
   test('Trying to create a valid username', () => {
