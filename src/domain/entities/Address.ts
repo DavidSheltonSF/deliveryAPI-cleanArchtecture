@@ -7,13 +7,8 @@ export class Address {
   private _state: string;
   private _zipCode: string;
 
-  constructor(
-    street: string,
-    city: string,
-    state: string,
-    zipCode: string,
-    id?: string
-  ) {
+  constructor(address: AddressProps) {
+    const { id, street, city, state, zipCode } = address;
     this._id = id;
     this._street = street;
     this._city = city;

@@ -9,12 +9,7 @@ describe('Testing Address entity', () => {
   };
 
   test('Should create a valid Address entity', () => {
-    const address = new Address(
-      addressData.street,
-      addressData.city,
-      addressData.state,
-      addressData.zipCode
-    );
+    const address = new Address(addressData);
 
     expect(address.street).toBe(addressData.street);
     expect(address.city).toBe(addressData.city);
@@ -23,13 +18,7 @@ describe('Testing Address entity', () => {
   });
 
   test('Should update Address', () => {
-    const address = new Address(
-      addressData.street,
-      addressData.city,
-      addressData.state,
-      addressData.zipCode
-    );
-
+    const address = new Address(addressData);
     address.update({ city: 'Updated' });
 
     expect(address.street).toBe(addressData.street);
