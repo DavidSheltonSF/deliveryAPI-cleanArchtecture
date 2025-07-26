@@ -1,7 +1,7 @@
-import { Email, Password } from '../../value-objects';
+import { Id, Password } from '../../value-objects';
 
 export interface AuthenticationProps {
-  email: Email;
+  userId: Id;
   password: Password;
   sessionToken?: string;
 }
