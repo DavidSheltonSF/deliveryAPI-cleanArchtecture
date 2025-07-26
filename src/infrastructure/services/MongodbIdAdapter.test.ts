@@ -1,8 +1,8 @@
-import { MongoIdGenerator } from './MongoIdGenerator';
+import { MongodbIdAdapter } from './MongodbIdAdapter';
 import { ObjectId } from 'mongodb';
 
-describe('Testing MongoIdGenerator', () => {
-  const idGenerator = new MongoIdGenerator();
+describe('Testing MongodbIdAdapter', () => {
+  const idGenerator = new MongodbIdAdapter();
 
   test('Should generate a valid mongodb string Id', () => {
     let validId = true;
