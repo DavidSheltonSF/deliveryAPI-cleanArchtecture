@@ -1,5 +1,5 @@
 import { Authentication } from './Authentication';
-import { BcryptHasher } from '../../infrastructure/cryptography/BcryptHasher';
+import { BcryptHasher } from '../../infrastructure/services/BcryptHasher';
 
 describe('Testing Authentication entity', () => {
   const hasher = new BcryptHasher(12);
