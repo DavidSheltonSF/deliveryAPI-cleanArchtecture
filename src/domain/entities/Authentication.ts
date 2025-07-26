@@ -51,9 +51,8 @@ export class Authentication {
 
   async compare(
     password: string,
-    passwordHash: string,
     comparer: Comparer
   ): Promise<boolean> {
-    return await comparer.compare(password, passwordHash);
+    return await comparer.compare(password, this._passwordHash);
   }
 }
