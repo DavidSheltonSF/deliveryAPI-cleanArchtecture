@@ -1,23 +1,9 @@
-import { AuthenticationDTO } from '../../presentation/dtos/AuthenticationDTO';
-import { Hasher } from '../contracts/Hasher';
 import { Authentication } from '../entities/Authentication';
+import { AuthenticationProps } from '../entities/props/AuthenticationProps';
 
 export class AuthenticationFactory {
-  static async create(
-    authenticationDTO: AuthenticationDTO,
-    email: string,
-    hasher: Hasher
-  ): Promise<Authentication> {
-    const { password, sessionToken } = authenticationDTO;
-
-    const passwordHash = await hasher.hash(password);
-
-    const authenticationEntity = new Authentication(
-      email,
-      passwordHash,
-      sessionToken
-    );
-
-    return authenticationEntity;
+  static create(authenticationData: AuthenticationProps): Authentication {
+    const authentication = new Authentication(authenticationData);
+    return authentication;
   }
 }
