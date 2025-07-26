@@ -1,4 +1,5 @@
 import { Comparer } from '../contracts/Comparer';
+import { AuthenticationProps } from './props/AuthenticationProps';
 
 export class Authentication {
   private _id?: string;
@@ -7,18 +8,14 @@ export class Authentication {
   private _sessionToken?: string;
   private _createdAt?: Date;
 
-  constructor(
-    userId: string,
-    passwordHash: string,
-    sessionToken?: string,
-    createdAt?: Date,
-    id?: string
-  ) {
+  constructor(authentication: AuthenticationProps) {
+    const { id, userId, passwordHash, sessionToken, createdAt } =
+      authentication;
     this._id = id;
+    this._userId = userId;
     this._passwordHash = passwordHash;
     this._sessionToken = sessionToken;
     this._createdAt = createdAt;
-    this._userId = userId;
   }
 
   get id(): string {

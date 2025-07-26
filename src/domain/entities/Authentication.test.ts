@@ -8,20 +8,14 @@ describe('Testing Authentication entity', () => {
     const authData = {
       id: 'authIdf1341',
       userId: 'fakeUserId421451',
-      password: 'D#434155fadfss',
+      passwordHash: 'D#434155fadfss',
       sessionToken: 'fakeSessionToken',
       createdAt: new Date('2000-01-01'),
     };
 
-    const authentication = new Authentication(
-      authData.userId,
-      authData.password,
-      authData.sessionToken,
-      authData.createdAt,
-      authData.id
-    );
+    const authentication = new Authentication(authData);
     expect(authentication.userId).toBe(authData.userId);
-    expect(authentication.passwordHash).toBe(authData.password);
+    expect(authentication.passwordHash).toBe(authData.passwordHash);
     expect(authentication.sessionToken).toBe(authData.sessionToken);
     expect(authentication.createdAt?.getTime()).toBe(
       authData.createdAt.getTime()
@@ -30,47 +24,41 @@ describe('Testing Authentication entity', () => {
   });
 
   test('Should compare a raw password and a password hash properly', async () => {
-    const auth1 = {
-      userId: 'fakeUserId421451',
-      password: 'D#434155fadfss',
+    const password1 = 'fakeUserId421451';
+    const passwordHash1 = await hasher.hash(password1);
+    const authProps1 = {
+      id: 'dsfsdaflsmdgsd',
+      userId: 'dfafddaf',
+      passwordHash: passwordHash1,
       sessionToken: 'fakeSessionToken',
     };
 
-    const auth2 = {
+    const password2 = 'fakeUsIdsadCS451';
+    const passwordHash2 = await hasher.hash(password2);
+    const authProps2 = {
+      id: 'sfndksnfksngds',
       userId: 'fakeUserId4215544',
-      password: 'V#4KAI43JINKNisnida',
+      passwordHash: passwordHash2,
       sessionToken: 'fakeSessionToken11',
     };
 
-    const passwordHash = await hasher.hash(auth1.password);
-    const authentication = new Authentication(
-      auth1.userId,
-      passwordHash,
-      auth1.sessionToken
-    );
+    const authentication = new Authentication(authProps1);
 
-    const passwordComparizon1 = await authentication.compare(
-      auth1.password,
-      hasher
-    );
-    const passwordComparizon2 = await authentication.compare(
-      auth2.password,
-      hasher
-    );
+    const passwordComparizon1 = await authentication.compare(password1, hasher);
+    const passwordComparizon2 = await authentication.compare(password2, hasher);
     expect(passwordComparizon1).toBeTruthy();
     expect(passwordComparizon2).toBeFalsy();
   });
 
   test('Should start a session properly properly', () => {
-    const authData = {
-      userId: 'fakeUserId421451',
-      password: 'D#434155fadfss',
+    const authProps = {
+      id: 'sfndksnfksngds',
+      userId: 'fakeUserId4215544',
+      passwordHash: 'fakeHashedPassword',
+      sessionToken: 'fakeSessionToken11',
     };
 
-    const authentication = new Authentication(
-      authData.userId,
-      authData.password
-    );
+    const authentication = new Authentication(authProps);
 
     const sessionToken = 'userSessionToken';
     authentication.startSession(sessionToken);
@@ -79,16 +67,14 @@ describe('Testing Authentication entity', () => {
   });
 
   test('Should end a session properly properly', () => {
-    const authData = {
-      userId: 'fakeUserId421451',
-      password: 'D#434155fadfss',
-      sessionToken: 'userSessionToken',
+    const authProps = {
+      id: 'sfndksnfksngds',
+      userId: 'fakeUserId4215544',
+      passwordHash: 'fakeHashedPassword',
+      sessionToken: 'fakeSessionToken11',
     };
 
-    const authentication = new Authentication(
-      authData.userId,
-      authData.password
-    );
+    const authentication = new Authentication(authProps);
 
     authentication.endSession();
 
