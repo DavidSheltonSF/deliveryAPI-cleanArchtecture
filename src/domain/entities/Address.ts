@@ -36,4 +36,19 @@ export class Address {
   get zipCode(): string {
     return this._zipCode;
   }
+
+  update(street?: string, city?: string, state?: string, zipCode?: string) {
+    if (street !== undefined) {
+      this._street = street;
+    }
+    if (city !== undefined) {
+      this._city = city;
+    }
+    if (state !== undefined) {
+      this._state = state;
+    }
+    if (zipCode !== undefined) {
+      this._zipCode = zipCode;
+    }
+  }
 }
