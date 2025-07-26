@@ -1,7 +1,7 @@
 export interface AuthenticationProps {
   id?: string;
   userId: string;
-  password: string;
+  passwordHash: string;
   sessionToken?: string;
   createdAt?: Date
 }
