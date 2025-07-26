@@ -26,31 +26,14 @@ export class Address {
     return this._street;
   }
 
-  set street(street: string) {
-    this._street = street;
-  }
-
   get city(): string {
     return this._city;
   }
-
-  set city(city: string) {
-    this._city = city;
-  }
-
   get state(): string {
     return this._state;
   }
 
-  set state(state: string) {
-    this._state = state;
-  }
-
   get zipCode(): string {
     return this._zipCode;
-  }
-
-  set zipCode(zipCode: string) {
-    this._zipCode = zipCode;
   }
 }
