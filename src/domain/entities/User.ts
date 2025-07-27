@@ -15,48 +15,27 @@ export class User {
   get username(): string {
     return this.props.username;
   }
-  set username(value: string) {
-    this.props.username = value;
-  }
   get name(): string {
     return this.props.name;
   }
-  set name(value: string) {
-    this.props.name = value;
-  }
   get email(): string {
     return this.props.email;
-  }
-  set email(value: string) {
-    this.props.email = value;
   }
 
   get cpf(): string {
     return this.props.cpf;
   }
-  set cpf(value: string) {
-    this.props.cpf = value;
-  }
 
   get phone(): string {
     return this.props.phone;
-  }
-  set phone(value: string) {
-    this.props.phone = value;
   }
 
   get role(): string {
     return this.role;
   }
-  set role(value: string) {
-    this.props.role = value;
-  }
 
   get birthday(): Date {
     return this.props.birthday;
-  }
-  set birthday(value: Date) {
-    this.props.birthday = value;
   }
 
   get passwordHash(): string {
