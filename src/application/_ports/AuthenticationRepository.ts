@@ -1,0 +1,14 @@
+import { Authentication } from '../../domain/entities/Authentication';
+import { AuthenticationModel } from '../../infrastructure/models/mongodb/AuthenticationModel';
+
+export interface AuthenticationRepository {
+  findAll: () => Promise<AuthenticationModel[]>;
+  findById: (id: string) => Promise<AuthenticationModel | null>;
+  findByEmail: (email: string) => Promise<AuthenticationModel | null>;
+  add: (customer: Authentication) => Promise<AuthenticationModel>;
+  update: (
+    id: string,
+    customer: Authentication
+  ) => Promise<AuthenticationModel>;
+  delete: (id: string) => Promise<AuthenticationModel | null>;
+}
