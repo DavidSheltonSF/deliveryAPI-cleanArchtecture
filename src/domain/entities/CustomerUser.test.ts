@@ -1,8 +1,8 @@
-import { BcryptHasher } from '../../infrastructure/services/BcryptHasher';
 import { UserRole } from '../_enums';
-import { Address } from './Address';
 import { Authentication } from './Authentication';
-import { CustomerUser } from './CustomerUser';
+import { Address } from './Address';
+import { User } from './User';
+import { BcryptHasher } from '../../infrastructure/services/BcryptHasher';
 
 describe('Testing User entity', () => {
   const userProps = {
@@ -11,102 +11,72 @@ describe('Testing User entity', () => {
     email: 'jo@bugmail.com',
     cpf: '14555774778',
     phone: '21554744555',
-    role: UserRole.customer,
     birthday: new Date('2000-02-02'),
   };
 
   const addressProps = {
-    userId: 'nsanfkdnfka',
-    street: 'Rua Aurora',
-    city: 'Belford Roxo',
-    state: 'Rio de Janeiro',
-    zipCode: '12584130',
+    street: 'Rua Teste',
+    city: 'São Paulo',
+    state: 'São Paulo',
+    zipCode: '88444458',
   };
 
-  const password = 'fdmakfdnfkamfd';
   const authenticationProps = {
     passwordHash: '',
   };
 
   const hasher = new BcryptHasher(12);
 
-  async function makeSutCustomer() {
+  async function makeSutCustomer(
+    password: string = 'Drejkakn$%!2',
+    userRole: string = UserRole.customer
+  ) {
     authenticationProps.passwordHash = await hasher.hash(password);
-    const address = new Address(addressProps);
+    const address = new Address(addressProps)
     const authentication = new Authentication(authenticationProps, hasher);
-    const customer = new CustomerUser(userProps, address, authentication);
-    return customer;
+    const user = new User(userProps, userRole, authentication);
+    return user;
   }
 
-  test('Should be a valid CustomerUser entity', async () => {
-    const customer = await makeSutCustomer();
+  test('Should be a valid User entity', async () => {
+    const password = 'fdafsadfa';
+    const userRole = UserRole.customer;
+    const user = await makeSutCustomer(password, userRole);
 
-    expect(customer.username).toBe(userProps.username);
-    expect(customer.name).toBe(userProps.name);
-    expect(customer.email).toBe(userProps.email);
-    expect(customer.cpf).toBe(userProps.cpf);
-    expect(customer.phone).toBe(userProps.phone);
-    expect(customer.role).toBe(userProps.role);
-    expect(customer.birthday).toBe(userProps.birthday);
-    expect(customer.address.street).toBe(addressProps.street);
-    expect(customer.address.city).toBe(addressProps.city);
-    expect(customer.address.state).toBe(addressProps.state);
-    expect(customer.address.zipCode).toBe(addressProps.zipCode);
-    expect(customer.passwordIsValid(password)).toBeTruthy();
+    expect(user.username).toBe(userProps.username);
+    expect(user.name).toBe(userProps.name);
+    expect(user.email).toBe(userProps.email);
+    expect(user.cpf).toBe(userProps.cpf);
+    expect(user.phone).toBe(userProps.phone);
+    expect(user.role).toBe(userRole);
+    expect(user.birthday).toBe(userProps.birthday);
+    expect(await user.passwordIsValid(password)).toBeTruthy();
   });
 
-  test('Should update all fields in props', async () => {
-    const customer = await makeSutCustomer();
+  test('Should set Id and createdAt properly', async () => {
+    const user = await makeSutCustomer();
+    const userId = 'id0316151';
+    const createdAt = new Date('2000-01-01');
 
-    const updatedCustomerProps = {
-      username: 'updatedNameeee',
-      name: 'name-updated',
-      email: 'updatedemail@bugmail.com',
-      cpf: '14578525255',
-      phone: '21555444741-updated',
-      birthday: new Date('1999-01-01')
-    };
+    user.setId(userId);
+    user.setCreatedAt(createdAt);
 
-    customer.updateProps(updatedCustomerProps);
-
-    expect(customer.email).toBe(updatedCustomerProps.email);
-    expect(customer.phone).toBe(updatedCustomerProps.phone);
+    expect(user.id).toBe(userId);
+    expect(user.createdAt).toBe(createdAt);
   });
 
-  test('Should update some fields in props', async () => {
-    const customer = await makeSutCustomer();
+  test('Should return error when trying to set Id or createdAt if they are alerady set', async () => {
+    const user = await makeSutCustomer();
+    const userId = 'id0316151';
+    const createdAt = new Date('2000-01-01');
 
-    const updatedCustomerProps = {
-      email: 'updatedemail@bugmail.com',
-      phone: '21555444741-updated',
-    };
+    user.setId(userId);
+    user.setCreatedAt(createdAt);
 
-    customer.updateProps(updatedCustomerProps);
+    const idOrError = user.setId(userId);
+    const createdAtOrError = user.setCreatedAt(createdAt);
 
-    expect(customer.email).toBe(updatedCustomerProps.email);
-    expect(customer.phone).toBe(updatedCustomerProps.phone);
-  });
-
-  test('Should update CustomerUser addresss', async () => {
-    const customer = await makeSutCustomer();
-
-    const updatedAddressData = {
-      city: 'Updated City',
-    };
-
-    customer.updateAddress(updatedAddressData);
-
-    expect(customer.address.city).toBe(updatedAddressData.city);
-  });
-
-  test('Should update CustomerUser password', async () => {
-    const customer = await makeSutCustomer();
-
-    const password = 'UpdatedPassword';
-    const passwordHash = await hasher.hash(password);
-
-    customer.updatePassword(passwordHash);
-
-    expect(customer.passwordIsValid(password)).toBeTruthy();
+    expect(idOrError.isLeft()).toBeTruthy();
+    expect(createdAtOrError.isLeft()).toBeTruthy();
   });
 });
