@@ -1,12 +1,13 @@
+import { Either } from '../../shared/either';
 import { Authentication } from './Authentication';
 import { UserProps } from './props/UserProps';
 
 export class User {
-  protected readonly _id?: string;
+  protected _id?: string;
   protected readonly _role: string;
-  protected readonly _createdAt?: Date;
   protected props: UserProps;
   protected authentication: Authentication;
+  protected _createdAt?: Date;
   constructor(props: UserProps, role: string, authentication: Authentication) {}
 
   get id(): string | undefined {
