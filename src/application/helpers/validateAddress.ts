@@ -1,10 +1,4 @@
 import { addressErrorType } from '../../domain/errors/errorTypes';
-import {
-  AddressCity,
-  AddressState,
-  AddressStreet,
-  AddressZipCode,
-} from '../../domain/value-objects';
 import { AddressDTO } from '../../presentation/dtos/AddressDTO';
 import { Either } from '../../shared/either';
 import { FieldsValidator } from './FieldsValidator';
