@@ -11,7 +11,7 @@ export interface UserProps {
   phone: string;
   role: string;
   birthday: Date;
-  addresss?: Address;
+  address?: Address;
   bankAccount?: BankAccount;
   authentication: Authentication;
 }
