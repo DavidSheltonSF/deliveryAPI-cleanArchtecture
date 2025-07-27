@@ -13,7 +13,7 @@ describe('Testing Authentication entity', () => {
       createdAt: new Date('2000-01-01'),
     };
 
-    const authentication = new Authentication(authData);
+    const authentication = new Authentication(authData, hasher);
     expect(authentication.userId).toBe(authData.userId);
     expect(authentication.passwordHash).toBe(authData.passwordHash);
     expect(authentication.sessionToken).toBe(authData.sessionToken);
@@ -42,10 +42,10 @@ describe('Testing Authentication entity', () => {
       sessionToken: 'fakeSessionToken11',
     };
 
-    const authentication = new Authentication(authProps1);
+    const authentication = new Authentication(authProps1, hasher);
 
-    const passwordComparizon1 = await authentication.compare(password1, hasher);
-    const passwordComparizon2 = await authentication.compare(password2, hasher);
+    const passwordComparizon1 = await authentication.compare(password1);
+    const passwordComparizon2 = await authentication.compare(password2);
     expect(passwordComparizon1).toBeTruthy();
     expect(passwordComparizon2).toBeFalsy();
   });
@@ -58,7 +58,7 @@ describe('Testing Authentication entity', () => {
       sessionToken: 'fakeSessionToken11',
     };
 
-    const authentication = new Authentication(authProps);
+    const authentication = new Authentication(authProps, hasher);
 
     const sessionToken = 'userSessionToken';
     authentication.startSession(sessionToken);
@@ -74,7 +74,7 @@ describe('Testing Authentication entity', () => {
       sessionToken: 'fakeSessionToken11',
     };
 
-    const authentication = new Authentication(authProps);
+    const authentication = new Authentication(authProps, hasher);
 
     authentication.endSession();
 

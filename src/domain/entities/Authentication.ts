@@ -7,8 +7,9 @@ export class Authentication {
   private _passwordHash: string;
   private _sessionToken?: string;
   private _createdAt?: Date;
+  private _comparer: Comparer;
 
-  constructor(authentication: AuthenticationProps) {
+  constructor(authentication: AuthenticationProps, comparer: Comparer) {
     const { id, userId, passwordHash, sessionToken, createdAt } =
       authentication;
     this._id = id;
@@ -16,6 +17,7 @@ export class Authentication {
     this._passwordHash = passwordHash;
     this._sessionToken = sessionToken;
     this._createdAt = createdAt;
+    this._comparer = comparer
   }
 
   get id(): string {
@@ -50,7 +52,7 @@ export class Authentication {
     this._passwordHash = passwordHash;
   }
 
-  async compare(password: string, comparer: Comparer): Promise<boolean> {
-    return await comparer.compare(password, this._passwordHash);
+  async compare(password: string): Promise<boolean> {
+    return await this._comparer.compare(password, this._passwordHash);
   }
 }
