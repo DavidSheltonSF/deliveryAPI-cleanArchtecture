@@ -5,60 +5,39 @@ import { Authentication } from './Authentication';
 import { AdminUser } from './AdminUser';
 
 describe('Testing User entity', () => {
-  const userDTO = {
+  const userProps = {
     username: 'Jorel33',
     name: 'Jorel',
     email: 'jo@bugmail.com',
     cpf: '14555774778',
     phone: '21554744555',
-    role: UserRole.customer,
+    role: UserRole.admin,
     birthday: new Date('2000-02-02'),
-    address: {
-      street: 'Rua Aurora',
-      city: 'Belford Roxo',
-      state: 'Rio de Janeiro',
-      zipCode: '12584130',
-    },
-    authentication: {
-      password: 'D$243142sfas',
-    },
   };
 
+  const password = 'afdsfsdfaf'
+  const authenticationProps = {
+    id: 'dsfsdfa',
+    userID: 'FMDSKFNASKFA',
+    passwordHash: '',
+  }
+
   test('Should be a valid AdminUser entity', async () => {
-    const addressProps = {
-      id: 'fdafdfaf',
-      userId: 'fduaifdjfa',
-      ...userDTO.address,
-    };
 
     const hasher = new BcryptHasher(12);
-    const password = 'fdanfksdia';
-    const passwordHash = await hasher.hash(password);
-    const authenticationProps = {
-      id: 'fdafdfaf',
-      userId: 'fduaifdjfa',
-      passwordHash: passwordHash,
-    };
+    authenticationProps.passwordHash = await hasher.hash(password);
 
-    const address = new Address(addressProps);
     const authentication = new Authentication(authenticationProps, hasher);
 
-    const customerProps = {
-      id: 'fsafdafaf',
-      ...userDTO,
-      address,
-      authentication,
-    };
+    const admin = new AdminUser(userProps, authentication);
 
-    const customer = new AdminUser(customerProps);
-
-    expect(customer.username).toBe(userDTO.username);
-    expect(customer.name).toBe(userDTO.name);
-    expect(customer.email).toBe(userDTO.email);
-    expect(customer.cpf).toBe(userDTO.cpf);
-    expect(customer.phone).toBe(userDTO.phone);
-    expect(customer.role).toBe(userDTO.role);
-    expect(customer.birthday).toBe(userDTO.birthday);
-    expect(customer.passwordIsValid(password)).toBeTruthy();
+    expect(admin.username).toBe(userProps.username);
+    expect(admin.name).toBe(userProps.name);
+    expect(admin.email).toBe(userProps.email);
+    expect(admin.cpf).toBe(userProps.cpf);
+    expect(admin.phone).toBe(userProps.phone);
+    expect(admin.role).toBe(userProps.role);
+    expect(admin.birthday).toBe(userProps.birthday);
+    expect(admin.passwordIsValid(password)).toBeTruthy();
   });
 });

@@ -30,10 +30,9 @@ describe('Testing User entity', () => {
 
     const userProps = {
       ...userDTO,
-      authentication,
     };
 
-    const user = new User(userProps);
+    const user = new User(userProps, authentication);
 
     expect(user.username).toBe(userDTO.username);
     expect(user.name).toBe(userDTO.name);
@@ -42,6 +41,8 @@ describe('Testing User entity', () => {
     expect(user.phone).toBe(userDTO.phone);
     expect(user.role).toBe(userDTO.role);
     expect(user.birthday).toBe(userDTO.birthday);
-    expect(await user.passwordIsValid(userDTO.authentication.password)).toBeTruthy();
+    expect(
+      await user.passwordIsValid(userDTO.authentication.password)
+    ).toBeTruthy();
   });
 });
