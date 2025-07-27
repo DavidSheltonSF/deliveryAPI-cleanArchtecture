@@ -1,4 +1,5 @@
 import { Authentication } from './Authentication';
+import { UserProps } from './props/UserProps';
 
 export class User {
   private _id?: string;
@@ -12,17 +13,18 @@ export class User {
   private _authentication: Authentication;
   private _createdAt: Date;
 
-  constructor(
-    username: string,
-    name: string,
-    email: string,
-    cpf: string,
-    phone: string,
-    role: string,
-    birthday: Date,
-    authentication: Authentication,
-    id?: string
-  ) {
+  constructor(user: UserProps) {
+    const {
+      id,
+      username,
+      name,
+      email,
+      cpf,
+      phone,
+      role,
+      birthday,
+      authentication,
+    } = user;
     this._id = id;
     this._username = username;
     this._name = name;
