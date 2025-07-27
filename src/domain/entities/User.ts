@@ -2,13 +2,15 @@ import { Authentication } from './Authentication';
 import { UserProps } from './props/UserProps';
 
 export class User {
-  constructor(
-    protected props: UserProps,
-    protected authentication: Authentication
-  ) {}
+  protected readonly _id?: string;
+  protected readonly _role: string;
+  protected readonly _createdAt?: Date;
+  protected props: UserProps;
+  protected authentication: Authentication;
+  constructor(props: UserProps, role: string, authentication: Authentication) {}
 
   get id(): string {
-    return this.props.id;
+    return this._.id;
   }
   get username(): string {
     return this.props.username;
@@ -44,7 +46,7 @@ export class User {
   }
 
   get role(): string {
-    return this.props.role;
+    return this.role;
   }
   set role(value: string) {
     this.props.role = value;
