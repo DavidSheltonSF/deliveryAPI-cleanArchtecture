@@ -1,10 +1,12 @@
 import { AddressProps } from './props/AddressProps';
 
 export class Address {
+  private _id?: string;
+
   constructor(private props: AddressProps) {}
 
   get id(): string {
-    return this.props.id;
+    return this._id;
   }
 
   get street(): string {
