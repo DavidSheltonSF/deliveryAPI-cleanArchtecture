@@ -14,4 +14,5 @@ export interface UserProps {
   address?: Address;
   bankAccount?: BankAccount;
   authentication: Authentication;
+  createdAt: Date
 }
