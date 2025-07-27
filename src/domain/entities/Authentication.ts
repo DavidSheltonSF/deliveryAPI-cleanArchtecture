@@ -1,4 +1,4 @@
-import { Comparer } from '../contracts/Comparer';
+import { HashService } from '../contracts/HashService';
 import { AuthenticationProps } from './props/AuthenticationProps';
 
 export class Authentication {
@@ -7,9 +7,9 @@ export class Authentication {
   private _passwordHash: string;
   private _sessionToken?: string;
   private _createdAt?: Date;
-  private _comparer: Comparer;
+  private _hashservice: HashService;
 
-  constructor(authentication: AuthenticationProps, comparer: Comparer) {
+  constructor(authentication: AuthenticationProps, hashservice: HashService) {
     const { id, userId, passwordHash, sessionToken, createdAt } =
       authentication;
     this._id = id;
@@ -17,7 +17,7 @@ export class Authentication {
     this._passwordHash = passwordHash;
     this._sessionToken = sessionToken;
     this._createdAt = createdAt;
-    this._comparer = comparer
+    this._hashservice = hashservice
   }
 
   get id(): string {
@@ -53,6 +53,6 @@ export class Authentication {
   }
 
   async compare(password: string): Promise<boolean> {
-    return await this._comparer.compare(password, this._passwordHash);
+    return await this._hashservice.compare(password, this._passwordHash);
   }
 }

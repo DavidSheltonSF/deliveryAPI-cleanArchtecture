@@ -1,8 +1,7 @@
 import bcrypt from 'bcryptjs';
-import { Hasher } from '../../domain/contracts/Hasher';
-import { Comparer } from '../../domain/contracts/Comparer';
+import { HashService } from '../../domain/contracts/HashService';
 
-export class BcryptHasher implements Hasher, Comparer {
+export class BcryptHasher implements HashService {
   constructor(private readonly salt: number = 12) {}
 
   async hash(raw: string): Promise<string> {

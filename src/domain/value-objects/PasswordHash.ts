@@ -1,9 +1,9 @@
 import { Either } from '../../shared/either';
-import { Comparer } from '../contracts/Comparer';
-import { Hasher } from '../contracts/Hasher';
+import { HashService } from '../contracts/HashService';
+import { HashService } from '../contracts/HashService';
 import { InvalidPasswordError } from '../errors';
-import { MissingComparerError } from '../errors/MissingComparerError';
-import { MissingHasherError } from '../errors/MissingHasherError';
+import { MissingHashServiceError } from '../errors/MissingHashServiceError';
+import { MissingHashServiceError } from '../errors/MissingHashServiceError';
 import { Password } from './Password';
 import { ValueObject } from './ValueObject';
 
@@ -18,10 +18,12 @@ export class PasswordHash extends ValueObject {
 
   static async create(
     password: Password,
-    hasher: Hasher
-  ): Promise<Either<InvalidPasswordError | MissingHasherError, PasswordHash>> {
+    hasher: HashService
+  ): Promise<
+    Either<InvalidPasswordError | MissingHashServiceError, PasswordHash>
+  > {
     if (!hasher) {
-      return Either.left(new MissingHasherError());
+      return Either.left(new MissingHashServiceError());
     }
 
     return Either.right(
@@ -31,13 +33,13 @@ export class PasswordHash extends ValueObject {
 
   async compare(
     password: Password,
-    comparer: Comparer
-  ): Promise<Either<MissingComparerError, boolean>> {
-    if (!comparer) {
-      return Either.left(new MissingComparerError());
+    hashservice: HashService
+  ): Promise<Either<MissingHashServiceError, boolean>> {
+    if (!hashservice) {
+      return Either.left(new MissingHashServiceError());
     }
     return Either.right(
-      await comparer.compare(password.getValue(), this.value)
+      await hashservice.compare(password.getValue(), this.value)
     );
   }
 

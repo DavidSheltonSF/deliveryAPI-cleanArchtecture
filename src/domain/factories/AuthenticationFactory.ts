@@ -1,13 +1,13 @@
-import { Comparer } from '../contracts/Comparer';
+import { HashService } from '../contracts/HashService';
 import { Authentication } from '../entities/Authentication';
 import { AuthenticationProps } from '../entities/props/AuthenticationProps';
 
 export class AuthenticationFactory {
   static create(
     authenticationData: AuthenticationProps,
-    comparer: Comparer
+    hashservice: HashService
   ): Authentication {
-    const authentication = new Authentication(authenticationData, comparer);
+    const authentication = new Authentication(authenticationData, hashservice);
     return authentication;
   }
 }
