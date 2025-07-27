@@ -6,21 +6,15 @@ describe('Testing Authentication entity', () => {
 
   test('Should create a valid Authentication entity', () => {
     const authData = {
-      id: 'authIdf1341',
       userId: 'fakeUserId421451',
       passwordHash: 'D#434155fadfss',
       sessionToken: 'fakeSessionToken',
-      createdAt: new Date('2000-01-01'),
     };
 
     const authentication = new Authentication(authData, hasher);
     expect(authentication.userId).toBe(authData.userId);
     expect(authentication.passwordHash).toBe(authData.passwordHash);
     expect(authentication.sessionToken).toBe(authData.sessionToken);
-    expect(authentication.createdAt?.getTime()).toBe(
-      authData.createdAt.getTime()
-    );
-    expect(authentication.id).toBe(authData.id);
   });
 
   test('Should compare a raw password and a password hash properly', async () => {
@@ -34,13 +28,6 @@ describe('Testing Authentication entity', () => {
     };
 
     const password2 = 'fakeUsIdsadCS451';
-    const passwordHash2 = await hasher.hash(password2);
-    const authProps2 = {
-      id: 'sfndksnfksngds',
-      userId: 'fakeUserId4215544',
-      passwordHash: passwordHash2,
-      sessionToken: 'fakeSessionToken11',
-    };
 
     const authentication = new Authentication(authProps1, hasher);
 
@@ -52,7 +39,6 @@ describe('Testing Authentication entity', () => {
 
   test('Should start a session properly properly', () => {
     const authProps = {
-      id: 'sfndksnfksngds',
       userId: 'fakeUserId4215544',
       passwordHash: 'fakeHashedPassword',
       sessionToken: 'fakeSessionToken11',
@@ -68,7 +54,6 @@ describe('Testing Authentication entity', () => {
 
   test('Should end a session properly properly', () => {
     const authProps = {
-      id: 'sfndksnfksngds',
       userId: 'fakeUserId4215544',
       passwordHash: 'fakeHashedPassword',
       sessionToken: 'fakeSessionToken11',

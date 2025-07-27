@@ -10,13 +10,11 @@ export class Authentication {
   private _hashservice: HashService;
 
   constructor(authentication: AuthenticationProps, hashservice: HashService) {
-    const { id, userId, passwordHash, sessionToken, createdAt } =
+    const { userId, passwordHash, sessionToken } =
       authentication;
-    this._id = id;
     this._userId = userId;
     this._passwordHash = passwordHash;
     this._sessionToken = sessionToken;
-    this._createdAt = createdAt;
     this._hashservice = hashservice
   }
 
