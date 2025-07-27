@@ -26,7 +26,7 @@ describe('Testing User entity', () => {
       userId: 'dfajfdnaknfda',
       passwordHash,
     };
-    const authentication = new Authentication(authenticationProps);
+    const authentication = new Authentication(authenticationProps, hasher);
 
     const userProps = {
       ...userDTO,
@@ -42,6 +42,6 @@ describe('Testing User entity', () => {
     expect(user.phone).toBe(userDTO.phone);
     expect(user.role).toBe(userDTO.role);
     expect(user.birthday).toBe(userDTO.birthday);
-    expect(user).toBe(userDTO.authentication.password);
+    expect(await user.passwordIsValid(userDTO.authentication.password)).toBeTruthy();
   });
 });

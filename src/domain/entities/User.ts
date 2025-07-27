@@ -117,4 +117,8 @@ export class User {
   isAdmin(): boolean {
     return this._role === 'admin';
   }
+
+  async passwordIsValid(password: string): Promise<boolean> {
+    return await this._authentication.compare(password);
+  }
 }
