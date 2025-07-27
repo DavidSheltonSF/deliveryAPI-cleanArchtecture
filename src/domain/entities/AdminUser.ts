@@ -1,11 +1,10 @@
 import { Address } from './Address';
-import { Authentication } from './Authentication';
-import { AdminUserProps } from './props/AdminUserProps';
+import { UserProps } from './props/UserProps';
 import { User } from './User';
 
 export class AdminUser extends User {
   private _address: Address;
-  constructor(admin: AdminUserProps) {
+  constructor(admin: UserProps) {
     super(admin);
   }
 
