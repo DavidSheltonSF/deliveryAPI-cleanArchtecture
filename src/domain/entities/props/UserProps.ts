@@ -1,7 +1,3 @@
-import { Address } from '../Address';
-import { Authentication } from '../Authentication';
-import { BankAccount } from '../BankAccount';
-
 export interface UserProps {
   id?: string;
   username: string;
@@ -11,8 +7,5 @@ export interface UserProps {
   phone: string;
   role: string;
   birthday: Date;
-  address?: Address;
-  bankAccount?: BankAccount;
-  authentication: Authentication;
-  createdAt: Date
+  createdAt?: Date
 }
