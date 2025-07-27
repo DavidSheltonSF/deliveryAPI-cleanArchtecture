@@ -1,52 +1,75 @@
-import { BcryptHasher } from '../../infrastructure/cryptography/BcryptHasher';
+import { BcryptHasher } from '../../infrastructure/services/BcryptHasher';
+import { Address } from '../entities/Address';
+import { Authentication } from '../entities/Authentication';
 import { UserFactory } from './UserFactory';
 
 describe('Testing UserFactory class', () => {
-  const user = {
-    username: 'David55',
-    name: 'David',
-    email: 'david@bugmai.com',
-    cpf: '14555774748',
-    role: 'customer',
-    phone: '21445854745',
-    birthday: '2000-03-02',
-    address: {
-      street: 'Das Dores',
-      city: 'Nova Iguaçu',
-      state: 'Rio de Janeiro',
-      zipCode: '45852258',
-    },
-    authentication: {
-      password: '3$rrreaRsrefesa22',
-    },
-  };
-
   test('Should create an user with customer role', async () => {
+    const customerDTO = {
+      username: 'David55',
+      name: 'David',
+      email: 'david@bugmai.com',
+      cpf: '14555774748',
+      role: 'customer',
+      phone: '21445854745',
+      birthday: '2000-03-02',
+      address: {
+        street: 'Das Dores',
+        city: 'Nova Iguaçu',
+        state: 'Rio de Janeiro',
+        zipCode: '45852258',
+      },
+      authentication: {
+        password: '3$rrreaRsrefesa22',
+      },
+    };
+
+    const addressProps = {
+      id: 'resff',
+      userId: 'fjonhihfag',
+      ...customerDTO.address,
+    };
+
     const hasher = new BcryptHasher(12);
+    const password = 'fafdfdsga';
+    const passwordHash = await hasher.hash(password);
+    const authenticationProps = {
+      id: 'fdsafdf',
+      userId: 'fkinagagdga',
+      passwordHash: passwordHash,
+    };
 
-    const userEntity = (await UserFactory.create(user, hasher));
+    const address = new Address(addressProps);
+    const authentication = new Authentication(authenticationProps, hasher);
 
-    expect(userEntity.username).toBe(user.username);
-    expect(userEntity.name).toBe(user.name);
-    expect(userEntity.email).toBe(user.email);
-    expect(userEntity.cpf).toBe(user.cpf);
-    expect(userEntity.role).toBe(user.role);
-    expect(userEntity.phone).toBe(user.phone);
-    expect(userEntity.birthday.getTime()).toBe(
-      new Date(user.birthday).getTime()
+    const customerProps = {
+      ...customerDTO,
+      birthday: new Date(customerDTO.birthday),
+      address,
+      authentication,
+    };
+
+    const customer = await UserFactory.create(customerProps);
+
+    expect(customer.username).toBe(customerDTO.username);
+    expect(customer.name).toBe(customerDTO.name);
+    expect(customer.email).toBe(customerDTO.email);
+    expect(customer.cpf).toBe(customerDTO.cpf);
+    expect(customer.role).toBe(customerDTO.role);
+    expect(customer.phone).toBe(customerDTO.phone);
+    expect(customer.birthday.getTime()).toBe(
+      new Date(customerDTO.birthday).getTime()
     );
-    expect(userEntity.email).toBe(user.email);
-    expect(userEntity.address.street).toBe(user.address.street);
-    expect(userEntity.address.city).toBe(user.address.city);
-    expect(userEntity.address.state).toBe(user.address.state);
-    expect(userEntity.address.zipCode).toBe(user.address.zipCode);
-    expect(
-      hasher.compare(user.authentication.password, userEntity.passwordHash)
-    );
+    expect(customer.email).toBe(customerDTO.email);
+    expect(customer.address.street).toBe(customerDTO.address.street);
+    expect(customer.address.city).toBe(customerDTO.address.city);
+    expect(customer.address.state).toBe(customerDTO.address.state);
+    expect(customer.address.zipCode).toBe(customerDTO.address.zipCode);
+    expect(customer.passwordIsValid(password)).toBeTruthy();
   });
 
   test('Should create an user with admin role', async () => {
-    const admin = {
+    const adminDTO = {
       username: 'David55',
       name: 'David',
       email: 'david@bugmai.com',
@@ -60,21 +83,33 @@ describe('Testing UserFactory class', () => {
     };
 
     const hasher = new BcryptHasher(12);
+    const password = 'fafdfdsga';
+    const passwordHash = await hasher.hash(password);
+    const authenticationProps = {
+      id: 'fdsafdf',
+      userId: 'fkinagagdga',
+      passwordHash: passwordHash,
+    };
+    const authentication = new Authentication(authenticationProps, hasher);
 
-    const adminEntity = (await UserFactory.create(admin, hasher));
+    const adminProps = {
+      ...adminDTO,
+      birthday: new Date(adminDTO.birthday),
+      authentication,
+    };
 
-    expect(adminEntity.username).toBe(admin.username);
-    expect(adminEntity.name).toBe(admin.name);
-    expect(adminEntity.email).toBe(admin.email);
-    expect(adminEntity.cpf).toBe(admin.cpf);
-    expect(adminEntity.role).toBe(admin.role);
-    expect(adminEntity.phone).toBe(admin.phone);
-    expect(adminEntity.birthday.getTime()).toBe(
-      new Date(admin.birthday).getTime()
+    const admin = await UserFactory.create(adminProps);
+
+    expect(admin.username).toBe(adminDTO.username);
+    expect(admin.name).toBe(adminDTO.name);
+    expect(admin.email).toBe(adminDTO.email);
+    expect(admin.cpf).toBe(adminDTO.cpf);
+    expect(admin.role).toBe(adminDTO.role);
+    expect(admin.phone).toBe(adminDTO.phone);
+    expect(admin.birthday.getTime()).toBe(
+      new Date(adminDTO.birthday).getTime()
     );
-    expect(adminEntity.email).toBe(admin.email);
-    expect(
-      hasher.compare(admin.authentication.password, adminEntity.passwordHash)
-    );
+    expect(admin.email).toBe(adminDTO.email);
+    expect(admin.passwordIsValid(password)).toBeTruthy();
   });
 });
