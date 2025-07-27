@@ -1,10 +1,11 @@
+import { BcryptHasher } from '../../infrastructure/services/BcryptHasher';
 import { UserRole } from '../_enums';
 import { Address } from './Address';
 import { Authentication } from './Authentication';
 import { CustomerUser } from './CustomerUser';
 
 describe('Testing User entity', () => {
-  const user = {
+  const userDTO = {
     username: 'Jorel33',
     name: 'Jorel',
     email: 'jo@bugmail.com',
@@ -23,38 +24,41 @@ describe('Testing User entity', () => {
     },
   };
 
-  test('Should be a valid User entity', () => {
-    const addressEntity = new Address(
-      user.address.street,
-      user.address.city,
-      user.address.state,
-      user.address.zipCode
-    );
+  test('Should be a valid CustomerUser entity', async () => {
+    const addressProps = {
+      id: 'fdafdfaf',
+      userId: 'fduaifdjfa',
+      ...userDTO.address,
+    };
 
-    const authenticationEntity = new Authentication(
-      user.email,
-      user.authentication.password
-    );
+    const hasher = new BcryptHasher(12);
+    const password = 'fdanfksdia';
+    const passwordHash = await hasher.hash(password);
+    const authenticationProps = {
+      id: 'fdafdfaf',
+      userId: 'fduaifdjfa',
+      passwordHash: passwordHash,
+    };
 
-    const customerEntity = new CustomerUser(
-      user.username,
-      user.name,
-      user.email,
-      user.cpf,
-      user.phone,
-      user.role,
-      user.birthday,
-      addressEntity,
-      authenticationEntity
-    );
+    const address = new Address(addressProps);
+    const authentication = new Authentication(authenticationProps, hasher);
 
-    expect(customerEntity.username).toBe(user.username);
-    expect(customerEntity.name).toBe(user.name);
-    expect(customerEntity.email).toBe(user.email);
-    expect(customerEntity.cpf).toBe(user.cpf);
-    expect(customerEntity.phone).toBe(user.phone);
-    expect(customerEntity.role).toBe(user.role);
-    expect(customerEntity.birthday).toBe(user.birthday);
-    expect(customerEntity.passwordHash).toBe(user.authentication.password);
+    const customerProps = {
+      id: 'fsafdafaf',
+      ...userDTO,
+      address,
+      authentication,
+    };
+
+    const customer = new CustomerUser(customerProps);
+
+    expect(customer.username).toBe(userDTO.username);
+    expect(customer.name).toBe(userDTO.name);
+    expect(customer.email).toBe(userDTO.email);
+    expect(customer.cpf).toBe(userDTO.cpf);
+    expect(customer.phone).toBe(userDTO.phone);
+    expect(customer.role).toBe(userDTO.role);
+    expect(customer.birthday).toBe(userDTO.birthday);
+    expect(customer.passwordIsValid(password)).toBeTruthy();
   });
 });
