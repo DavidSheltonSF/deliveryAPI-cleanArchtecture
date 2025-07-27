@@ -95,11 +95,11 @@ export class User {
   }
 
   activeSession(sessionToken: string) {
-    this._authentication.updateSessionToken(sessionToken);
+    this._authentication.startSession(sessionToken);
   }
 
   desactiveSession() {
-    this._authentication.updateSessionToken(undefined);
+    this._authentication.endSession();
   }
 
   isAdult(): boolean {
