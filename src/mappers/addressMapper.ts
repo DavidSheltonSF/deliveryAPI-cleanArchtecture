@@ -1,27 +1,15 @@
-import { AddressProps } from '../domain/entities/address/AddressProps';
-import { InvalidAddressError } from '../domain/errors';
-import { InvalidZipCodeError } from '../domain/errors/InvalidZipCodeError';
-import { ZipCode } from '../domain/value-objects';
-import { AddressDTO } from '../presentation/dtos/UserDTO';
-import { Either } from '../shared/either';
+import { AddressProps } from '../domain/entities/props/AddressProps';
+import { AddressDTO } from '../presentation/dtos/AddressDTO';
 
-export function rawAddressToProps(
-  addressDTO: AddressDTO
-): Either<InvalidZipCodeError | InvalidAddressError, AddressProps> {
-  const zipCodeOrError = ZipCode.create(addressDTO.zipCode);
+export function rawAddressToProps(addressDTO: AddressDTO): AddressProps {
+  const { street, city, state, zipCode } = addressDTO;
 
-  const { street, city, state } = addressDTO;
-
-  if (zipCodeOrError.isLeft()) {
-    return Either.left(zipCodeOrError.getLeft());
-  }
-
-  const validZipCode = zipCodeOrError.getRight();
   const addressProps = {
     street: street,
     city: city,
     state: state,
-    zipCode: validZipCode.get(),
+    zipCode: zipCode,
   };
-  return Either.right(addressProps);
+
+  return addressProps;
 }
