@@ -4,5 +4,5 @@ export interface AddressProps {
   city: string;
   state: string;
   zipCode: string;
-  createdAt: Date;
+  createdAt?: Date;
 }
