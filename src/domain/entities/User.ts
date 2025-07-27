@@ -45,7 +45,7 @@ export class User {
     return this.authentication.sessionToken;
   }
   get createdAt(): Date {
-    return this.props.createdAt;
+    return this.createdAt;
   }
 
   activeSession(sessionToken: string) {
@@ -67,7 +67,7 @@ export class User {
   }
 
   isAdmin(): boolean {
-    return this.props.role === 'admin';
+    return this.role === 'admin';
   }
 
   async passwordIsValid(password: string): Promise<boolean> {
