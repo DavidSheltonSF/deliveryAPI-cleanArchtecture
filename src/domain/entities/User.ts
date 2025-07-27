@@ -1,4 +1,5 @@
 import { Either } from '../../shared/either';
+import { PropertyAlreadySetError } from '../errors/';
 import { Authentication } from './Authentication';
 import { UserProps } from './props/UserProps';
 
@@ -47,6 +48,26 @@ export class User {
   }
   get createdAt(): Date | undefined {
     return this.createdAt;
+  }
+
+  setId(id: string): Either<Error, null> {
+    if (this._id !== undefined) {
+      return Either.left(new PropertyAlreadySetError('id'));
+    }
+
+    this._id = id;
+
+    return Either.right(null);
+  }
+
+  setCreatedAt(createdAt: Date): Either<Error, null> {
+    if (this._createdAt !== undefined) {
+      return Either.left(new PropertyAlreadySetError('createdAt'));
+    }
+
+    this._createdAt = createdAt;
+
+    return Either.right(null);
   }
 
   activeSession(sessionToken: string) {
