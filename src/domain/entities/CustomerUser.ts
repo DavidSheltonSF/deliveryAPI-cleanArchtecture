@@ -1,12 +1,12 @@
 import { Address } from './Address';
-import { CustomerProps } from './props/CustomerProps';
+import { UserProps } from './props/UserProps';
 import { User } from './User';
 
 export class CustomerUser extends User {
   private _address: Address;
-  constructor(customer: CustomerProps) {
+  constructor(customer: UserProps) {
     super(customer);
-    this._address = customer.addresss;
+    this._address = customer.address;
   }
 
   get address(): Address {
