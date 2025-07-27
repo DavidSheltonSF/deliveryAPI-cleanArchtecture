@@ -1,23 +1,22 @@
 import { AuthenticationFactory } from './AuthenticationFactory';
-import { BcryptHasher } from '../../infrastructure/cryptography/BcryptHasher';
+import { BcryptHasher } from '../../infrastructure/services/BcryptHasher';
 
-describe('Testing UserName validator', () => {
-  const authentication = {
-    password: 'Ddfsed44%%@fa',
-  };
-
-  test('Should create an Address domain entity properly', async () => {
+describe('Testing UserName validator', async () => {
+  test('Should create an Factory', async () => {
     const hasher = new BcryptHasher(12);
+    const password = 'fjasmfkdmfkamfake';
+    const passwordHash = await hasher.hash(password);
+    const authenticationProps = {
+      id: 'fdafdfafd',
+      userId: 'fdsfafksdafa',
+      passwordHash: passwordHash,
+      sessionToken: 'fadfadsfa',
+    };
 
-    const authEmail = 'teste@email.com';
+    const authentication = AuthenticationFactory.create(authenticationProps);
 
-    const authenticationEntity = (
-      await AuthenticationFactory.create(authentication, authEmail, hasher)
-    );
-
-    expect(authenticationEntity.email).toBe(authEmail);
-    expect(
-      hasher.compare(authentication.password, authenticationEntity.passwordHash)
-    ).toBeTruthy();
+    expect(authentication.userId).toBe(authenticationProps.userId);
+    expect(authentication.sessionToken).toBe(authenticationProps.sessionToken);
+    expect(await authentication.compare(password, hasher)).toBeTruthy();
   });
 });
