@@ -3,7 +3,7 @@ import { Authentication } from '../Authentication';
 import { BankAccount } from '../BankAccount';
 
 export interface UserProps {
-  id: string;
+  id?: string;
   username: string;
   name: string;
   email: string;
