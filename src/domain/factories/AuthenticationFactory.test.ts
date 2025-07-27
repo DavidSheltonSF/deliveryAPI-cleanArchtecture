@@ -1,7 +1,7 @@
 import { AuthenticationFactory } from './AuthenticationFactory';
 import { BcryptHasher } from '../../infrastructure/services/BcryptHasher';
 
-describe('Testing UserName validator', async () => {
+describe('Testing UserName validator', () => {
   test('Should create an Factory', async () => {
     const hasher = new BcryptHasher(12);
     const password = 'fjasmfkdmfkamfake';
@@ -13,10 +13,10 @@ describe('Testing UserName validator', async () => {
       sessionToken: 'fadfadsfa',
     };
 
-    const authentication = AuthenticationFactory.create(authenticationProps);
+    const authentication = AuthenticationFactory.create(authenticationProps, hasher);
 
     expect(authentication.userId).toBe(authenticationProps.userId);
     expect(authentication.sessionToken).toBe(authenticationProps.sessionToken);
-    expect(await authentication.compare(password, hasher)).toBeTruthy();
+    expect(await authentication.compare(password)).toBeTruthy();
   });
 });
