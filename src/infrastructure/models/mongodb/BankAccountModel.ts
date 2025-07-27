@@ -9,4 +9,5 @@ export interface BankAccountModel {
   accountNumber: string;
   accountType: string;
   userId: ObjectId;
+  createdAt: Date;
 }
