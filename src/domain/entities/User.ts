@@ -10,7 +10,7 @@ export class User {
   constructor(props: UserProps, role: string, authentication: Authentication) {}
 
   get id(): string {
-    return this._.id;
+    return this._id;
   }
   get username(): string {
     return this.props.username;
