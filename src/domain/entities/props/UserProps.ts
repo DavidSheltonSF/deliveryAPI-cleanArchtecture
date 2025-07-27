@@ -1,25 +1,17 @@
-import {
-  Birthday,
-  Cpf,
-  Email,
-  Name,
-  Phone,
-  Role,
-  UserName,
-} from '../../value-objects';
-import { AddressProps } from './AddressProps';
-import { AuthenticationProps } from './AuthenticationProps';
-import { BankAccountProps } from './BankAccountProps';
+import { Address } from '../Address';
+import { Authentication } from '../Authentication';
+import { BankAccount } from '../BankAccount';
 
 export interface UserProps {
-  username: UserName;
-  name: Name;
-  email: Email;
-  cpf: Cpf;
-  phone: Phone;
-  role: Role;
-  birthday: Birthday;
-  addresss?: AddressProps;
-  bankAccount?: BankAccountProps;
-  authentication: AuthenticationProps;
+  id: string;
+  username: string;
+  name: string;
+  email: string;
+  cpf: string;
+  phone: string;
+  role: string;
+  birthday: Date;
+  addresss?: Address;
+  bankAccount?: BankAccount;
+  authentication: Authentication;
 }
