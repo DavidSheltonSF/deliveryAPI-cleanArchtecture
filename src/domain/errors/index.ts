@@ -13,3 +13,4 @@ export * from './InvalidAddressCityError';
 export * from './InvalidAddressStateError';
 export * from './InvalidAddressStreetError';
 export * from './InvalidAddressZipCodeError';
+export * from './PropertyAlreadySetError'
