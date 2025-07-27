@@ -1,5 +1,4 @@
 export interface BankAccountProps {
-  id: string;
   userId: string;
   holderName: string;
   cpf: string;
@@ -7,5 +6,4 @@ export interface BankAccountProps {
   agency: string;
   accountNumber: string;
   accountType: string;
-  createdAt: Date;
 }
