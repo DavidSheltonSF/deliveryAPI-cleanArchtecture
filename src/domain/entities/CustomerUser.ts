@@ -20,10 +20,18 @@ export class CustomerUser extends User {
     return this._address;
   }
 
-  // updateProps(userProps: Partial<UserProps>) {
-  //   this.props = {
-  //     ...this.props,
-  //     ...userProps
-  //   }
-  // }
+  updateProps(userProps: Partial<UserProps>) {
+    this.props = {
+      ...this.props,
+      ...userProps,
+    };
+  }
+
+  updateAddress(address: Partial<AddressProps>) {
+    this._address.update(address);
+  }
+
+  updatePassword(passwordHash: string) {
+    this.authentication.updatePasswordHash(passwordHash);
+  }
 }

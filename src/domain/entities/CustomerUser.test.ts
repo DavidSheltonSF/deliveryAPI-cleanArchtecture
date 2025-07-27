@@ -28,14 +28,18 @@ describe('Testing User entity', () => {
     passwordHash: '',
   };
 
-  test('Should be a valid CustomerUser entity', async () => {
-    const hasher = new BcryptHasher(12);
-    authenticationProps.passwordHash = await hasher.hash(password);
+  const hasher = new BcryptHasher(12);
 
+  async function makeSutCustomer() {
+    authenticationProps.passwordHash = await hasher.hash(password);
     const address = new Address(addressProps);
     const authentication = new Authentication(authenticationProps, hasher);
-
     const customer = new CustomerUser(userProps, address, authentication);
+    return customer;
+  }
+
+  test('Should be a valid CustomerUser entity', async () => {
+    const customer = await makeSutCustomer();
 
     expect(customer.username).toBe(userProps.username);
     expect(customer.name).toBe(userProps.name);
@@ -48,6 +52,61 @@ describe('Testing User entity', () => {
     expect(customer.address.city).toBe(addressProps.city);
     expect(customer.address.state).toBe(addressProps.state);
     expect(customer.address.zipCode).toBe(addressProps.zipCode);
+    expect(customer.passwordIsValid(password)).toBeTruthy();
+  });
+
+  test('Should update all fields in props', async () => {
+    const customer = await makeSutCustomer();
+
+    const updatedCustomerProps = {
+      username: 'updatedNameeee',
+      name: 'name-updated',
+      email: 'updatedemail@bugmail.com',
+      cpf: '14578525255',
+      phone: '21555444741-updated',
+      birthday: new Date('1999-01-01')
+    };
+
+    customer.updateProps(updatedCustomerProps);
+
+    expect(customer.email).toBe(updatedCustomerProps.email);
+    expect(customer.phone).toBe(updatedCustomerProps.phone);
+  });
+
+  test('Should update some fields in props', async () => {
+    const customer = await makeSutCustomer();
+
+    const updatedCustomerProps = {
+      email: 'updatedemail@bugmail.com',
+      phone: '21555444741-updated',
+    };
+
+    customer.updateProps(updatedCustomerProps);
+
+    expect(customer.email).toBe(updatedCustomerProps.email);
+    expect(customer.phone).toBe(updatedCustomerProps.phone);
+  });
+
+  test('Should update CustomerUser addresss', async () => {
+    const customer = await makeSutCustomer();
+
+    const updatedAddressData = {
+      city: 'Updated City',
+    };
+
+    customer.updateAddress(updatedAddressData);
+
+    expect(customer.address.city).toBe(updatedAddressData.city);
+  });
+
+  test('Should update CustomerUser password', async () => {
+    const customer = await makeSutCustomer();
+
+    const password = 'UpdatedPassword';
+    const passwordHash = await hasher.hash(password);
+
+    customer.updatePassword(passwordHash);
+
     expect(customer.passwordIsValid(password)).toBeTruthy();
   });
 });
