@@ -1,21 +1,21 @@
-import { UserFieldsValidator } from './UserFieldsValidator';
+import { FieldsValidator } from './FieldsValidator';
 
-describe('Test UserFieldsValidator', () => {
+describe('Test FieldsValidator', () => {
   test('Should check if a field is recognized by the validator class', () => {
     const validField = 'username';
     const invalidField = 'fkdsafjdanfudn';
-    expect(UserFieldsValidator.fieldIsRecognized(validField)).toBeTruthy();
-    expect(UserFieldsValidator.fieldIsRecognized(invalidField)).toBeFalsy();
+    expect(FieldsValidator.fieldIsRecognized(validField)).toBeTruthy();
+    expect(FieldsValidator.fieldIsRecognized(invalidField)).toBeFalsy();
   });
 
   test('Should validade a single field', () => {
     const validField = { key: 'name', value: 'Jorel' };
     const invalidField = { key: 'name', value: 'Jorel125' };
-    const validResult = UserFieldsValidator.validateOne(
+    const validResult = FieldsValidator.validateOne(
       validField.key,
       validField.value
     );
-    const invalidResult = UserFieldsValidator.validateOne(
+    const invalidResult = FieldsValidator.validateOne(
       invalidField.key,
       invalidField.value
     );
@@ -30,7 +30,7 @@ describe('Test UserFieldsValidator', () => {
       password: 'D#@%$df155',
     };
 
-    const result = UserFieldsValidator.validateFields(fields);
+    const result = FieldsValidator.validateFields(fields);
 
     expect(result.isRight()).toBeTruthy();
   });
@@ -42,7 +42,7 @@ describe('Test UserFieldsValidator', () => {
       password: 'senhafraca',
     };
 
-    const result = UserFieldsValidator.validateFields(fields);
+    const result = FieldsValidator.validateFields(fields);
 
     expect(result.isLeft()).toBeTruthy();
   });
