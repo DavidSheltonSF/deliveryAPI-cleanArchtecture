@@ -9,7 +9,7 @@ export class User {
   protected authentication: Authentication;
   constructor(props: UserProps, role: string, authentication: Authentication) {}
 
-  get id(): string {
+  get id(): string | undefined {
     return this._id;
   }
   get username(): string {
@@ -44,7 +44,7 @@ export class User {
   get sessionToken(): string {
     return this.authentication.sessionToken;
   }
-  get createdAt(): Date {
+  get createdAt(): Date | undefined {
     return this.createdAt;
   }
 
