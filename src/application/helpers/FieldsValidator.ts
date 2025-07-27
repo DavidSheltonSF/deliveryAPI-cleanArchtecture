@@ -17,7 +17,7 @@ import { ValueObject } from '../../domain/value-objects/ValueObject';
 import { Either } from '../../shared/either';
 import { NotMappedFieldError } from '../_errors/NotMappedFieldError';
 
-export class UserFieldsValidator {
+export class FieldsValidator {
   private static readonly valueObjects = {
     username: UserName,
     name: Name,
