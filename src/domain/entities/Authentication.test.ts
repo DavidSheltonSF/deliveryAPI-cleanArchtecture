@@ -29,6 +29,21 @@ describe('Testing Authentication entity', () => {
     expect(authentication.sessionToken).toBe(globalAuthProps.sessionToken);
   });
 
+   test('should throw an error when trying to modify immutable properties after they are set', () => {
+      const authentication = new Authentication(globalAuthProps, hasher);
+      const authenticationId = 'fdkafnsdnnafkdjiIdtesst-test';
+      const authenticationCreatedAt = new Date();
+  
+      authentication.setId(authenticationId);
+      authentication.setCreatedAt(authenticationCreatedAt);
+  
+      const setIdResult = authentication.setId('id-afdsnakfnasdkf');
+      const setCreatedAtResult = authentication.setCreatedAt(new Date());
+  
+      expect(setIdResult.isLeft()).toBeTruthy();
+      expect(setCreatedAtResult.isLeft()).toBeTruthy();
+    });
+
   test('should compare a raw password and a password hash properly', async () => {
     const { ...authProps } = globalAuthProps;
     const password = authProps.passwordHash;
