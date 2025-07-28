@@ -1,51 +1,42 @@
 import { Authentication } from './Authentication';
 import { BcryptHasher } from '../../infrastructure/services/BcryptHasher';
+import { AuthenticationProps } from './props/AuthenticationProps';
 
 describe('Testing Authentication entity', () => {
   const hasher = new BcryptHasher(12);
 
-  test('should create a valid Authentication entity', () => {
-    const authData = {
-      userId: 'fakeUserId421451',
-      passwordHash: 'D#434155fadfss',
-      sessionToken: 'fakeSessionToken',
-    };
+   const globalAuthProps: AuthenticationProps = {
+     userId: 'fakeUserId421451',
+     passwordHash: 'D#434155fadfss',
+     sessionToken: 'fakeSessionToken',
+   };
 
-    const authentication = new Authentication(authData, hasher);
-    expect(authentication.userId).toBe(authData.userId);
-    expect(authentication.passwordHash).toBe(authData.passwordHash);
-    expect(authentication.sessionToken).toBe(authData.sessionToken);
+
+  test('should create a valid Authentication entity', () => {
+    const authentication = new Authentication(globalAuthProps, hasher);
+
+    expect(authentication.userId).toBe(globalAuthProps.userId);
+    expect(authentication.passwordHash).toBe(globalAuthProps.passwordHash);
+    expect(authentication.sessionToken).toBe(globalAuthProps.sessionToken);
   });
 
   test('should compare a raw password and a password hash properly', async () => {
-    const password1 = 'fakeUserId421451';
-    const passwordHash1 = await hasher.hash(password1);
-    const authProps1 = {
-      id: 'dsfsdaflsmdgsd',
-      userId: 'dfafddaf',
-      passwordHash: passwordHash1,
-      sessionToken: 'fakeSessionToken',
-    };
+    const { ...authProps } = globalAuthProps;
+    const password = authProps.passwordHash
+    authProps.passwordHash = await hasher.hash(authProps.passwordHash);
 
-    const password2 = 'fakeUsIdsadCS451';
+    const wrongPassword = 'fakeUsIdsadCS451';
 
-    const authentication = new Authentication(authProps1, hasher);
+    const authentication = new Authentication(authProps, hasher);
 
-    const passwordComparizon1 = await authentication.compare(password1);
-    const passwordComparizon2 = await authentication.compare(password2);
+    const passwordComparizon1 = await authentication.compare(password);
+    const passwordComparizon2 = await authentication.compare(wrongPassword);
     expect(passwordComparizon1).toBeTruthy();
     expect(passwordComparizon2).toBeFalsy();
   });
 
   test('should start a session properly properly', () => {
-    const authProps = {
-      userId: 'fakeUserId4215544',
-      passwordHash: 'fakeHashedPassword',
-      sessionToken: 'fakeSessionToken11',
-    };
-
-    const authentication = new Authentication(authProps, hasher);
-
+    const authentication = new Authentication(globalAuthProps, hasher);
     const sessionToken = 'userSessionToken';
     authentication.startSession(sessionToken);
 
@@ -53,14 +44,7 @@ describe('Testing Authentication entity', () => {
   });
 
   test('should end a session properly properly', () => {
-    const authProps = {
-      userId: 'fakeUserId4215544',
-      passwordHash: 'fakeHashedPassword',
-      sessionToken: 'fakeSessionToken11',
-    };
-
-    const authentication = new Authentication(authProps, hasher);
-
+    const authentication = new Authentication(globalAuthProps, hasher);
     authentication.endSession();
 
     expect(authentication.sessionToken).toBeFalsy();
