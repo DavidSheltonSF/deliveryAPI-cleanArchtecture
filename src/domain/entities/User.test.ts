@@ -42,32 +42,27 @@ describe('Testing User entity', () => {
     expect(user.role).toBe(userRole);
     expect(user.birthday).toBe(userProps.birthday);
     expect(await user.passwordIsValid(password)).toBeTruthy();
+    expect(user.createdAt).toBeTruthy()
   });
 
-  test('Should set Id and createdAt properly', async () => {
+  test('Should set Id properly', async () => {
     const user = await makeSutUser();
     const userId = 'id0316151';
     const createdAt = new Date('2000-01-01');
 
     user.setId(userId);
-    user.setCreatedAt(createdAt);
 
     expect(user.id).toBe(userId);
-    expect(user.createdAt).toBe(createdAt);
   });
 
-  test('Should return error when trying to set Id or createdAt if they are alerady set', async () => {
+  test('Should return error when trying to set Id if is are alerady set', async () => {
     const user = await makeSutUser();
     const userId = 'id0316151';
-    const createdAt = new Date('2000-01-01');
 
     user.setId(userId);
-    user.setCreatedAt(createdAt);
 
     const idOrError = user.setId(userId);
-    const createdAtOrError = user.setCreatedAt(createdAt);
 
     expect(idOrError.isLeft()).toBeTruthy();
-    expect(createdAtOrError.isLeft()).toBeTruthy();
   });
 });

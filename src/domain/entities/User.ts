@@ -9,10 +9,16 @@ export class User {
   protected props: UserProps;
   protected authentication: Authentication;
   protected _createdAt?: Date;
-  constructor(props: UserProps, role: string, authentication: Authentication) {
+  constructor(
+    props: UserProps,
+    role: string,
+    authentication: Authentication,
+    createdAt?: Date
+  ) {
     this.props = props;
     this._role = role;
     this.authentication = authentication;
+    this._createdAt = createdAt ?? new Date();
   }
 
   get id(): string | undefined {
@@ -58,20 +64,8 @@ export class User {
     if (this._id !== undefined) {
       return Either.left(new PropertyAlreadySetError('id'));
     }
-
     this._id = id;
-
     return Either.right(this._id);
-  }
-
-  setCreatedAt(createdAt: Date): Either<Error, Date> {
-    if (this._createdAt !== undefined) {
-      return Either.left(new PropertyAlreadySetError('createdAt'));
-    }
-
-    this._createdAt = createdAt;
-
-    return Either.right(this.createdAt);
   }
 
   activeSession(sessionToken: string) {
