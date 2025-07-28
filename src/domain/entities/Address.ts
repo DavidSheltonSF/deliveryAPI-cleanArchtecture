@@ -1,7 +1,10 @@
+import { Either } from '../../shared/either';
+import { PropertyAlreadySetError } from '../errors';
 import { AddressProps } from './props/AddressProps';
 
 export class Address {
   private _id?: string;
+  private _createdAt?: Date;
 
   constructor(private props: AddressProps) {}
 
@@ -23,6 +26,18 @@ export class Address {
 
   get zipCode(): string {
     return this.props.zipCode;
+  }
+
+  get createdAt(): Date | undefined {
+    return this._createdAt;
+  }
+
+  setCreatedAt(date: Date): Either<PropertyAlreadySetError, Date> {
+    if (this._createdAt !== undefined) {
+      return Either.left(new PropertyAlreadySetError('createdAt'));
+    }
+    this._createdAt = date;
+    return Either.right(this._createdAt);
   }
 
   update(address: Partial<AddressProps>) {
