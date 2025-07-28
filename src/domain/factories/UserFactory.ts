@@ -24,9 +24,13 @@ export class UserFactory {
           authentication
         );
         break;
+
       case UserRole.admin:
         createdUser = new AdminUser(userProps, role, authentication);
         break;
+
+      default:
+        throw Error('Invalid role.');
     }
 
     return createdUser;
