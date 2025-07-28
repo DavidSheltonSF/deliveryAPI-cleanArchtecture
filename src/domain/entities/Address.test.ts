@@ -1,7 +1,8 @@
 import { Address } from './Address';
+import { AddressProps } from './props/AddressProps';
 
 describe('Testing Address entity', () => {
-  const addressData = {
+  const addressProps: AddressProps = {
     street: 'Rua Mariano Sanches',
     city: 'Nova Iguaçu',
     state: 'Rio de Janeiro',
@@ -9,7 +10,7 @@ describe('Testing Address entity', () => {
   };
 
   test('should create a valid Address entity', () => {
-    const address = new Address(addressData);
+    const address = new Address(addressProps);
     const addressId = 'fdkafnsdnnafkdjiIdtesst-test';
     const setIdResult = address.setId(addressId);
     const addressCreatedAt = new Date();
@@ -17,16 +18,16 @@ describe('Testing Address entity', () => {
 
     expect(setIdResult.isRight()).toBeTruthy();
     expect(address.id).toBe(addressId);
-    expect(address.street).toBe(addressData.street);
-    expect(address.city).toBe(addressData.city);
-    expect(address.state).toBe(addressData.state);
-    expect(address.zipCode).toBe(addressData.zipCode);
+    expect(address.street).toBe(addressProps.street);
+    expect(address.city).toBe(addressProps.city);
+    expect(address.state).toBe(addressProps.state);
+    expect(address.zipCode).toBe(addressProps.zipCode);
     expect(setCreatedAtResult.isRight()).toBeTruthy();
     expect(address.createdAt).toBe(addressCreatedAt);
   });
 
   test('should throw an error when trying to modify immutable properties after they are set', () => {
-    const address = new Address(addressData);
+    const address = new Address(addressProps);
     const addressId = 'fdkafnsdnnafkdjiIdtesst-test';
     const addressCreatedAt = new Date();
 
@@ -41,12 +42,12 @@ describe('Testing Address entity', () => {
   });
 
   test('should update Address', () => {
-    const address = new Address(addressData);
+    const address = new Address(addressProps);
     address.update({ city: 'Updated' });
 
-    expect(address.street).toBe(addressData.street);
+    expect(address.street).toBe(addressProps.street);
     expect(address.city).toBe('Updated');
-    expect(address.state).toBe(addressData.state);
-    expect(address.zipCode).toBe(addressData.zipCode);
+    expect(address.state).toBe(addressProps.state);
+    expect(address.zipCode).toBe(addressProps.zipCode);
   });
 });
