@@ -4,9 +4,13 @@ import { AddressProps } from './props/AddressProps';
 
 export class Address {
   private _id?: string;
+  private props: AddressProps
   private _createdAt?: Date;
 
-  constructor(private props: AddressProps) {}
+  constructor(props: AddressProps, createdAt?: Date) {
+    this.props = props;
+    this._createdAt = createdAt ?? new Date();
+  }
 
   get id(): string {
     return this._id;
@@ -38,14 +42,6 @@ export class Address {
     }
     this._id = id;
     return Either.right(this._id);
-  }
-
-  setCreatedAt(date: Date): Either<PropertyAlreadySetError, Date> {
-    if (this._createdAt !== undefined) {
-      return Either.left(new PropertyAlreadySetError('createdAt'));
-    }
-    this._createdAt = date;
-    return Either.right(this._createdAt);
   }
 
   update(address: Partial<AddressProps>) {
