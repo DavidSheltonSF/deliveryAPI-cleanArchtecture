@@ -32,6 +32,14 @@ export class Address {
     return this._createdAt;
   }
 
+  setId(id: string): Either<PropertyAlreadySetError, string> {
+    if (this._id !== undefined) {
+      return Either.left(new PropertyAlreadySetError('id'));
+    }
+    this._id = id;
+    return Either.right(this._id);
+  }
+
   setCreatedAt(date: Date): Either<PropertyAlreadySetError, Date> {
     if (this._createdAt !== undefined) {
       return Either.left(new PropertyAlreadySetError('createdAt'));

@@ -10,9 +10,13 @@ describe('Testing Address entity', () => {
 
   test('Should create a valid Address entity', () => {
     const address = new Address(addressData);
+    const addressId = 'fdkafnsdnnafkdjiIdtesst-test';
+    const setIdResult = address.setId(addressId);
     const addressCreatedAt = new Date();
     const setCreatedAtResult = address.setCreatedAt(addressCreatedAt);
 
+    expect(setIdResult.isRight()).toBeTruthy();
+    expect(address.id).toBe(addressId);
     expect(address.street).toBe(addressData.street);
     expect(address.city).toBe(addressData.city);
     expect(address.state).toBe(addressData.state);
