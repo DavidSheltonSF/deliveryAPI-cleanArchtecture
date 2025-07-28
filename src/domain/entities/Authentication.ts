@@ -1,4 +1,6 @@
+import { Either } from '../../shared/either';
 import { HashService } from '../contracts/HashService';
+import { PropertyAlreadySetError } from '../errors';
 import { AuthenticationProps } from './props/AuthenticationProps';
 
 export class Authentication {
@@ -10,12 +12,11 @@ export class Authentication {
   private _hashservice: HashService;
 
   constructor(authentication: AuthenticationProps, hashservice: HashService) {
-    const { userId, passwordHash, sessionToken } =
-      authentication;
+    const { userId, passwordHash, sessionToken } = authentication;
     this._userId = userId;
     this._passwordHash = passwordHash;
     this._sessionToken = sessionToken;
-    this._hashservice = hashservice
+    this._hashservice = hashservice;
   }
 
   get id(): string {
@@ -36,6 +37,22 @@ export class Authentication {
 
   get createdAt(): Date | undefined {
     return this._createdAt;
+  }
+
+  setId(id: string): Either<PropertyAlreadySetError, string> {
+    if (this._id !== undefined) {
+      return Either.left(new PropertyAlreadySetError('id'));
+    }
+    this._id = id;
+    return Either.right(this._id);
+  }
+
+  setCreatedAt(date: Date): Either<PropertyAlreadySetError, Date> {
+    if (this._createdAt !== undefined) {
+      return Either.left(new PropertyAlreadySetError('createdAt'));
+    }
+    this._createdAt = date;
+    return Either.right(this._createdAt);
   }
 
   startSession(sessionToken: string) {
