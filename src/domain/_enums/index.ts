@@ -5,7 +5,7 @@ export enum PaymentMethod {
   BANK_TRANSFER = 'bank_transfer',
 }
 
-export enum UserRole {
+export enum Role {
   admin = 'admin',
   customer = 'customer',
   restaurant_admin = 'restaurant_admin',
