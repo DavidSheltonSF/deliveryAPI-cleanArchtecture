@@ -4,7 +4,7 @@ import { BcryptHasher } from '../../infrastructure/services/BcryptHasher';
 describe('Testing Authentication entity', () => {
   const hasher = new BcryptHasher(12);
 
-  test('Should create a valid Authentication entity', () => {
+  test('should create a valid Authentication entity', () => {
     const authData = {
       userId: 'fakeUserId421451',
       passwordHash: 'D#434155fadfss',
@@ -17,7 +17,7 @@ describe('Testing Authentication entity', () => {
     expect(authentication.sessionToken).toBe(authData.sessionToken);
   });
 
-  test('Should compare a raw password and a password hash properly', async () => {
+  test('should compare a raw password and a password hash properly', async () => {
     const password1 = 'fakeUserId421451';
     const passwordHash1 = await hasher.hash(password1);
     const authProps1 = {
@@ -37,7 +37,7 @@ describe('Testing Authentication entity', () => {
     expect(passwordComparizon2).toBeFalsy();
   });
 
-  test('Should start a session properly properly', () => {
+  test('should start a session properly properly', () => {
     const authProps = {
       userId: 'fakeUserId4215544',
       passwordHash: 'fakeHashedPassword',
@@ -52,7 +52,7 @@ describe('Testing Authentication entity', () => {
     expect(authentication.sessionToken).toBe(sessionToken);
   });
 
-  test('Should end a session properly properly', () => {
+  test('should end a session properly properly', () => {
     const authProps = {
       userId: 'fakeUserId4215544',
       passwordHash: 'fakeHashedPassword',
