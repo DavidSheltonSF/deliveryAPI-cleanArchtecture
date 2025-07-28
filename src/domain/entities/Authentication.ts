@@ -11,12 +11,17 @@ export class Authentication {
   private _createdAt?: Date;
   private _hashservice: HashService;
 
-  constructor(authentication: AuthenticationProps, hashservice: HashService) {
+  constructor(
+    authentication: AuthenticationProps,
+    hashservice: HashService,
+    createdAt?: Date
+  ) {
     const { userId, passwordHash, sessionToken } = authentication;
     this._userId = userId;
     this._passwordHash = passwordHash;
     this._sessionToken = sessionToken;
     this._hashservice = hashservice;
+    this._createdAt = createdAt ?? new Date();
   }
 
   get id(): string {
@@ -45,14 +50,6 @@ export class Authentication {
     }
     this._id = id;
     return Either.right(this._id);
-  }
-
-  setCreatedAt(date: Date): Either<PropertyAlreadySetError, Date> {
-    if (this._createdAt !== undefined) {
-      return Either.left(new PropertyAlreadySetError('createdAt'));
-    }
-    this._createdAt = date;
-    return Either.right(this._createdAt);
   }
 
   startSession(sessionToken: string) {

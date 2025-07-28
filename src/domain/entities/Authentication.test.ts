@@ -16,33 +16,26 @@ describe('Testing Authentication entity', () => {
   test('should create a valid Authentication entity', () => {
     const authentication = new Authentication(globalAuthProps, hasher);
     const authId = idAdapter.generate();
-    const authCreatedAt = new Date();
     const setIdResult = authentication.setId(authId);
-    const setCreatedAtResult = authentication.setCreatedAt(authCreatedAt);
 
     expect(setIdResult.isRight()).toBeTruthy();
-    expect(setCreatedAtResult.isRight()).toBeTruthy();
     expect(authentication.id).toBe(authId);
-    expect(authentication.createdAt).toBe(authCreatedAt);
     expect(authentication.userId).toBe(globalAuthProps.userId);
     expect(authentication.passwordHash).toBe(globalAuthProps.passwordHash);
     expect(authentication.sessionToken).toBe(globalAuthProps.sessionToken);
+    expect(authentication.createdAt).toBeTruthy();
   });
 
-   test('should throw an error when trying to modify immutable properties after they are set', () => {
-      const authentication = new Authentication(globalAuthProps, hasher);
-      const authenticationId = 'fdkafnsdnnafkdjiIdtesst-test';
-      const authenticationCreatedAt = new Date();
-  
-      authentication.setId(authenticationId);
-      authentication.setCreatedAt(authenticationCreatedAt);
-  
-      const setIdResult = authentication.setId('id-afdsnakfnasdkf');
-      const setCreatedAtResult = authentication.setCreatedAt(new Date());
-  
-      expect(setIdResult.isLeft()).toBeTruthy();
-      expect(setCreatedAtResult.isLeft()).toBeTruthy();
-    });
+  test('should throw an error when trying to modify immutable properties after they are set', () => {
+    const authentication = new Authentication(globalAuthProps, hasher);
+    const authenticationId = 'fdkafnsdnnafkdjiIdtesst-test';
+
+    authentication.setId(authenticationId);
+
+    const setIdResult = authentication.setId('id-afdsnakfnasdkf');
+
+    expect(setIdResult.isLeft()).toBeTruthy();
+  });
 
   test('should compare a raw password and a password hash properly', async () => {
     const { ...authProps } = globalAuthProps;
