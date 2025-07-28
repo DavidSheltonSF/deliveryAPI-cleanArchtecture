@@ -25,6 +25,21 @@ describe('Testing Address entity', () => {
     expect(address.createdAt).toBe(addressCreatedAt);
   });
 
+  test('Should throw an error when trying to modify immutable properties after they are set', () => {
+    const address = new Address(addressData);
+    const addressId = 'fdkafnsdnnafkdjiIdtesst-test';
+    const addressCreatedAt = new Date();
+
+    address.setId(addressId);
+    address.setCreatedAt(addressCreatedAt);
+
+    const setIdResult = address.setId('id-afdsnakfnasdkf');
+    const setCreatedAtResult = address.setCreatedAt(new Date());
+
+    expect(setIdResult.isLeft()).toBeTruthy();
+    expect(setCreatedAtResult.isLeft()).toBeTruthy();
+  });
+
   test('Should update Address', () => {
     const address = new Address(addressData);
     address.update({ city: 'Updated' });
