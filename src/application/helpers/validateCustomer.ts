@@ -4,7 +4,7 @@ import { FieldsValidator } from './FieldsValidator';
 import { validateAddress } from './validateAddress';
 import { validateAuthentication } from './validateAuthentication';
 
-export function validateUser(user: CreateUserDTO) {
+export function validateCustomer(customer: CreateUserDTO) {
   const {
     username,
     name,
@@ -15,7 +15,7 @@ export function validateUser(user: CreateUserDTO) {
     role,
     address,
     authentication,
-  } = user;
+  } = customer;
 
   const validation = FieldsValidator.validateFields({
     username,
@@ -30,6 +30,7 @@ export function validateUser(user: CreateUserDTO) {
   if (validation.isLeft()) {
     return Either.left(validation.getLeft());
   }
+
   const addressValidation = validateAddress(address);
   if (addressValidation.isLeft()) {
     return Either.left(addressValidation.getLeft());
