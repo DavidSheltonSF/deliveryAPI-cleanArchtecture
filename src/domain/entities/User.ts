@@ -88,14 +88,6 @@ export class User {
     return this._createdAt;
   }
 
-  setId(id: string): Either<Error, string> {
-    if (this._id !== undefined) {
-      return Either.left(new PropertyAlreadySetError('id'));
-    }
-    this._id = id;
-    return Either.right(this._id);
-  }
-
   activeSession(sessionToken: string) {
     this.authentication.startSession(sessionToken);
   }
