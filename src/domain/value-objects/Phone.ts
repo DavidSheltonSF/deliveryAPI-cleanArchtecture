@@ -29,6 +29,10 @@ export class Phone extends ValueObject {
     return Either.right(new Phone(phoneNumber));
   }
 
+  static createFromPersistence(phoneNumber: string): Phone {
+    return new Phone(phoneNumber);
+  }
+
   getValue(): string {
     return this.value;
   }

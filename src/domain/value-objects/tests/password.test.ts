@@ -12,6 +12,13 @@ describe('Testing Phone validator', () => {
 
   });
 
+  test('should create a valid Password from persistence', () => {
+    const validPassword = 'Test123*@!55';
+    const password = Password.createFromPersistence(validPassword);
+
+    expect(password.getValue()).toBe(validPassword);
+  });
+
   test('should crate a PasswordVO with the password provided', async () => {
     const validPassword = 'Test123*@!55';
     const hasher = new BcryptHasher(12);

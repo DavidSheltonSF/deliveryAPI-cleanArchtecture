@@ -9,6 +9,13 @@ describe('Testing ZipCode validator', () => {
     expect(zipCode.getRight().getValue()).toBe(validZipCode);
   });
 
+  test('should create a valid ZipCode from persistence', () => {
+    const validZipCode = '25877483';
+    const zipCode = AddressZipCode.createFromPersistence(validZipCode);
+
+    expect(zipCode.getValue()).toBe(validZipCode);
+  });
+
   test('Trying to create a zipcode with less than 8 digits', () => {
     const tooShortZipCode = '2587748';
     const zipCode = AddressZipCode.create(tooShortZipCode);

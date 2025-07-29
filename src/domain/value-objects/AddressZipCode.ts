@@ -31,6 +31,10 @@ export class AddressZipCode extends ValueObject {
     return Either.right(new AddressZipCode(zipCode));
   }
 
+  static createFromPersistence(zipCode: string): AddressZipCode {
+    return new AddressZipCode(zipCode);
+  }
+
   getValue(): string {
     return this.value;
   }

@@ -9,4 +9,11 @@ describe('Testing UserName validator', () => {
     expect(nameOrError.isRight()).toBeTruthy();
     expect(validName).toBe(gotName.getValue());
   });
+
+  test('should create a valid UserName from persistence', () => {
+    const validName = 'Maria Sílva de Oliveira';
+    const name = UserName.createFromPersistence(validName);
+
+    expect(name.getValue()).toBe(validName);
+  });
 });

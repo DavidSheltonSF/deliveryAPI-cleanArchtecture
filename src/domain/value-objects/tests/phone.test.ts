@@ -10,6 +10,13 @@ describe('Testing Phone validator', () => {
     expect(validPhone).toBe(gotPhone.getValue());
   });
 
+  test('should create a valid Phone from persistence', () => {
+    const validPhone = '21-555875028';
+    const phone = Phone.createFromPersistence(validPhone);
+
+    expect(phone.getValue()).toBe(validPhone);
+  });
+
   test('Trying to create phone without simbols', () => {
     const validPhone = '21555875028';
     const phoneOrError = Phone.create(validPhone);

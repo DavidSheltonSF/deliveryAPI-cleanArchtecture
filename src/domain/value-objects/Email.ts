@@ -33,6 +33,10 @@ export class Email extends ValueObject {
     return Either.right(new Email(email));
   }
 
+  static createFromPersistence(email: string): Email {
+    return new Email(email);
+  }
+
   getValue(): string {
     return this.value;
   }

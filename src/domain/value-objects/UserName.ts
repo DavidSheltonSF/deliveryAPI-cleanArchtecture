@@ -31,6 +31,10 @@ export class UserName extends ValueObject {
     return Either.right(new UserName(username));
   }
 
+  static createFromPersistence(username: string): UserName {
+    return new UserName(username);
+  }
+
   getValue(): string {
     return this.value;
   }

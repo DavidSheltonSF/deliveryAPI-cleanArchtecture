@@ -29,6 +29,10 @@ export class Cpf extends ValueObject {
     return Either.right(new Cpf(cpf));
   }
 
+  static createFromPersistence(cpf: string): Cpf {
+    return new Cpf(cpf);
+  }
+
   getValue(): string {
     return this.value;
   }

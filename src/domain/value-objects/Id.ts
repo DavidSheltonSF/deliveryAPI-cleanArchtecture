@@ -24,6 +24,10 @@ export class Id extends ValueObject {
     return Either.right(new Id(id));
   }
 
+  static createFromPersistence(id: string): Id {
+    return new Id(id);
+  }
+
   getValue(): string {
     return this.value;
   }

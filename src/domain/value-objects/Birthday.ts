@@ -34,6 +34,10 @@ export class Birthday extends ValueObject {
     return Either.right(new Birthday(parsedDate));
   }
 
+  static createFromPersistence(birthday: Date): Birthday {
+    return new Birthday(birthday);
+  }
+
   getValue(): Date {
     return this.value;
   }

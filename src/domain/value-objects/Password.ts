@@ -44,6 +44,10 @@ export class Password extends ValueObject {
     return Either.right(new Password(passwordHash));
   }
 
+  static createFromPersistence(password: string): Password {
+    return new Password(password);
+  }
+
   async compare(password: string, comparer: HashService): Promise<boolean> {
     return await comparer.compare(password, this.value);
   }

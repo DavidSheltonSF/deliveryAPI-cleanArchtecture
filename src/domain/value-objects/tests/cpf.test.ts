@@ -10,6 +10,13 @@ describe('Testing Cpf validator', () => {
     expect(validCpf).toBe(gotCpf.getValue());
   });
 
+  test('should create a valid Cpf from persistence', () => {
+    const validCpf = '555.885.584-58';
+    const cpf = Cpf.createFromPersistence(validCpf);
+
+    expect(cpf.getValue()).toBe(validCpf);
+  });
+
   test('Trying to create cpf without simbols', () => {
     const validCpf = '55588558458';
     const cpfOrError = Cpf.create(validCpf);

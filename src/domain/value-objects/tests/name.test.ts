@@ -10,6 +10,13 @@ describe('Testing Name validator', () => {
     expect(validName).toBe(gotName.getValue());
   });
 
+  test('should create a valid Name from persistence', () => {
+    const validName = 'Maria Sílva de Oliveira';
+    const name = Name.createFromPersistence(validName);
+
+    expect(name.getValue()).toBe(validName);
+  });
+
   test('Trying to create a valid name with only 2 characteres', () => {
     const validName = 'Ví';
     const nameOrError = Name.create(validName);

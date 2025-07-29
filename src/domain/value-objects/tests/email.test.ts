@@ -10,6 +10,12 @@ describe("Testing Email validator", () => {
     expect(validEmail).toBe(gotEmail.getValue());
   });
 
+  test('should create a valid Email from persistence', () => {
+    const validEmail = 'maria@bugmail.com';
+    const email = Email.createFromPersistence(validEmail);;
+
+    expect(email.getValue()).toBe(validEmail);
+  });
 
   test("Trying to create email without @", () => {
     const invalidEmail = 'mariabugmail.com';
