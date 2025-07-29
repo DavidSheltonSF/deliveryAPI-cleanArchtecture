@@ -10,7 +10,7 @@ import { buildUserProps } from '../helpers/buildUserProps';
 
 export class User {
   protected _id?: string;
-  protected props: UserProps;
+  protected _props: UserProps;
   protected readonly _role: Role;
   protected authentication: Authentication;
   protected _createdAt: Date;
@@ -21,7 +21,7 @@ export class User {
     authentication: Authentication,
     createdAt?: Date
   ) {
-    this.props = props;
+    this._props = props;
     this._role = role;
     this.authentication = authentication;
     this._createdAt = createdAt ?? new Date();
@@ -49,22 +49,23 @@ export class User {
   get id(): string | undefined {
     return this._id;
   }
+
   get username(): string {
-    return this.props.username.getValue();
+    return this._props.username.getValue();
   }
   get name(): string {
-    return this.props.name.getValue();
+    return this._props.name.getValue();
   }
   get email(): string {
-    return this.props.email.getValue();
+    return this._props.email.getValue();
   }
 
   get cpf(): string {
-    return this.props.cpf.getValue();
+    return this._props.cpf.getValue();
   }
 
   get phone(): string {
-    return this.props.phone.getValue();
+    return this._props.phone.getValue();
   }
 
   get role(): string {
@@ -72,7 +73,7 @@ export class User {
   }
 
   get birthday(): Date {
-    return this.props.birthday.getValue();
+    return this._props.birthday.getValue();
   }
 
   get passwordHash(): string {
@@ -99,7 +100,7 @@ export class User {
       return Either.left(usernameOrError.getLeft());
     }
 
-    this.props.username = usernameOrError.getRight();
+    this._props.username = usernameOrError.getRight();
     return Either.right(null);
   }
 
@@ -113,7 +114,7 @@ export class User {
       return Either.left(nameOrError.getLeft());
     }
 
-    this.props.name = nameOrError.getRight();
+    this._props.name = nameOrError.getRight();
     return Either.right(null);
   }
 
@@ -127,7 +128,7 @@ export class User {
       return Either.left(emailOrError.getLeft());
     }
 
-    this.props.email = emailOrError.getRight();
+    this._props.email = emailOrError.getRight();
     return Either.right(null);
   }
 
@@ -141,7 +142,7 @@ export class User {
       return Either.left(cpfOrError.getLeft());
     }
 
-    this.props.cpf = cpfOrError.getRight();
+    this._props.cpf = cpfOrError.getRight();
     return Either.right(null);
   }
 
@@ -155,7 +156,7 @@ export class User {
       return Either.left(phoneOrError.getLeft());
     }
 
-    this.props.phone = phoneOrError.getRight();
+    this._props.phone = phoneOrError.getRight();
     return Either.right(null);
   }
 
@@ -171,7 +172,7 @@ export class User {
       return Either.left(birthdayOrErrorOrError.getLeft());
     }
 
-    this.props.birthday = birthdayOrErrorOrError.getRight();
+    this._props.birthday = birthdayOrErrorOrError.getRight();
     return Either.right(null);
   }
 
@@ -184,7 +185,9 @@ export class User {
   }
 
   isAdult(): boolean {
-    const birthdayYear = new Date(this.props.birthday.getValue()).getFullYear();
+    const birthdayYear = new Date(
+      this._props.birthday.getValue()
+    ).getFullYear();
     const currentYear = new Date().getFullYear();
     const age = currentYear - birthdayYear;
     if (age < 18) {
