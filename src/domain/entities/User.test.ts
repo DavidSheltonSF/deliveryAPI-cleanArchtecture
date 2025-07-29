@@ -74,7 +74,7 @@ describe('Testing User entity', () => {
     expect(props.birthday).toBe(userProps.birthday);
   });
 
-  test('should update User Name properly', async () => {
+  test('should update Username properly', async () => {
     const role = Role.admin;
     const authentication = await makeValidAuth(authenticationProps);
     const userOrError = User.create(userProps, role, authentication);
