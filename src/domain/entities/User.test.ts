@@ -1,4 +1,4 @@
-import { UserRole } from '../_enums';
+import { Role } from '../_enums';
 import { Authentication } from './Authentication';
 import { User } from './User';
 import { BcryptHasher } from '../../infrastructure/services/BcryptHasher';
@@ -19,50 +19,33 @@ describe('Testing User entity', () => {
 
   const hasher = new BcryptHasher(12);
 
-  async function makeSutUser(
-    password: string = 'Drejkakn$%!2',
-    userRole: string = UserRole.admin
-  ) {
+  test('Should return right either value if valid values were provided', async () => {
+    const role = Role.admin;
+    const password = 'd#FFFR341j15415551';
     authenticationProps.passwordHash = await hasher.hash(password);
     const authentication = new Authentication(authenticationProps, hasher);
-    const user = new User(userProps, userRole, authentication);
-    return user;
-  }
+    const userOrError = User.create(userProps, role, authentication);
+
+    expect(userOrError.isRight()).toBeTruthy();
+  });
 
   test('Should be a valid User entity', async () => {
-    const password = 'fdafsadfa';
-    const userRole = UserRole.admin;
-    const user = await makeSutUser(password, userRole);
+    const role = Role.admin;
+    const password = 'd#FFFR341j15415551';
+    authenticationProps.passwordHash = await hasher.hash(password);
+    const authentication = new Authentication(authenticationProps, hasher);
+
+    const userOrError = User.create(userProps, role, authentication);
+    const user = userOrError.getRight();
 
     expect(user.username).toBe(userProps.username);
     expect(user.name).toBe(userProps.name);
     expect(user.email).toBe(userProps.email);
     expect(user.cpf).toBe(userProps.cpf);
     expect(user.phone).toBe(userProps.phone);
-    expect(user.role).toBe(userRole);
+    expect(user.role).toBe(role);
     expect(user.birthday).toBe(userProps.birthday);
     expect(await user.passwordIsValid(password)).toBeTruthy();
-    expect(user.createdAt).toBeTruthy()
-  });
-
-  test('Should set Id properly', async () => {
-    const user = await makeSutUser();
-    const userId = 'id0316151';
-    const createdAt = new Date('2000-01-01');
-
-    user.setId(userId);
-
-    expect(user.id).toBe(userId);
-  });
-
-  test('Should return error when trying to set Id if is are alerady set', async () => {
-    const user = await makeSutUser();
-    const userId = 'id0316151';
-
-    user.setId(userId);
-
-    const idOrError = user.setId(userId);
-
-    expect(idOrError.isLeft()).toBeTruthy();
+    expect(user.createdAt).toBeTruthy();
   });
 });

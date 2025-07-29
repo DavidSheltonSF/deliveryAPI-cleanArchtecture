@@ -1,61 +1,99 @@
+import { FieldsValidator } from '../../application/helpers/FieldsValidator';
 import { Either } from '../../shared/either';
+import { Role } from '../_enums';
 import { PropertyAlreadySetError } from '../errors/';
+import { userValidationErrorType } from '../errors/errorTypes';
+import { UserPropsValidator } from '../helpers/UserPropsValidator';
+import { Birthday, Cpf, Email, Name, Phone, UserName } from '../value-objects';
 import { Authentication } from './Authentication';
+import { RawUserProps } from './props/RawUserProps';
 import { UserProps } from './props/UserProps';
 
 export class User {
   protected _id?: string;
-  protected readonly _role: string;
-  protected props: UserProps;
+  protected _username: UserName;
+  protected _name: Name;
+  protected _email: Email;
+  protected _cpf: Cpf;
+  protected _phone: Phone;
+  protected _birthday: Birthday;
+  protected readonly _role: Role;
   protected authentication: Authentication;
   protected _createdAt?: Date;
+
   constructor(
     props: UserProps,
-    role: string,
+    role: Role,
     authentication: Authentication,
     createdAt?: Date
   ) {
-    this.props = props;
+    this._username = props.username;
+    this._name = props.name;
+    this._email = props.email;
+    this._cpf = props.cpf;
+    this._phone = props.phone;
+    this._birthday = props.birthday;
     this._role = role;
     this.authentication = authentication;
     this._createdAt = createdAt ?? new Date();
+  }
+
+  static create(
+    props: RawUserProps,
+    role: Role,
+    authentication: Authentication,
+    createdAt?: Date
+  ): Either<userValidationErrorType, User> {
+    const validPropsOrError = UserPropsValidator.validateUserProps(props);
+
+    if (validPropsOrError.isLeft()) {
+      return Either.left(validPropsOrError.getLeft());
+    }
+
+    const validProps = validPropsOrError.getRight();
+
+    const user = new User(validProps, role, authentication, createdAt);
+
+    return Either.right(user);
   }
 
   get id(): string | undefined {
     return this._id;
   }
   get username(): string {
-    return this.props.username;
+    return this._username.getValue();
   }
   get name(): string {
-    return this.props.name;
+    return this._name.getValue();
   }
   get email(): string {
-    return this.props.email;
+    return this._email.getValue();
   }
 
   get cpf(): string {
-    return this.props.cpf;
+    return this._cpf.getValue();
   }
 
   get phone(): string {
-    return this.props.phone;
+    return this._phone.getValue();
   }
 
   get role(): string {
-    return this._role;
+    return this._role.toString();
   }
 
   get birthday(): Date {
-    return this.props.birthday;
+    return this._birthday.getValue();
   }
 
   get passwordHash(): string {
     return this.authentication.passwordHash;
   }
+
   get sessionToken(): string {
     return this.authentication.sessionToken;
   }
+
   get createdAt(): Date | undefined {
     return this._createdAt;
   }
@@ -77,7 +115,7 @@ export class User {
   }
 
   isAdult(): boolean {
-    const birthdayYear = new Date(this.birthday).getFullYear();
+    const birthdayYear = new Date(this._birthday.getValue()).getFullYear();
     const currentYear = new Date().getFullYear();
     const age = currentYear - birthdayYear;
     if (age < 18) {
