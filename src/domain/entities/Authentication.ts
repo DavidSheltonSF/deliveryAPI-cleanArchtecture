@@ -1,6 +1,6 @@
 import { AuthenticationModel } from '../../infrastructure/models/mongodb/AuthenticationModel';
 import { Either } from '../../shared/either';
-import { hashService } from '../contracts/hashService';
+import { HashService } from '../contracts/HashService';
 import { PropertyAlreadySetError } from '../errors';
 import { authenticationErrorType } from '../errors/errorTypes';
 import { buildAuthenticationProps } from '../helpers/buildAuthenticationProps';
@@ -12,11 +12,11 @@ export class Authentication {
   private _id?: string;
   private props: AuthenticationProps;
   private _createdAt?: Date;
-  private hashService: hashService;
+  private hashService: HashService;
 
   private constructor(
     props: AuthenticationProps,
-    hashService: hashService,
+    hashService: HashService,
     createdAt?: Date
   ) {
     this.props = props;
@@ -26,7 +26,7 @@ export class Authentication {
 
   static async create(
     props: RawAuthenticationProps,
-    hasher: hashService
+    hasher: HashService
   ): Promise<Either<authenticationErrorType, Authentication>> {
     const validPropsOrError = await buildAuthenticationProps(props, hasher);
 
@@ -41,7 +41,7 @@ export class Authentication {
 
   static createFromPersistence(
     data: AuthenticationModel,
-    hasher: hashService
+    hasher: HashService
   ): Authentication {
     const { _id, passwordHash, sessionToken } = data;
 
