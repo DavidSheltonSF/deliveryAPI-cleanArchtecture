@@ -10,21 +10,16 @@ import { RawAuthenticationProps } from './rawProps/RawAuthenticationProps';
 
 export class Authentication {
   private _id?: string;
-  private _userId: string;
-  private _passwordHash: Password;
-  private _sessionToken?: string;
+  private props: AuthenticationProps;
   private _createdAt?: Date;
   private _hashservice: HashService;
 
   private constructor(
-    authentication: AuthenticationProps,
+    props: AuthenticationProps,
     hashservice: HashService,
     createdAt?: Date
   ) {
-    const { userId, passwordHash, sessionToken } = authentication;
-    this._userId = userId;
-    this._passwordHash = passwordHash;
-    this._sessionToken = sessionToken;
+    this.props = props;
     this._hashservice = hashservice;
     this._createdAt = createdAt ?? new Date();
   }
@@ -68,15 +63,15 @@ export class Authentication {
   }
 
   get userId(): string {
-    return this._userId;
+    return this.props.userId;
   }
 
   get passwordHash(): string {
-    return this._passwordHash.getValue();
+    return this.props.passwordHash.getValue();
   }
 
   get sessionToken(): string | undefined {
-    return this._sessionToken;
+    return this.props.sessionToken;
   }
 
   get createdAt(): Date | undefined {
@@ -84,11 +79,11 @@ export class Authentication {
   }
 
   startSession(sessionToken: string) {
-    this._sessionToken = sessionToken;
+    this.props.sessionToken = sessionToken;
   }
 
   endSession() {
-    this._sessionToken = undefined;
+    this.props.sessionToken = undefined;
   }
 
   async updatePasswordHash(password: string) {
@@ -101,10 +96,10 @@ export class Authentication {
       return Either.left(passwordHashOrError.getLeft());
     }
 
-    this._passwordHash = passwordHashOrError.getRight();
+    this.props.passwordHash = passwordHashOrError.getRight();
   }
 
   async compare(password: string): Promise<boolean> {
-    return await this._passwordHash.compare(password, this._hashservice);
+    return await this.props.passwordHash.compare(password, this._hashservice);
   }
 }
