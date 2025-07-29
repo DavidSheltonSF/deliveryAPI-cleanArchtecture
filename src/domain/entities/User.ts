@@ -1,4 +1,3 @@
-import { FieldsValidator } from '../../application/helpers/FieldsValidator';
 import { Either } from '../../shared/either';
 import { Role } from '../_enums';
 import { InvalidUserNameError, PropertyAlreadySetError } from '../errors/';
@@ -8,9 +7,6 @@ import { Authentication } from './Authentication';
 import { RawUserProps } from './rawProps/RawUserProps';
 import { UserProps } from './props/UserProps';
 import { buildUserProps } from '../helpers/buildUserProps';
-import { valueObjectMap } from '../value-objects/tests/valueObjectMap';
-import { UserValidation } from '../helpers/validateUserProps';
-import { validateEitherValues } from '../../utils/validateEitherValues';
 
 export class User {
   protected _id?: string;
@@ -91,40 +87,6 @@ export class User {
     return this._createdAt;
   }
 
-  update(
-    data: Partial<RawUserProps>
-  ): Either<userValidationErrorType, UserProps> {
-    const { username, name, email, cpf, phone, birthday } = data;
-
-    const updateUserNameResult = this.updateUserName(username);
-    const updateNameResult = this.updateName(name);
-    const updateEmailResult = this.updateEmail(email);
-    const updateCpfResult = this.updateCpf(cpf);
-    const updatePhoneResult = this.updatePhone(phone);
-    const updateBirthdayResult = this.updateBirthday(birthday);
-
-    if (updateUserNameResult.isLeft()) {
-      return Either.left(updateUserNameResult.getLeft());
-    }
-    if (updateNameResult.isLeft()) {
-      return Either.left(updateNameResult.getLeft());
-    }
-    if (updateEmailResult.isLeft()) {
-      return Either.left(updateEmailResult.getLeft());
-    }
-    if (updateCpfResult.isLeft()) {
-      return Either.left(updateCpfResult.getLeft());
-    }
-    if (updatePhoneResult.isLeft()) {
-      return Either.left(updatePhoneResult.getLeft());
-    }
-    if (updateBirthdayResult.isLeft()) {
-      return Either.left(updateBirthdayResult.getLeft());
-    }
-
-    return Either.right(this.props);
-  }
-
   updateUserName(
     username: string | undefined
   ): Either<InvalidUserNameError, null> {
@@ -152,7 +114,7 @@ export class User {
     }
 
     this.props.name = nameOrError.getRight();
-    return Either.right(null);;
+    return Either.right(null);
   }
 
   updateEmail(email: string | undefined): Either<InvalidUserNameError, null> {
