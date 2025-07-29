@@ -1,5 +1,5 @@
 export interface RawAuthenticationProps {
   userId?: string;
-  passwordHash: string;
+  password: string;
   sessionToken?: string;
 }
