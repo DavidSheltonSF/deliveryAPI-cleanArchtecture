@@ -1,12 +1,13 @@
 import { Either } from '../../shared/either';
 import { HashService } from '../contracts/HashService';
 import { PropertyAlreadySetError } from '../errors';
+import { Password } from '../value-objects';
 import { AuthenticationProps } from './props/AuthenticationProps';
 
 export class Authentication {
   private _id?: string;
   private _userId: string;
-  private _passwordHash: string;
+  private _passwordHash: Password;
   private _sessionToken?: string;
   private _createdAt?: Date;
   private _hashservice: HashService;
