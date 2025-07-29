@@ -1,0 +1,43 @@
+import { Either } from '../../shared/either';
+import { RawUserProps } from '../entities/rawProps/RawUserProps';
+import { UserProps } from '../entities/props/UserProps';
+import { userValidationErrorType } from '../errors/errorTypes';
+import { Birthday, Cpf, Email, Name, Phone, UserName } from '../value-objects';
+import {validateUserProps} from './validateUserProps'
+
+export function buildUserProps(
+  userData: RawUserProps
+): Either<userValidationErrorType, UserProps> {
+  const { username, name, email, cpf, phone, birthday } = userData;
+
+  const usernameOrError = UserName.create(username);
+  const nameOrError = Name.create(name);
+  const emailOrError = Email.create(email);
+  const cpfOrError = Cpf.create(cpf);
+  const phoneOrError = Phone.create(phone);
+  const birthdayOrError = Birthday.create(birthday);
+
+  const validationResult = validateUserProps({
+    usernameOrError,
+    nameOrError,
+    emailOrError,
+    cpfOrError,
+    phoneOrError,
+    birthdayOrError,
+  });
+
+  if (validationResult.isLeft()) {
+    return Either.left(validationResult.getLeft());
+  }
+
+  const userProps = {
+    username: usernameOrError.getRight(),
+    name: nameOrError.getRight(),
+    email: emailOrError.getRight(),
+    cpf: cpfOrError.getRight(),
+    phone: phoneOrError.getRight(),
+    birthday: birthdayOrError.getRight(),
+  };
+
+  return Either.right(userProps);
+}
