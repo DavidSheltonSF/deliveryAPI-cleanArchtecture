@@ -34,7 +34,7 @@ export class Authentication {
   }
 
   get passwordHash(): string {
-    return this._passwordHash;
+    return this._passwordHash.getValue();
   }
 
   get sessionToken(): string | undefined {
