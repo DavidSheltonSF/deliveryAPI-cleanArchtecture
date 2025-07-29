@@ -1,5 +1,5 @@
 import { Either } from '../../shared/either';
-import { RawUserProps } from '../entities/props/RawUserProps';
+import { RawUserProps } from '../entities/rawProps/RawUserProps';
 import { UserProps } from '../entities/props/UserProps';
 import { userValidationErrorType } from '../errors/errorTypes';
 import { Birthday, Cpf, Email, Name, Phone, UserName } from '../value-objects';
@@ -32,7 +32,7 @@ export class UserPropsBuilder {
       emailOrError,
       cpfOrError,
       phoneOrError,
-      birthdayOrError
+      birthdayOrError,
     });
 
     if (validationResult.isLeft()) {
