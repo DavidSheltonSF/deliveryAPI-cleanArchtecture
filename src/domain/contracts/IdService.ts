@@ -1,4 +1,4 @@
 export interface IdService {
-  generate(): string
-  validate(id: string): boolean
+  generate(): any
+  validate(id: any): boolean
 }
