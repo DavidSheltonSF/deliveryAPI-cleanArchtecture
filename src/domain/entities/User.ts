@@ -3,7 +3,7 @@ import { Either } from '../../shared/either';
 import { Role } from '../_enums';
 import { PropertyAlreadySetError } from '../errors/';
 import { userValidationErrorType } from '../errors/errorTypes';
-import { UserPropsValidator } from '../helpers/UserPropsValidator';
+import {  UserPropsBuilder } from '../helpers/UserPropsBuilder';
 import { Birthday, Cpf, Email, Name, Phone, UserName } from '../value-objects';
 import { Authentication } from './Authentication';
 import { RawUserProps } from './props/RawUserProps';
@@ -19,7 +19,7 @@ export class User {
   protected _birthday: Birthday;
   protected readonly _role: Role;
   protected authentication: Authentication;
-  protected _createdAt?: Date;
+  protected _createdAt: Date;
 
   protected constructor(
     props: UserProps,
@@ -44,7 +44,7 @@ export class User {
     authentication: Authentication,
     createdAt?: Date
   ): Either<userValidationErrorType, User> {
-    const validPropsOrError = UserPropsValidator.validateUserProps(props);
+    const validPropsOrError = UserPropsBuilder.buildUserProps(props);
 
     if (validPropsOrError.isLeft()) {
       return Either.left(validPropsOrError.getLeft());
@@ -94,7 +94,7 @@ export class User {
     return this.authentication.sessionToken;
   }
 
-  get createdAt(): Date | undefined {
+  get createdAt(): Date {
     return this._createdAt;
   }
 
