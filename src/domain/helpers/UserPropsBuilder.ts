@@ -13,8 +13,8 @@ type UserValidation = {
   birthdayOrError: Either<Error, Birthday>;
 };
 
-export class UserPropsValidator {
-  static validateUserProps(
+export class UserPropsBuilder {
+  static buildUserProps(
     userData: RawUserProps
   ): Either<userValidationErrorType, UserProps> {
     const { username, name, email, cpf, phone, birthday } = userData;

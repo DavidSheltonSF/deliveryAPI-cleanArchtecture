@@ -1,6 +1,6 @@
-import { UserPropsValidator } from './UserPropsValidator';
+import { UserPropsBuilder } from './UserPropsBuilder';
 
-describe('Test UserPropsValidator', () => {
+describe('Test UserPropsBuilder', () => {
   const globalUserProps = {
     username: 'Jaral',
     name: 'Jeronimo',
@@ -11,12 +11,12 @@ describe('Test UserPropsValidator', () => {
   };
 
   test('should return a right either value if validation is successful', () => {
-    const propsOrError = UserPropsValidator.validateUserProps(globalUserProps);
+    const propsOrError = UserPropsBuilder.buildUserProps(globalUserProps);
     expect(propsOrError.isRight()).toBeTruthy();
   });
 
   test('should return a complete UserProps if validation is successful', () => {
-    const propsOrError = UserPropsValidator.validateUserProps(globalUserProps);
+    const propsOrError = UserPropsBuilder.buildUserProps(globalUserProps);
     const props = propsOrError.getRight();
 
     expect(props.username.getValue()).toBe(globalUserProps.username);
@@ -36,7 +36,7 @@ describe('Test UserPropsValidator', () => {
       phone: '21585847455',
       birthday: new Date('2000-01-01'),
     };
-    const propsOrError = UserPropsValidator.validateUserProps(userProps);
+    const propsOrError = UserPropsBuilder.buildUserProps(userProps);
     expect(propsOrError.isLeft()).toBeTruthy();
   });
 
@@ -49,7 +49,7 @@ describe('Test UserPropsValidator', () => {
       phone: '21585847455',
       birthday: new Date('2000-01-01'),
     };
-    const propsOrError = UserPropsValidator.validateUserProps(userProps);
+    const propsOrError = UserPropsBuilder.buildUserProps(userProps);
     expect(propsOrError.isLeft()).toBeTruthy();
   });
 });
