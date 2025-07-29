@@ -9,7 +9,7 @@ export async function buildAuthenticationProps(
   authData: RawAuthenticationProps,
   hasher: HashService
 ): Promise<Either<authenticationErrorType, AuthenticationProps>> {
-  const { userId, password, sessionToken } = authData;
+  const { password, sessionToken } = authData;
 
   const passwordOrError = await Password.create(password, hasher);
 
@@ -18,7 +18,6 @@ export async function buildAuthenticationProps(
   }
 
   const authProps = {
-    userId,
     passwordHash: passwordOrError.getRight(),
     sessionToken,
   };
