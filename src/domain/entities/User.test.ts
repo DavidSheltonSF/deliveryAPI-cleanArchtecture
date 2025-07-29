@@ -2,9 +2,11 @@ import { Role } from '../_enums';
 import { Authentication } from './Authentication';
 import { User } from './User';
 import { BcryptHasher } from '../../infrastructure/services/BcryptHasher';
+import { RawAuthenticationProps } from './rawProps/RawAuthenticationProps';
+import { RawUserProps } from './rawProps/RawUserProps';
 
 describe('Testing User entity', () => {
-  const userProps = {
+  const userProps: RawUserProps = {
     username: 'Jorel33',
     name: 'Jorel',
     email: 'jo@bugmail.com',
@@ -13,17 +15,23 @@ describe('Testing User entity', () => {
     birthday: new Date('2000-02-02'),
   };
 
-  const authenticationProps = {
-    passwordHash: '',
+  const authenticationProps: RawAuthenticationProps = {
+    password: '4D21t6&&fsafdd',
+    sessionToken: 'iua8hiafn',
   };
 
   const hasher = new BcryptHasher(12);
 
+  async function makeValidAuth(
+    props: RawAuthenticationProps
+  ): Promise<Authentication> {
+    const authOrError = await Authentication.create(props, hasher);
+    return authOrError.getRight();
+  }
+
   test('Should return right either value if valid values were provided', async () => {
     const role = Role.admin;
-    const password = 'd#FFFR341j15415551';
-    authenticationProps.passwordHash = await hasher.hash(password);
-    const authentication = new Authentication(authenticationProps, hasher);
+    const authentication = await makeValidAuth(authenticationProps);
     const userOrError = User.create(userProps, role, authentication);
 
     expect(userOrError.isRight()).toBeTruthy();
@@ -31,9 +39,7 @@ describe('Testing User entity', () => {
 
   test('Should be a valid User entity', async () => {
     const role = Role.admin;
-    const password = 'd#FFFR341j15415551';
-    authenticationProps.passwordHash = await hasher.hash(password);
-    const authentication = new Authentication(authenticationProps, hasher);
+    const authentication = await makeValidAuth(authenticationProps);
 
     const userOrError = User.create(userProps, role, authentication);
     const user = userOrError.getRight();
@@ -45,7 +51,9 @@ describe('Testing User entity', () => {
     expect(user.phone).toBe(userProps.phone);
     expect(user.role).toBe(role);
     expect(user.birthday).toBe(userProps.birthday);
-    expect(await user.passwordIsValid(password)).toBeTruthy();
+    expect(
+      await user.passwordIsValid(authenticationProps.password)
+    ).toBeTruthy();
     expect(user.createdAt).toBeTruthy();
   });
 });

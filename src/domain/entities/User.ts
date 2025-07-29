@@ -11,12 +11,7 @@ import { buildUserProps } from '../helpers/buildUserProps';
 
 export class User {
   protected _id?: string;
-  protected _username: UserName;
-  protected _name: Name;
-  protected _email: Email;
-  protected _cpf: Cpf;
-  protected _phone: Phone;
-  protected _birthday: Birthday;
+  protected props: UserProps;
   protected readonly _role: Role;
   protected authentication: Authentication;
   protected _createdAt: Date;
@@ -27,12 +22,7 @@ export class User {
     authentication: Authentication,
     createdAt?: Date
   ) {
-    this._username = props.username;
-    this._name = props.name;
-    this._email = props.email;
-    this._cpf = props.cpf;
-    this._phone = props.phone;
-    this._birthday = props.birthday;
+    this.props = props;
     this._role = role;
     this.authentication = authentication;
     this._createdAt = createdAt ?? new Date();
@@ -61,21 +51,21 @@ export class User {
     return this._id;
   }
   get username(): string {
-    return this._username.getValue();
+    return this.props.username.getValue();
   }
   get name(): string {
-    return this._name.getValue();
+    return this.props.name.getValue();
   }
   get email(): string {
-    return this._email.getValue();
+    return this.props.email.getValue();
   }
 
   get cpf(): string {
-    return this._cpf.getValue();
+    return this.props.cpf.getValue();
   }
 
   get phone(): string {
-    return this._phone.getValue();
+    return this.props.phone.getValue();
   }
 
   get role(): string {
@@ -83,7 +73,7 @@ export class User {
   }
 
   get birthday(): Date {
-    return this._birthday.getValue();
+    return this.props.birthday.getValue();
   }
 
   get passwordHash(): string {
@@ -115,7 +105,7 @@ export class User {
   }
 
   isAdult(): boolean {
-    const birthdayYear = new Date(this._birthday.getValue()).getFullYear();
+    const birthdayYear = new Date(this.props.birthday.getValue()).getFullYear();
     const currentYear = new Date().getFullYear();
     const age = currentYear - birthdayYear;
     if (age < 18) {
