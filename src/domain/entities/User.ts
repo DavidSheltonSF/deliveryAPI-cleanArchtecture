@@ -1,13 +1,16 @@
 import { FieldsValidator } from '../../application/helpers/FieldsValidator';
 import { Either } from '../../shared/either';
 import { Role } from '../_enums';
-import { PropertyAlreadySetError } from '../errors/';
+import { InvalidUserNameError, PropertyAlreadySetError } from '../errors/';
 import { userValidationErrorType } from '../errors/errorTypes';
 import { Birthday, Cpf, Email, Name, Phone, UserName } from '../value-objects';
 import { Authentication } from './Authentication';
 import { RawUserProps } from './rawProps/RawUserProps';
 import { UserProps } from './props/UserProps';
 import { buildUserProps } from '../helpers/buildUserProps';
+import { valueObjectMap } from '../value-objects/tests/valueObjectMap';
+import { UserValidation } from '../helpers/validateUserProps';
+import { validateEitherValues } from '../../utils/validateEitherValues';
 
 export class User {
   protected _id?: string;
@@ -86,6 +89,128 @@ export class User {
 
   get createdAt(): Date {
     return this._createdAt;
+  }
+
+  update(
+    data: Partial<RawUserProps>
+  ): Either<userValidationErrorType, UserProps> {
+    const { username, name, email, cpf, phone, birthday } = data;
+
+    const updateUserNameResult = this.updateUserName(username);
+    const updateNameResult = this.updateName(name);
+    const updateEmailResult = this.updateEmail(email);
+    const updateCpfResult = this.updateCpf(cpf);
+    const updatePhoneResult = this.updatePhone(phone);
+    const updateBirthdayResult = this.updateBirthday(birthday);
+
+    if (updateUserNameResult.isLeft()) {
+      return Either.left(updateUserNameResult.getLeft());
+    }
+    if (updateNameResult.isLeft()) {
+      return Either.left(updateNameResult.getLeft());
+    }
+    if (updateEmailResult.isLeft()) {
+      return Either.left(updateEmailResult.getLeft());
+    }
+    if (updateCpfResult.isLeft()) {
+      return Either.left(updateCpfResult.getLeft());
+    }
+    if (updatePhoneResult.isLeft()) {
+      return Either.left(updatePhoneResult.getLeft());
+    }
+    if (updateBirthdayResult.isLeft()) {
+      return Either.left(updateBirthdayResult.getLeft());
+    }
+
+    return Either.right(this.props);
+  }
+
+  updateUserName(
+    username: string | undefined
+  ): Either<InvalidUserNameError, null> {
+    if (username === undefined) {
+      return Either.right(null);
+    }
+
+    const usernameOrError = UserName.create(username);
+    if (usernameOrError.isLeft()) {
+      return Either.left(usernameOrError.getLeft());
+    }
+
+    this.props.username = usernameOrError.getRight();
+    return Either.right(null);
+  }
+
+  updateName(name: string | undefined): Either<InvalidUserNameError, null> {
+    if (name === undefined) {
+      return Either.right(null);
+    }
+
+    const nameOrError = Name.create(name);
+    if (nameOrError.isLeft()) {
+      return Either.left(nameOrError.getLeft());
+    }
+
+    this.props.name = nameOrError.getRight();
+    return Either.right(null);;
+  }
+
+  updateEmail(email: string | undefined): Either<InvalidUserNameError, null> {
+    if (email === undefined) {
+      return Either.right(null);
+    }
+
+    const emailOrError = Email.create(email);
+    if (emailOrError.isLeft()) {
+      return Either.left(emailOrError.getLeft());
+    }
+
+    this.props.email = emailOrError.getRight();
+    return Either.right(null);
+  }
+
+  updateCpf(cpf: string | undefined): Either<InvalidUserNameError, null> {
+    if (cpf === undefined) {
+      return Either.right(null);
+    }
+
+    const cpfOrError = Cpf.create(cpf);
+    if (cpfOrError.isLeft()) {
+      return Either.left(cpfOrError.getLeft());
+    }
+
+    this.props.cpf = cpfOrError.getRight();
+    return Either.right(null);
+  }
+
+  updatePhone(phone: string | undefined): Either<InvalidUserNameError, null> {
+    if (phone === undefined) {
+      return Either.right(null);
+    }
+
+    const phoneOrError = Phone.create(phone);
+    if (phoneOrError.isLeft()) {
+      return Either.left(phoneOrError.getLeft());
+    }
+
+    this.props.phone = phoneOrError.getRight();
+    return Either.right(null);
+  }
+
+  updateBirthday(
+    birthday: Date | undefined
+  ): Either<InvalidUserNameError, null> {
+    if (birthday === undefined) {
+      return Either.right(null);
+    }
+
+    const birthdayOrErrorOrError = Birthday.create(birthday);
+    if (birthdayOrErrorOrError.isLeft()) {
+      return Either.left(birthdayOrErrorOrError.getLeft());
+    }
+
+    this.props.birthday = birthdayOrErrorOrError.getRight();
+    return Either.right(null);
   }
 
   activeSession(sessionToken: string) {
