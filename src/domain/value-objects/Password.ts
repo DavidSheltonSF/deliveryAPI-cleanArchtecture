@@ -1,4 +1,5 @@
 import { Either } from '../../shared/either';
+import { HashService } from '../contracts/HashService';
 import { InvalidPasswordError } from '../errors';
 import { ValueObject } from './ValueObject';
 
@@ -30,12 +31,17 @@ export class Password extends ValueObject {
     return true;
   }
 
-  static create(password: string): Either<InvalidPasswordError, Password> {
+  static async create(
+    password: string,
+    hashService: HashService
+  ): Promise<Either<InvalidPasswordError, Password>> {
     if (!this.validate(password)) {
       return Either.left(new InvalidPasswordError(password));
     }
 
-    return Either.right(new Password(password));
+    const passwordHash = await hashService.hash(password)
+
+    return Either.right(new Password(passwordHash));
   }
 
   getValue(): string {
