@@ -3,11 +3,11 @@ import { Either } from '../../shared/either';
 import { Role } from '../_enums';
 import { PropertyAlreadySetError } from '../errors/';
 import { userValidationErrorType } from '../errors/errorTypes';
-import { UserPropsBuilder } from '../helpers/UserPropsBuilder';
 import { Birthday, Cpf, Email, Name, Phone, UserName } from '../value-objects';
 import { Authentication } from './Authentication';
 import { RawUserProps } from './rawProps/RawUserProps';
 import { UserProps } from './props/UserProps';
+import { buildUserProps } from '../helpers/buildUserProps';
 
 export class User {
   protected _id?: string;
@@ -44,7 +44,7 @@ export class User {
     authentication: Authentication,
     createdAt?: Date
   ): Either<userValidationErrorType, User> {
-    const validPropsOrError = UserPropsBuilder.buildUserProps(props);
+    const validPropsOrError = buildUserProps(props);
 
     if (validPropsOrError.isLeft()) {
       return Either.left(validPropsOrError.getLeft());
