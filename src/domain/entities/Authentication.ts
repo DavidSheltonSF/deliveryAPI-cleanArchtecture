@@ -1,3 +1,4 @@
+import { AuthenticationModel } from '../../infrastructure/models/mongodb/AuthenticationModel';
 import { Either } from '../../shared/either';
 import { HashService } from '../contracts/HashService';
 import { PropertyAlreadySetError } from '../errors';
@@ -30,7 +31,7 @@ export class Authentication {
 
   static async create(
     props: RawAuthenticationProps,
-    hasher: HashService,
+    hasher: HashService
   ): Promise<Either<authenticationErrorType, Authentication>> {
     const validPropsOrError = await buildAuthenticationProps(props, hasher);
 
@@ -41,6 +42,25 @@ export class Authentication {
     const validProps = validPropsOrError.getRight();
 
     return Either.right(new Authentication(validProps, hasher));
+  }
+
+  static createFromPersistence(
+    data: AuthenticationModel,
+    hasher: HashService
+  ): Authentication {
+    const { _id, passwordHash, sessionToken } = data;
+
+    const id = _id.toString();
+    const props = {
+      userId: data.userId.toString(),
+      passwordHash: Password.createFromPersistence(passwordHash),
+      sessionToken,
+    };
+
+    const auth = new Authentication(props, hasher);
+    auth._id = id;
+
+    return auth;
   }
 
   get id(): string {

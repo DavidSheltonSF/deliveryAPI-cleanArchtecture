@@ -1,69 +1,84 @@
 import { Authentication } from './Authentication';
 import { BcryptHasher } from '../../infrastructure/services/BcryptHasher';
-import { AuthenticationProps } from './props/AuthenticationProps';
+import { RawAuthenticationProps } from './rawProps/RawAuthenticationProps';
 import { MongodbIdAdapter } from '../../infrastructure/adapters/MongodbIdAdapter';
 
 describe('Testing Authentication entity', () => {
   const idAdapter = new MongodbIdAdapter();
   const hasher = new BcryptHasher(12);
 
-  const globalAuthProps: AuthenticationProps = {
+  const globalAuthProps: RawAuthenticationProps = {
     userId: 'fakeUserId421451',
-    passwordHash: 'D#434155fadfss',
+    password: 'D#434155fadfss',
     sessionToken: 'fakeSessionToken',
   };
 
-  test('should create a valid Authentication entity', () => {
-    const authentication = new Authentication(globalAuthProps, hasher);
-    const authId = idAdapter.generate();
-    const setIdResult = authentication.setId(authId);
+  async function makeValidAuth(
+    props: RawAuthenticationProps
+  ): Promise<Authentication> {
+    const authOrError = await Authentication.create(props, hasher);
+    return authOrError.getRight();
+  }
 
-    expect(setIdResult.isRight()).toBeTruthy();
-    expect(authentication.id).toBe(authId);
-    expect(authentication.userId).toBe(globalAuthProps.userId);
-    expect(authentication.passwordHash).toBe(globalAuthProps.passwordHash);
-    expect(authentication.sessionToken).toBe(globalAuthProps.sessionToken);
-    expect(authentication.createdAt).toBeTruthy();
+  test('should return either right value if the data provided is valid', async () => {
+    const authOrError = await Authentication.create(globalAuthProps, hasher);
+    expect(authOrError.isRight()).toBeTruthy();
   });
 
-  test('should throw an error when trying to modify immutable properties after they are set', () => {
-    const authentication = new Authentication(globalAuthProps, hasher);
-    const authenticationId = 'fdkafnsdnnafkdjiIdtesst-test';
+  test('should create a valid Authentication entity', async () => {
+    const authOrError = await Authentication.create(globalAuthProps, hasher);
+    const auth = authOrError.getRight();
 
-    authentication.setId(authenticationId);
-
-    const setIdResult = authentication.setId('id-afdsnakfnasdkf');
-
-    expect(setIdResult.isLeft()).toBeTruthy();
+    expect(auth.userId).toBe(globalAuthProps.userId);
+    expect(auth.compare(globalAuthProps.password)).toBeTruthy();
+    expect(auth.sessionToken).toBe(globalAuthProps.sessionToken);
+    expect(auth.createdAt).toBeTruthy();
   });
 
   test('should compare a raw password and a password hash properly', async () => {
-    const { ...authProps } = globalAuthProps;
-    const password = authProps.passwordHash;
-    authProps.passwordHash = await hasher.hash(authProps.passwordHash);
+    const props = {
+      userId: 'fakeUserId421451',
+      password: 'D#434155fadfss',
+      sessionToken: 'fakeSessionToken',
+    };
 
-    const wrongPassword = 'fakeUsIdsadCS451';
+    const auth = await makeValidAuth(props);
 
-    const authentication = new Authentication(authProps, hasher);
-
-    const passwordComparizon1 = await authentication.compare(password);
-    const passwordComparizon2 = await authentication.compare(wrongPassword);
-    expect(passwordComparizon1).toBeTruthy();
-    expect(passwordComparizon2).toBeFalsy();
+    expect(await auth.compare(props.password)).toBeTruthy();
+    expect(await auth.compare('WrongPassword')).toBeFalsy();
   });
 
-  test('should start a session properly properly', () => {
-    const authentication = new Authentication(globalAuthProps, hasher);
+  test('should start a session properly properly', async () => {
+    const auth = await makeValidAuth(globalAuthProps);
     const sessionToken = 'userSessionToken';
-    authentication.startSession(sessionToken);
+    auth.startSession(sessionToken);
 
-    expect(authentication.sessionToken).toBe(sessionToken);
+    expect(auth.sessionToken).toBe(sessionToken);
   });
 
-  test('should end a session properly properly', () => {
-    const authentication = new Authentication(globalAuthProps, hasher);
-    authentication.endSession();
+  test('should end a session properly properly', async () => {
+    const auth = await makeValidAuth(globalAuthProps)
+    auth.endSession();
 
-    expect(authentication.sessionToken).toBeFalsy();
+    expect(auth.sessionToken).toBeFalsy();
+  });
+
+  test('should create Authentication from a persistence model', async() => {
+
+    const passwordHash = await hasher.hash('D#4435492ddd3');
+    const authModel = {
+      _id: idAdapter.generate(),
+      userId: idAdapter.generate(),
+      passwordHash,
+      sessionToken: 'fakeTokenkganskfa',
+      createdAt: new Date()
+    }
+
+    const auth = Authentication.createFromPersistence(authModel, hasher)
+
+    expect(auth.id).toBe(authModel._id.toString());
+    expect(auth.userId).toBe(authModel.userId.toString());
+    expect(auth.passwordHash).toBe(authModel.passwordHash);
+    expect(auth.sessionToken).toBe(authModel.sessionToken);
   });
 });
