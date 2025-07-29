@@ -1,8 +1,10 @@
+import { Birthday, Cpf, Email, Name, Phone, UserName } from "../../value-objects";
+
 export interface UserProps {
-  username: string;
-  name: string;
-  email: string;
-  cpf: string;
-  phone: string;
-  birthday: Date;
+  username: UserName;
+  name: Name;
+  email: Email;
+  cpf: Cpf;
+  phone: Phone;
+  birthday: Birthday;
 }
