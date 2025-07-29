@@ -12,6 +12,10 @@ export class Cpf extends ValueObject {
   }
 
   static validate(cpf: string): boolean {
+    if (cpf === undefined) {
+      return false;
+    }
+
     const cpfRegex = /^\d{3}\.?\d{3}\.?\d{3}\-?\d{2}$/;
 
     if (!cpf.match(cpfRegex)) {

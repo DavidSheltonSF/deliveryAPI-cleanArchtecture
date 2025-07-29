@@ -12,6 +12,11 @@ export class Phone extends ValueObject {
   }
 
   static validate(phoneNumber: string): boolean {
+
+    if(phoneNumber === undefined){
+      return false
+    }
+
     const phoneRegex = /^\d{2}\-?\d{9}$/;
 
     if (!phoneNumber.match(phoneRegex)) {

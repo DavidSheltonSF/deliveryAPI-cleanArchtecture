@@ -12,6 +12,10 @@ export class AddressZipCode extends ValueObject {
   }
 
   static validate(zipCode: string): Boolean {
+    if (zipCode === undefined) {
+      return false;
+    }
+
     const zipCodeRegex = /^\d{8}$/;
 
     if (!zipCode.match(zipCodeRegex)) {

@@ -12,6 +12,11 @@ export class Birthday extends ValueObject {
   }
 
   static validate(birthday: Date): boolean {
+
+    if(birthday === undefined) {
+      return false;
+    }
+
     if (isNaN(birthday.getDate())) {
       return false;
     }
@@ -27,7 +32,7 @@ export class Birthday extends ValueObject {
 
     if (!this.validate(parsedDate)) {
       return Either.left(
-        new InvalidBirthdayError(parsedDate.toLocaleDateString())
+        new InvalidBirthdayError()
       );
     }
 
