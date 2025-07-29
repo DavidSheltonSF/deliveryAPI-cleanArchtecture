@@ -16,7 +16,7 @@ export class Authentication {
   private _createdAt?: Date;
   private _hashservice: HashService;
 
-  constructor(
+  private constructor(
     authentication: AuthenticationProps,
     hashservice: HashService,
     createdAt?: Date
