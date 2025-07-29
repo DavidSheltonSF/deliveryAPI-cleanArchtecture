@@ -1,8 +1,8 @@
 import { DomainError } from './DomainError';
 
 export class InvalidBirthdayError extends Error implements DomainError {
-  constructor(birthday: string) {
-    super(`The birthday ${birthday} is invalid`);
+  constructor() {
+    super(`The birthday date is invalid`);
     this.name = 'InvalidBirthDayError';
   }
 }
