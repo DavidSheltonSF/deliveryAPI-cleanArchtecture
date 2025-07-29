@@ -8,7 +8,6 @@ describe('Testing Authentication entity', () => {
   const hasher = new BcryptHasher(12);
 
   const globalAuthProps: RawAuthenticationProps = {
-    userId: 'fakeUserId421451',
     password: 'D#434155fadfss',
     sessionToken: 'fakeSessionToken',
   };
@@ -28,8 +27,7 @@ describe('Testing Authentication entity', () => {
   test('should create a valid Authentication entity', async () => {
     const authOrError = await Authentication.create(globalAuthProps, hasher);
     const auth = authOrError.getRight();
-
-    expect(auth.userId).toBe(globalAuthProps.userId);
+    
     expect(auth.compare(globalAuthProps.password)).toBeTruthy();
     expect(auth.sessionToken).toBe(globalAuthProps.sessionToken);
     expect(auth.createdAt).toBeTruthy();
