@@ -50,6 +50,19 @@ export class User {
     return this._id;
   }
 
+  get props(): RawUserProps {
+    const { username, name, email, cpf, phone, birthday } = this._props;
+
+    return {
+      username: username.getValue(),
+      name: name.getValue(),
+      email: email.getValue(),
+      cpf: cpf.getValue(),
+      phone: phone.getValue(),
+      birthday: birthday.getValue(),
+    };
+  }
+
   get username(): string {
     return this._props.username.getValue();
   }
