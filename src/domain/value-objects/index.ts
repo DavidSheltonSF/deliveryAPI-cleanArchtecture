@@ -6,8 +6,5 @@ export * from './UserName';
 export * from './Phone';
 export * from './Password';
 export * from './Birthday';
-export * from './AddressStreet';
-export * from './AddressCity';
-export * from './AddressState';
 export * from './AddressZipCode';
 export * from './Id'
