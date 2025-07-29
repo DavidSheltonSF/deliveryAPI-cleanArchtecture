@@ -21,7 +21,7 @@ export class User {
   protected authentication: Authentication;
   protected _createdAt?: Date;
 
-  constructor(
+  protected constructor(
     props: UserProps,
     role: Role,
     authentication: Authentication,
