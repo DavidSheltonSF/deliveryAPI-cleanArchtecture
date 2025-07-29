@@ -29,7 +29,7 @@ describe('Testing User entity', () => {
     return authOrError.getRight();
   }
 
-  test('Should return right either value if valid values were provided', async () => {
+  test('should return right either value if valid values were provided', async () => {
     const role = Role.admin;
     const authentication = await makeValidAuth(authenticationProps);
     const userOrError = User.create(userProps, role, authentication);
@@ -37,7 +37,7 @@ describe('Testing User entity', () => {
     expect(userOrError.isRight()).toBeTruthy();
   });
 
-  test('Should be a valid User entity', async () => {
+  test('should be a valid User entity', async () => {
     const role = Role.admin;
     const authentication = await makeValidAuth(authenticationProps);
 
@@ -57,7 +57,7 @@ describe('Testing User entity', () => {
     expect(user.createdAt).toBeTruthy();
   });
 
-  test('Should get User props properly', async () => {
+  test('should get User props properly', async () => {
     const role = Role.admin;
     const authentication = await makeValidAuth(authenticationProps);
 
@@ -72,5 +72,16 @@ describe('Testing User entity', () => {
     expect(props.cpf).toBe(userProps.cpf);
     expect(props.phone).toBe(userProps.phone);
     expect(props.birthday).toBe(userProps.birthday);
+  });
+
+  test('should update User Name properly', async () => {
+    const role = Role.admin;
+    const authentication = await makeValidAuth(authenticationProps);
+    const userOrError = User.create(userProps, role, authentication);
+    const user = userOrError.getRight();
+    const updatdUsername = 'Frederico';
+    user.updateUserName(updatdUsername);
+
+    expect(user.username).toBe(updatdUsername);
   });
 });
