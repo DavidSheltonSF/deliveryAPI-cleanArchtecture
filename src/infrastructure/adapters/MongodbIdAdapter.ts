@@ -2,8 +2,8 @@ import { ObjectId } from 'mongodb';
 import { IdService } from '../../domain/contracts/IdService';
 
 export class MongodbIdAdapter implements IdService {
-  generate(): string {
-    return new ObjectId().toString();
+  generate(): ObjectId {
+    return new ObjectId();
   }
 
   validate(id: string): boolean {
