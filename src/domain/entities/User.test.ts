@@ -84,4 +84,131 @@ describe('Testing User entity', () => {
 
     expect(user.username).toBe(updatdUsername);
   });
+
+  test('should update name properly', async () => {
+    const role = Role.admin;
+    const authentication = await makeValidAuth(authenticationProps);
+    const userOrError = User.create(userProps, role, authentication);
+    const user = userOrError.getRight();
+    const name = 'Frederico Joares';
+    user.updateName(name);
+
+    expect(user.name).toBe(name);
+  });
+
+  test('should update email properly', async () => {
+    const role = Role.admin;
+    const authentication = await makeValidAuth(authenticationProps);
+    const userOrError = User.create(userProps, role, authentication);
+    const user = userOrError.getRight();
+    const email = 'fred@email.com';
+    user.updateEmail(email);
+
+    expect(user.email).toBe(email);
+  });
+
+  test('should update cpf properly', async () => {
+    const role = Role.admin;
+    const authentication = await makeValidAuth(authenticationProps);
+    const userOrError = User.create(userProps, role, authentication);
+    const user = userOrError.getRight();
+    const cpf = '15488587458';
+    user.updateCpf(cpf);
+
+    expect(user.cpf).toBe(cpf);
+  });
+
+  test('should update phone properly', async () => {
+    const role = Role.admin;
+    const authentication = await makeValidAuth(authenticationProps);
+    const userOrError = User.create(userProps, role, authentication);
+    const user = userOrError.getRight();
+    const phone = '21858474555';
+    user.updatePhone(phone);
+
+    expect(user.phone).toBe(phone);
+  });
+
+  test('should update birthday properly', async () => {
+    const role = Role.admin;
+    const authentication = await makeValidAuth(authenticationProps);
+    const userOrError = User.create(userProps, role, authentication);
+    const user = userOrError.getRight();
+    const birthday = new Date('2000-02-02');
+    user.updateBirthday(birthday);
+
+    expect(user.birthday).toBe(birthday);
+  });
+
+  test('should return an error and not update if username is invalid', async () => {
+    const role = Role.admin;
+    const authentication = await makeValidAuth(authenticationProps);
+    const userOrError = User.create(userProps, role, authentication);
+    const user = userOrError.getRight();
+    const username = '@';
+    const updateResult = user.updateUserName(username);
+
+    expect(updateResult.isLeft()).toBeTruthy();
+    expect(user.username).toBe(userProps.username);
+  });
+
+  test('should return an error and not update if name is invalid', async () => {
+    const role = Role.admin;
+    const authentication = await makeValidAuth(authenticationProps);
+    const userOrError = User.create(userProps, role, authentication);
+    const user = userOrError.getRight();
+    const name = 'David123';
+    const updateResult = user.updateName(name);
+
+    expect(updateResult.isLeft()).toBeTruthy();
+    expect(user.name).toBe(userProps.name);
+  });
+
+  test('should return an error and not update if email is invalid', async () => {
+    const role = Role.admin;
+    const authentication = await makeValidAuth(authenticationProps);
+    const userOrError = User.create(userProps, role, authentication);
+    const user = userOrError.getRight();
+    const email = 'David123';
+    const updateResult = user.updateEmail(email);
+
+    expect(updateResult.isLeft()).toBeTruthy();
+    expect(user.email).toBe(userProps.email);
+  });
+
+  test('should return an error and not update if cpf is invalid', async () => {
+    const role = Role.admin;
+    const authentication = await makeValidAuth(authenticationProps);
+    const userOrError = User.create(userProps, role, authentication);
+    const user = userOrError.getRight();
+    const cpf = 'CpfINvalido';
+    const updateResult = user.updateCpf(cpf);
+
+    expect(updateResult.isLeft()).toBeTruthy();
+    expect(user.cpf).toBe(userProps.cpf);
+  });
+
+  test('should return an error and not update if phone is invalid', async () => {
+    const role = Role.admin;
+    const authentication = await makeValidAuth(authenticationProps);
+    const userOrError = User.create(userProps, role, authentication);
+    const user = userOrError.getRight();
+    const phone = 'phone6555';
+    const updateResult = user.updatePhone(phone);
+
+    expect(updateResult.isLeft()).toBeTruthy();
+    expect(user.phone).toBe(userProps.phone);
+  });
+
+  test('should return an error and not update if birthday is invalid', async () => {
+    const role = Role.admin;
+    const authentication = await makeValidAuth(authenticationProps);
+    const userOrError = User.create(userProps, role, authentication);
+    const user = userOrError.getRight();
+    const birthday = new Date('5281515');
+    const updateResult = user.updateBirthday(birthday);
+
+    expect(updateResult.isLeft()).toBeTruthy();
+    expect(user.birthday).toBe(userProps.birthday);
+  });
 });
