@@ -1,7 +1,7 @@
-import { AddressZipCode } from "../../value-objects";
+import { AddressZipCode } from '../../value-objects';
 
 export interface AddressProps {
-  userId: string
+  userId?: string;
   street: string;
   city: string;
   state: string;
