@@ -17,9 +17,7 @@ export class Address {
     this._createdAt = createdAt ?? new Date();
   }
 
-  static create(
-    props: RawAddressProps
-  ): Either<addressErrorType, Address> {
+  static create(props: RawAddressProps): Either<addressErrorType, Address> {
     const validPropsOrError = buildAddressProps(props);
 
     if (validPropsOrError.isLeft()) {
@@ -51,6 +49,10 @@ export class Address {
 
   get id(): string {
     return this._id;
+  }
+
+  get userId(): string | undefined {
+    return this.props.userId;
   }
 
   get street(): string {

@@ -44,25 +44,25 @@ describe('Testing Address entity', () => {
     expect(address.zipCode).toBe(addressProps.zipCode);
   });
 
-  //  test('should create Address from a persistence model', async() => {
+   test('should create Address from a persistence model', async() => {
   
-  //     const addressModel = {
-  //       _id: idAdapter.generate(),
-  //       userId: idAdapter.generate(),
-  //       street: 'Rua Arnaldo Siqueira',
-  //       city: 'São Paulo',
-  //       state: 'São Paulo',
-  //       zipCode: '25746458',
-  //       createdAt: new Date()
-  //     }
+      const addressModel = {
+        _id: idAdapter.generate(),
+        userId: idAdapter.generate(),
+        street: 'Rua Arnaldo Siqueira',
+        city: 'São Paulo',
+        state: 'São Paulo',
+        zipCode: '25746458',
+        createdAt: new Date()
+      }
   
-  //     const address = Address.createFromPersistence(addressModel)
+      const address = Address.createFromPersistence(addressModel)
   
-  //     expect(address.id).toBe(addressModel._id.toString());
-  //     expect(address.userId).toBe(addressModel.userId.toString());
-  //     expect(address.street).toBe(addressModel.street);
-  //     expect(address.city).toBe(addressModel.city);
-  //     expect(address.state).toBe(addressModel.state);
-  //     expect(address.zipCode).toBe(addressModel.zipCode);
-  //   });
+      expect(address.id).toBe(addressModel._id.toString());
+      expect(address.userId).toBe(addressModel.userId.toString());
+      expect(address.street).toBe(addressModel.street);
+      expect(address.city).toBe(addressModel.city);
+      expect(address.state).toBe(addressModel.state);
+      expect(address.zipCode).toBe(addressModel.zipCode);
+    });
 });
