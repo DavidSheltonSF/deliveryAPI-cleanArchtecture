@@ -3,10 +3,10 @@ import { Either } from '../../shared/either';
 import { Role } from '../_enums';
 import { PropertyAlreadySetError } from '../errors/';
 import { userValidationErrorType } from '../errors/errorTypes';
-import {  UserPropsBuilder } from '../helpers/UserPropsBuilder';
+import { UserPropsBuilder } from '../helpers/UserPropsBuilder';
 import { Birthday, Cpf, Email, Name, Phone, UserName } from '../value-objects';
 import { Authentication } from './Authentication';
-import { RawUserProps } from './props/RawUserProps';
+import { RawUserProps } from './rawProps/RawUserProps';
 import { UserProps } from './props/UserProps';
 
 export class User {
