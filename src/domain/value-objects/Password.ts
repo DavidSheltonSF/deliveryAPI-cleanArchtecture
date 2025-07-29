@@ -39,9 +39,13 @@ export class Password extends ValueObject {
       return Either.left(new InvalidPasswordError(password));
     }
 
-    const passwordHash = await hashService.hash(password)
+    const passwordHash = await hashService.hash(password);
 
     return Either.right(new Password(passwordHash));
+  }
+
+  async compare(password: string, comparer: HashService): Promise<boolean> {
+    return await comparer.compare(password, this.value);
   }
 
   getValue(): string {

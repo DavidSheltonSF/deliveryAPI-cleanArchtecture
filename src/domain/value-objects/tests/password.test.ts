@@ -1,12 +1,22 @@
 import { Password } from '../';
+import {BcryptHasher} from '../../../infrastructure/services/BcryptHasher'
 
 
 describe('Testing Phone validator', () => {
-  test('Trying to create a valid password', async () => {
+  test('should create a Password VO', async () => {
     const validPassword = 'Test123*@!55';
-    const passwordOrError = Password.create(validPassword);
+    const hasher = new BcryptHasher(12);
+    const passwordOrError = await Password.create(validPassword, hasher);
 
     expect(passwordOrError.isRight()).toBeTruthy();
-    expect(passwordOrError.getRight().getValue()).toBe(validPassword);
+
+  });
+
+  test('should crate a PasswordVO with the password provided', async () => {
+    const validPassword = 'Test123*@!55';
+    const hasher = new BcryptHasher(12);
+    const password = (await Password.create(validPassword, hasher)).getRight();
+
+    expect(password.compare(validPassword, hasher)).toBeTruthy();
   });
 });
