@@ -1,6 +1,6 @@
 import { AuthenticationModel } from '../../infrastructure/models/mongodb/AuthenticationModel';
 import { Either } from '../../shared/either';
-import { HashService } from '../contracts/HashService';
+import { hashService } from '../contracts/hashService';
 import { PropertyAlreadySetError } from '../errors';
 import { authenticationErrorType } from '../errors/errorTypes';
 import { buildAuthenticationProps } from '../helpers/buildAuthenticationProps';
@@ -12,21 +12,21 @@ export class Authentication {
   private _id?: string;
   private props: AuthenticationProps;
   private _createdAt?: Date;
-  private _hashservice: HashService;
+  private hashService: hashService;
 
   private constructor(
     props: AuthenticationProps,
-    hashservice: HashService,
+    hashService: hashService,
     createdAt?: Date
   ) {
     this.props = props;
-    this._hashservice = hashservice;
+    this.hashService = hashService;
     this._createdAt = createdAt ?? new Date();
   }
 
   static async create(
     props: RawAuthenticationProps,
-    hasher: HashService
+    hasher: hashService
   ): Promise<Either<authenticationErrorType, Authentication>> {
     const validPropsOrError = await buildAuthenticationProps(props, hasher);
 
@@ -41,7 +41,7 @@ export class Authentication {
 
   static createFromPersistence(
     data: AuthenticationModel,
-    hasher: HashService
+    hasher: hashService
   ): Authentication {
     const { _id, passwordHash, sessionToken } = data;
 
@@ -89,7 +89,7 @@ export class Authentication {
   async updatePasswordHash(password: string) {
     const passwordHashOrError = await Password.create(
       password,
-      this._hashservice
+      this.hashService
     );
 
     if (passwordHashOrError.isLeft()) {
@@ -100,6 +100,6 @@ export class Authentication {
   }
 
   async compare(password: string): Promise<boolean> {
-    return await this.props.passwordHash.compare(password, this._hashservice);
+    return await this.props.passwordHash.compare(password, this.hashService);
   }
 }
