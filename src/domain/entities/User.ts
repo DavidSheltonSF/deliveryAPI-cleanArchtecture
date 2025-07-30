@@ -1,6 +1,6 @@
 import { Either } from '../../shared/either';
 import { Role } from '../_enums';
-import { InvalidUserNameError } from '../errors/';
+import { InvalidPasswordError, InvalidUserNameError } from '../errors/';
 import { Birthday, Cpf, Email, Name, Phone, UserName } from '../value-objects';
 import { Authentication } from './Authentication';
 import { RawUserProps } from './rawProps/RawUserProps';
@@ -194,5 +194,23 @@ export class User {
 
   async passwordIsValid(password: string): Promise<boolean> {
     return await this.authentication.compare(password);
+  }
+
+  async updatePassword(
+    passwordHash: string
+  ): Promise<Either<InvalidPasswordError, string>> {
+    if (passwordHash === undefined) {
+      return null;
+    }
+
+    const passwordOrError = await this.authentication.updatePasswordHash(
+      passwordHash
+    );
+
+    if (passwordOrError.isLeft()) {
+      return Either.left(passwordOrError.getLeft());
+    }
+
+    return Either.right(passwordOrError.getRight());
   }
 }

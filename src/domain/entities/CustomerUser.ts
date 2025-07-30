@@ -52,8 +52,4 @@ export class CustomerUser extends User {
   updateAddress(address: Partial<AddressProps>) {
     this._address.update(address);
   }
-
-  updatePassword(passwordHash: string) {
-    this.authentication.updatePasswordHash(passwordHash);
-  }
 }

@@ -112,8 +112,23 @@ describe('Testing User entity', () => {
     const user = await makeValidUser(rawUserProps);
     const birthday = new Date('2000-02-02');
     user.updateBirthday(birthday);
-
     expect(user.birthday).toBe(birthday);
+  });
+
+  test('should return either right value if valid password is provided', async () => {
+    const user = await makeValidUser(rawUserProps);
+    const newPassword = 'NewPassword#2025';
+    const passwordOrError = await user.updatePassword(newPassword);
+    console.log(passwordOrError)
+    expect(passwordOrError.isRight()).toBeTruthy();
+  });
+
+  test('should update password properly', async () => {
+    const user = await makeValidUser(rawUserProps);
+    const newPassword = 'NewPassword#2025';
+    await user.updatePassword(newPassword);
+
+    expect(user.passwordIsValid(authenticationProps.password)).toBeTruthy();
   });
 
   test('should return an error and not update if username is invalid', async () => {
