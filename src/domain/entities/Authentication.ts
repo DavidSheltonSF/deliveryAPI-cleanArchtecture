@@ -1,7 +1,7 @@
 import { AuthenticationModel } from '../../infrastructure/models/mongodb/AuthenticationModel';
 import { Either } from '../../shared/either';
 import { HashService } from '../contracts/HashService';
-import { PropertyAlreadySetError } from '../errors';
+import { InvalidPasswordError } from '../errors';
 import { authenticationErrorType } from '../errors/errorTypes';
 import { buildAuthenticationProps } from '../helpers/buildAuthenticationProps';
 import { Password } from '../value-objects';
@@ -86,7 +86,9 @@ export class Authentication {
     this.props.sessionToken = undefined;
   }
 
-  async updatePasswordHash(password: string) {
+  async updatePasswordHash(
+    password: string
+  ): Promise<Either<InvalidPasswordError, string>> {
     const passwordHashOrError = await Password.create(
       password,
       this.hashService
@@ -97,6 +99,8 @@ export class Authentication {
     }
 
     this.props.passwordHash = passwordHashOrError.getRight();
+
+    return Either.right(this.props.passwordHash.getValue());
   }
 
   async compare(password: string): Promise<boolean> {
