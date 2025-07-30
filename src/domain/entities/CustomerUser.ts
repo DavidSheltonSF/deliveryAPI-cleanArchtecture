@@ -1,3 +1,4 @@
+import { Role } from '../_enums';
 import { Address } from './Address';
 import { Authentication } from './Authentication';
 import { AddressProps } from './props/AddressProps';
@@ -9,7 +10,7 @@ export class CustomerUser extends User {
   private _address: Address;
   constructor(
     props: UserProps,
-    role: string,
+    role: Role,
     address: Address,
     authentication: Authentication
   ) {

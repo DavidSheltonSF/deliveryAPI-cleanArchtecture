@@ -1,12 +1,10 @@
 import { Either } from '../../shared/either';
 import { Role } from '../_enums';
-import { InvalidUserNameError, PropertyAlreadySetError } from '../errors/';
-import { userValidationErrorType } from '../errors/errorTypes';
+import { InvalidUserNameError } from '../errors/';
 import { Birthday, Cpf, Email, Name, Phone, UserName } from '../value-objects';
 import { Authentication } from './Authentication';
 import { RawUserProps } from './rawProps/RawUserProps';
 import { UserProps } from './props/UserProps';
-import { buildUserProps } from '../helpers/buildUserProps';
 
 export class User {
   protected _id?: string;
@@ -15,7 +13,7 @@ export class User {
   protected authentication: Authentication;
   protected _createdAt: Date;
 
-  protected constructor(
+  constructor(
     props: UserProps,
     role: Role,
     authentication: Authentication,
@@ -25,25 +23,6 @@ export class User {
     this._role = role;
     this.authentication = authentication;
     this._createdAt = createdAt ?? new Date();
-  }
-
-  static create(
-    props: RawUserProps,
-    role: Role,
-    authentication: Authentication,
-    createdAt?: Date
-  ): Either<userValidationErrorType, User> {
-    const validPropsOrError = buildUserProps(props);
-
-    if (validPropsOrError.isLeft()) {
-      return Either.left(validPropsOrError.getLeft());
-    }
-
-    const validProps = validPropsOrError.getRight();
-
-    const user = new User(validProps, role, authentication, createdAt);
-
-    return Either.right(user);
   }
 
   get id(): string | undefined {
