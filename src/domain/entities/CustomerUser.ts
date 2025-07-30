@@ -45,24 +45,6 @@ export class CustomerUser extends User {
     return Either.right(customer);
   }
 
-  //REMOVE UNNECESSARY GETTERS
-  get id(): string | undefined {
-    return this._id;
-  }
-
-  get props(): RawUserProps {
-    const { username, name, email, cpf, phone, birthday } = this._props;
-
-    return {
-      username: username.getValue(),
-      name: name.getValue(),
-      email: email.getValue(),
-      cpf: cpf.getValue(),
-      phone: phone.getValue(),
-      birthday: birthday.getValue(),
-    };
-  }
-
   get address(): Address {
     return this._address;
   }
