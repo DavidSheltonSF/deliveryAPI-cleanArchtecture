@@ -1,11 +1,14 @@
-import { UserRole } from '../_enums';
+import { Role } from '../_enums';
 import { Authentication } from './Authentication';
 import { Address } from './Address';
-import { User } from './User';
+import { CustomerUser } from './CustomerUser';
 import { BcryptHasher } from '../../infrastructure/services/BcryptHasher';
+import { RawAuthenticationProps } from './rawProps/RawAuthenticationProps';
+import { RawAddressProps } from './rawProps/RawAddressProps';
+import { RawUserProps } from './rawProps/RawUserProps';
 
-describe('Testing User entity', () => {
-  const userProps = {
+describe('Testing Customer entity', () => {
+  const userProps: RawUserProps = {
     username: 'Jorel33',
     name: 'Jorel',
     email: 'jo@bugmail.com',
@@ -14,69 +17,63 @@ describe('Testing User entity', () => {
     birthday: new Date('2000-02-02'),
   };
 
-  const addressProps = {
+  const userRole = Role.customer;
+
+  const addressProps: RawAddressProps = {
     street: 'Rua Teste',
     city: 'São Paulo',
     state: 'São Paulo',
     zipCode: '88444458',
   };
 
-  const authenticationProps = {
-    passwordHash: '',
+  const authenticationProps: RawAuthenticationProps = {
+    password: 'D#434155fadfss',
+    sessionToken: 'fakeSessionToken',
   };
 
   const hasher = new BcryptHasher(12);
 
-  async function makeSutCustomer(
-    password: string = 'Drejkakn$%!2',
-    userRole: string = UserRole.customer
-  ) {
-    authenticationProps.passwordHash = await hasher.hash(password);
-    const address = new Address(addressProps)
-    const authentication = new Authentication(authenticationProps, hasher);
-    const user = new User(userProps, userRole, authentication);
-    return user;
+  function makeValidAddress(props: RawAddressProps): Address {
+    const authOrError = Address.create(props);
+    return authOrError.getRight();
   }
 
-  test('Should be a valid User entity', async () => {
-    const password = 'fdafsadfa';
-    const userRole = UserRole.customer;
-    const user = await makeSutCustomer(password, userRole);
+  async function makeValidAuth(
+    props: RawAuthenticationProps
+  ): Promise<Authentication> {
+    const authOrError = await Authentication.create(props, hasher);
+    return authOrError.getRight();
+  }
 
-    expect(user.username).toBe(userProps.username);
-    expect(user.name).toBe(userProps.name);
-    expect(user.email).toBe(userProps.email);
-    expect(user.cpf).toBe(userProps.cpf);
-    expect(user.phone).toBe(userProps.phone);
-    expect(user.role).toBe(userRole);
-    expect(user.birthday).toBe(userProps.birthday);
-    expect(await user.passwordIsValid(password)).toBeTruthy();
-  });
+  async function makeValidCustomer(
+    userProps: RawUserProps
+  ): Promise<CustomerUser> {
+    const address = makeValidAddress(addressProps);
+    const authentication = await makeValidAuth(authenticationProps);
+    const customerOrError = CustomerUser.create(
+      userProps,
+      userRole,
+      address,
+      authentication
+    );
 
-  test('Should set Id and createdAt properly', async () => {
-    const user = await makeSutCustomer();
-    const userId = 'id0316151';
-    const createdAt = new Date('2000-01-01');
+    const customer = customerOrError.getRight();
 
-    user.setId(userId);
-    user.setCreatedAt(createdAt);
+    return customer;
+  }
 
-    expect(user.id).toBe(userId);
-    expect(user.createdAt).toBe(createdAt);
-  });
+  test('Should be a valid Customer entity', async () => {
+    const customer = await makeValidCustomer(userProps);
 
-  test('Should return error when trying to set Id or createdAt if they are alerady set', async () => {
-    const user = await makeSutCustomer();
-    const userId = 'id0316151';
-    const createdAt = new Date('2000-01-01');
-
-    user.setId(userId);
-    user.setCreatedAt(createdAt);
-
-    const idOrError = user.setId(userId);
-    const createdAtOrError = user.setCreatedAt(createdAt);
-
-    expect(idOrError.isLeft()).toBeTruthy();
-    expect(createdAtOrError.isLeft()).toBeTruthy();
+    expect(customer.username).toBe(userProps.username);
+    expect(customer.name).toBe(userProps.name);
+    expect(customer.email).toBe(userProps.email);
+    expect(customer.cpf).toBe(userProps.cpf);
+    expect(customer.phone).toBe(userProps.phone);
+    expect(customer.role).toBe(userRole);
+    expect(customer.birthday).toBe(userProps.birthday);
+    expect(
+      await customer.passwordIsValid(authenticationProps.password)
+    ).toBeTruthy();
   });
 });
