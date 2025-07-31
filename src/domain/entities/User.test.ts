@@ -119,7 +119,6 @@ describe('Testing User entity', () => {
     const user = await makeValidUser(rawUserProps);
     const newPassword = 'NewPassword#2025';
     const passwordOrError = await user.updatePassword(newPassword);
-    console.log(passwordOrError)
     expect(passwordOrError.isRight()).toBeTruthy();
   });
 
