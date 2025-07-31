@@ -3,10 +3,7 @@ import { CustomerRepository } from '../../../application/_ports/CustomerReposito
 import { CustomerUser } from '../../../domain/entities/CustomerUser';
 import { CustomerModel } from '../../models/mongodb/CustomerModel';
 import { mongoHelper } from './helpers/mongo-helper';
-import {
-  entityToCustomerModel,
-  persistenceToCustomerModel,
-} from '../../../mappers/customerMappers';
+import { CustomerMapper } from '../../../mappers/CustomerMapper';
 
 export class MongodbCustomerRepository implements CustomerRepository {
   async findAll(): Promise<CustomerModel[]> {
@@ -14,7 +11,7 @@ export class MongodbCustomerRepository implements CustomerRepository {
     const foundUsers = await userCollection.find().toArray();
 
     const mappedCustomers = foundUsers.map((customer) => {
-      return persistenceToCustomerModel(customer);
+      return CustomerMapper.persistenceToCustomerModel(customer);
     });
 
     return mappedCustomers;
@@ -24,12 +21,12 @@ export class MongodbCustomerRepository implements CustomerRepository {
     const userCollection = mongoHelper.getCollection('users');
     const foundUser = await userCollection.findOne({ email });
 
-    return persistenceToCustomerModel(foundUser);
+    return CustomerMapper.persistenceToCustomerModel(foundUser);
   }
 
   async add(customer: CustomerUser): Promise<CustomerModel | null> {
     const userCollection = mongoHelper.getCollection('users');
-    const customerModel = entityToCustomerModel(customer);
+    const customerModel = CustomerMapper.entityToCustomerModel(customer);
 
     const newUserId = await userCollection
       .insertOne(customerModel)
@@ -43,12 +40,12 @@ export class MongodbCustomerRepository implements CustomerRepository {
       return null;
     }
 
-    return persistenceToCustomerModel(createdCustomer);
+    return CustomerMapper.persistenceToCustomerModel(createdCustomer);
   }
 
   async update(customer: CustomerUser): Promise<CustomerModel | null> {
     const userCollection = mongoHelper.getCollection('users');
-    const customerModel = entityToCustomerModel(customer);
+    const customerModel = CustomerMapper.entityToCustomerModel(customer);
     const customerId = customerModel._id;
     delete customerModel._id;
     const updatedUser = await userCollection.findOneAndUpdate(
@@ -61,7 +58,7 @@ export class MongodbCustomerRepository implements CustomerRepository {
       return null;
     }
 
-    return persistenceToCustomerModel(updatedUser);
+    return CustomerMapper.persistenceToCustomerModel(updatedUser);
   }
 
   async delete(id: string): Promise<CustomerModel | null> {
@@ -75,6 +72,6 @@ export class MongodbCustomerRepository implements CustomerRepository {
       return null;
     }
 
-    return persistenceToCustomerModel(deletedCustomer);
+    return CustomerMapper.persistenceToCustomerModel(deletedCustomer);
   }
 }
