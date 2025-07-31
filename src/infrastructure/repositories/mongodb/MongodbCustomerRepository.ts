@@ -24,7 +24,7 @@ export class MongodbCustomerRepository implements CustomerRepository {
     return CustomerMapper.persistenceToCustomerModel(foundUser);
   }
 
-  async add(customer: CustomerUser): Promise<CustomerModel | null> {
+  async create(customer: CustomerUser): Promise<CustomerModel | null> {
     const userCollection = mongoHelper.getCollection('users');
     const customerModel = CustomerMapper.entityToCustomerModel(customer);
 

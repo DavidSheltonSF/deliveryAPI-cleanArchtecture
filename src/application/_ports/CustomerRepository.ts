@@ -5,7 +5,7 @@ export interface CustomerRepository {
   findAll: () => Promise<CustomerModel[]>;
   findById: (id: string) => Promise<CustomerModel | null>;
   findByEmail: (email: string) => Promise<CustomerModel | null>;
-  add: (customer: CustomerUser) => Promise<CustomerModel>;
+  create: (customer: CustomerUser) => Promise<CustomerModel>;
   update: (customer: CustomerUser) => Promise<CustomerModel | null>;
   delete: (id: string) => Promise<CustomerModel | null>;
 }
