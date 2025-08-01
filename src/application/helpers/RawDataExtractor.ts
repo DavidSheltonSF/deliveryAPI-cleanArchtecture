@@ -5,7 +5,7 @@ import { CreateUserDTO } from '../../presentation/dtos/CreateUserDTO';
 
 export class RawDataExtractor {
   static extractUser(data: CreateUserDTO): RawUserProps {
-    const { username, name, email, cpf, phone, birthday } = data;
+    const { username, name, email, cpf, phone, birthday } = data.user;
     return {
       username,
       name,
