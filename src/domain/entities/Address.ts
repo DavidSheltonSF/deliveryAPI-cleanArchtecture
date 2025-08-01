@@ -1,11 +1,8 @@
 import { AddressModel } from '../../infrastructure/models/mongodb/AddressModel';
 import { Either } from '../../shared/either';
 import { PropertyAlreadySetError } from '../errors';
-import { addressErrorType } from '../errors/errorTypes';
-import { buildAddressProps } from '../helpers/buildAddressProps';
 import { AddressZipCode } from '../value-objects';
 import { AddressProps } from './props/AddressProps';
-import { RawAddressProps } from './rawProps/RawAddressProps';
 
 export class Address {
   private _id?: string;
@@ -17,16 +14,8 @@ export class Address {
     this._createdAt = createdAt ?? new Date();
   }
 
-  static create(props: RawAddressProps): Either<addressErrorType, Address> {
-    const validPropsOrError = buildAddressProps(props);
-
-    if (validPropsOrError.isLeft()) {
-      return Either.left(validPropsOrError.getLeft());
-    }
-
-    const validProps = validPropsOrError.getRight();
-
-    return Either.right(new Address(validProps));
+  static create(props: AddressProps): Address {
+    return new Address(props);
   }
 
   static createFromPersistence(data: AddressModel): Address {

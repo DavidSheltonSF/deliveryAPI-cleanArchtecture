@@ -2,11 +2,8 @@ import { AuthenticationModel } from '../../infrastructure/models/mongodb/Authent
 import { Either } from '../../shared/either';
 import { HashService } from '../contracts/HashService';
 import { InvalidPasswordError } from '../errors';
-import { authenticationErrorType } from '../errors/errorTypes';
-import { buildAuthenticationProps } from '../helpers/buildAuthenticationProps';
 import { Password } from '../value-objects';
 import { AuthenticationProps } from './props/AuthenticationProps';
-import { RawAuthenticationProps } from './rawProps/RawAuthenticationProps';
 
 export class Authentication {
   private _id?: string;
@@ -25,18 +22,10 @@ export class Authentication {
   }
 
   static async create(
-    props: RawAuthenticationProps,
+    props: AuthenticationProps,
     hasher: HashService
-  ): Promise<Either<authenticationErrorType, Authentication>> {
-    const validPropsOrError = await buildAuthenticationProps(props, hasher);
-
-    if (validPropsOrError.isLeft()) {
-      return Either.left(validPropsOrError.getLeft());
-    }
-
-    const validProps = validPropsOrError.getRight();
-
-    return Either.right(new Authentication(validProps, hasher));
+  ): Promise<Authentication> {
+    return new Authentication(props, hasher);
   }
 
   static createFromPersistence(
