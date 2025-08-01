@@ -1,15 +1,10 @@
 import { AddressDTO } from './AddressDTO';
 import { AuthenticationDTO } from './AuthenticationDTO';
 import { BankAccountDTO } from './BankAccountDTO';
+import { UserDTO } from './UserDTO';
 
 export interface CreateUserDTO {
-  username: string;
-  name: string;
-  email: string;
-  cpf: string;
-  phone: string;
-  birthday: string;
-  role: string;
+  user: UserDTO;
   address?: AddressDTO;
   bankAccount?: BankAccountDTO;
   authentication: AuthenticationDTO;
