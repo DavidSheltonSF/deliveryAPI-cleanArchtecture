@@ -5,7 +5,7 @@ export interface AuthenticationRepository {
   findAll: () => Promise<AuthenticationModel[]>;
   findById: (id: string) => Promise<AuthenticationModel | null>;
   findByEmail: (email: string) => Promise<AuthenticationModel | null>;
-  add: (customer: Authentication) => Promise<AuthenticationModel>;
+  create: (customer: Authentication) => Promise<AuthenticationModel>;
   update: (
     id: string,
     customer: Authentication
