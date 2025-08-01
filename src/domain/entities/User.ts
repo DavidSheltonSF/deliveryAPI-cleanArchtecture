@@ -3,7 +3,6 @@ import { Role } from '../_enums';
 import { InvalidPasswordError, InvalidUserNameError } from '../errors/';
 import { Birthday, Cpf, Email, Name, Phone, UserName } from '../value-objects';
 import { Authentication } from './Authentication';
-import { RawUserProps } from './rawProps/RawUserProps';
 import { UserProps } from './props/UserProps';
 
 export class User {
@@ -29,7 +28,7 @@ export class User {
     return this._id;
   }
 
-  get props(): RawUserProps {
+  get props(): any {
     const { username, name, email, cpf, phone, birthday } = this._props;
 
     return {
