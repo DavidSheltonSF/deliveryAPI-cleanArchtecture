@@ -13,17 +13,15 @@ export class CustomerUser extends User {
   private _address: Address;
   private constructor(
     props: UserProps,
-    role: Role,
     address: Address,
     authentication: Authentication
   ) {
-    super(props, role, authentication);
+    super(props, Role.customer, authentication);
     this._address = address;
   }
 
   static create(
     props: RawUserProps,
-    role: Role,
     address: Address,
     authentication: Authentication
   ): Either<userValidationErrorType, CustomerUser> {
@@ -37,7 +35,6 @@ export class CustomerUser extends User {
 
     const customer = new CustomerUser(
       validProps,
-      role,
       address,
       authentication
     );
