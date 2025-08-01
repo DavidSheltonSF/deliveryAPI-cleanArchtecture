@@ -1,20 +1,28 @@
+import { HashService } from '../domain/contracts/HashService';
 import { AuthenticationProps } from '../domain/entities/props/AuthenticationProps';
-import { AuthenticationModel } from '../infrastructure/models/mongodb/AuthenticationModel';
+import { authenticationErrorType } from '../domain/errors/errorTypes';
+import { Password } from '../domain/value-objects';
 import { AuthenticationDTO } from '../presentation/dtos/AuthenticationDTO';
+import { Either } from '../shared/either';
 
 export class AuthenticationMapper {
-  static rawToProps(
+  static async rawToProps(
     authenticationDTO: AuthenticationDTO,
-    userId?: string
-  ): AuthenticationProps {
+    hashService: HashService
+  ): Promise<Either<authenticationErrorType, AuthenticationProps>> {
     const { password, sessionToken } = authenticationDTO;
 
+    const passwordHashOrError = await Password.create(password, hashService);
+    if (passwordHashOrError.isLeft()) {
+      return Either.left(passwordHashOrError.getLeft());
+    }
+
+    const passwordHash = passwordHashOrError.getRight();
     const authenticationProps = {
-      userId,
-      passwordHash: password,
+      passwordHash,
       sessionToken: sessionToken,
     };
 
-    return authenticationProps;
+    return Either.right(authenticationProps);
   }
 }
