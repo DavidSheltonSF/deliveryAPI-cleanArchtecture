@@ -5,19 +5,48 @@ import { CustomerUser } from '../domain/entities/CustomerUser';
 import { CreateUserDTO } from '../presentation/dtos/CreateUserDTO';
 import { UserProps } from '../domain/entities/props/UserProps';
 import { UserResponseDTO } from '../application/useCaseDtos/UserResponseDTO';
+import { Either } from '../shared/either';
+import { Birthday, Cpf, Email, Name, Phone, UserName } from '../domain/value-objects';
+import { validateUserProps } from '../domain/helpers/validateUserProps';
+import { UserDTO } from '../presentation/dtos/UserDTO';
+import { userValidationErrorType } from '../domain/errors/errorTypes';
 
 export class CustomerMapper {
-  static rawToProps(userDTO: CreateUserDTO): UserProps {
-    const { username, name, email, cpf, phone, birthday } = userDTO;
-
-    return {
-      username,
-      name,
-      email,
-      cpf,
-      phone,
-      birthday: new Date(birthday),
+  static rawToProps(
+    userData: UserDTO
+  ): Either<userValidationErrorType, UserProps> {
+    const { username, name, email, cpf, phone, birthday } = userData;
+  
+    const usernameOrError = UserName.create(username);
+    const nameOrError = Name.create(name);
+    const emailOrError = Email.create(email);
+    const cpfOrError = Cpf.create(cpf);
+    const phoneOrError = Phone.create(phone);
+    const birthdayOrError = Birthday.create(birthday);
+  
+    const validationResult = validateUserProps({
+      usernameOrError,
+      nameOrError,
+      emailOrError,
+      cpfOrError,
+      phoneOrError,
+      birthdayOrError,
+    });
+  
+    if (validationResult.isLeft()) {
+      return Either.left(validationResult.getLeft());
+    }
+  
+    const userProps = {
+      username: usernameOrError.getRight(),
+      name: nameOrError.getRight(),
+      email: emailOrError.getRight(),
+      cpf: cpfOrError.getRight(),
+      phone: phoneOrError.getRight(),
+      birthday: birthdayOrError.getRight(),
     };
+  
+    return Either.right(userProps);
   }
 
   static modelToResponseDTO(customerModel: CustomerModel): UserResponseDTO {
