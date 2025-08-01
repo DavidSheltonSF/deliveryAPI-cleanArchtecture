@@ -3,18 +3,19 @@ import { CreateCustomerResponse } from './response';
 import { Either } from '../../../../shared/either';
 import { DuplicatedDataError } from '../../../_errors/duplicated-data';
 import { CreateUserDTO } from '../../../../presentation/dtos/CreateUserDTO';
-import { validateCustomer } from '../../../helpers/validateCustomer';
 import { AddressRepository } from '../../../_ports/AddressRepository';
 import { AuthenticationRepository } from '../../../_ports/AuthenticationRepository';
 import { CustomerRepository } from '../../../_ports/CustomerRepository';
 import { AddressMapper } from '../../../../mappers/AddressMapper';
-import { AddressFactory } from '../../../../domain/factories/AddressFactory';
-import { AuthenticationFactory } from '../../../../domain/factories/AuthenticationFactory';
 import { InvalidAgeError } from '../../../_errors';
 import { HashService } from '../../../../domain/contracts/HashService';
-import { CustomerFactory } from '../../../../domain/factories/CustomerFactory';
 import { CustomerMapper } from '../../../../mappers/CustomerMapper';
 import { AuthenticationMapper } from '../../../../mappers/AuthenticationMapper';
+import { RawDataExtractor } from '../../../helpers/RawDataExtractor';
+import { validateEitherValues } from '../../../../utils/validateEitherValues';
+import { Address } from '../../../../domain/entities/Address';
+import { CustomerUser } from '../../../../domain/entities/CustomerUser';
+import { Authentication } from '../../../../domain/entities/Authentication';
 
 export class CreateCustomerUseCase implements CreateUser {
   private readonly customerRepository: CustomerRepository;
@@ -32,17 +33,22 @@ export class CreateCustomerUseCase implements CreateUser {
   }
 
   async execute(
-    customerData: CreateUserDTO,
+    data: CreateUserDTO,
     hasher: HashService
   ): Promise<CreateCustomerResponse> {
-    const validation = validateCustomer(customerData);
-    if (validation.isLeft()) {
-      return Either.left(validation.getLeft());
-    }
+    // const validation = validateCustomer(data);
+    // if (validation.isLeft()) {
+    //   return Either.left(validation.getLeft());
+    // }
 
-    const { email, role, address, authentication } = customerData;
+    const rawUser = RawDataExtractor.extractUser(data);
+    const rawAddress = RawDataExtractor.extractAddess(data);
+    const rawAuthentication = RawDataExtractor.extractAuthentication(data);
+    const email = rawUser.email;
 
-    const existingUser = await this.customerRepository.findByEmail(email);
+    const existingUser = await this.customerRepository.findByEmail(
+      rawUser.email
+    );
     if (existingUser !== null && existingUser.email === email) {
       return Either.left(
         new DuplicatedDataError(
@@ -51,32 +57,47 @@ export class CreateCustomerUseCase implements CreateUser {
       );
     }
 
-    const userProps = CustomerMapper.rawToProps(customerData);
-    const addressProps = AddressMapper.rawToProps(address);
-    const authenticationProps = AuthenticationMapper.rawToProps(authentication);
+    const userPropsOrError = CustomerMapper.rawToProps(rawUser);
+    const addressPropsOrError = AddressMapper.rawToProps(rawAddress);
+    const authenticationPropsOrError = await AuthenticationMapper.rawToProps(
+      rawAuthentication,
+      hasher
+    );
 
-    const addressEntity = AddressFactory.create(addressProps);
+    const validation = validateEitherValues([
+      userPropsOrError,
+      addressPropsOrError,
+      authenticationPropsOrError,
+    ]);
 
-    authentication.password = await hasher.hash(authentication.password);
-    const authenticationEntity = AuthenticationFactory.create(
+    if (validation.isLeft()) {
+      return Either.left(validation.getLeft());
+    }
+
+
+    const addressProps = addressPropsOrError.getRight()
+    const address = Address.create(addressProps);
+
+    const authenticationProps = authenticationPropsOrError.getRight()
+    const authentication = await Authentication.create(
       authenticationProps,
       hasher
     );
 
-    const customerEntity = await CustomerFactory.create(
+    const userProps = userPropsOrError.getRight();
+    const customerEntity = CustomerUser.create(
       userProps,
-      role,
-      authenticationEntity,
-      addressEntity
+      address,
+      authentication
     );
 
     if (!customerEntity.isAdult()) {
       return Either.left(new InvalidAgeError());
     }
 
-    const customerModel = await this.customerRepository.add(customerEntity);
-    const addressModel = await this.addressRepository.add(addressEntity);
-    await this.authenticationRepository.add(authenticationEntity);
+    const customerModel = await this.customerRepository.create(customerEntity);
+    const addressModel = await this.addressRepository.create(address);
+    await this.authenticationRepository.create(authentication);
 
     const userResponse = CustomerMapper.modelToResponseDTO(customerModel);
     const addressResponse = AddressMapper.modelToResponseDTO(addressModel);
