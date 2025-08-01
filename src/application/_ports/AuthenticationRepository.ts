@@ -4,7 +4,7 @@ import { AuthenticationModel } from '../../infrastructure/models/mongodb/Authent
 export interface AuthenticationRepository {
   findAll: () => Promise<AuthenticationModel[]>;
   findById: (id: string) => Promise<AuthenticationModel | null>;
-  findByEmail: (email: string) => Promise<AuthenticationModel | null>;
+  findByUserId: (userId: string) => Promise<AuthenticationModel | null>;
   create: (customer: Authentication) => Promise<AuthenticationModel>;
   update: (
     id: string,
