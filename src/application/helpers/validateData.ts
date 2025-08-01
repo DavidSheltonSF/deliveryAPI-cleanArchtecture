@@ -4,18 +4,9 @@ import { FieldsValidator } from './FieldsValidator';
 import { validateAddress } from './validateAddress';
 import { validateAuthentication } from './validateAuthentication';
 
-export function validateCustomer(customer: CreateUserDTO) {
-  const {
-    username,
-    name,
-    email,
-    cpf,
-    phone,
-    birthday,
-    role,
-    address,
-    authentication,
-  } = customer;
+export function validateData(data: CreateUserDTO) {
+  const { username, name, email, cpf, phone, birthday, role } = data.user;
+  const { address, authentication } = data;
 
   const validation = FieldsValidator.validateFields({
     username,
