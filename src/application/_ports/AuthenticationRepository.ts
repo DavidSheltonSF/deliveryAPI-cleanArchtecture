@@ -6,9 +6,6 @@ export interface AuthenticationRepository {
   findById: (id: string) => Promise<AuthenticationModel | null>;
   findByUserId: (userId: string) => Promise<AuthenticationModel | null>;
   create: (auth: Authentication) => Promise<AuthenticationModel>;
-  update: (
-    id: string,
-    auth: Authentication
-  ) => Promise<AuthenticationModel>;
+  update: (auth: Authentication) => Promise<AuthenticationModel>;
   delete: (id: string) => Promise<AuthenticationModel | null>;
 }
