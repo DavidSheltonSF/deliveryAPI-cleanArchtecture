@@ -117,12 +117,12 @@ describe('Testing CreateCustomerUserCase', () => {
     authentication: authDTO,
   };
 
-  test('Should call CustomerRepository.findByEmail with email provided', async () => {
+  test('should call CustomerRepository.findByEmail with email provided', async () => {
     await useCase.execute(createUserDTO);
     expect(customerRepository.findByEmail).toHaveBeenCalledWith(userDTO.email);
   });
 
-  test('Should call CustomerRepository.create with user data provided', async () => {
+  test('should call CustomerRepository.create with user data provided', async () => {
     await useCase.execute(createUserDTO);
     expect(customerRepository.create).toHaveBeenCalled();
   })
