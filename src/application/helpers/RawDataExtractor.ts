@@ -17,7 +17,7 @@ export class RawDataExtractor {
     };
   }
 
-  static extractAddess(data: CreateUserDTO): AddressDTO {
+  static extractAddress(data: CreateUserDTO): AddressDTO {
     const { street, city, state, zipCode } = data.address;
     return {
       street,
