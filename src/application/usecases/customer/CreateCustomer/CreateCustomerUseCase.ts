@@ -36,10 +36,6 @@ export class CreateCustomerUseCase implements CreateUser {
     data: CreateUserDTO,
     hasher: HashService
   ): Promise<CreateCustomerResponse> {
-    // const validation = validateCustomer(data);
-    // if (validation.isLeft()) {
-    //   return Either.left(validation.getLeft());
-    // }
 
     const rawUser = RawDataExtractor.extractUser(data);
     const rawAddress = RawDataExtractor.extractAddress(data);
