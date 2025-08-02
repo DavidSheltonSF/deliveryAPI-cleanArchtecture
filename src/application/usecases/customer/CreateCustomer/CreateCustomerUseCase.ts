@@ -42,7 +42,7 @@ export class CreateCustomerUseCase implements CreateUser {
     // }
 
     const rawUser = RawDataExtractor.extractUser(data);
-    const rawAddress = RawDataExtractor.extractAddess(data);
+    const rawAddress = RawDataExtractor.extractAddress(data);
     const rawAuthentication = RawDataExtractor.extractAuthentication(data);
     const email = rawUser.email;
 
