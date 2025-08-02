@@ -5,7 +5,7 @@ export interface AddressRepository {
   findAll: () => Promise<AddressModel[]>;
   findById: (id: string) => Promise<AddressModel | null>;
   findByUserId: (userId: string) => Promise<AddressModel | null>;
-  create: (customer: Address) => Promise<AddressModel>;
-  update: (id: string, customer: Address) => Promise<AddressModel>;
+  create: (address: Address) => Promise<AddressModel>;
+  update: (id: string, address: Address) => Promise<AddressModel>;
   delete: (id: string) => Promise<AddressModel | null>;
 }
