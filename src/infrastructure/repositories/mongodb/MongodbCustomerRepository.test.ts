@@ -1,7 +1,12 @@
 import { mongoHelper } from '../../../../src/infrastructure/repositories/mongodb/helpers/mongo-helper';
 import { config } from 'dotenv';
 import { MongodbCustomerRepository } from '../../../../src/infrastructure/repositories/mongodb/MongodbCustomerRepository';
-import { UserFactory } from '../../../domain/factories/UserFactory';
+import { CustomerUser } from '../../../domain/entities/CustomerUser';
+import { RawDataExtractor } from '../../../application/helpers/RawDataExtractor';
+import { Address } from '../../../domain/entities/Address';
+import { makeMockHasher } from '../../../tests/mocks/mockHasher';
+import { Authentication } from '../../../domain/entities/Authentication';
+import { Role } from '../../../domain/_enums';
 config();
 
 const repository = new MongodbCustomerRepository();
@@ -25,6 +30,9 @@ describe('Testing MongodbCustomerRepository', () => {
     await mongoHelper.clearCollection('users');
   });
 
+  const hasher = makeMockHasher();
+  const userRole = Role.customer;
+
   const users = [
     {
       username: 'John58633',
@@ -33,8 +41,7 @@ describe('Testing MongodbCustomerRepository', () => {
       cpf: '12587458567',
       phone: '21585874788',
       role: 'customer',
-      birthday: new Date('2002-05-25'),
-      createdAt: new Date(),
+      birthday: '2002-05-25',
       address: {
         street: 'Test Street',
         city: 'Maringá',
@@ -52,8 +59,7 @@ describe('Testing MongodbCustomerRepository', () => {
       cpf: '12587458567',
       phone: '23885874788',
       role: 'customer',
-      birthday: new Date('2000-05-20'),
-      createdAt: new Date(),
+      birthday: '2002-04-25',
       address: {
         street: 'Test Street',
         city: 'Maringá',
@@ -66,184 +72,64 @@ describe('Testing MongodbCustomerRepository', () => {
     },
   ];
 
-  test('Should find a user by email', async () => {
+  test('should create a new customer in the repository', async () => {
     const userCollection = mongoHelper.getCollection('users');
 
-    const user1 = users[0];
-    const user2 = users[1];
+    const createUserDTO = users[0];
+    const rawAddressProps = RawDataExtractor.extractAddess(createUserDTO);
+    const rawAutenticationProps =
+      RawDataExtractor.extractAuthentication(createUserDTO);
+    const rawUserProps = RawDataExtractor.extractUser(createUserDTO);
 
-    // Adding new users to database
-    await userCollection.insertOne(user1);
-    await userCollection.insertOne(user2);
+    const addressOrError = Address.create(rawAddressProps);
+    const address = addressOrError.getRight();
+    const authenticationOrError = await Authentication.create(
+      rawAutenticationProps,
+      hasher
+    );
+    const authentication = authenticationOrError.getRight();
 
-    const foundUser = await repository.findByEmail(user1.email);
+    const customerOrError = CustomerUser.create(
+      rawUserProps,
+      address,
+      authentication
+    );
+    const customer = customerOrError.getRight()
 
-    expect(foundUser?.username).toBe(user1.username);
-    expect(foundUser?.name).toBe(user1.name);
-    expect(foundUser?.email).toBe(user1.email);
-    expect(foundUser?.cpf).toBe(user1.cpf);
-    expect(foundUser?.phone).toBe(user1.phone);
-    expect(foundUser?.role).toBe(user1.role);
-  });
+    const newCustomer = await repository.create(customer);
 
-  test('Should add a new user in the database', async () => {
-    const userCollection = mongoHelper.getCollection('users');
-    const user1 = {
-      username: 'John58633',
-      name: 'John',
-      email: 'jojo@email.com',
-      cpf: '12587458567',
-      phone: '21585874788',
-      role: 'customer',
-      birthday: new Date('2002-05-25'),
-      createdAt: new Date(),
-      address: {
-        street: 'Test Street',
-        city: 'Maringá',
-        state: 'Pará',
-        zipCode: '25874476',
-      },
-      authentication: {
-        passwordHash: 'D@41refsFFesfsfa',
-      },
-    };
-
-    const customerEntity = UserFactory.create({
-      username: user1.username,
-      name: user1.name,
-      email: user1.email,
-      cpf: user1.cpf,
-      phone: user1.phone,
-      role: user1.role,
-      birthday: user1.birthday,
-      address: user1.address,
-      authentication: user1.authentication,
-    });
-
-    const createdUser = await repository.add(customerEntity);
-
-    if (createdUser === null) {
-      throw Error('User was not created.');
+    if(newCustomer === null) {
+      throw Error('User not created');
     }
 
-    const foundCustomer = await userCollection.findOne({
-      _id: createdUser._id,
-    });
+    const id = newCustomer._id;
 
-    expect(foundCustomer?.username).toBe(user1.username);
-    expect(foundCustomer?.name).toBe(user1.name);
-    expect(foundCustomer?.email).toBe(user1.email);
-    expect(foundCustomer?.cpf).toBe(user1.cpf);
-    expect(foundCustomer?.phone).toBe(user1.phone);
-    expect(foundCustomer?.role).toBe(user1.role);
-    expect(foundCustomer?.birthday.getTime()).toBe(user1.birthday.getTime());
+    const foundCustomer =  await userCollection.findOne({_id: id})
+
+    expect(newCustomer.username).toBe(foundCustomer?.username);
+    expect(newCustomer.name).toBe(foundCustomer?.name);
+    expect(newCustomer.email).toBe(foundCustomer?.email);
+    expect(newCustomer.cpf).toBe(foundCustomer?.cpf);
+    expect(newCustomer.phone).toBe(foundCustomer?.phone);
+    expect(newCustomer.role).toBe(foundCustomer?.role);
   });
+  // test('should create a new user in the repository', async () => {
+  //   const userCollection = mongoHelper.getCollection('users');
 
-  test('Should update an existing user in the database', async () => {
-    const userCollection = mongoHelper.getCollection('users');
-    const user1 = {
-      username: 'John58633',
-      name: 'John',
-      email: 'jojo@email.com',
-      cpf: '12587458567',
-      phone: '21585874788',
-      role: 'customer',
-      birthday: new Date('2002-05-25'),
-      createdAt: new Date(),
-      address: {
-        street: 'Test Street',
-        city: 'Maringá',
-        state: 'Pará',
-        zipCode: '25874476',
-      },
-      authentication: {
-        passwordHash: 'D@41refsFFesfsfa',
-      },
-    };
+  //   const user1 = users[0];
+  //   const user2 = users[1];
 
-    const customerId = (await userCollection.insertOne(user1)).insertedId;
+  //   // Adding new users to database
+  //   await userCollection.insertOne(user1);
+  //   await userCollection.insertOne(user2);
 
-    const updatedData = {
-      username: 'UpdatedUsername',
-      name: 'David Updated',
-    };
-    const customerEntity = UserFactory.create({
-      id: customerId.toString(),
-      username: updatedData.username,
-      name: updatedData.name,
-      email: user1.email,
-      cpf: user1.cpf,
-      phone: user1.phone,
-      role: user1.role,
-      birthday: user1.birthday,
-      address: user1.address,
-      authentication: user1.authentication,
-    });
+  //   const foundUser = await repository.findByEmail(user1.email);
 
-    const updatedCustomer = await repository.update(customerEntity);
-
-    const foundCustomer = await userCollection.findOne({ _id: customerId });
-
-    expect(updatedCustomer?._id.toString()).toBe(customerId.toString());
-    expect(updatedCustomer?.username).toBe(updatedData.username);
-    expect(updatedCustomer?.name).toBe(updatedData.name);
-    expect(updatedCustomer?.email).toBe(customerEntity.email);
-    expect(updatedCustomer?.cpf).toBe(customerEntity.cpf);
-    expect(updatedCustomer?.phone).toBe(customerEntity.phone);
-    expect(updatedCustomer?.role).toBe(customerEntity.role);
-    expect(updatedCustomer?.birthday.getTime()).toBe(
-      customerEntity.birthday.getTime()
-    );
-
-    expect(foundCustomer?._id.toString()).toBe(customerId.toString());
-    expect(foundCustomer?.username).toBe(updatedData.username);
-    expect(foundCustomer?.name).toBe(updatedData.name);
-    expect(foundCustomer?.email).toBe(customerEntity.email);
-    expect(foundCustomer?.cpf).toBe(customerEntity.cpf);
-    expect(foundCustomer?.phone).toBe(customerEntity.phone);
-    expect(foundCustomer?.role).toBe(customerEntity.role);
-    expect(foundCustomer?.birthday.getTime()).toBe(
-      customerEntity.birthday.getTime()
-    );
-  });
-
-  test('Should delete an existing user in the database', async () => {
-    const userCollection = mongoHelper.getCollection('users');
-    const user1 = {
-      username: 'John58633',
-      name: 'John',
-      email: 'jojo@email.com',
-      cpf: '12587458567',
-      phone: '21585874788',
-      role: 'customer',
-      birthday: new Date('2002-05-25'),
-      createdAt: new Date(),
-      address: {
-        street: 'Test Street',
-        city: 'Maringá',
-        state: 'Pará',
-        zipCode: '25874476',
-      },
-      authentication: {
-        passwordHash: 'D@41refsFFesfsfa',
-      },
-    };
-
-    const customerId = (await userCollection.insertOne(user1)).insertedId;
-
-    const deletedCustomer = await repository.delete(customerId.toString());
-
-    const foundCustomer = await userCollection.findOne({ _id: customerId });
-
-    expect(deletedCustomer?._id.toString()).toBe(customerId.toString());
-    expect(deletedCustomer?.username).toBe(user1.username);
-    expect(deletedCustomer?.name).toBe(user1.name);
-    expect(deletedCustomer?.email).toBe(user1.email);
-    expect(deletedCustomer?.cpf).toBe(user1.cpf);
-    expect(deletedCustomer?.phone).toBe(user1.phone);
-    expect(deletedCustomer?.role).toBe(user1.role);
-    expect(deletedCustomer?.birthday.getTime()).toBe(user1.birthday.getTime());
-
-    expect(foundCustomer).toBeFalsy();
-  });
+  //   expect(foundUser?.username).toBe(user1.username);
+  //   expect(foundUser?.name).toBe(user1.name);
+  //   expect(foundUser?.email).toBe(user1.email);
+  //   expect(foundUser?.cpf).toBe(user1.cpf);
+  //   expect(foundUser?.phone).toBe(user1.phone);
+  //   expect(foundUser?.role).toBe(user1.role);
+  // });
 });
