@@ -123,7 +123,7 @@ describe('Testing CreateCustomerUserCase', () => {
   });
 
   test('Should call CustomerRepository.create with user data provided', async () => {
-    const result = await useCase.execute(createUserDTO);
+    await useCase.execute(createUserDTO);
     expect(customerRepository.create).toHaveBeenCalled();
   })
 });
