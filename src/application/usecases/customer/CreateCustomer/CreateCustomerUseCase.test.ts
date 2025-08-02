@@ -1,14 +1,6 @@
-import { ObjectId } from 'mongodb';
-import { Role } from '../../../../domain/_enums';
-import { CustomerModel } from '../../../../infrastructure/models/mongodb/CustomerModel';
 import { CustomerRepository } from '../../../_ports/CustomerRepository';
 import { AddressRepository } from '../../../_ports/AddressRepository';
 import { AuthenticationRepository } from '../../../_ports/AuthenticationRepository';
-import { AddressModel } from '../../../../infrastructure/models/mongodb/AddressModel';
-import { AuthenticationModel } from '../../../../infrastructure/models/mongodb/AuthenticationModel';
-import { CustomerUser } from '../../../../domain/entities/CustomerUser';
-import { Address } from '../../../../domain/entities/Address';
-import { Authentication } from '../../../../domain/entities/Authentication';
 import { CreateCustomerUseCase } from './CreateCustomerUseCase';
 import { CreateUserDTO } from '../../../../presentation/dtos/CreateUserDTO';
 import { makeMockHasher } from '../../../../tests/mocks/mockHasher';
