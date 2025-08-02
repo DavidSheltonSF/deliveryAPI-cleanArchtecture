@@ -12,6 +12,8 @@ import { Authentication } from '../../../../domain/entities/Authentication';
 import { CreateCustomerUseCase } from './CreateCustomerUseCase';
 import { CreateUserDTO } from '../../../../presentation/dtos/CreateUserDTO';
 import { makeMockHasher } from '../../../../tests/mocks/mockHasher';
+import { HashService } from '../../../../domain/contracts/HashService';
+import {mockCustomerRepositoryWithDuplicatedEmail} from '../../../../tests/mocks/mockCustomerRepository'
 describe('Testing CreateCustomerUserCase', () => {
   const mockCustomerData: CustomerModel[] = [
     {
@@ -49,7 +51,7 @@ describe('Testing CreateCustomerUserCase', () => {
     },
   ];
 
-  const customerRepositoryMaker = (): CustomerRepository => ({
+  const makeCustomerRepository = (): CustomerRepository => ({
     findAll: jest.fn(async () => mockCustomerData),
     findById: jest.fn(async (id: string) => mockCustomerData[0]),
     findByEmail: jest.fn(async (email: string) => mockCustomerData[0]),
@@ -58,7 +60,7 @@ describe('Testing CreateCustomerUserCase', () => {
     delete: jest.fn(async (id: string) => mockCustomerData[0]),
   });
 
-  const addressRepositoryMaker = (): AddressRepository => ({
+  const makeAddressRepository = (): AddressRepository => ({
     findAll: jest.fn(async () => mockAddressData),
     findById: jest.fn(async (id: string) => mockAddressData[0]),
     findByUserId: jest.fn(async (userId: string) => mockAddressData[0]),
@@ -67,7 +69,7 @@ describe('Testing CreateCustomerUserCase', () => {
     delete: jest.fn(async (id: string) => mockAddressData[0]),
   });
 
-  const authRepositoryMaker = (): AuthenticationRepository => ({
+  const makeAuthRepository = (): AuthenticationRepository => ({
     findAll: jest.fn(async () => mockAuthData),
     findById: jest.fn(async (id: string) => mockAuthData[0]),
     findByUserId: jest.fn(async (userId: string) => mockAuthData[0]),
@@ -76,18 +78,11 @@ describe('Testing CreateCustomerUserCase', () => {
     delete: jest.fn(async (id: string) => mockAuthData[0]),
   });
 
-  const customerRepository = customerRepositoryMaker();
-  const addressRepository = addressRepositoryMaker();
-  const authRepository = authRepositoryMaker();
+  const customerRepository = makeCustomerRepository();
+  const addressRepository = makeAddressRepository();
+  const authRepository = makeAuthRepository();
 
   const hasher = makeMockHasher();
-
-  const useCase = new CreateCustomerUseCase(
-    customerRepository,
-    addressRepository,
-    authRepository,
-    hasher
-  );
 
   const userDTO = {
     username: 'David',
@@ -117,13 +112,94 @@ describe('Testing CreateCustomerUserCase', () => {
     authentication: authDTO,
   };
 
-  test('should call CustomerRepository.findByEmail with email provided', async () => {
+  function makeCreateCustomerUseCase(
+    customerRepo: CustomerRepository,
+    addressRepo: AddressRepository,
+    authRepo: AuthenticationRepository,
+    hasher: HashService
+  ) {
+    return new CreateCustomerUseCase(
+      customerRepo,
+      addressRepo,
+      authRepo,
+      hasher
+    );
+  }
+
+  test('should return Right when valid data is provided', async () => {
+    const useCase = makeCreateCustomerUseCase(
+      customerRepository,
+      addressRepository,
+      authRepository,
+      hasher
+    );
+
+    const responseOrError = await useCase.execute(createUserDTO);
+    expect(responseOrError.isRight()).toBeTruthy();
+  });
+
+  test('should call CustomerRepository.findByEmail with the provided email', async () => {
+    const useCase = makeCreateCustomerUseCase(
+      customerRepository,
+      addressRepository,
+      authRepository,
+      hasher
+    );
     await useCase.execute(createUserDTO);
     expect(customerRepository.findByEmail).toHaveBeenCalledWith(userDTO.email);
   });
 
-  test('should call CustomerRepository.create with user data provided', async () => {
+  test('should call create method of all repositories with domain entities containing data provided', async () => {
+    // Only Address entity does not modify the data it receives
+    // so it's possible to use addressDTO directly in the tests
+    const customerEntityData = {
+      ...userDTO,
+      birthday: new Date(userDTO.birthday),
+    };
+    const authEntityData = {
+      passwordHash: await hasher.hash(authDTO.password),
+      sessionToken: authDTO.sessionToken,
+    };
+
+    const useCase = makeCreateCustomerUseCase(
+      customerRepository,
+      addressRepository,
+      authRepository,
+      hasher
+    );
+
     await useCase.execute(createUserDTO);
-    expect(customerRepository.create).toHaveBeenCalled();
-  })
+
+    expect(customerRepository.create).toHaveBeenCalledWith(
+      expect.objectContaining(customerEntityData)
+    );
+    expect(addressRepository.create).toHaveBeenCalledWith(
+      expect.objectContaining(addressDTO)
+    );
+    expect(authRepository.create).toHaveBeenCalledWith(
+      expect.objectContaining(authEntityData)
+    );
+  });
+
+  test('should return error when a duplicated email is found', async () => {
+    const duplicatedEmail = 'jojo@email.com';
+
+    const createCustomerData = {
+      ...createUserDTO,
+    };
+    createCustomerData.user.email = duplicatedEmail;
+
+    const customerRepository = mockCustomerRepositoryWithDuplicatedEmail(duplicatedEmail)
+
+    const useCase = makeCreateCustomerUseCase(
+      customerRepository,
+      addressRepository,
+      authRepository,
+      hasher
+    );
+
+    const responseOrError = await useCase.execute(createCustomerData);
+
+    expect(responseOrError.isLeft()).toBeTruthy();
+  });
 });
