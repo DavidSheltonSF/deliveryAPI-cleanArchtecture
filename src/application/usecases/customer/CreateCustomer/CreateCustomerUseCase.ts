@@ -24,8 +24,8 @@ export class CreateCustomerUseCase implements CreateUser {
 
   constructor(
     customerRepository: CustomerRepository,
-    authenticationRepository: AuthenticationRepository,
-    addressRepository: AddressRepository
+    addressRepository: AddressRepository,
+    authenticationRepository: AuthenticationRepository
   ) {
     this.customerRepository = customerRepository;
     this.addressRepository = addressRepository;
@@ -74,11 +74,10 @@ export class CreateCustomerUseCase implements CreateUser {
       return Either.left(validation.getLeft());
     }
 
-
-    const addressProps = addressPropsOrError.getRight()
+    const addressProps = addressPropsOrError.getRight();
     const address = Address.create(addressProps);
 
-    const authenticationProps = authenticationPropsOrError.getRight()
+    const authenticationProps = authenticationPropsOrError.getRight();
     const authentication = await Authentication.create(
       authenticationProps,
       hasher
