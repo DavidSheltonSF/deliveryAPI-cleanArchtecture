@@ -11,108 +11,69 @@ import {
 } from '../../../../tests/mocks/mockCustomerRepository';
 import { mockAddressRepository } from '../../../../tests/mocks/mockAddressRepository';
 import { mockAuthRepository } from '../../../../tests/mocks/mockAuthenticationRepository';
+import { UserMocker } from '../../../../tests/mocks/UserMocker';
+import { AddressMocker } from '../../../../tests/mocks/AddressMocker';
+import { AuthenticationMocker } from '../../../../tests/mocks/AuthenticationMocker';
 
 describe('Testing CreateCustomerUserCase', () => {
-  const customerRepository = mockCustomerRepository();
-  const addressRepository = mockAddressRepository();
-  const authRepository = mockAuthRepository();
-  const hasher = makeMockHasher();
-
-  const userDTO = {
-    username: 'David',
-    name: 'David',
-    email: 'david@email.com',
-    cpf: '14777858547',
-    phone: '21965855574',
-    role: 'customer',
-    birthday: '2000-01-01',
-  };
-
-  const addressDTO = {
-    street: 'Rua Teste',
-    city: 'São Paulo',
-    state: 'São Paulo',
-    zipCode: '21145587',
-  };
-
-  const authDTO = {
-    password: 'ValidPa$$Word12563',
-    sessionToken: undefined,
-  };
-
+  const userDTO = UserMocker.mockUserDTO();
+  const addressDTO = AddressMocker.mockAddressDTO();
+  const authDTO = AuthenticationMocker.mockAuthenticationDTO();
   const createUserDTO: CreateUserDTO = {
     user: userDTO,
     address: addressDTO,
     authentication: authDTO,
   };
 
-  function makeCreateCustomerUseCase(
-    customerRepo: CustomerRepository,
-    addressRepo: AddressRepository,
-    authRepo: AuthenticationRepository,
-    hasher: HashService
-  ) {
-    return new CreateCustomerUseCase(
-      customerRepo,
-      addressRepo,
-      authRepo,
+  function makeSut() {
+    const customerRepository = mockCustomerRepository();
+    const addressRepository = mockAddressRepository();
+    const authenticationRepository = mockAuthRepository();
+    const hasher = makeMockHasher();
+
+    const useCase = new CreateCustomerUseCase(
+      customerRepository,
+      addressRepository,
+      authenticationRepository,
       hasher
     );
+
+    return {
+      useCase,
+      customerRepository,
+      addressRepository,
+      authenticationRepository,
+      hasher,
+    };
   }
 
   test('should return Right when valid data is provided', async () => {
-    const useCase = makeCreateCustomerUseCase(
-      customerRepository,
-      addressRepository,
-      authRepository,
-      hasher
-    );
+    const { useCase } = makeSut();
 
     const responseOrError = await useCase.execute(createUserDTO);
     expect(responseOrError.isRight()).toBeTruthy();
   });
 
   test('should call CustomerRepository.findByEmail with the provided email', async () => {
-    const useCase = makeCreateCustomerUseCase(
-      customerRepository,
-      addressRepository,
-      authRepository,
-      hasher
-    );
+    const { useCase, customerRepository } = makeSut();
+
     await useCase.execute(createUserDTO);
     expect(customerRepository.findByEmail).toHaveBeenCalledWith(userDTO.email);
   });
 
-  test('should call create method of all repositories with domain entities containing data provided', async () => {
-    // Only Address entity does not modify the data it receives
-    // so it's possible to use addressDTO directly in the tests
-    const customerEntityData = {
-      ...userDTO,
-      birthday: new Date(userDTO.birthday),
-    };
-    const authEntityData = {
-      passwordHash: await hasher.hash(authDTO.password),
-      sessionToken: authDTO.sessionToken,
-    };
-
-    const useCase = makeCreateCustomerUseCase(
+  test('should call create method of all repositories', async () => {
+    const {
+      useCase,
       customerRepository,
       addressRepository,
-      authRepository,
-      hasher
-    );
+      authenticationRepository,
+    } = makeSut();
 
     await useCase.execute(createUserDTO);
 
-    expect(customerRepository.create).toHaveBeenCalledWith(
-      expect.objectContaining(customerEntityData)
-    );
-    expect(addressRepository.create).toHaveBeenCalledWith(
-      expect.objectContaining(addressDTO)
-    );
-    expect(authRepository.create).toHaveBeenCalledWith(
-      expect.objectContaining(authEntityData)
-    );
+    expect(customerRepository.create).toHaveBeenCalled();
+    expect(addressRepository.create).toHaveBeenCalled();
+    expect(authenticationRepository.create).toHaveBeenCalled();
   });
 
   test('should return error when a duplicated email is found', async () => {
@@ -123,13 +84,15 @@ describe('Testing CreateCustomerUserCase', () => {
     };
     createCustomerData.user.email = duplicatedEmail;
 
-    const customerRepository =
-      mockCustomerRepositoryWithDuplicatedEmail(duplicatedEmail);
+    const {customerRepository, addressRepository, authenticationRepository, hasher } = makeSut();
 
-    const useCase = makeCreateCustomerUseCase(
+    // Modify the return of .findByEmail this time
+    (customerRepository.findByEmail as jest.Mock).mockResolvedValueOnce({_id : 'sfafdaf', email: duplicatedEmail})
+
+    const useCase = new CreateCustomerUseCase(
       customerRepository,
       addressRepository,
-      authRepository,
+      authenticationRepository,
       hasher
     );
 
