@@ -98,7 +98,7 @@ export class CreateCustomerUseCase implements CreateUser {
 
     const response = {
       ...userResponse,
-      ...addressResponse,
+      address: addressResponse,
     };
 
     return Either.right(response);
