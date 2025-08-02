@@ -17,6 +17,13 @@ export class MongodbCustomerRepository implements CustomerRepository {
     return mappedCustomers;
   }
 
+  async findById(id: string): Promise<CustomerModel | null> {
+    const userCollection = mongoHelper.getCollection('users');
+    const userId = new ObjectId(id);
+    const foundUser = await userCollection.findOne({_id: userId});
+    return CustomerMapper.persistenceToCustomerModel(foundUser);
+  }
+
   async findByEmail(email: string): Promise<CustomerModel | null> {
     const userCollection = mongoHelper.getCollection('users');
     const foundUser = await userCollection.findOne({ email });
