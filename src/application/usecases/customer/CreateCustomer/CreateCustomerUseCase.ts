@@ -19,7 +19,7 @@ import { Authentication } from '../../../../domain/entities/Authentication';
 
 export class CreateCustomerUseCase implements CreateUser {
   private readonly customerRepository: CustomerRepository;
-  private readonly addressRepository?: AddressRepository;
+  private readonly addressRepository: AddressRepository;
   private readonly authenticationRepository: AuthenticationRepository;
   private readonly hashService: HashService;
 
