@@ -86,7 +86,6 @@ describe('Testing CreateCustomerUserCase', () => {
 
     // Modify the return of .findByEmail this time
     (customerRepository.findByEmail as jest.Mock).mockResolvedValueOnce({
-      _id: 'sfafdaf',
       email: duplicatedEmail,
     });
 
