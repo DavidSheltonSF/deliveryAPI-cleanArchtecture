@@ -30,28 +30,3 @@ export function mockCustomerRepository(): CustomerRepository {
 
   return customerRepository
 };
-
-export function mockCustomerRepositoryWithDuplicatedEmail(email: string) {
-  const customerModel: CustomerModel = {
-    _id: new ObjectId(),
-    username: 'CustomerTest',
-    name: 'CustomerTest',
-    email: email,
-    cpf: '14777858547',
-    phone: '21965855574',
-    role: Role.admin,
-    birthday: new Date(),
-    createdAt: new Date(),
-  };
-
-  const customerRepository: CustomerRepository = {
-    findAll: jest.fn(async () => [customerModel]),
-    findById: jest.fn(async (id: string) => customerModel),
-    findByEmail: jest.fn(async (email: string) => customerModel),
-    create: jest.fn(async (customer: CustomerUser) => customerModel),
-    update: jest.fn(async (customer: CustomerUser) => customerModel),
-    delete: jest.fn(async (id: string) => customerModel),
-  };
-
-  return customerRepository;
-}
