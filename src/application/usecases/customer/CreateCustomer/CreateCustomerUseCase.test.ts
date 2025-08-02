@@ -1,14 +1,7 @@
-import { CustomerRepository } from '../../../_ports/CustomerRepository';
-import { AddressRepository } from '../../../_ports/AddressRepository';
-import { AuthenticationRepository } from '../../../_ports/AuthenticationRepository';
 import { CreateCustomerUseCase } from './CreateCustomerUseCase';
 import { CreateUserDTO } from '../../../../presentation/dtos/CreateUserDTO';
 import { makeMockHasher } from '../../../../tests/mocks/mockHasher';
-import { HashService } from '../../../../domain/contracts/HashService';
-import {
-  mockCustomerRepository,
-  mockCustomerRepositoryWithDuplicatedEmail,
-} from '../../../../tests/mocks/mockCustomerRepository';
+import { mockCustomerRepository } from '../../../../tests/mocks/mockCustomerRepository';
 import { mockAddressRepository } from '../../../../tests/mocks/mockAddressRepository';
 import { mockAuthRepository } from '../../../../tests/mocks/mockAuthenticationRepository';
 import { UserMocker } from '../../../../tests/mocks/UserMocker';
@@ -84,10 +77,18 @@ describe('Testing CreateCustomerUserCase', () => {
     };
     createCustomerData.user.email = duplicatedEmail;
 
-    const {customerRepository, addressRepository, authenticationRepository, hasher } = makeSut();
+    const {
+      customerRepository,
+      addressRepository,
+      authenticationRepository,
+      hasher,
+    } = makeSut();
 
     // Modify the return of .findByEmail this time
-    (customerRepository.findByEmail as jest.Mock).mockResolvedValueOnce({_id : 'sfafdaf', email: duplicatedEmail})
+    (customerRepository.findByEmail as jest.Mock).mockResolvedValueOnce({
+      _id: 'sfafdaf',
+      email: duplicatedEmail,
+    });
 
     const useCase = new CreateCustomerUseCase(
       customerRepository,
