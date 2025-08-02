@@ -21,22 +21,21 @@ export class CreateCustomerUseCase implements CreateUser {
   private readonly customerRepository: CustomerRepository;
   private readonly addressRepository?: AddressRepository;
   private readonly authenticationRepository: AuthenticationRepository;
+  private readonly hashService: HashService;
 
   constructor(
     customerRepository: CustomerRepository,
     addressRepository: AddressRepository,
-    authenticationRepository: AuthenticationRepository
+    authenticationRepository: AuthenticationRepository,
+    hashService: HashService
   ) {
     this.customerRepository = customerRepository;
     this.addressRepository = addressRepository;
     this.authenticationRepository = authenticationRepository;
+    this.hashService = hashService;
   }
 
-  async execute(
-    data: CreateUserDTO,
-    hasher: HashService
-  ): Promise<CreateCustomerResponse> {
-
+  async execute(data: CreateUserDTO): Promise<CreateCustomerResponse> {
     const rawUser = RawDataExtractor.extractUser(data);
     const rawAddress = RawDataExtractor.extractAddress(data);
     const rawAuthentication = RawDataExtractor.extractAuthentication(data);
@@ -57,7 +56,7 @@ export class CreateCustomerUseCase implements CreateUser {
     const addressPropsOrError = AddressMapper.rawToProps(rawAddress);
     const authenticationPropsOrError = await AuthenticationMapper.rawToProps(
       rawAuthentication,
-      hasher
+      this.hashService
     );
 
     const validation = validateEitherValues([
@@ -76,7 +75,7 @@ export class CreateCustomerUseCase implements CreateUser {
     const authenticationProps = authenticationPropsOrError.getRight();
     const authentication = await Authentication.create(
       authenticationProps,
-      hasher
+      this.hashService
     );
 
     const userProps = userPropsOrError.getRight();

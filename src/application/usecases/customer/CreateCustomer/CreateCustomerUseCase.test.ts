@@ -80,13 +80,14 @@ describe('Testing CreateCustomerUserCase', () => {
   const addressRepository = addressRepositoryMaker();
   const authRepository = authRepositoryMaker();
 
+  const hasher = makeMockHasher();
+
   const useCase = new CreateCustomerUseCase(
     customerRepository,
     addressRepository,
-    authRepository
+    authRepository,
+    hasher
   );
-
-  const hasher = makeMockHasher();
 
   const userDTO = {
     username: 'David',
@@ -117,12 +118,12 @@ describe('Testing CreateCustomerUserCase', () => {
   };
 
   test('Should call CustomerRepository.findByEmail with email provided', async () => {
-    await useCase.execute(createUserDTO, hasher);
+    await useCase.execute(createUserDTO);
     expect(customerRepository.findByEmail).toHaveBeenCalledWith(userDTO.email);
   });
 
   test('Should call CustomerRepository.create with user data provided', async () => {
-    const result = await useCase.execute(createUserDTO, hasher);
+    const result = await useCase.execute(createUserDTO);
     expect(customerRepository.create).toHaveBeenCalled();
   })
 });
