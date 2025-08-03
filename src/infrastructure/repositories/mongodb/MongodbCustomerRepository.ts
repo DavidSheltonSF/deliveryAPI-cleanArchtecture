@@ -1,42 +1,42 @@
 import { ObjectId } from 'mongodb';
 import { CustomerRepository } from '../../../application/ports/CustomerRepository';
 import { CustomerUser } from '../../../domain/entities/CustomerUser';
-import { CustomerModel } from '../../models/mongodb/CustomerModel';
+import { UserModel } from '../../models/mongodb/UserModel';
 import { mongoHelper } from './helpers/mongo-helper';
 import { CustomerMapper } from '../../../mappers/CustomerMapper';
 
 export class MongodbCustomerRepository implements CustomerRepository {
-  async findAll(): Promise<CustomerModel[]> {
+  async findAll(): Promise<UserModel[]> {
     const userCollection = mongoHelper.getCollection('users');
     const foundUsers = await userCollection.find().toArray();
 
     const mappedCustomers = foundUsers.map((customer) => {
-      return CustomerMapper.persistenceToCustomerModel(customer);
+      return CustomerMapper.persistenceToUserModel(customer);
     });
 
     return mappedCustomers;
   }
 
-  async findById(id: string): Promise<CustomerModel | null> {
+  async findById(id: string): Promise<UserModel | null> {
     const userCollection = mongoHelper.getCollection('users');
     const userId = new ObjectId(id);
     const foundUser = await userCollection.findOne({ _id: userId });
-    return CustomerMapper.persistenceToCustomerModel(foundUser);
+    return CustomerMapper.persistenceToUserModel(foundUser);
   }
 
-  async findByEmail(email: string): Promise<CustomerModel | null> {
+  async findByEmail(email: string): Promise<UserModel | null> {
     const userCollection = mongoHelper.getCollection('users');
     const foundUser = await userCollection.findOne({ email });
 
-    return CustomerMapper.persistenceToCustomerModel(foundUser);
+    return CustomerMapper.persistenceToUserModel(foundUser);
   }
 
-  async create(customer: CustomerUser): Promise<CustomerModel | null> {
+  async create(customer: CustomerUser): Promise<UserModel | null> {
     const userCollection = mongoHelper.getCollection('users');
-    const customerModel = CustomerMapper.entityToCustomerModel(customer);
+    const UserModel = CustomerMapper.entityToUserModel(customer);
 
     const newUserId = await userCollection
-      .insertOne(customerModel)
+      .insertOne(UserModel)
       .then((result: any) => result.insertedId);
 
     const createdCustomer = await userCollection.findOne({
@@ -47,17 +47,17 @@ export class MongodbCustomerRepository implements CustomerRepository {
       return null;
     }
 
-    return CustomerMapper.persistenceToCustomerModel(createdCustomer);
+    return CustomerMapper.persistenceToUserModel(createdCustomer);
   }
 
-  async update(customer: CustomerUser): Promise<CustomerModel | null> {
+  async update(customer: CustomerUser): Promise<UserModel | null> {
     const userCollection = mongoHelper.getCollection('users');
-    const customerModel = CustomerMapper.entityToCustomerModel(customer);
-    const customerId = customerModel._id;
-    delete customerModel._id;
+    const UserModel = CustomerMapper.entityToUserModel(customer);
+    const customerId = UserModel._id;
+    delete UserModel._id;
     const updatedUser = await userCollection.findOneAndUpdate(
       { _id: customerId },
-      { $set: customerModel },
+      { $set: UserModel },
       { returnDocument: 'after' }
     );
 
@@ -65,10 +65,10 @@ export class MongodbCustomerRepository implements CustomerRepository {
       return null;
     }
 
-    return CustomerMapper.persistenceToCustomerModel(updatedUser);
+    return CustomerMapper.persistenceToUserModel(updatedUser);
   }
 
-  async delete(id: string): Promise<CustomerModel | null> {
+  async delete(id: string): Promise<UserModel | null> {
     const userCollection = mongoHelper.getCollection('users');
     const customerId = new ObjectId(id);
     const deletedCustomer = await userCollection.findOneAndDelete({
@@ -79,6 +79,6 @@ export class MongodbCustomerRepository implements CustomerRepository {
       return null;
     }
 
-    return CustomerMapper.persistenceToCustomerModel(deletedCustomer);
+    return CustomerMapper.persistenceToUserModel(deletedCustomer);
   }
 }

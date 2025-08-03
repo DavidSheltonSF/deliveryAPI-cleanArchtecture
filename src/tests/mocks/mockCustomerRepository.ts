@@ -1,10 +1,10 @@
 import { ObjectId } from 'mongodb';
 import { Role } from '../../domain/_enums';
-import { CustomerModel } from '../../infrastructure/models/mongodb/CustomerModel';
+import { UserModel } from '../../infrastructure/models/mongodb/UserModel';
 import { CustomerRepository } from '../../application/ports/CustomerRepository';
 import { CustomerUser } from '../../domain/entities/CustomerUser';
 
-const mockCustomerData: CustomerModel[] = [
+const mockCustomerData: UserModel[] = [
   {
     _id: new ObjectId(),
     username: 'CustomerTest',

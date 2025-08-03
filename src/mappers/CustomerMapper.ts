@@ -1,5 +1,5 @@
 import { WithId, Document } from 'mongodb';
-import { CustomerModel } from '../infrastructure/models/mongodb/CustomerModel';
+import { UserModel } from '../infrastructure/models/mongodb/UserModel';
 import { stringToObjectId } from '../infrastructure/repositories/mongodb/helpers/stringToObjectId';
 import { CustomerUser } from '../domain/entities/CustomerUser';
 import { CreateUserDTO } from '../presentation/dtos/CreateUserDTO';
@@ -49,9 +49,9 @@ export class CustomerMapper {
     return Either.right(userProps);
   }
 
-  static modelToResponseDTO(customerModel: CustomerModel): UserResponseDTO {
+  static modelToResponseDTO(UserModel: UserModel): UserResponseDTO {
     const { _id, username, name, email, phone, role, createdAt } =
-      customerModel;
+      UserModel;
 
     return {
       id: _id.toString(),
@@ -64,7 +64,7 @@ export class CustomerMapper {
     };
   }
 
-  static persistenceToCustomerModel(document: WithId<Document>): CustomerModel {
+  static persistenceToUserModel(document: WithId<Document>): UserModel {
     if (document === null) {
       throw Error('No document provided from persistence.');
     }
@@ -82,7 +82,7 @@ export class CustomerMapper {
     };
   }
 
-  static entityToCustomerModel(customer: CustomerUser): CustomerModel {
+  static entityToUserModel(customer: CustomerUser): UserModel {
     if (customer === null) {
       throw Error('No entity provided.');
     }
