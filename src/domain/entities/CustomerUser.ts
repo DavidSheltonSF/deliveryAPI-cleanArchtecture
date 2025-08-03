@@ -12,9 +12,10 @@ export class CustomerUser extends User {
   private constructor(
     props: UserProps,
     address: Address,
-    authentication: Authentication
+    authentication: Authentication,
+    createdAt?: Date
   ) {
-    super(props, Role.customer, authentication);
+    super(props, Role.customer, authentication, createdAt);
     this._address = address;
   }
 
