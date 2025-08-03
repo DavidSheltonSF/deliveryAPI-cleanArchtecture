@@ -75,21 +75,8 @@ export class Authentication {
     this.props.sessionToken = undefined;
   }
 
-  async updatePasswordHash(
-    password: string
-  ): Promise<Either<InvalidPasswordError, string>> {
-    const passwordHashOrError = await Password.create(
-      password,
-      this.hashService
-    );
-
-    if (passwordHashOrError.isLeft()) {
-      return Either.left(passwordHashOrError.getLeft());
-    }
-
-    this.props.passwordHash = passwordHashOrError.getRight();
-
-    return Either.right(this.props.passwordHash.getValue());
+  async updatePasswordHash(passwordHash: Password): Promise<void> {
+    this.props.passwordHash = passwordHash;
   }
 
   async compare(password: string): Promise<boolean> {

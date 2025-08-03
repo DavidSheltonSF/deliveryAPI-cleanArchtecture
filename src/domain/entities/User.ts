@@ -1,7 +1,7 @@
 import { Either } from '../../shared/either';
 import { Role } from '../_enums';
 import { InvalidPasswordError, InvalidUserNameError } from '../errors/';
-import { Birthday, Cpf, Email, Name, Phone, UserName } from '../value-objects';
+import { Birthday, Cpf, Email, Name, Password, Phone, UserName } from '../value-objects';
 import { Authentication } from './Authentication';
 import { UserProps } from './props/UserProps';
 
@@ -79,92 +79,28 @@ export class User {
     return this._createdAt;
   }
 
-  updateUserName(
-    username: string | undefined
-  ): Either<InvalidUserNameError, null> {
-    if (username === undefined) {
-      return Either.right(null);
-    }
-
-    const usernameOrError = UserName.create(username);
-    if (usernameOrError.isLeft()) {
-      return Either.left(usernameOrError.getLeft());
-    }
-
-    this._props.username = usernameOrError.getRight();
-    return Either.right(null);
+  updateUserName(username: UserName) {
+    this._props.username = username;
   }
 
-  updateName(name: string): Either<InvalidUserNameError, null> {
-    if (name === undefined) {
-      return Either.right(null);
-    }
-
-    const nameOrError = Name.create(name);
-    if (nameOrError.isLeft()) {
-      return Either.left(nameOrError.getLeft());
-    }
-
-    this._props.name = nameOrError.getRight();
-    return Either.right(null);
+  updateName(name: Name) {
+    this._props.name = name;
   }
 
-  updateEmail(email: string): Either<InvalidUserNameError, null> {
-    if (email === undefined) {
-      return Either.right(null);
-    }
-
-    const emailOrError = Email.create(email);
-    if (emailOrError.isLeft()) {
-      return Either.left(emailOrError.getLeft());
-    }
-
-    this._props.email = emailOrError.getRight();
-    return Either.right(null);
+  updateEmail(email: Email) {
+    this._props.email = email;
   }
 
-  updateCpf(cpf: string): Either<InvalidUserNameError, null> {
-    if (cpf === undefined) {
-      return Either.right(null);
-    }
-
-    const cpfOrError = Cpf.create(cpf);
-    if (cpfOrError.isLeft()) {
-      return Either.left(cpfOrError.getLeft());
-    }
-
-    this._props.cpf = cpfOrError.getRight();
-    return Either.right(null);
+  updateCpf(cpf: Cpf) {
+    this._props.cpf = cpf;
   }
 
-  updatePhone(phone: string): Either<InvalidUserNameError, null> {
-    if (phone === undefined) {
-      return Either.right(null);
-    }
-
-    const phoneOrError = Phone.create(phone);
-    if (phoneOrError.isLeft()) {
-      return Either.left(phoneOrError.getLeft());
-    }
-
-    this._props.phone = phoneOrError.getRight();
-    return Either.right(null);
+  updatePhone(phone: Phone) {
+    this._props.phone = phone;
   }
 
-  updateBirthday(
-    birthday: Date
-  ): Either<InvalidUserNameError, null> {
-    if (birthday === undefined) {
-      return Either.right(null);
-    }
-
-    const birthdayOrErrorOrError = Birthday.create(birthday);
-    if (birthdayOrErrorOrError.isLeft()) {
-      return Either.left(birthdayOrErrorOrError.getLeft());
-    }
-
-    this._props.birthday = birthdayOrErrorOrError.getRight();
-    return Either.right(null);
+  updateBirthday(birthday: Birthday) {
+    this._props.birthday = birthday;
   }
 
   activeSession(sessionToken: string) {
@@ -195,21 +131,7 @@ export class User {
     return await this.authentication.compare(password);
   }
 
-  async updatePassword(
-    passwordHash: string
-  ): Promise<Either<InvalidPasswordError, string>> {
-    if (passwordHash === undefined) {
-      return null;
-    }
-
-    const passwordOrError = await this.authentication.updatePasswordHash(
-      passwordHash
-    );
-
-    if (passwordOrError.isLeft()) {
-      return Either.left(passwordOrError.getLeft());
-    }
-
-    return Either.right(passwordOrError.getRight());
+  async updatePassword(passwordHash: Password): Promise<void> {
+    await this.authentication.updatePasswordHash(passwordHash);
   }
 }
