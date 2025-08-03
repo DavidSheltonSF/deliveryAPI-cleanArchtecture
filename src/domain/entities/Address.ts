@@ -21,9 +21,9 @@ export class Address {
   static createFromPersistence(data: AddressModel): Address {
     const { _id, userId, street, city, state, zipCode, createdAt } = data;
 
-    const id = _id.toString();
+    const id = _id;
     const props = {
-      userId: userId.toString(),
+      userId: userId,
       street,
       city,
       state,

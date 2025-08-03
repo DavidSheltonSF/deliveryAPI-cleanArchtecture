@@ -1,7 +1,5 @@
-import { ObjectId } from 'mongodb';
-
 export interface BankAccountModel {
-  _id: ObjectId;
+  _id: string;
   userId: ObjectId;
   holderName: string;
   cpf: string;

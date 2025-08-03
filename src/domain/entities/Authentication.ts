@@ -34,9 +34,9 @@ export class Authentication {
   ): Authentication {
     const { _id, passwordHash, sessionToken } = data;
 
-    const id = _id.toString();
+    const id = _id;
     const props = {
-      userId: data.userId.toString(),
+      userId: data.userId,
       passwordHash: Password.createFromPersistence(passwordHash),
       sessionToken,
     };

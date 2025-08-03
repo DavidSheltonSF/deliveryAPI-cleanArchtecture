@@ -1,11 +1,9 @@
-import { ObjectId } from 'mongodb';
-
 export interface AddressModel {
-  _id: ObjectId;
+  _id: string;
   street: string;
   city: string;
   state: string;
   zipCode: string;
-  userId: ObjectId;
+  userId: string;
   createdAt: Date;
 }

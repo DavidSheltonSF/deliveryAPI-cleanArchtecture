@@ -54,7 +54,7 @@ export class CustomerMapper {
       UserModel;
 
     return {
-      id: _id.toString(),
+      id: _id,
       username,
       name,
       email,

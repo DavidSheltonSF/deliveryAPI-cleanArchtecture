@@ -5,8 +5,8 @@ import { Authentication } from '../../domain/entities/Authentication';
 
 const mockAuthData: AuthenticationModel[] = [
   {
-    _id: new ObjectId(),
-    userId: new ObjectId(),
+    _id: new ObjectId().toString(),
+    userId: new ObjectId().toString(),
     passwordHash: 'fakeHashffsdaa',
     sessionToken: undefined,
     createdAt: new Date(),

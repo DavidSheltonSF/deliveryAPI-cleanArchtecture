@@ -5,8 +5,8 @@ import { Address } from '../../domain/entities/Address';
 
 const mockAddressData: AddressModel[] = [
   {
-    _id: new ObjectId(),
-    userId: new ObjectId(),
+    _id: new ObjectId().toString(),
+    userId: new ObjectId().toString(),
     street: 'Rua Teste',
     city: 'São Paulo',
     state: 'São Paulo',
