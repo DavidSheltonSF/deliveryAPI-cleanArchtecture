@@ -95,7 +95,7 @@ export class User {
     return Either.right(null);
   }
 
-  updateName(name: string | undefined): Either<InvalidUserNameError, null> {
+  updateName(name: string): Either<InvalidUserNameError, null> {
     if (name === undefined) {
       return Either.right(null);
     }
@@ -109,7 +109,7 @@ export class User {
     return Either.right(null);
   }
 
-  updateEmail(email: string | undefined): Either<InvalidUserNameError, null> {
+  updateEmail(email: string): Either<InvalidUserNameError, null> {
     if (email === undefined) {
       return Either.right(null);
     }
@@ -123,7 +123,7 @@ export class User {
     return Either.right(null);
   }
 
-  updateCpf(cpf: string | undefined): Either<InvalidUserNameError, null> {
+  updateCpf(cpf: string): Either<InvalidUserNameError, null> {
     if (cpf === undefined) {
       return Either.right(null);
     }
@@ -137,7 +137,7 @@ export class User {
     return Either.right(null);
   }
 
-  updatePhone(phone: string | undefined): Either<InvalidUserNameError, null> {
+  updatePhone(phone: string): Either<InvalidUserNameError, null> {
     if (phone === undefined) {
       return Either.right(null);
     }
@@ -152,7 +152,7 @@ export class User {
   }
 
   updateBirthday(
-    birthday: Date | undefined
+    birthday: Date
   ): Either<InvalidUserNameError, null> {
     if (birthday === undefined) {
       return Either.right(null);
