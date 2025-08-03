@@ -1,5 +1,5 @@
 import { ObjectId } from 'mongodb';
-import { AddressRepository } from '../../application/_ports/AddressRepository';
+import { AddressRepository } from '../../application/ports/AddressRepository';
 import { AddressModel } from '../../infrastructure/models/mongodb/AddressModel';
 import { Address } from '../../domain/entities/Address';
 

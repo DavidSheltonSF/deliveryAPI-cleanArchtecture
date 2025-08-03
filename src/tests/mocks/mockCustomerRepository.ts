@@ -1,8 +1,8 @@
-import { ObjectId } from "mongodb";
-import { Role } from "../../domain/_enums";
-import { CustomerModel } from "../../infrastructure/models/mongodb/CustomerModel";
-import { CustomerRepository } from "../../application/_ports/CustomerRepository";
-import { CustomerUser } from "../../domain/entities/CustomerUser";
+import { ObjectId } from 'mongodb';
+import { Role } from '../../domain/_enums';
+import { CustomerModel } from '../../infrastructure/models/mongodb/CustomerModel';
+import { CustomerRepository } from '../../application/ports/CustomerRepository';
+import { CustomerUser } from '../../domain/entities/CustomerUser';
 
 const mockCustomerData: CustomerModel[] = [
   {
@@ -28,5 +28,5 @@ export function mockCustomerRepository(): CustomerRepository {
     delete: jest.fn(async (id: string) => mockCustomerData[0]),
   };
 
-  return customerRepository
-};
+  return customerRepository;
+}

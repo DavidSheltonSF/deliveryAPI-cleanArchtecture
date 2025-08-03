@@ -1,7 +1,7 @@
-import { ObjectId } from "mongodb";
-import { AuthenticationModel } from "../../infrastructure/models/mongodb/AuthenticationModel";
-import { AuthenticationRepository } from "../../application/_ports/AuthenticationRepository";
-import { Authentication } from "../../domain/entities/Authentication";
+import { ObjectId } from 'mongodb';
+import { AuthenticationModel } from '../../infrastructure/models/mongodb/AuthenticationModel';
+import { AuthenticationRepository } from '../../application/ports/AuthenticationRepository';
+import { Authentication } from '../../domain/entities/Authentication';
 
 const mockAuthData: AuthenticationModel[] = [
   {
@@ -13,7 +13,7 @@ const mockAuthData: AuthenticationModel[] = [
   },
 ];
 
-export function mockAuthRepository(): AuthenticationRepository  {
+export function mockAuthRepository(): AuthenticationRepository {
   const authenticationRepository: AuthenticationRepository = {
     findAll: jest.fn(async () => mockAuthData),
     findById: jest.fn(async (id: string) => mockAuthData[0]),
@@ -21,7 +21,7 @@ export function mockAuthRepository(): AuthenticationRepository  {
     create: jest.fn(async (auth: Authentication) => mockAuthData[0]),
     update: jest.fn(async (auth: Authentication) => mockAuthData[0]),
     delete: jest.fn(async (id: string) => mockAuthData[0]),
-  }
+  };
 
-  return authenticationRepository
+  return authenticationRepository;
 }

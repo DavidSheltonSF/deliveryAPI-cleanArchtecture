@@ -1,5 +1,5 @@
 import { ObjectId } from 'mongodb';
-import { CustomerRepository } from '../../../application/_ports/CustomerRepository';
+import { CustomerRepository } from '../../../application/ports/CustomerRepository';
 import { CustomerUser } from '../../../domain/entities/CustomerUser';
 import { CustomerModel } from '../../models/mongodb/CustomerModel';
 import { mongoHelper } from './helpers/mongo-helper';
@@ -20,7 +20,7 @@ export class MongodbCustomerRepository implements CustomerRepository {
   async findById(id: string): Promise<CustomerModel | null> {
     const userCollection = mongoHelper.getCollection('users');
     const userId = new ObjectId(id);
-    const foundUser = await userCollection.findOne({_id: userId});
+    const foundUser = await userCollection.findOne({ _id: userId });
     return CustomerMapper.persistenceToCustomerModel(foundUser);
   }
 
