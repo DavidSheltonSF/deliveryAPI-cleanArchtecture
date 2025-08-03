@@ -1,13 +1,13 @@
 import { CreateUser } from './interface';
 import { CreateCustomerResponse } from './response';
 import { Either } from '../../../../shared/either';
-import { DuplicatedDataError } from '../../../_errors/duplicated-data';
+import { DuplicatedDataError } from '../../../errors/duplicated-data';
 import { CreateUserDTO } from '../../../../presentation/dtos/CreateUserDTO';
 import { AddressRepository } from '../../../ports/AddressRepository';
 import { AuthenticationRepository } from '../../../ports/AuthenticationRepository';
 import { CustomerRepository } from '../../../ports/CustomerRepository';
 import { AddressMapper } from '../../../../mappers/AddressMapper';
-import { InvalidAgeError } from '../../../_errors';
+import { InvalidAgeError } from '../../../errors';
 import { HashService } from '../../../../domain/contracts/HashService';
 import { CustomerMapper } from '../../../../mappers/CustomerMapper';
 import { AuthenticationMapper } from '../../../../mappers/AuthenticationMapper';
