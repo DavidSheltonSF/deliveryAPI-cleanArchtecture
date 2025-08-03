@@ -21,10 +21,10 @@ export class Authentication {
     this._createdAt = createdAt ?? new Date();
   }
 
-  static async create(
+  static create(
     props: AuthenticationProps,
     hasher: HashService
-  ): Promise<Authentication> {
+  ): Authentication {
     return new Authentication(props, hasher);
   }
 
