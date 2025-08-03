@@ -66,7 +66,7 @@ describe('Testing MongodbCustomerRepository', () => {
     return { customer, createUserData, hasher, userCollection };
   }
 
-  test('should create a new customer in the repository', async () => {
+  test('should create a new customer in the database', async () => {
     const { customer, userCollection } = await makeSut();
 
     const newCustomer = await repository.create(customer);
