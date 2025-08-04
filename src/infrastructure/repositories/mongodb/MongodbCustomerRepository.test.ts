@@ -11,6 +11,25 @@ import { UserMocker } from '../../../tests/mocks/UserMocker';
 import { AddressMocker } from '../../../tests/mocks/AddressMocker';
 import { AuthenticationMocker } from '../../../tests/mocks/AuthenticationMocker';
 import { CustomerMapper } from '../../../mappers/CustomerMapper';
+import {
+  AddressZipCode,
+  Birthday,
+  Cpf,
+  Email,
+  Name,
+  Password,
+  Phone,
+  UserName,
+} from '../../../domain/value-objects';
+import { UserModel } from '../../models/mongodb/UserModel';
+import { ObjectId } from 'mongodb';
+import { Role } from '../../../domain/_enums';
+import { AddressProps } from '../../../domain/entities/props/AddressProps';
+import { AuthenticationProps } from '../../../domain/entities/props/AuthenticationProps';
+import { UserProps } from '../../../domain/entities/props/UserProps';
+import { stringToObjectId } from './helpers/stringToObjectId';
+import { AddressModel } from '../../models/mongodb/AddressModel';
+import { AuthenticationModel } from '../../models/mongodb/AuthenticationModel';
 config();
 
 const repository = new MongodbCustomerRepository();
@@ -77,7 +96,9 @@ describe('Testing MongodbCustomerRepository', () => {
 
     const id = newCustomer._id;
 
-    const foundCustomer = await userCollection.findOne({ _id: id });
+    const foundCustomer = await userCollection.findOne({
+      _id: stringToObjectId(id),
+    });
     console.log(foundCustomer);
 
     expect(newCustomer.username).toBe(foundCustomer?.username);
@@ -86,5 +107,74 @@ describe('Testing MongodbCustomerRepository', () => {
     expect(newCustomer.cpf).toBe(foundCustomer?.cpf);
     expect(newCustomer.phone).toBe(foundCustomer?.phone);
     expect(newCustomer.role).toBe(foundCustomer?.role);
+  });
+
+  test('should update an existing customer', async () => {
+    const { userCollection, hasher } = await makeSut();
+
+    const userModel: UserModel = {
+      _id: new ObjectId().toString(),
+      username: 'Joares',
+      name: 'Joares Soares',
+      email: 'jo@bugmail.com',
+      cpf: '22511414112',
+      phone: '21554748558',
+      birthday: new Date(),
+      role: Role.customer,
+      createdAt: new Date(),
+    };
+
+    const addressModel: AddressModel = {
+      _id: new ObjectId().toString(),
+      userId: new ObjectId().toString(),
+      street: 'Fake Street',
+      city: 'Fake City',
+      state: 'Fake State',
+      zipCode: '25123258',
+      createdAt: new Date(),
+    };
+
+    const passwordHash = await hasher.hash('D$$afva5484811');
+    const authModel: AuthenticationModel = {
+      _id: new ObjectId().toString(),
+      userId: new ObjectId().toString(),
+      passwordHash: passwordHash,
+      createdAt: new Date(),
+    };
+
+    const address = Address.createFromPersistence(addressModel);
+    const authentication = Authentication.createFromPersistence(
+      authModel,
+      hasher
+    );
+    const customer = CustomerUser.createFromPersistence(
+      userModel,
+      address,
+      authentication
+    );
+
+    const updatedData = {
+      name: 'José Updated',
+      cpf: '11111111111',
+    };
+
+    const nameOrError = Name.create(updatedData.name);
+    const cpfOrError = Cpf.create(updatedData.cpf);
+    const name = nameOrError.getRight();
+    const cpf = cpfOrError.getRight();
+
+    customer.updateName(name);
+    customer.updateCpf(cpf);
+
+    await repository.create(customer);
+    await repository.update(customer);
+
+    const foundUser = await userCollection.findOne({
+      _id: stringToObjectId(userModel._id),
+    });
+
+    expect(foundUser?._id.toString()).toBe(customer.id);
+    expect(foundUser?.name).toBe(updatedData.name);
+    expect(foundUser?.cpf).toBe(updatedData.cpf);
   });
 });
