@@ -70,7 +70,14 @@ describe('Testing MongodbCustomerRepository', () => {
     const authentication = Authentication.create(authProps, hasher);
     const customer = CustomerUser.create(userProps, address, authentication);
 
-    return { customer, createUserData, hasher, userCollection };
+    return {
+      customer,
+      address,
+      authentication,
+      createUserData,
+      hasher,
+      userCollection,
+    };
   }
 
   test('should create a new customer in the database', async () => {
@@ -98,43 +105,20 @@ describe('Testing MongodbCustomerRepository', () => {
   });
 
   test('should update an existing customer', async () => {
-    const { userCollection, hasher } = await makeSut();
+    const { userCollection, createUserData, address, authentication } =
+      await makeSut();
+
+    const userData = createUserData.user;
 
     const userModel: UserModel = {
       _id: new ObjectId().toString(),
-      username: 'Joares',
-      name: 'Joares Soares',
-      email: 'jo@bugmail.com',
-      cpf: '22511414112',
-      phone: '21554748558',
+      ...userData,
       birthday: new Date(),
-      role: Role.customer,
       createdAt: new Date(),
     };
 
-    const addressModel: AddressModel = {
-      _id: new ObjectId().toString(),
-      userId: new ObjectId().toString(),
-      street: 'Fake Street',
-      city: 'Fake City',
-      state: 'Fake State',
-      zipCode: '25123258',
-      createdAt: new Date(),
-    };
-
-    const passwordHash = await hasher.hash('D$$afva5484811');
-    const authModel: AuthenticationModel = {
-      _id: new ObjectId().toString(),
-      userId: new ObjectId().toString(),
-      passwordHash: passwordHash,
-      createdAt: new Date(),
-    };
-
-    const address = Address.createFromPersistence(addressModel);
-    const authentication = Authentication.createFromPersistence(
-      authModel,
-      hasher
-    );
+    // Only createFromPersistence can set an Id to the entity
+    // It uses the Id provided by a UserModel
     const customer = CustomerUser.createFromPersistence(
       userModel,
       address,
@@ -146,10 +130,8 @@ describe('Testing MongodbCustomerRepository', () => {
       cpf: '11111111111',
     };
 
-    const nameOrError = Name.create(updatedData.name);
-    const cpfOrError = Cpf.create(updatedData.cpf);
-    const name = nameOrError.getRight();
-    const cpf = cpfOrError.getRight();
+    const name = Name.createFromPersistence(updatedData.name);
+    const cpf = Cpf.createFromPersistence(updatedData.cpf);
 
     customer.updateName(name);
     customer.updateCpf(cpf);
