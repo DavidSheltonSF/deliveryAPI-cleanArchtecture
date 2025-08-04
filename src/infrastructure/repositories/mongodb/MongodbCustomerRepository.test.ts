@@ -11,22 +11,10 @@ import { UserMocker } from '../../../tests/mocks/UserMocker';
 import { AddressMocker } from '../../../tests/mocks/AddressMocker';
 import { AuthenticationMocker } from '../../../tests/mocks/AuthenticationMocker';
 import { CustomerMapper } from '../../../mappers/CustomerMapper';
-import {
-  AddressZipCode,
-  Birthday,
-  Cpf,
-  Email,
-  Name,
-  Password,
-  Phone,
-  UserName,
-} from '../../../domain/value-objects';
+import { Cpf, Name } from '../../../domain/value-objects';
 import { UserModel } from '../../models/mongodb/UserModel';
 import { ObjectId } from 'mongodb';
 import { Role } from '../../../domain/_enums';
-import { AddressProps } from '../../../domain/entities/props/AddressProps';
-import { AuthenticationProps } from '../../../domain/entities/props/AuthenticationProps';
-import { UserProps } from '../../../domain/entities/props/UserProps';
 import { stringToObjectId } from './helpers/stringToObjectId';
 import { AddressModel } from '../../models/mongodb/AddressModel';
 import { AuthenticationModel } from '../../models/mongodb/AuthenticationModel';
