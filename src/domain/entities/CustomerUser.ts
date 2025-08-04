@@ -31,7 +31,7 @@ export class CustomerUser extends User {
     data: UserModel,
     address: Address,
     authentication: Authentication
-  ) {
+  ): CustomerUser {
     const { _id, username, name, email, cpf, phone, birthday, createdAt } =
       data;
 
@@ -44,8 +44,14 @@ export class CustomerUser extends User {
       birthday: Birthday.createFromPersistence(birthday),
     };
 
-    const customer = new CustomerUser(props, address, authentication, createdAt);
-    customer.id = _id
+    const customer = new CustomerUser(
+      props,
+      address,
+      authentication,
+      createdAt
+    );
+    customer._id = _id;
+    return customer;
   }
 
   get address(): Address {
