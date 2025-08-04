@@ -34,11 +34,11 @@ export class MongodbCustomerRepository implements CustomerRepository {
 
   async create(customer: CustomerUser): Promise<UserModel | null> {
     const userCollection = mongoHelper.getCollection('users');
-    const UserModel = CustomerMapper.entityToUserModel(customer);
+    const userModel = CustomerMapper.entityToUserModel(customer);
     const userData = {
-      ...UserModel,
-      _id: stringToObjectId(UserModel._id)
-    }
+      ...userModel,
+      _id: stringToObjectId(userModel._id),
+    };
 
     const newUserId = await userCollection
       .insertOne(userData)
@@ -57,12 +57,12 @@ export class MongodbCustomerRepository implements CustomerRepository {
 
   async update(customer: CustomerUser): Promise<UserModel | null> {
     const userCollection = mongoHelper.getCollection('users');
-    const UserModel = CustomerMapper.entityToUserModel(customer);
-    const customerId = UserModel._id;
-    delete UserModel._id;
+    const userModel = CustomerMapper.entityToUserModel(customer);
+    const customerId = userModel._id;
+    delete userModel._id;
     const updatedUser = await userCollection.findOneAndUpdate(
       { _id: stringToObjectId(customerId) },
-      { $set: UserModel },
+      { $set: userModel },
       { returnDocument: 'after' }
     );
 
