@@ -4,6 +4,7 @@ import { CustomerUser } from '../../../domain/entities/CustomerUser';
 import { UserModel } from '../../models/mongodb/UserModel';
 import { mongoHelper } from './helpers/mongo-helper';
 import { CustomerMapper } from '../../../mappers/CustomerMapper';
+import { stringToObjectId } from './helpers/stringToObjectId';
 
 export class MongodbCustomerRepository implements CustomerRepository {
   async findAll(): Promise<UserModel[]> {
@@ -34,9 +35,13 @@ export class MongodbCustomerRepository implements CustomerRepository {
   async create(customer: CustomerUser): Promise<UserModel | null> {
     const userCollection = mongoHelper.getCollection('users');
     const UserModel = CustomerMapper.entityToUserModel(customer);
+    const userData = {
+      ...UserModel,
+      _id: stringToObjectId(UserModel._id)
+    }
 
     const newUserId = await userCollection
-      .insertOne(UserModel)
+      .insertOne(userData)
       .then((result: any) => result.insertedId);
 
     const createdCustomer = await userCollection.findOne({
@@ -56,7 +61,7 @@ export class MongodbCustomerRepository implements CustomerRepository {
     const customerId = UserModel._id;
     delete UserModel._id;
     const updatedUser = await userCollection.findOneAndUpdate(
-      { _id: customerId },
+      { _id: stringToObjectId(customerId) },
       { $set: UserModel },
       { returnDocument: 'after' }
     );
