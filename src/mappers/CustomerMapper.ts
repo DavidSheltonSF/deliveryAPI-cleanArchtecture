@@ -49,9 +49,8 @@ export class CustomerMapper {
     return Either.right(userProps);
   }
 
-  static modelToResponseDTO(UserModel: UserModel): UserResponseDTO {
-    const { _id, username, name, email, phone, role, createdAt } =
-      UserModel;
+  static modelToResponseDTO(userModel: UserModel): UserResponseDTO {
+    const { _id, username, name, email, phone, role, createdAt } = userModel;
 
     return {
       id: _id,
