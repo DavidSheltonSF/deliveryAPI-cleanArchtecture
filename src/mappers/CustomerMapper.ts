@@ -70,7 +70,7 @@ export class CustomerMapper {
     }
 
     return {
-      _id: document._id,
+      _id: document._id.toString(),
       username: document.username,
       name: document.name,
       email: document.email,
@@ -88,7 +88,7 @@ export class CustomerMapper {
     }
 
     return {
-      _id: stringToObjectId(customer.id),
+      _id: customer.id,
       username: customer.username,
       name: customer.name,
       email: customer.email,
