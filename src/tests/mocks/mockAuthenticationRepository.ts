@@ -16,6 +16,7 @@ const mockAuthData: AuthenticationModel[] = [
 export function mockAuthRepository(): AuthenticationRepository {
   const authenticationRepository: AuthenticationRepository = {
     findAll: jest.fn(async () => mockAuthData),
+    findBySessionToken: jest.fn(async (token: string) => mockAuthData[0]),
     findById: jest.fn(async (id: string) => mockAuthData[0]),
     findByUserId: jest.fn(async (userId: string) => mockAuthData[0]),
     create: jest.fn(async (auth: Authentication) => mockAuthData[0]),
