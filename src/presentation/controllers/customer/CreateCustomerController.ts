@@ -14,10 +14,10 @@ import { CustomerDtoMapper } from '../../mappers/CustomerDtoMapper';
 import { CreateUser } from '../../../application/usecases/customer/CreateCustomer/interface';
 
 export class CreateCustomerController implements Controller {
-  private readonly registerUser: CreateUser;
+  private readonly createCustomer: CreateUser;
 
   constructor(registerUser: RegisterCustomer) {
-    this.registerUser = registerUser;
+    this.createCustomer = registerUser;
   }
 
   async handle(request: HttpRequest): Promise<HttpResponse> {
@@ -49,9 +49,7 @@ export class CreateCustomerController implements Controller {
       if (missingFields.length > 0) {
         return badRequest(new MissingFieldError(missingFields));
       }
-      const response = await this.registerUser.execute(
-        customerData
-      );
+      const response = await this.createCustomer.execute(customerData);
 
       if (response.isLeft()) {
         return unprocessableEntity(response.getLeft());
