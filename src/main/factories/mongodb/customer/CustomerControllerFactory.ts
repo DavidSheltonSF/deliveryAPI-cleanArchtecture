@@ -1,4 +1,6 @@
 import { CreateCustomerUseCase } from '../../../../application/usecases/customer/CreateCustomer/CreateCustomerUseCase';
+import { MongodbAddressRepository } from '../../../../infrastructure/repositories/mongodb/MongodbAddressRepository';
+import { MongodbAuthenticationRepository } from '../../../../infrastructure/repositories/mongodb/MongodbAuthenticationRepository';
 import { MongodbCustomerRepository } from '../../../../infrastructure/repositories/mongodb/MongodbCustomerRepository';
 import { BcryptHasher } from '../../../../infrastructure/services/BcryptHasher';
 import { CreateCustomerController } from '../../../../presentation/controllers/customer/CreateCustomerController';
