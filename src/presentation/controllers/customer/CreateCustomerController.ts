@@ -13,7 +13,7 @@ import { Controller } from '../Controller';
 import { CustomerDtoMapper } from '../../mappers/CustomerDtoMapper';
 import { CreateUser } from '../../../application/usecases/customer/CreateCustomer/interface';
 
-export class RegisterCustomerController implements Controller {
+export class CreateCustomerController implements Controller {
   private readonly registerUser: CreateUser;
 
   constructor(registerUser: RegisterCustomer) {
