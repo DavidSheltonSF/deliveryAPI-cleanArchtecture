@@ -25,17 +25,38 @@ export class CreateCustomerController implements Controller {
         return badRequest(new MissingRequestBodyError());
       }
 
-      const customerData = request.body;
-
       const missingFields =
         MissingFieldsFinder.checkCreateCustomerRequestFields(request);
+
       if (missingFields.length > 0) {
         return badRequest(new MissingFieldsError(missingFields));
       }
 
-      const response = await this.createCustomer.execute(
-        customerData,
-      );
+      const {
+        username,
+        name,
+        email,
+        cpf,
+        phone,
+        role,
+        birthday,
+        address,
+        authentication,
+      } = request.body;
+
+      const response = await this.createCustomer.execute({
+        user: {
+          username,
+          name,
+          email,
+          cpf,
+          phone,
+          role,
+          birthday,
+        },
+        address,
+        authentication,
+      });
 
       if (response.isLeft()) {
         return unprocessableEntity(response.getLeft());
