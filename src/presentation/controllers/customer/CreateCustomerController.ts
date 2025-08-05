@@ -1,6 +1,4 @@
-import { RegisterCustomer } from '../../../application/usecases/customer/RegisterCustomer/interface';
 import { HttpRequest } from '../../_ports/http';
-import { MissingFieldError } from '../../_errors/missing-field';
 import {
   created,
   badRequest,
@@ -10,49 +8,34 @@ import {
 import { HttpResponse } from '../../_ports/http';
 import { MissingRequestBodyError } from '../../_errors/missing-request-body-error';
 import { Controller } from '../Controller';
-import { CustomerDtoMapper } from '../../mappers/CustomerDtoMapper';
 import { CreateUser } from '../../../application/usecases/customer/CreateCustomer/interface';
-import { HashService } from '../../../domain/contracts/HashService';
+import { MissingFieldsFinder } from '../helpers/MissingFieldsFinder';
+import { MissingFieldsError } from '../../_errors';
 
 export class CreateCustomerController implements Controller {
   private readonly createCustomer: CreateUser;
-  private readonly hasher: HashService;
 
-  constructor(registerUser: RegisterCustomer, hasher: HashService) {
-    this.createCustomer = registerUser;
-    this.hasher = hasher;
+  constructor(createCustomer: CreateUser) {
+    this.createCustomer = createCustomer;
   }
 
   async handle(request: HttpRequest): Promise<HttpResponse> {
     try {
-      const requiredFields = [
-        'username',
-        'name',
-        'email',
-        'phone',
-        'role',
-        'cpf',
-        'birthday',
-        'authentication',
-      ];
-      const customerData = request.body;
-
-      if (!customerData) {
+      if (request.body === undefined) {
         return badRequest(new MissingRequestBodyError());
       }
 
-      const missingFields = [];
+      const customerData = request.body;
 
-      for (let i in requiredFields) {
-        if (!Object.keys(customerData).includes(requiredFields[i])) {
-          missingFields.push(requiredFields[i]);
-        }
-      }
-
+      const missingFields =
+        MissingFieldsFinder.checkCreateCustomerRequestFields(request);
       if (missingFields.length > 0) {
-        return badRequest(new MissingFieldError(missingFields));
+        return badRequest(new MissingFieldsError(missingFields));
       }
-      const response = await this.createCustomer.execute(customerData, this.hasher);
+
+      const response = await this.createCustomer.execute(
+        customerData,
+      );
 
       if (response.isLeft()) {
         return unprocessableEntity(response.getLeft());
