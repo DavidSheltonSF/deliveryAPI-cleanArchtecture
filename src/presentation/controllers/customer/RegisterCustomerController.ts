@@ -11,9 +11,10 @@ import { HttpResponse } from '../../_ports/http';
 import { MissingRequestBodyError } from '../../_errors/missing-request-body-error';
 import { Controller } from '../Controller';
 import { CustomerDtoMapper } from '../../mappers/CustomerDtoMapper';
+import { CreateUser } from '../../../application/usecases/customer/CreateCustomer/interface';
 
 export class RegisterCustomerController implements Controller {
-  private readonly registerUser: RegisterCustomer;
+  private readonly registerUser: CreateUser;
 
   constructor(registerUser: RegisterCustomer) {
     this.registerUser = registerUser;
@@ -48,16 +49,8 @@ export class RegisterCustomerController implements Controller {
       if (missingFields.length > 0) {
         return badRequest(new MissingFieldError(missingFields));
       }
-
-      const customerDtoOrError = await CustomerDtoMapper.fromDtoToProps(
-        customerData
-      );
-
-      if (customerDtoOrError.isLeft()) {
-        unprocessableEntity(customerDtoOrError.getLeft());
-      }
       const response = await this.registerUser.execute(
-        customerDtoOrError.getRight()
+        customerData
       );
 
       if (response.isLeft()) {
