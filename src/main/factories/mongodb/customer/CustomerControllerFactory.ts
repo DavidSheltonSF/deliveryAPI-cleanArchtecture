@@ -1,16 +1,25 @@
-import { RegisterCustomerUseCase } from '../../../../application/usecases/customer/RegisterCustomer/CreateCustomerUseCase';
-import { MongodbCustomerRepository } from '../../../../infrastructure/repositories/mongodb/mongodb-customer-repository';
-import { RegisterCustomerController } from '../../../../presentation/controllers/customer/CreateCustomerController';
+import { CreateCustomerUseCase } from '../../../../application/usecases/customer/CreateCustomer/CreateCustomerUseCase';
+import { MongodbCustomerRepository } from '../../../../infrastructure/repositories/mongodb/MongodbCustomerRepository';
+import { BcryptHasher } from '../../../../infrastructure/services/BcryptHasher';
+import { CreateCustomerController } from '../../../../presentation/controllers/customer/CreateCustomerController';
 
 export class CustomerControllerFactory {
   private static customerRepository = new MongodbCustomerRepository();
+  private static addressRepostiory = new MongodbAddressRepository();
+  private static authRepository = new MongodbAuthenticationRepository();
 
   private constructor() {
     throw new Error('This class is static and cannot be instantied.');
   }
 
-  static makeRegisterCustomerController(): RegisterCustomerController {
-    const useCase = new RegisterCustomerUseCase(this.customerRepository);
-    return new RegisterCustomerController(useCase);
+  static makeRegisterCustomerController(): CreateCustomerController {
+    const hasher = new BcryptHasher(12);
+    const useCase = new CreateCustomerUseCase(
+      this.customerRepository,
+      this.addressRepostiory,
+      this.authRepository,
+      hasher
+    );
+    return new CreateCustomerController(useCase);
   }
 }
