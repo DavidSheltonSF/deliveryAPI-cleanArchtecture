@@ -10,7 +10,7 @@
     "test": "jest --onlyChanged --silent=false --detectOpenHandles",
     "prepare": "husky || true",
     "build": "tsc",
-    "dev": "npx tsx src/server.ts",
+    "dev": "npx tsx --watch src/server.ts",
     "start": "node dist/server.js"
   },
   "repository": {
