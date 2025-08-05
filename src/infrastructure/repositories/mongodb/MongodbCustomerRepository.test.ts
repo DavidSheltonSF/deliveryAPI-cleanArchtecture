@@ -11,7 +11,7 @@ import { UserMocker } from '../../../tests/mocks/UserMocker';
 import { AddressMocker } from '../../../tests/mocks/AddressMocker';
 import { AuthenticationMocker } from '../../../tests/mocks/AuthenticationMocker';
 import { CustomerMapper } from '../../../mappers/CustomerMapper';
-import { Cpf, Name } from '../../../domain/value-objects';
+import { Birthday, Cpf, Name } from '../../../domain/value-objects';
 import { UserModel } from '../../models/mongodb/UserModel';
 import { ObjectId } from 'mongodb';
 import { Role } from '../../../domain/_enums';
@@ -146,5 +146,27 @@ describe('Testing MongodbCustomerRepository', () => {
     expect(foundUser?._id.toString()).toBe(customer.id);
     expect(foundUser?.name).toBe(updatedData.name);
     expect(foundUser?.cpf).toBe(updatedData.cpf);
+  });
+
+  test('should delete an existing customer', async () => {
+    const { userCollection, createUserData } = await makeSut();
+    const userData = createUserData.user;
+    const userModel = {
+      _id: new ObjectId(),
+      userId: new ObjectId(),
+      ...userData,
+      birthday: new Date(),
+      createdAt: new Date(),
+    }
+
+    userCollection.insertOne(userModel);
+    const insertedUser = await userCollection.findOne({ _id: userModel._id });
+    
+    await repository.delete(userModel._id.toString());
+    const user = await userCollection.findOne({ _id: userModel._id });
+
+    expect(insertedUser?._id.toString()).toBe(userModel._id.toString());
+    expect(user).toBeFalsy();
+
   });
 });
