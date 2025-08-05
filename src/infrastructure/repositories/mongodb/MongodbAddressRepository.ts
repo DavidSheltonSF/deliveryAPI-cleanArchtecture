@@ -11,26 +11,26 @@ export class MongodbAddressRepository implements AddressRepository {
     const addressCollection = mongoHelper.getCollection('addresses');
     const addressId = new ObjectId(id);
     const foundUser = await addressCollection.findOne({ _id: addressId });
-    return AddressMapper.persistenceToAddressModel(foundUser);
+    return AddressMapper.persistenceToModel(foundUser);
   }
 
   async findByUserId(id: string): Promise<AddressModel | null> {
     const addressCollection = mongoHelper.getCollection('addresses');
     const userId = new ObjectId(id);
     const foundUser = await addressCollection.findOne({ userId });
-    return AddressMapper.persistenceToAddressModel(foundUser);
+    return AddressMapper.persistenceToModel(foundUser);
   }
 
   async findByEmail(email: string): Promise<AddressModel | null> {
     const addressCollection = mongoHelper.getCollection('addresses');
     const foundUser = await addressCollection.findOne({ email });
 
-    return AddressMapper.persistenceToAddressModel(foundUser);
+    return AddressMapper.persistenceToModel(foundUser);
   }
 
   async create(address: Address): Promise<AddressModel | null> {
     const addressCollection = mongoHelper.getCollection('addresses');
-    const AddressModel = AddressMapper.entityToAddressModel(address);
+    const AddressModel = AddressMapper.entityToModel(address);
     const addressData = {
       ...AddressModel,
       _id: stringToObjectId(AddressModel._id),
@@ -48,12 +48,12 @@ export class MongodbAddressRepository implements AddressRepository {
       return null;
     }
 
-    return AddressMapper.persistenceToAddressModel(createdCustomer);
+    return AddressMapper.persistenceToModel(createdCustomer);
   }
 
   async update(address: Address): Promise<AddressModel | null> {
     const addressCollection = mongoHelper.getCollection('addresses');
-    const AddressModel = AddressMapper.entityToAddressModel(address);
+    const AddressModel = AddressMapper.entityToModel(address);
     const addreessId = AddressModel._id;
     delete AddressModel._id;
     const updatedAddress = await addressCollection.findOneAndUpdate(
@@ -66,7 +66,7 @@ export class MongodbAddressRepository implements AddressRepository {
       return null;
     }
 
-    return AddressMapper.persistenceToAddressModel(updatedAddress);
+    return AddressMapper.persistenceToModel(updatedAddress);
   }
 
   async delete(id: string): Promise<AddressModel | null> {
@@ -80,6 +80,6 @@ export class MongodbAddressRepository implements AddressRepository {
       return null;
     }
 
-    return AddressMapper.persistenceToAddressModel(deletedAddress);
+    return AddressMapper.persistenceToModel(deletedAddress);
   }
 }

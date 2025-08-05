@@ -14,7 +14,7 @@ export class MongodbAuthenticationRepository implements AuthenticationRepository
     const foundAuth = await AuthenticationCollection.findOne({
       _id: AuthenticationId,
     });
-    return AuthenticationMapper.persistenceToAuthenticationModel(foundAuth);
+    return AuthenticationMapper.persistenceToModel(foundAuth);
   }
 
   async findByUserId(id: string): Promise<AuthenticationModel | null> {
@@ -22,14 +22,14 @@ export class MongodbAuthenticationRepository implements AuthenticationRepository
       mongoHelper.getCollection('authentications');
     const userId = new ObjectId(id);
     const foundAuth = await AuthenticationCollection.findOne({ userId });
-    return AuthenticationMapper.persistenceToAuthenticationModel(foundAuth);
+    return AuthenticationMapper.persistenceToModel(foundAuth);
   }
 
   async findBySessionToken(token: string): Promise<AuthenticationModel | null> {
     const AuthenticationCollection =
       mongoHelper.getCollection('authentications');
     const foundAuth = await AuthenticationCollection.findOne({ sessionToken: token });
-    return AuthenticationMapper.persistenceToAuthenticationModel(foundAuth);
+    return AuthenticationMapper.persistenceToModel(foundAuth);
   }
 
   async findByEmail(email: string): Promise<AuthenticationModel | null> {
@@ -37,7 +37,7 @@ export class MongodbAuthenticationRepository implements AuthenticationRepository
       mongoHelper.getCollection('authentications');
     const foundAuth = await AuthenticationCollection.findOne({ email });
 
-    return AuthenticationMapper.persistenceToAuthenticationModel(foundAuth);
+    return AuthenticationMapper.persistenceToModel(foundAuth);
   }
 
   async create(
@@ -46,7 +46,7 @@ export class MongodbAuthenticationRepository implements AuthenticationRepository
     const AuthenticationCollection =
       mongoHelper.getCollection('authentications');
     const AuthenticationModel =
-      AuthenticationMapper.entityToAuthenticationModel(Authentication);
+      AuthenticationMapper.entityToModel(Authentication);
     const authData = {
       ...AuthenticationModel,
       _id: stringToObjectId(AuthenticationModel._id),
@@ -64,9 +64,7 @@ export class MongodbAuthenticationRepository implements AuthenticationRepository
       return null;
     }
 
-    return AuthenticationMapper.persistenceToAuthenticationModel(
-      createdCustomer
-    );
+    return AuthenticationMapper.persistenceToModel(createdCustomer);
   }
 
   async update(
@@ -75,7 +73,7 @@ export class MongodbAuthenticationRepository implements AuthenticationRepository
     const AuthenticationCollection =
       mongoHelper.getCollection('authentications');
     const AuthenticationModel =
-      AuthenticationMapper.entityToAuthenticationModel(Authentication);
+      AuthenticationMapper.entityToModel(Authentication);
     const addreessId = AuthenticationModel._id;
     delete AuthenticationModel._id;
     const updatedAuthentication =
@@ -89,9 +87,7 @@ export class MongodbAuthenticationRepository implements AuthenticationRepository
       return null;
     }
 
-    return AuthenticationMapper.persistenceToAuthenticationModel(
-      updatedAuthentication
-    );
+    return AuthenticationMapper.persistenceToModel(updatedAuthentication);
   }
 
   async delete(id: string): Promise<AuthenticationModel | null> {
@@ -106,8 +102,6 @@ export class MongodbAuthenticationRepository implements AuthenticationRepository
       return null;
     }
 
-    return AuthenticationMapper.persistenceToAuthenticationModel(
-      deletedAuth
-    );
+    return AuthenticationMapper.persistenceToModel(deletedAuth);
   }
 }
