@@ -6,7 +6,7 @@ export class CustomerRoutes {
   private static pathName = "/customers";
 
   static configureRoutes(router: Router): void {
-    router.post(this.pathName, adaptExpress(CustomerControllerFactory.makeRegisterCustomerController()));
+    router.post(this.pathName, adaptExpress(CustomerControllerFactory.makeCreateCustomerController()));
   //   router.put(this.pathName + "/:id", adaptExpress(CustomerControllerFactory.makeUpdateCustomerController()));
   //   router.delete(this.pathName + "/:id", adaptExpress(CustomerControllerFactory.makeDeleteCustomerController()));
   //   router.get(this.pathName, adaptExpress(CustomerControllerFactory.makeFindAllCustomersController()));
