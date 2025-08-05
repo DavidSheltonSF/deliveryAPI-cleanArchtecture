@@ -2,7 +2,6 @@ import { Authentication } from '../../domain/entities/Authentication';
 import { AuthenticationModel } from '../../infrastructure/models/mongodb/AuthenticationModel';
 
 export interface AuthenticationRepository {
-  findAll: () => Promise<AuthenticationModel[]>;
   findBySessionToken: (token: string) => Promise<AuthenticationModel | null>;
   findById: (id: string) => Promise<AuthenticationModel | null>;
   findByUserId: (userId: string) => Promise<AuthenticationModel | null>;
