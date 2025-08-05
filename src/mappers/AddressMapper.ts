@@ -1,3 +1,4 @@
+import { Document, WithId } from 'mongodb';
 import { AddressResponseDTO } from '../application/useCaseDtos/AddressResponseDTO';
 import { AddressProps } from '../domain/entities/props/AddressProps';
 import { addressErrorType } from '../domain/errors/errorTypes';
@@ -5,6 +6,7 @@ import { AddressZipCode } from '../domain/value-objects';
 import { AddressModel } from '../infrastructure/models/mongodb/AddressModel';
 import { AddressDTO } from '../presentation/dtos/AddressDTO';
 import { Either } from '../shared/either';
+import { Address } from '../domain/entities/Address';
 
 export class AddressMapper {
   static rawToProps(
@@ -27,6 +29,22 @@ export class AddressMapper {
     return Either.right(addressProps);
   }
 
+  static persistenceToModel(document: WithId<Document>): AddressModel {
+    if (document === null) {
+      throw Error('No document provided from persistence.');
+    }
+
+    return {
+      _id: document._id.toString(),
+      userId: document.userId.toString(),
+      street: document.street,
+      city: document.city,
+      state: document.state,
+      zipCode: document.zipCode,
+      createdAt: document.createdAt,
+    };
+  }
+
   static modelToResponseDTO(addressModel: AddressModel): AddressResponseDTO {
     const { street, city, state, zipCode } = addressModel;
 
@@ -38,5 +56,21 @@ export class AddressMapper {
     };
 
     return addressResponse;
+  }
+
+  static entityToModel(address: Address): AddressModel {
+    if (address === null) {
+      throw Error('No entity provided.');
+    }
+
+    return {
+      _id: address.id,
+      userId: address.userId,
+      street: address.street,
+      city: address.city,
+      state: address.state,
+      zipCode: address.zipCode,
+      createdAt: address.createdAt,
+    };
   }
 }
