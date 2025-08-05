@@ -19,8 +19,8 @@ export class MissingFieldsFinder {
     const data = request.body;
 
     const missingCustomerFields = this.checkCustomerFields(data);
-    const missingAddressFields = this.checkAddressFields(data);
-    const missingAuthFields = this.checkAuthenticationFields(data);
+    const missingAddressFields = this.checkAddressFields(data.address);
+    const missingAuthFields = this.checkAuthenticationFields(data.authentication);
 
     const allMissingFields = [
       ...missingCustomerFields,
