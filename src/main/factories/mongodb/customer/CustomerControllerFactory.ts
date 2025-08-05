@@ -12,7 +12,7 @@ export class CustomerControllerFactory {
     throw new Error('This class is static and cannot be instantied.');
   }
 
-  static makeRegisterCustomerController(): CreateCustomerController {
+  static makeCreateCustomerController(): CreateCustomerController {
     const hasher = new BcryptHasher(12);
     const useCase = new CreateCustomerUseCase(
       this.customerRepository,
