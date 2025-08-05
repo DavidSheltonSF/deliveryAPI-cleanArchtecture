@@ -1,6 +1,6 @@
 import { ControllerError } from './controller-error'
 
-export class MissingFieldError extends Error implements ControllerError {
+export class MissingFieldsError extends Error implements ControllerError {
   constructor (fields: string[]) {
     let fieldsStr = "";
    
