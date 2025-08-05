@@ -42,6 +42,7 @@ describe('Testing MongodbCustomerRepository', () => {
   });
 
   async function makeSut() {
+    const repository = new MongodbCustomerRepository();
     const hasher = makeMockHasher();
     const userCollection = mongoHelper.getCollection('users');
 
@@ -71,6 +72,7 @@ describe('Testing MongodbCustomerRepository', () => {
     const customer = CustomerUser.create(userProps, address, authentication);
 
     return {
+      repository,
       customer,
       address,
       authentication,
@@ -81,7 +83,7 @@ describe('Testing MongodbCustomerRepository', () => {
   }
 
   test('should create a new customer in the database', async () => {
-    const { customer, userCollection } = await makeSut();
+    const { repository, customer, userCollection } = await makeSut();
 
     const newCustomer = await repository.create(customer);
 
