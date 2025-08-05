@@ -12,12 +12,15 @@ import { MissingRequestBodyError } from '../../_errors/missing-request-body-erro
 import { Controller } from '../Controller';
 import { CustomerDtoMapper } from '../../mappers/CustomerDtoMapper';
 import { CreateUser } from '../../../application/usecases/customer/CreateCustomer/interface';
+import { HashService } from '../../../domain/contracts/HashService';
 
 export class CreateCustomerController implements Controller {
   private readonly createCustomer: CreateUser;
+  private readonly hasher: HashService;
 
-  constructor(registerUser: RegisterCustomer) {
+  constructor(registerUser: RegisterCustomer, hasher: HashService) {
     this.createCustomer = registerUser;
+    this.hasher = hasher;
   }
 
   async handle(request: HttpRequest): Promise<HttpResponse> {
@@ -49,7 +52,7 @@ export class CreateCustomerController implements Controller {
       if (missingFields.length > 0) {
         return badRequest(new MissingFieldError(missingFields));
       }
-      const response = await this.createCustomer.execute(customerData);
+      const response = await this.createCustomer.execute(customerData, this.hasher);
 
       if (response.isLeft()) {
         return unprocessableEntity(response.getLeft());
