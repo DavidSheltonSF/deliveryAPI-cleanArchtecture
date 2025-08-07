@@ -56,15 +56,15 @@ export class MongodbAuthenticationRepository implements AuthenticationRepository
       (result: any) => result.insertedId
     );
 
-    const createdCustomer = await AuthenticationCollection.findOne({
+    const createdAuthentication = await AuthenticationCollection.findOne({
       _id: newUserId,
     });
 
-    if (createdCustomer === null) {
+    if (createdAuthentication === null) {
       return null;
     }
 
-    return AuthenticationMapper.persistenceToModel(createdCustomer);
+    return AuthenticationMapper.persistenceToModel(createdAuthentication);
   }
 
   async update(

@@ -40,15 +40,15 @@ export class MongodbAddressRepository implements AddressRepository {
       .insertOne(addressData)
       .then((result: any) => result.insertedId);
 
-    const createdCustomer = await addressCollection.findOne({
+    const createdAddress = await addressCollection.findOne({
       _id: newAddressId,
     });
 
-    if (createdCustomer === null) {
+    if (createdAddress === null) {
       return null;
     }
 
-    return AddressMapper.persistenceToModel(createdCustomer);
+    return AddressMapper.persistenceToModel(createdAddress);
   }
 
   async update(address: Address): Promise<AddressModel | null> {
