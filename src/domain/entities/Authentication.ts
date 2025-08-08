@@ -9,7 +9,7 @@ export class Authentication {
   private _id?: string;
   private props: AuthenticationProps;
   private _createdAt?: Date;
-  private hashService: HashService;
+  private _hashService: HashService;
 
   private constructor(
     props: AuthenticationProps,
@@ -17,7 +17,7 @@ export class Authentication {
     createdAt?: Date
   ) {
     this.props = props;
-    this.hashService = hashService;
+    this._hashService = hashService;
     this._createdAt = createdAt ?? new Date();
   }
 
@@ -57,6 +57,10 @@ export class Authentication {
 
   get passwordHash(): string {
     return this.props.passwordHash.getValue();
+  }
+
+  get hashService(): HashService {
+    return this._hashService;
   }
 
   get sessionToken(): string | undefined {
