@@ -96,8 +96,6 @@ describe('Testing MongodbCustomerRepository', () => {
     const foundCustomer = await userCollection.findOne({
       _id: stringToObjectId(id),
     });
-    console.log(foundCustomer);
-
     expect(newCustomer.username).toBe(foundCustomer?.username);
     expect(newCustomer.name).toBe(foundCustomer?.name);
     expect(newCustomer.email).toBe(foundCustomer?.email);

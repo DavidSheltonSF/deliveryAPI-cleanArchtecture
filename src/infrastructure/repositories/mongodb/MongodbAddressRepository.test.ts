@@ -59,8 +59,7 @@ describe('Testing MongodbAddressRepository', () => {
     const foundAddress = await addressCollection.findOne({
       _id: stringToObjectId(id),
     });
-    console.log(foundAddress);
-
+    
     expect(newAddress.street).toBe(foundAddress?.street);
     expect(newAddress.city).toBe(foundAddress?.city);
     expect(newAddress.state).toBe(foundAddress?.state);
