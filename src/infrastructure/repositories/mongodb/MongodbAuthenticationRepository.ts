@@ -95,12 +95,12 @@ export class MongodbAuthenticationRepository
       _id: stringToObjectId(AuthenticationModel._id),
     };
 
-    const newUserId = await AuthenticationCollection.insertOne(authData).then(
+    const newId = await AuthenticationCollection.insertOne(authData).then(
       (result: any) => result.insertedId
     );
 
     const createdAuthentication = await AuthenticationCollection.findOne({
-      _id: newUserId,
+      _id: newId,
     });
 
     if (createdAuthentication === null) {
@@ -141,7 +141,7 @@ export class MongodbAuthenticationRepository
       return null;
     }
     const hasher = authentication.hashService;
-    return updatedAuthentication.createFromPersistence(
+    return Authentication.createFromPersistence(
       {
         _id: updatedAuthentication._id.toString(),
         userId: updatedAuthentication.userId.toString(),
