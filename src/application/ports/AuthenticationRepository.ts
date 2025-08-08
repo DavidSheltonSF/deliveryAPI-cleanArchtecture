@@ -1,11 +1,10 @@
 import { Authentication } from '../../domain/entities/Authentication';
-import { AuthenticationModel } from '../../infrastructure/models/mongodb/AuthenticationModel';
 
 export interface AuthenticationRepository {
-  findBySessionToken: (token: string) => Promise<AuthenticationModel | null>;
-  findById: (id: string) => Promise<AuthenticationModel | null>;
-  findByUserId: (userId: string) => Promise<AuthenticationModel | null>;
-  create: (auth: Authentication) => Promise<AuthenticationModel>;
-  update: (auth: Authentication) => Promise<AuthenticationModel>;
-  delete: (id: string) => Promise<AuthenticationModel | null>;
+  findBySessionToken: (token: string) => Promise<Authentication | null>;
+  findById: (id: string) => Promise<Authentication | null>;
+  findByUserId: (userId: string) => Promise<Authentication | null>;
+  create: (auth: Authentication) => Promise<Authentication>;
+  update: (auth: Authentication) => Promise<Authentication>;
+  delete: (id: string) => Promise<Authentication | null>;
 }
