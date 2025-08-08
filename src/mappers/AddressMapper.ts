@@ -29,9 +29,9 @@ export class AddressMapper {
     return Either.right(addressProps);
   }
 
-  static persistenceToModel(document: WithId<Document>): AddressModel {
+  static persistenceToModel(document: WithId<Document>): AddressModel | null {
     if (document === null) {
-      throw Error('No document provided from persistence.');
+      return null
     }
 
     return {
