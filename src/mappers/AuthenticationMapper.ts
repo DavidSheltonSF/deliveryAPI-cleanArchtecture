@@ -6,7 +6,6 @@ import { Password } from '../domain/value-objects';
 import { AuthenticationDTO } from '../presentation/dtos/AuthenticationDTO';
 import { Either } from '../shared/either';
 import { AuthenticationModel } from '../infrastructure/models/mongodb/AuthenticationModel';
-import { Authentication } from '../domain/entities/Authentication';
 
 export class AuthenticationMapper {
   static async rawToProps(
@@ -29,35 +28,4 @@ export class AuthenticationMapper {
     return Either.right(authenticationProps);
   }
 
-  static persistenceToModel(
-    document: WithId<Document>
-  ): AuthenticationModel {
-    if (document === null) {
-      throw Error('No document provided from persistence.');
-    }
-
-    return {
-      _id: document._id.toString(),
-      userId: document.userId.toString(),
-      passwordHash: document.passwordHash,
-      sessionToken: document.sessionToken,
-      createdAt: document.createdAt,
-    };
-  }
-
-  static entityToModel(
-    authentication: Authentication
-  ): AuthenticationModel {
-    if (authentication === null) {
-      throw Error('No entity provided.');
-    }
-
-    return {
-      _id: authentication.id,
-      userId: authentication.userId,
-      passwordHash: authentication.passwordHash,
-      sessionToken: authentication.sessionToken,
-      createdAt: authentication.createdAt,
-    };
-  }
 }

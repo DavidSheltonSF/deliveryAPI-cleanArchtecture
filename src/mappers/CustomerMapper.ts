@@ -1,7 +1,6 @@
 import { WithId, Document } from 'mongodb';
 import { UserModel } from '../infrastructure/models/mongodb/UserModel';
 import { stringToObjectId } from '../infrastructure/repositories/mongodb/helpers/stringToObjectId';
-import { CustomerUser } from '../domain/entities/CustomerUser';
 import { CreateUserDTO } from '../presentation/dtos/CreateUserDTO';
 import { UserProps } from '../domain/entities/props/UserProps';
 import { UserResponseDTO } from '../application/useCaseDtos/UserResponseDTO';
@@ -63,39 +62,5 @@ export class CustomerMapper {
     };
   }
 
-  static persistenceToUserModel(document: WithId<Document>): UserModel {
-    if (document === null) {
-      throw Error('No document provided from persistence.');
-    }
 
-    return {
-      _id: document._id.toString(),
-      username: document.username,
-      name: document.name,
-      email: document.email,
-      cpf: document.cpf,
-      phone: document.phone,
-      role: document.role,
-      birthday: document.birthday,
-      createdAt: document.createdAt,
-    };
-  }
-
-  static entityToUserModel(customer: CustomerUser): UserModel {
-    if (customer === null) {
-      throw Error('No entity provided.');
-    }
-
-    return {
-      _id: customer.id,
-      username: customer.username,
-      name: customer.name,
-      email: customer.email,
-      cpf: customer.cpf,
-      phone: customer.phone,
-      role: customer.role,
-      birthday: customer.birthday,
-      createdAt: new Date(),
-    };
-  }
 }
