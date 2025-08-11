@@ -1,17 +1,20 @@
 import { HashService } from '../../domain/contracts/HashService';
-import { Authentication } from '../../domain/entities/Authentication';
+import { AuthenticationProps } from '../../domain/entities/props/AuthenticationProps';
 
 export interface AuthenticationRepository {
   findBySessionToken: (
     token: string,
     hasher: HashService
-  ) => Promise<Authentication | null>;
-  findById: (id: string, hasher: HashService) => Promise<Authentication | null>;
+  ) => Promise<AuthenticationProps | null>;
+  findById: (
+    id: string,
+    hasher: HashService
+  ) => Promise<AuthenticationProps | null>;
   findByUserId: (
     userId: string,
     hasher: HashService
-  ) => Promise<Authentication | null>;
-  create: (auth: Authentication) => Promise<Authentication>;
-  update: (auth: Authentication) => Promise<Authentication>;
+  ) => Promise<AuthenticationProps | null>;
+  create: (auth: AuthenticationProps) => Promise<AuthenticationProps>;
+  update: (auth: AuthenticationProps) => Promise<AuthenticationProps>;
   delete: (id: string) => Promise<boolean>;
 }

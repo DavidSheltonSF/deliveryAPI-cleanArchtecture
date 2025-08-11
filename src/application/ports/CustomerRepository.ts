@@ -1,11 +1,10 @@
-import { CustomerUser } from '../../domain/entities/CustomerUser';
-import { UserModel } from '../../infrastructure/models/mongodb/UserModel';
+import { UserProps } from '../../domain/entities/props/UserProps';
 
 export interface CustomerRepository {
-  findAll: () => Promise<UserModel[]>;
-  findById: (id: string) => Promise<UserModel | null>;
-  findByEmail: (email: string) => Promise<UserModel | null>;
-  create: (customer: CustomerUser) => Promise<UserModel>;
-  update: (customer: CustomerUser) => Promise<UserModel | null>;
-  delete: (id: string) => Promise<UserModel | null>;
+  findAll: () => Promise<UserProps[]>;
+  findById: (id: string) => Promise<UserProps | null>;
+  findByEmail: (email: string) => Promise<UserProps | null>;
+  create: (customer: UserProps) => Promise<UserProps>;
+  update: (customer: UserProps) => Promise<UserProps | null>;
+  delete: (id: string) => Promise<UserProps | null>;
 }
