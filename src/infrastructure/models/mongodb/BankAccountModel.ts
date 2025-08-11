@@ -1,5 +1,4 @@
 export interface BankAccountModel {
-  _id: string;
   userId: ObjectId;
   holderName: string;
   cpf: string;
