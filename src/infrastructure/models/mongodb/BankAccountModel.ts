@@ -1,5 +1,5 @@
 export interface BankAccountModel {
-  userId: ObjectId;
+  userId: string;
   holderName: string;
   cpf: string;
   bankCode: string;
