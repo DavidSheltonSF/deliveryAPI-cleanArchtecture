@@ -7,3 +7,7 @@ export interface AddressProps {
   state: string;
   zipCode: AddressZipCode;
 }
+
+export interface AddressWithId extends AddressProps {
+  id: string
+}
