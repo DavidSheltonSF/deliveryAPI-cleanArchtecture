@@ -8,7 +8,3 @@ export interface UserProps {
   phone: Phone;
   birthday: Birthday;
 }
-
-export interface UserWithId extends UserProps {
-  id: string;
-}

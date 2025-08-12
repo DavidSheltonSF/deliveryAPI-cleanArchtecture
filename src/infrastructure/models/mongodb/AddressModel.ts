@@ -6,7 +6,3 @@ export interface AddressModel {
   userId: string;
   createdAt: Date;
 }
-
-export interface AddressModelWithId extends AddressModel {
-  id: string;
-}

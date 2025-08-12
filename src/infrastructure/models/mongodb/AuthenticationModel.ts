@@ -4,7 +4,3 @@ export interface AuthenticationModel {
   sessionToken?: string;
   createdAt: Date;
 }
-
-export interface AuthenticationModelWithId extends AuthenticationModel {
-  id: string;
-}
