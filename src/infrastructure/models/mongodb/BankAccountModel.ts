@@ -8,3 +8,7 @@ export interface BankAccountModel {
   accountType: string;
   createdAt: Date;
 }
+
+export interface BankAccountModelWithId extends BankAccountModel {
+  id: string;
+}

@@ -8,3 +8,7 @@ export interface UserModel {
   birthday: Date;
   createdAt: Date;
 }
+
+export interface UserModelWithId extends UserModel {
+  id: string;
+}
