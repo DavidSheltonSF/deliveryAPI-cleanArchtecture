@@ -1,20 +1,20 @@
 import { ObjectId } from 'mongodb';
 import { Role } from '../../domain/_enums';
-import { UserModel } from '../../infrastructure/models/mongodb/UserModel';
 import { CustomerRepository } from '../../application/ports/CustomerRepository';
-import { CustomerUser } from '../../domain/entities/CustomerUser';
+import { WithId } from '../../utils/types/WithId';
+import { UserProps } from '../../domain/entities/props/UserProps';
+import { Birthday, Cpf, Email, Name, Phone } from '../../domain/value-objects';
 
-const mockCustomerData: UserModel[] = [
+const mockCustomerData: WithId<UserProps>[] = [
   {
-    _id: new ObjectId(),
-    username: 'CustomerTest',
-    name: 'CustomerTest',
-    email: 'customer@email.com',
-    cpf: '14777858547',
-    phone: '21965855574',
+    id: new ObjectId().toString(),
+    firstName: Name.createFromPersistence('CustomerTest'),
+    lastName: Name.createFromPersistence('CustomerTest'),
+    email: Email.createFromPersistence('customer@email.com'),
+    cpf: Cpf.createFromPersistence('52144858745'),
+    phone: Phone.createFromPersistence('21965855574'),
     role: Role.admin,
-    birthday: new Date(),
-    createdAt: new Date(),
+    birthday: Birthday.createFromPersistence(new Date()),
   },
 ];
 
@@ -23,8 +23,8 @@ export function mockCustomerRepository(): CustomerRepository {
     findAll: jest.fn(async () => mockCustomerData),
     findById: jest.fn(async (id: string) => mockCustomerData[0]),
     findByEmail: jest.fn(async (email: string) => mockCustomerData[0]),
-    create: jest.fn(async (customer: CustomerUser) => mockCustomerData[0]),
-    update: jest.fn(async (customer: CustomerUser) => mockCustomerData[0]),
+    create: jest.fn(async (customer: UserProps) => mockCustomerData[0]),
+    update: jest.fn(async (customer: WithId<UserProps>) => mockCustomerData[0]),
     delete: jest.fn(async (id: string) => mockCustomerData[0]),
   };
 
