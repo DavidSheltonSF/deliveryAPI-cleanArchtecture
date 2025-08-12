@@ -1,10 +1,10 @@
 import { Either } from '../../shared/either';
 import { userValidationErrorType } from '../errors/errorTypes';
-import { Birthday, Cpf, Email, Name, Phone, UserName } from '../value-objects';
+import { Birthday, Cpf, Email, Name, Phone } from '../value-objects';
 
 type UserValidation = {
-  usernameOrError: Either<Error, UserName>;
-  nameOrError: Either<Error, Name>;
+  firstNameOrError: Either<Error, Name>;
+  lastNameOrError: Either<Error, Name>;
   emailOrError: Either<Error, Email>;
   cpfOrError: Either<Error, Cpf>;
   phoneOrError: Either<Error, Phone>;

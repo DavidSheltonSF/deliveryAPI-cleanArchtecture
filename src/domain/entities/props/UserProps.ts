@@ -1,9 +1,9 @@
 import { Role } from "../../_enums";
-import { Birthday, Cpf, Email, Name, Phone, UserName } from "../../value-objects";
+import { Birthday, Cpf, Email, Name, Phone } from "../../value-objects";
 
 export interface UserProps {
-  username: UserName;
-  name: Name;
+  firstName: Name;
+  lastName: Name;
   email: Email;
   cpf: Cpf;
   role: Role;

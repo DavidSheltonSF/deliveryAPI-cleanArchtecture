@@ -9,23 +9,24 @@ import { Birthday, Cpf, Email, Name, Phone, UserName } from '../domain/value-obj
 import { validateUserProps } from '../domain/helpers/validateUserProps';
 import { UserDTO } from '../presentation/dtos/UserDTO';
 import { userValidationErrorType } from '../domain/errors/errorTypes';
+import { Role } from '../domain/_enums';
 
 export class CustomerMapper {
   static rawToProps(
     userData: UserDTO
   ): Either<userValidationErrorType, UserProps> {
-    const { username, name, email, cpf, phone, birthday } = userData;
+    const { firstName, lastName, email, cpf, phone, birthday } = userData;
   
-    const usernameOrError = UserName.create(username);
-    const nameOrError = Name.create(name);
+    const firstNameOrError = Name.create(firstName);
+    const lastNameOrError = Name.create(lastName);
     const emailOrError = Email.create(email);
     const cpfOrError = Cpf.create(cpf);
     const phoneOrError = Phone.create(phone);
     const birthdayOrError = Birthday.create(birthday);
   
     const validationResult = validateUserProps({
-      usernameOrError,
-      nameOrError,
+      firstNameOrError,
+      lastNameOrError,
       emailOrError,
       cpfOrError,
       phoneOrError,
@@ -37,11 +38,12 @@ export class CustomerMapper {
     }
   
     const userProps = {
-      username: usernameOrError.getRight(),
-      name: nameOrError.getRight(),
+      firstName: firstNameOrError.getRight(),
+      lastName: lastNameOrError.getRight(),
       email: emailOrError.getRight(),
       cpf: cpfOrError.getRight(),
       phone: phoneOrError.getRight(),
+      role: Role.customer,
       birthday: birthdayOrError.getRight(),
     };
   
