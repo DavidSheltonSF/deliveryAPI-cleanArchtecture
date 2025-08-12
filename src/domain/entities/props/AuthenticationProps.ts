@@ -5,7 +5,3 @@ export interface AuthenticationProps {
   passwordHash: Password;
   sessionToken?: string;
 }
-
-export interface authenticationWithId extends AuthenticationProps {
-  id: string;
-}
