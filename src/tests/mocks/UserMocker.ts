@@ -5,8 +5,8 @@ import { Role } from '../../domain/_enums';
 export class UserMocker {
   static mockUserDTO(): UserDTO {
     const userDTO: UserDTO = {
-      username: faker.person.firstName(),
-      name: faker.person.fullName(),
+      firstName: faker.person.firstName(),
+      lastName: faker.person.lastName(),
       email: faker.internet.email(),
       cpf: '14485874755',
       phone: '21547855887',

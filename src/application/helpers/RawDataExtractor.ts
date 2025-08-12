@@ -5,10 +5,10 @@ import { UserDTO } from '../../presentation/dtos/UserDTO';
 
 export class RawDataExtractor {
   static extractUser(data: CreateUserDTO): UserDTO {
-    const { username, name, email, cpf, phone, birthday, role } = data.user;
+    const { firstName, lastName, email, cpf, phone, birthday, role } = data.user;
     return {
-      username,
-      name,
+      firstName,
+      lastName,
       email,
       cpf,
       phone,
