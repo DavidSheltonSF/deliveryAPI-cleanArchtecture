@@ -15,6 +15,9 @@ export interface AuthenticationRepository {
     hasher: HashService
   ) => Promise<AuthenticationProps | null>;
   create: (auth: AuthenticationProps) => Promise<AuthenticationProps>;
-  update: (auth: AuthenticationProps) => Promise<AuthenticationProps>;
+  update: (
+    id: string,
+    auth: AuthenticationProps
+  ) => Promise<AuthenticationProps>;
   delete: (id: string) => Promise<boolean>;
 }

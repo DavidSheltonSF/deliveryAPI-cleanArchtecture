@@ -5,6 +5,6 @@ export interface AddressRepository {
   findById: (id: string) => Promise<WithId<AddressProps> | null>;
   findByUserId: (userId: string) => Promise<WithId<AddressProps> | null>;
   create: (address: AddressProps) => Promise<WithId<AddressProps>>;
-  update: (address: WithId<AddressProps>) => Promise<WithId<AddressProps>>;
+  update: (id: string, address: AddressProps) => Promise<WithId<AddressProps>>;
   delete: (id: string) => Promise<WithId<AddressProps> | null>;
 }

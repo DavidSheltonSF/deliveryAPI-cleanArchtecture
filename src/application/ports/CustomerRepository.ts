@@ -6,6 +6,6 @@ export interface CustomerRepository {
   findById: (id: string) => Promise<WithId<UserProps>>;
   findByEmail: (email: string) => Promise<UserProps | null>;
   create: (customer: UserProps) => Promise<WithId<UserProps>>;
-  update: (customer: WithId<UserProps>) => Promise<WithId<UserProps>>;
+  update: (id: string, customer: UserProps) => Promise<WithId<UserProps>>;
   delete: (id: string) => Promise<WithId<UserProps>>;
 }
