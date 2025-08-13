@@ -28,11 +28,10 @@ export class AddressMapper {
     return Either.right(addressProps);
   }
 
-  static propsToPersistence(
-    address: AddressProps | WithId<AddressProps>
-  ): AddressModel | WithId<AddressModel> {
+  static propsToPersistence(address: AddressProps): AddressModel {
     const { userId, street, city, state, zipCode } = address;
-    const baseModel = {
+
+    return {
       userId,
       street,
       city,
@@ -40,12 +39,6 @@ export class AddressMapper {
       zipCode: zipCode.getValue(),
       createdAt: new Date(),
     };
-
-    if ('id' in address) {
-      return { ...baseModel, id: address.id };
-    }
-
-    return baseModel;
   }
 
   static persistenceToProps(
