@@ -7,6 +7,7 @@ import { mockAuthRepository } from '../../../../tests/mocks/mockAuthenticationRe
 import { UserMocker } from '../../../../tests/mocks/UserMocker';
 import { AddressMocker } from '../../../../tests/mocks/AddressMocker';
 import { AuthenticationMocker } from '../../../../tests/mocks/AuthenticationMocker';
+import { Email } from '../../../../domain/value-objects';
 
 describe('Testing CreateCustomerUserCase', () => {
   const userDTO = UserMocker.mockUserDTO();
@@ -18,10 +19,10 @@ describe('Testing CreateCustomerUserCase', () => {
     authentication: authDTO,
   };
 
-  function makeSut() {
+  async function makeSut() {
     const customerRepository = mockCustomerRepository();
     const addressRepository = mockAddressRepository();
-    const authenticationRepository = mockAuthRepository();
+    const authenticationRepository = await mockAuthRepository();
     const hasher = makeMockHasher();
 
     const useCase = new CreateCustomerUseCase(
@@ -41,14 +42,14 @@ describe('Testing CreateCustomerUserCase', () => {
   }
 
   test('should return Right when valid data is provided', async () => {
-    const { useCase } = makeSut();
+    const { useCase } = await makeSut();
 
     const responseOrError = await useCase.execute(createUserDTO);
     expect(responseOrError.isRight()).toBeTruthy();
   });
 
   test('should call CustomerRepository.findByEmail with the provided email', async () => {
-    const { useCase, customerRepository } = makeSut();
+    const { useCase, customerRepository } = await makeSut();
 
     await useCase.execute(createUserDTO);
     expect(customerRepository.findByEmail).toHaveBeenCalledWith(userDTO.email);
@@ -60,7 +61,7 @@ describe('Testing CreateCustomerUserCase', () => {
       customerRepository,
       addressRepository,
       authenticationRepository,
-    } = makeSut();
+    } = await makeSut();
 
     await useCase.execute(createUserDTO);
 
@@ -82,11 +83,11 @@ describe('Testing CreateCustomerUserCase', () => {
       addressRepository,
       authenticationRepository,
       hasher,
-    } = makeSut();
+    } = await makeSut();
 
     // Modify the return of .findByEmail this time
     (customerRepository.findByEmail as jest.Mock).mockResolvedValueOnce({
-      email: duplicatedEmail,
+      email: Email.createFromPersistence(duplicatedEmail),
     });
 
     const useCase = new CreateCustomerUseCase(
@@ -97,6 +98,8 @@ describe('Testing CreateCustomerUserCase', () => {
     );
 
     const responseOrError = await useCase.execute(createCustomerData);
+
+    console.log(responseOrError)
 
     expect(responseOrError.isLeft()).toBeTruthy();
   });

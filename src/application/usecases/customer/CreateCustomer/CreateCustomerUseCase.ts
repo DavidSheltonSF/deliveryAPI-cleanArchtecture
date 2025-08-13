@@ -13,9 +13,6 @@ import { CustomerMapper } from '../../../../mappers/CustomerMapper';
 import { AuthenticationMapper } from '../../../../mappers/AuthenticationMapper';
 import { RawDataExtractor } from '../../../helpers/RawDataExtractor';
 import { validateEitherValues } from '../../../../utils/validateEitherValues';
-import { Address } from '../../../../domain/entities/Address';
-import { CustomerUser } from '../../../../domain/entities/CustomerUser';
-import { Authentication } from '../../../../domain/entities/Authentication';
 
 export class CreateCustomerUseCase implements CreateUser {
   private readonly customerRepository: CustomerRepository;
@@ -44,7 +41,7 @@ export class CreateCustomerUseCase implements CreateUser {
     const existingUser = await this.customerRepository.findByEmail(
       rawUser.email
     );
-    if (existingUser !== null && existingUser.email === email) {
+    if (existingUser !== null && existingUser.email.getValue() === email) {
       return Either.left(
         new DuplicatedDataError(
           `There is already a user with email '${email}'.`
@@ -70,31 +67,41 @@ export class CreateCustomerUseCase implements CreateUser {
     }
 
     const addressProps = addressPropsOrError.getRight();
-    const address = Address.create(addressProps);
 
     const authenticationProps = authenticationPropsOrError.getRight();
-    const authentication = await Authentication.create(
-      authenticationProps,
-      this.hashService
-    );
 
-    const userProps = userPropsOrError.getRight();
-    const customerEntity = CustomerUser.create(
-      userProps,
-      address,
-      authentication
-    );
+    const customerProps = userPropsOrError.getRight();
 
-    if (!customerEntity.isAdult()) {
-      return Either.left(new InvalidAgeError());
-    }
+    const createdCustomer = await this.customerRepository.create(customerProps);
+    const customerId = createdCustomer.id;
 
-    const customerModel = await this.customerRepository.create(customerEntity);
-    const addressModel = await this.addressRepository.create(address);
-    await this.authenticationRepository.create(authentication);
+    addressProps.userId = customerId;
+    const createdAddress = await this.addressRepository.create(addressProps);
 
-    const userResponse = CustomerMapper.modelToResponseDTO(customerModel);
-    const addressResponse = AddressMapper.modelToResponseDTO(addressModel);
+    authenticationProps.userId = customerId;
+    await this.authenticationRepository.create(authenticationProps);
+
+    //const userResponse = CustomerMapper.propsToResponseDTO(createdCustomer);
+    //const addressResponse = AddressMapper.propsToResponseDTO(createdAddress);
+    const userResponse = {
+      id: createdCustomer.id,
+      firstName: createdCustomer.firstName.getValue(),
+      lastName: createdCustomer.lastName.getValue(),
+      email: createdCustomer.email.getValue(),
+      cpf: createdCustomer.cpf.getValue(),
+      phone: createdCustomer.phone.getValue(),
+      role: createdCustomer.role,
+      birthday: createdCustomer.birthday.getValue(),
+    };
+
+    const addressResponse = {
+      id: createdAddress.id,
+      userId: createdAddress.userId,
+      street: createdAddress.street,
+      city: createdAddress.city,
+      state: createdAddress.state,
+      zipCode: createdAddress.zipCode.getValue(),
+    };
 
     const response = {
       ...userResponse,
