@@ -49,20 +49,4 @@ export class CustomerMapper {
   
     return Either.right(userProps);
   }
-
-  static modelToResponseDTO(userModel: UserModel): UserResponseDTO {
-    const { _id, username, name, email, phone, role, createdAt } = userModel;
-
-    return {
-      id: _id,
-      username,
-      name,
-      email,
-      phone,
-      role,
-      createdAt: createdAt.toISOString().split('T')[0],
-    };
-  }
-
-
 }
