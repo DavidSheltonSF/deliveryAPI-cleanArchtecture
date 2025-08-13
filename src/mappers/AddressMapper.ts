@@ -1,4 +1,4 @@
-import { Document, WithId } from 'mongodb';
+import { WithId } from '../utils/types/WithId';
 import { AddressResponseDTO } from '../application/useCaseDtos/AddressResponseDTO';
 import { AddressProps } from '../domain/entities/props/AddressProps';
 import { addressErrorType } from '../domain/errors/errorTypes';
@@ -28,6 +28,41 @@ export class AddressMapper {
     return Either.right(addressProps);
   }
 
+  static propsToPersistence(
+    address: AddressProps | WithId<AddressProps>
+  ): AddressModel | WithId<AddressModel> {
+    const { userId, street, city, state, zipCode } = address;
+    const baseModel = {
+      userId,
+      street,
+      city,
+      state,
+      zipCode: zipCode.getValue(),
+      createdAt: new Date(),
+    };
+
+    if ('id' in address) {
+      return { ...baseModel, id: address.id };
+    }
+
+    return baseModel;
+  }
+
+  static persistenceToProps(
+    address: WithId<AddressModel>
+  ): WithId<AddressProps> {
+    const { id, userId, street, city, state, zipCode } = address;
+
+    return {
+      id,
+      userId,
+      street,
+      city,
+      state,
+      zipCode: AddressZipCode.createFromPersistence(zipCode),
+    };
+  }
+
   static modelToResponseDTO(addressModel: AddressModel): AddressResponseDTO {
     const { street, city, state, zipCode } = addressModel;
 
@@ -40,5 +75,4 @@ export class AddressMapper {
 
     return addressResponse;
   }
-
 }
