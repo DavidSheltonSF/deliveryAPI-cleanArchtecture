@@ -1,10 +1,10 @@
 import { mongoHelper } from './helpers/mongo-helper';
 import { config } from 'dotenv';
 import { MongodbAddressRepository } from './MongodbAddressRepository';
-import { Address } from '../../../domain/entities/Address';
 import { AddressMapper } from '../../../mappers/AddressMapper';
 import { stringToObjectId } from './helpers/stringToObjectId';
 import { ObjectId } from 'mongodb';
+import { AddressZipCode } from '../../../domain/value-objects';
 
 config();
 
@@ -39,19 +39,18 @@ describe('Testing MongodbAddressRepository', () => {
     const addressPropsOrError = AddressMapper.rawToProps(addressData);
     const addressProps = addressPropsOrError.getRight();
     addressProps.userId = new ObjectId().toString();
-    const address = Address.create(addressProps);
 
     return {
       repository,
-      address,
+      addressProps,
       addressData,
       addressCollection,
     };
   }
 
   test('should create a new Address in the database', async () => {
-    const { repository, address, addressCollection } = await makeSut();
-    const newAddress = await repository.create(address);
+    const { repository, addressProps, addressCollection } = await makeSut();
+    const newAddress = await repository.create(addressProps);
     if (newAddress === null) {
       throw Error('Address not created');
     }
@@ -59,55 +58,60 @@ describe('Testing MongodbAddressRepository', () => {
     const foundAddress = await addressCollection.findOne({
       _id: stringToObjectId(id),
     });
-    
+
     expect(newAddress.street).toBe(foundAddress?.street);
     expect(newAddress.city).toBe(foundAddress?.city);
     expect(newAddress.state).toBe(foundAddress?.state);
-    expect(newAddress.zipCode).toBe(foundAddress?.zipCode);
+    expect(newAddress.zipCode.getValue()).toBe(foundAddress?.zipCode);
   });
 
   test('should update an existing Address', async () => {
     const { addressCollection, repository } = await makeSut();
 
-    const addressData = {
-      userId: new ObjectId(),
+    const addressProps = {
+      userId: new ObjectId().toString(),
       street: 'Fake Street',
       city: 'Fake City',
       state: 'Fake State',
-      zipCode: '25777789',
+      zipCode: AddressZipCode.createFromPersistence('25874789'),
       createdAt: new Date(),
     };
 
-    const newAddressId = (await addressCollection.insertOne(addressData))
-      .insertedId;
+    const addressData = {
+      userId: addressProps.userId,
+      street: addressProps.street,
+      city: addressProps.city,
+      state: addressProps.state,
+      zipCode: addressProps.zipCode,
+      createdAt: addressProps.createdAt,
+    };
 
-    const foundAddress = await addressCollection.findOne({ _id: newAddressId });
+    const addressObjectId = (await addressCollection.insertOne(addressData))
+      .insertedId;
+    
+    const id = addressObjectId.toString().toString();
+
+    const foundAddress = await addressCollection.findOne({ _id: addressObjectId });
 
     if (foundAddress === null) {
       throw Error('Address not found');
     }
 
-    const address = Address.createFromPersistence({
-      _id: foundAddress._id.toString(),
-      userId: foundAddress.userId.toString(),
-      street: foundAddress.street,
-      city: foundAddress.city,
-      state: foundAddress.state,
-      zipCode: foundAddress.zipCode,
-      createdAt: foundAddress.createdAt,
-    });
-
     const street = 'Updated Street';
     const state = 'Updated State';
 
-    address.update({ street, state });
-    await repository.update(address);
+    const updatedAddresProps = {
+      ...addressProps,
+      street,
+      state,
+    }
+
+    await repository.update(id, updatedAddresProps);
 
     const updatedAddress = await addressCollection.findOne({
-      _id: stringToObjectId(address.id),
-    });
+      _id: addressObjectId});
 
-    expect(updatedAddress?._id.toString()).toBe(address.id);
+    expect(updatedAddress?._id.toString()).toBe(id);
     expect(updatedAddress?.street).toBe(street);
     expect(updatedAddress?.state).toBe(state);
   });
@@ -167,7 +171,7 @@ describe('Testing MongodbAddressRepository', () => {
     expect(foundAddress?.street).toBe(addressData.street);
     expect(foundAddress?.city).toBe(addressData.city);
     expect(foundAddress?.state).toBe(addressData.state);
-    expect(foundAddress?.zipCode).toBe(addressData.zipCode);
+    expect(foundAddress?.zipCode.getValue()).toBe(addressData.zipCode);
   });
 
   test('should find an address by user id', async () => {
@@ -193,6 +197,6 @@ describe('Testing MongodbAddressRepository', () => {
     expect(foundAddress?.street).toBe(addressData.street);
     expect(foundAddress?.city).toBe(addressData.city);
     expect(foundAddress?.state).toBe(addressData.state);
-    expect(foundAddress?.zipCode).toBe(addressData.zipCode);
+    expect(foundAddress?.zipCode.getValue()).toBe(addressData.zipCode);
   });
 });
