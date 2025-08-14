@@ -29,7 +29,7 @@ describe('Testing MongodbAddressRepository', () => {
   });
 
   async function makeSut() {
-    const repository = new MongodbAddressRepository();
+    const addressRepository = new MongodbAddressRepository();
     const addressCollection = mongoHelper.getCollection(entityCollectionMap.address);
     const addressData = {
       street: 'Fake Street',
@@ -42,7 +42,7 @@ describe('Testing MongodbAddressRepository', () => {
     addressProps.userId = new ObjectId().toString();
 
     return {
-      repository,
+      addressRepository,
       addressProps,
       addressData,
       addressCollection,
@@ -50,8 +50,9 @@ describe('Testing MongodbAddressRepository', () => {
   }
 
   test('should create a new Address in the database', async () => {
-    const { repository, addressProps, addressCollection } = await makeSut();
-    const newAddress = await repository.create(addressProps);
+    const { addressRepository, addressProps, addressCollection } =
+      await makeSut();
+    const newAddress = await addressRepository.create(addressProps);
     if (newAddress === null) {
       throw Error('Address not created');
     }
@@ -67,7 +68,7 @@ describe('Testing MongodbAddressRepository', () => {
   });
 
   test('should update an existing Address', async () => {
-    const { addressCollection, repository } = await makeSut();
+    const { addressCollection, addressRepository } = await makeSut();
 
     const addressProps = {
       userId: new ObjectId().toString(),
@@ -107,7 +108,7 @@ describe('Testing MongodbAddressRepository', () => {
       state,
     }
 
-    await repository.update(id, updatedAddresProps);
+    await addressRepository.update(id, updatedAddresProps);
 
     const updatedAddress = await addressCollection.findOne({
       _id: addressObjectId});
@@ -118,7 +119,7 @@ describe('Testing MongodbAddressRepository', () => {
   });
 
   test('should delete an existing Address', async () => {
-     const { addressCollection, repository } = await makeSut();
+     const { addressCollection, addressRepository } = await makeSut();
 
      const addressData = {
        userId: new ObjectId(),
@@ -140,7 +141,9 @@ describe('Testing MongodbAddressRepository', () => {
        throw Error('Address not found');
      }
 
-     const deletedAddress = await repository.delete(newAddressId.toString());
+     const deletedAddress = await addressRepository.delete(
+       newAddressId.toString()
+     );
 
      const findDeletedAddress = await addressCollection.findOne({
        _id: newAddressId,
@@ -151,7 +154,7 @@ describe('Testing MongodbAddressRepository', () => {
   });
 
   test('should find an address by id', async () => {
-    const { addressCollection, repository } = await makeSut();
+    const { addressCollection, addressRepository } = await makeSut();
 
     const addressData = {
       userId: new ObjectId(),
@@ -165,7 +168,9 @@ describe('Testing MongodbAddressRepository', () => {
     const newAddressId = (await addressCollection.insertOne(addressData))
       .insertedId;
 
-    const foundAddress = await repository.findById(newAddressId.toString());
+    const foundAddress = await addressRepository.findById(
+      newAddressId.toString()
+    );
 
     expect(foundAddress?.id).toBe(newAddressId.toString());
     expect(foundAddress?.userId).toBe(addressData.userId.toString());
@@ -176,7 +181,7 @@ describe('Testing MongodbAddressRepository', () => {
   });
 
   test('should find an address by user id', async () => {
-    const { addressCollection, repository } = await makeSut();
+    const { addressCollection, addressRepository } = await makeSut();
 
     const addressData = {
       userId: new ObjectId(),
@@ -191,7 +196,7 @@ describe('Testing MongodbAddressRepository', () => {
       .insertedId;
 
     const userId = addressData.userId.toString()
-    const foundAddress = await repository.findByUserId(userId);
+    const foundAddress = await addressRepository.findByUserId(userId);
 
     expect(foundAddress?.id).toBe(newAddressId.toString());
     expect(foundAddress?.userId).toBe(addressData.userId.toString());
