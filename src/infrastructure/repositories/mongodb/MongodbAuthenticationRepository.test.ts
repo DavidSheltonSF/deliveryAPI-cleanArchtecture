@@ -1,7 +1,6 @@
 import { mongoHelper } from './helpers/mongo-helper';
 import { config } from 'dotenv';
 import { MongodbAuthenticationRepository } from './MongodbAuthenticationRepository';
-import { Authentication } from '../../../domain/entities/Authentication';
 import { AuthenticationMapper } from '../../../mappers/AuthenticationMapper';
 import { stringToObjectId } from './helpers/stringToObjectId';
 import { ObjectId } from 'mongodb';
@@ -36,32 +35,30 @@ describe('Testing MongodbAuthenticationRepository', () => {
     const authenticationCollection = mongoHelper.getCollection(
       entityCollectionMap.authentication
     );
-    const authenticationData = {
+    const authData = {
       password: 'Djresar25322@@%@as',
       sessionToken: 'kfndsikfnsdif',
     };
     const authenticationPropsOrError = await AuthenticationMapper.rawToProps(
-      authenticationData,
+      authData,
       hasher
     );
     const authenticationProps = authenticationPropsOrError.getRight();
     authenticationProps.userId = new ObjectId().toString();
-    const authentication = Authentication.create(authenticationProps, hasher);
 
     return {
       repository,
       hasher,
-      authentication,
-      authenticationData,
+      authenticationProps,
+      authData,
       authenticationCollection,
     };
   }
 
   test('should create a new Authentication in the database', async () => {
-    const { repository, authentication, authenticationCollection } =
+    const { repository, authenticationProps, authenticationCollection } =
       await makeSut();
-    const newAuthentication = await repository.create(authentication);
-    //console.log(newAuthentication)
+    const newAuthentication = await repository.create(authenticationProps);
     if (newAuthentication === null) {
       throw Error('Authentication not created');
     }
@@ -75,89 +72,83 @@ describe('Testing MongodbAuthenticationRepository', () => {
     }
 
     expect(newAuthentication.userId).toBe(foundAuthentication.userId);
-    expect(
-      newAuthentication.compare(foundAuthentication.password)
-    ).toBeTruthy();
+    expect(newAuthentication.passwordHash.getValue()).toBe(foundAuthentication.passwordHash)
     expect(newAuthentication.sessionToken).toBe(
       foundAuthentication.sessionToken
     );
   });
 
+
   test('should update an existing Authentication', async () => {
     const { authenticationCollection, repository, hasher } = await makeSut();
 
     const password = 'dDe#3251KJINFA55';
-    const authenticationData = {
+    const authData = {
       userId: new ObjectId(),
       passwordHash: await hasher.hash(password),
       createdAt: new Date(),
     };
 
-    const newAuthenticationId = (
-      await authenticationCollection.insertOne(authenticationData)
+    const authObjId = (
+      await authenticationCollection.insertOne(authData)
     ).insertedId;
 
-    const foundAuthentication = await authenticationCollection.findOne({
-      _id: newAuthenticationId,
+    const createdAuth = await authenticationCollection.findOne({
+      _id: authObjId,
     });
 
-    if (foundAuthentication === null) {
-      throw Error('Authentication not found');
+    if (createdAuth === null) {
+      throw Error('Authentication was not createdd');
     }
 
-    const authentication = Authentication.createFromPersistence(
-      {
-        _id: foundAuthentication._id.toString(),
-        userId: foundAuthentication.userId.toString(),
-        passwordHash: foundAuthentication.passwordHash,
-        sessionToken: foundAuthentication.sessionToken,
-        createdAt: foundAuthentication.createdAt,
-      },
-      hasher
-    );
+    const newPassword = 'new45332psPass4$$!1'
+    const passwordOrError = await Password.create(newPassword, hasher);
+    const newPasswordHash = passwordOrError.getRight();
 
-    const passwordOrError = await Password.create(password, hasher);
-    const passwordHash = passwordOrError.getRight();
+    const updatedAuth = {
+      ...authData,
+      userId: authData.userId.toString(),
+      passwordHash: newPasswordHash,
+    };
 
-    authentication.updatePasswordHash(passwordHash);
-    await repository.update(authentication);
+    const authId = authObjId.toString();
 
-    const updatedAuthentication = await authenticationCollection.findOne({
-      _id: stringToObjectId(authentication.id),
+    await repository.update(authId, updatedAuth);
+
+    const foundUpdatedAuth = await authenticationCollection.findOne({
+      _id: stringToObjectId(authId),
     });
 
-    expect(updatedAuthentication?._id.toString()).toBe(authentication.id);
-    expect(updatedAuthentication?.passwordHash).toBe(passwordHash.getValue());
+    expect(foundUpdatedAuth?._id.toString()).toBe(authId);
+    expect(foundUpdatedAuth?.passwordHash).toBe(newPasswordHash.getValue());
   });
 
-  test('should delete an existing Authentication', async () => {
-    const { authenticationCollection, repository, hasher } = await makeSut();
 
-    const password = 'dDe#3251KJINFA55';
-    const authenticationData = {
+  test('should delete an existing Authentication', async () => {
+    const { authenticationCollection, repository } = await makeSut();
+
+    const authData = {
       userId: new ObjectId(),
-      passwordHash: await hasher.hash(password),
+      passwordHash: 'fakePaksdnfjajbqjwq',
       createdAt: new Date(),
     };
 
-    const newAuthenticationId = (
-      await authenticationCollection.insertOne(authenticationData)
+    const authId = (
+      await authenticationCollection.insertOne(authData)
     ).insertedId;
 
-    const foundAuthentication = await authenticationCollection.findOne({
-      _id: newAuthenticationId,
+    const authCreated = await authenticationCollection.findOne({
+      _id: authId,
     });
 
-    if (foundAuthentication === null) {
-      throw Error('Authentication not found');
+    if (authCreated === null) {
+      throw Error('Authentication was not created');
     }
 
-    const deletedAuthentication = await repository.delete(
-      newAuthenticationId.toString()
-    );
+    const deletedAuthentication = await repository.delete(authId.toString());
 
     const findDeletedAuthentication = await authenticationCollection.findOne({
-      _id: newAuthenticationId,
+      _id: authId,
     });
 
     expect(deletedAuthentication).toBeTruthy();
@@ -168,40 +159,47 @@ describe('Testing MongodbAuthenticationRepository', () => {
     const { authenticationCollection, repository, hasher } = await makeSut();
 
     const password = 'dDe#3251KJINFA55';
-    const authenticationData = {
+    const authData = {
       userId: new ObjectId(),
       passwordHash: await hasher.hash(password),
+      sessionToken: 'dksnfkasdnfiasdfa',
       createdAt: new Date(),
     };
 
     const authId = (
-      await authenticationCollection.insertOne(authenticationData)
+      await authenticationCollection.insertOne(authData)
     ).insertedId;
 
-    const authentication = await repository.findById(authId.toString(), hasher);
+    const authentication = await repository.findById(authId.toString());
 
     expect(authentication?.id).toBe(authId.toString());
-    expect(authentication?.compare(password));
+    expect(authentication?.userId).toBe(authData.userId.toString());
+    expect(authentication?.sessionToken).toBe(authData.sessionToken);
+    expect(hasher.compare(password, authData.passwordHash));
   });
 
+
   test('should find an authentication by user id', async () => {
-    const { authenticationCollection, repository, hasher } = await makeSut();
+   const { authenticationCollection, repository, hasher } = await makeSut();
 
     const password = 'dDe#3251KJINFA55';
-    const authenticationData = {
+    const authData = {
       userId: new ObjectId(),
       passwordHash: await hasher.hash(password),
+      sessionToken: 'dksnfkasdnfiasdfa',
       createdAt: new Date(),
     };
 
     const authId = (
-      await authenticationCollection.insertOne(authenticationData)
+      await authenticationCollection.insertOne(authData)
     ).insertedId;
 
-    const userId = authenticationData.userId.toString();
-    const authentication = await repository.findByUserId(userId, hasher);
+    const userId = authData.userId.toString();
+    const authentication = await repository.findByUserId(userId);
 
     expect(authentication?.id).toBe(authId.toString());
-    expect(authentication?.compare(password));
+    expect(authentication?.userId).toBe(authData.userId.toString());
+    expect(authentication?.sessionToken).toBe(authData.sessionToken);
+    expect(hasher.compare(password, authData.passwordHash));
   });
 });
