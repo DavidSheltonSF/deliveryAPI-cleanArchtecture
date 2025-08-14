@@ -4,43 +4,73 @@ import { UserModel } from '../../models/mongodb/UserModel';
 import { mongoHelper } from './helpers/mongo-helper';
 import { CustomerMapper } from '../../../mappers/CustomerMapper';
 import { stringToObjectId } from './helpers/stringToObjectId';
+import { WithId } from '../../../utils/types/WithId';
+import { UserProps } from '../../../domain/entities/props/UserProps';
+import { Role } from '../../../domain/_enums';
 
 export class MongodbCustomerRepository implements CustomerRepository {
-  async findAll(): Promise<UserModel[]> {
-    const userCollection = mongoHelper.getCollection('users');
+  async findAll(): Promise<WithId<UserProps>[]> {
+    const userCollection = mongoHelper.getCollection('customers');
     const foundUsers = await userCollection.find().toArray();
 
     const mappedCustomers = foundUsers.map((customer) => {
-      return CustomerMapper.persistenceToUserModel(customer);
+      if (customer.role === Role.customer) {
+        return CustomerMapper.persistenceToProps({
+          id: customer._id.toString(),
+          firstName: customer.firstName,
+          lastName: customer.lastName,
+          email: customer.email,
+          cpf: customer.cpf,
+          role: customer.role,
+          phone: customer.phone,
+          birthday: customer.birthday,
+          createdAt: customer.createdAt,
+        });
+      }
     });
 
     return mappedCustomers;
   }
 
-  async findById(id: string): Promise<UserModel | null> {
+  async findById(id: string): Promise<WithId<UserProps> | null> {
     const userCollection = mongoHelper.getCollection('users');
     const userId = new ObjectId(id);
     const foundUser = await userCollection.findOne({ _id: userId });
-    return CustomerMapper.persistenceToUserModel(foundUser);
+    return CustomerMapper.persistenceToProps({
+      id: foundUser._id.toString(),
+      firstName: foundUser.firstName,
+      lastName: foundUser.lastName,
+      email: foundUser.email,
+      cpf: foundUser.cpf,
+      role: foundUser.role,
+      phone: foundUser.phone,
+      birthday: foundUser.birthday,
+      createdAt: foundUser.createdAt,
+    });
   }
 
-  async findByEmail(email: string): Promise<UserModel | null> {
+  async findByEmail(email: string): Promise<WithId<UserProps> | null> {
     const userCollection = mongoHelper.getCollection('users');
     const foundUser = await userCollection.findOne({ email });
 
-    return CustomerMapper.persistenceToUserModel(foundUser);
+    return CustomerMapper.persistenceToProps({
+      id: foundUser._id.toString(),
+      firstName: foundUser.firstName,
+      lastName: foundUser.lastName,
+      email: foundUser.email,
+      cpf: foundUser.cpf,
+      role: foundUser.role,
+      phone: foundUser.phone,
+      birthday: foundUser.birthday,
+      createdAt: foundUser.createdAt,
+    });
   }
-
-  async create(customer: CustomerUser): Promise<UserModel | null> {
+  UserProps;
+  async create(customer: UserProps): Promise<WithId<UserProps> | null> {
     const userCollection = mongoHelper.getCollection('users');
-    const userModel = CustomerMapper.entityToUserModel(customer);
-    const userData = {
-      ...userModel,
-      _id: stringToObjectId(userModel._id),
-    };
-
+    const userModel = CustomerMapper.propsToPersistence(customer);
     const newUserId = await userCollection
-      .insertOne(userData)
+      .insertOne(userModel)
       .then((result: any) => result.insertedId);
 
     const createdCustomer = await userCollection.findOne({
@@ -51,16 +81,27 @@ export class MongodbCustomerRepository implements CustomerRepository {
       return null;
     }
 
-    return CustomerMapper.persistenceToUserModel(createdCustomer);
+    return CustomerMapper.persistenceToProps({
+      id: createdCustomer._id.toString(),
+      firstName: createdCustomer.firstName,
+      lastName: createdCustomer.lastName,
+      email: createdCustomer.email,
+      cpf: createdCustomer.cpf,
+      role: createdCustomer.role,
+      phone: createdCustomer.phone,
+      birthday: createdCustomer.birthday,
+      createdAt: createdCustomer.createdAt,
+    });
   }
 
-  async update(customer: CustomerUser): Promise<UserModel | null> {
+  async update(
+    id: string,
+    customer: UserProps
+  ): Promise<WithId<UserProps> | null> {
     const userCollection = mongoHelper.getCollection('users');
-    const userModel = CustomerMapper.entityToUserModel(customer);
-    const customerId = userModel._id;
-    delete userModel._id;
+    const userModel = CustomerMapper.propsToPersistence(customer);
     const updatedUser = await userCollection.findOneAndUpdate(
-      { _id: stringToObjectId(customerId) },
+      { _id: stringToObjectId(id) },
       { $set: userModel },
       { returnDocument: 'after' }
     );
@@ -69,10 +110,20 @@ export class MongodbCustomerRepository implements CustomerRepository {
       return null;
     }
 
-    return CustomerMapper.persistenceToUserModel(updatedUser);
+    return CustomerMapper.persistenceToProps({
+      id: updatedUser._id.toString(),
+      firstName: updatedUser.firstName,
+      lastName: updatedUser.lastName,
+      email: updatedUser.email,
+      cpf: updatedUser.cpf,
+      role: updatedUser.role,
+      phone: updatedUser.phone,
+      birthday: updatedUser.birthday,
+      createdAt: updatedUser.createdAt,
+    });
   }
 
-  async delete(id: string): Promise<UserModel | null> {
+  async delete(id: string): Promise<WithId<UserProps> | null> {
     const userCollection = mongoHelper.getCollection('users');
     const customerId = new ObjectId(id);
     const deletedCustomer = await userCollection.findOneAndDelete({
@@ -83,6 +134,16 @@ export class MongodbCustomerRepository implements CustomerRepository {
       return null;
     }
 
-    return CustomerMapper.persistenceToUserModel(deletedCustomer);
+    return CustomerMapper.persistenceToProps({
+      id: deletedCustomer._id.toString(),
+      firstName: deletedCustomer.firstName,
+      lastName: deletedCustomer.lastName,
+      email: deletedCustomer.email,
+      cpf: deletedCustomer.cpf,
+      role: deletedCustomer.role,
+      phone: deletedCustomer.phone,
+      birthday: deletedCustomer.birthday,
+      createdAt: deletedCustomer.createdAt,
+    });
   }
 }

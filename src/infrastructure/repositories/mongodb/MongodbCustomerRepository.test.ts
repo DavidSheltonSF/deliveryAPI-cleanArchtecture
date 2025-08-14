@@ -1,23 +1,28 @@
 import { mongoHelper } from '../../../../src/infrastructure/repositories/mongodb/helpers/mongo-helper';
 import { config } from 'dotenv';
 import { MongodbCustomerRepository } from '../../../../src/infrastructure/repositories/mongodb/MongodbCustomerRepository';
-import { CustomerUser } from '../../../domain/entities/CustomerUser';
-import { Address } from '../../../domain/entities/Address';
 import { makeMockHasher } from '../../../tests/mocks/mockHasher';
-import { Authentication } from '../../../domain/entities/Authentication';
 import { AddressMapper } from '../../../mappers/AddressMapper';
 import { AuthenticationMapper } from '../../../mappers/AuthenticationMapper';
 import { UserMocker } from '../../../tests/mocks/UserMocker';
 import { AddressMocker } from '../../../tests/mocks/AddressMocker';
 import { AuthenticationMocker } from '../../../tests/mocks/AuthenticationMocker';
 import { CustomerMapper } from '../../../mappers/CustomerMapper';
-import { Birthday, Cpf, Name } from '../../../domain/value-objects';
+import {
+  Birthday,
+  Cpf,
+  Email,
+  Name,
+  Phone,
+} from '../../../domain/value-objects';
 import { UserModel } from '../../models/mongodb/UserModel';
 import { ObjectId } from 'mongodb';
 import { Role } from '../../../domain/_enums';
 import { stringToObjectId } from './helpers/stringToObjectId';
 import { AddressModel } from '../../models/mongodb/AddressModel';
 import { AuthenticationModel } from '../../models/mongodb/AuthenticationModel';
+import { WithId } from '../../../utils/types/WithId';
+import { UserProps } from '../../../domain/entities/props/UserProps';
 config();
 
 const repository = new MongodbCustomerRepository();
@@ -43,130 +48,97 @@ describe('Testing MongodbCustomerRepository', () => {
 
   async function makeSut() {
     const repository = new MongodbCustomerRepository();
-    const hasher = makeMockHasher();
     const userCollection = mongoHelper.getCollection('users');
-
     const userData = UserMocker.mockUserDTO();
-    const addressData = AddressMocker.mockAddressDTO();
-    const authData = AuthenticationMocker.mockAuthenticationDTO();
-
-    const createUserData = {
-      user: userData,
-      address: addressData,
-      authentication: authData,
-    };
-
-    const addressPropsOrError = AddressMapper.rawToProps(addressData);
-    const authPropsOrError = await AuthenticationMapper.rawToProps(
-      authData,
-      hasher
-    );
     const userPropsOrError = CustomerMapper.rawToProps(userData);
-
-    const addressProps = addressPropsOrError.getRight();
-    const authProps = authPropsOrError.getRight();
     const userProps = userPropsOrError.getRight();
-
-    const address = Address.create(addressProps);
-    const authentication = Authentication.create(authProps, hasher);
-    const customer = CustomerUser.create(userProps, address, authentication);
 
     return {
       repository,
-      customer,
-      address,
-      authentication,
-      createUserData,
-      hasher,
+      userData,
+      userProps,
       userCollection,
     };
   }
 
   test('should create a new customer in the database', async () => {
-    const { repository, customer, userCollection } = await makeSut();
+    const { repository, userProps, userCollection } = await makeSut();
 
-    const newCustomer = await repository.create(customer);
+    const newCustomer = await repository.create(userProps);
 
     if (newCustomer === null) {
       throw Error('User not created');
     }
 
-    const id = newCustomer._id;
+    const id = newCustomer.id;
 
     const foundCustomer = await userCollection.findOne({
       _id: stringToObjectId(id),
     });
-    expect(newCustomer.username).toBe(foundCustomer?.username);
-    expect(newCustomer.name).toBe(foundCustomer?.name);
-    expect(newCustomer.email).toBe(foundCustomer?.email);
-    expect(newCustomer.cpf).toBe(foundCustomer?.cpf);
-    expect(newCustomer.phone).toBe(foundCustomer?.phone);
+    expect(newCustomer.firstName.getValue()).toBe(foundCustomer?.firstName);
+    expect(newCustomer.lastName.getValue()).toBe(foundCustomer?.lastName);
+    expect(newCustomer.email.getValue()).toBe(foundCustomer?.email);
+    expect(newCustomer.cpf.getValue()).toBe(foundCustomer?.cpf);
+    expect(newCustomer.phone.getValue()).toBe(foundCustomer?.phone);
     expect(newCustomer.role).toBe(foundCustomer?.role);
   });
 
   test('should update an existing customer', async () => {
-    const { userCollection, createUserData, address, authentication } =
-      await makeSut();
-
-    const userData = createUserData.user;
+    const { userCollection, userData } = await makeSut();
 
     const userModel: UserModel = {
-      _id: new ObjectId().toString(),
       ...userData,
       birthday: new Date(),
       createdAt: new Date(),
     };
 
-    // Only createFromPersistence can set an Id to the entity
-    // It uses the Id provided by a UserModel
-    const customer = CustomerUser.createFromPersistence(
-      userModel,
-      address,
-      authentication
-    );
 
-    const updatedData = {
-      name: 'José Updated',
-      cpf: '11111111111',
+    const userObjId = (await userCollection.insertOne(userModel)).insertedId;
+
+    const updatedUserData: UserProps = {
+      firstName: Name.createFromPersistence(userModel.firstName),
+      lastName: Name.createFromPersistence('Ferreira'),
+      email: Email.createFromPersistence(userModel.email),
+      cpf: Cpf.createFromPersistence(userModel.cpf),
+      role: Role.customer,
+      phone: Phone.createFromPersistence('22547854777'),
+      birthday: Birthday.createFromPersistence(userModel.birthday),
     };
 
-    const name = Name.createFromPersistence(updatedData.name);
-    const cpf = Cpf.createFromPersistence(updatedData.cpf);
+    const userId = userObjId.toString()
 
-    customer.updateName(name);
-    customer.updateCpf(cpf);
-
-    await repository.create(customer);
-    await repository.update(customer);
+    await repository.update(userId, updatedUserData);
 
     const foundUser = await userCollection.findOne({
-      _id: stringToObjectId(userModel._id),
+      _id: userObjId,
     });
 
-    expect(foundUser?._id.toString()).toBe(customer.id);
-    expect(foundUser?.name).toBe(updatedData.name);
-    expect(foundUser?.cpf).toBe(updatedData.cpf);
+    expect(foundUser?._id.toString()).toBe(userId);
+    expect(foundUser?.lastName).toBe(updatedUserData.lastName.getValue());
+    expect(foundUser?.phone).toBe(updatedUserData.phone.getValue());
   });
 
   test('should delete an existing customer', async () => {
-    const { userCollection, createUserData } = await makeSut();
-    const userData = createUserData.user;
+    const { userCollection, userData } = await makeSut();
     const userModel = {
       _id: new ObjectId(),
       userId: new ObjectId(),
       ...userData,
       birthday: new Date(),
       createdAt: new Date(),
-    }
+    };
 
     userCollection.insertOne(userModel);
-    const insertedUser = await userCollection.findOne({ _id: userModel._id });
-    
+    const createdUser = await userCollection.findOne({ _id: userModel._id });
+
+    if (createdUser === null) {
+      throw Error('User was not created');
+    }
+
     await repository.delete(userModel._id.toString());
     const user = await userCollection.findOne({ _id: userModel._id });
 
-    expect(insertedUser?._id.toString()).toBe(userModel._id.toString());
+    expect(createdUser?._id.toString()).toBe(userModel._id.toString());
     expect(user).toBeFalsy();
-
   });
 });
