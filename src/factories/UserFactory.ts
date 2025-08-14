@@ -1,19 +1,6 @@
-import { WithId } from '../utils/types/WithId';
-import { UserModel } from '../infrastructure/models/mongodb/UserModel';
-import { stringToObjectId } from '../infrastructure/repositories/mongodb/helpers/stringToObjectId';
-import { CreateUserDTO } from '../presentation/dtos/CreateUserDTO';
 import { UserProps } from '../domain/entities/props/UserProps';
-import { UserResponseDTO } from '../application/useCaseDtos/UserResponseDTO';
 import { Either } from '../shared/either';
-import {
-  Birthday,
-  Cpf,
-  Email,
-  Name,
-  Phone,
-  UserName,
-} from '../domain/value-objects';
-import { validateUserProps } from '../domain/helpers/validateUserProps';
+import { Birthday, Cpf, Email, Name, Phone } from '../domain/value-objects';
 import { UserDTO } from '../presentation/dtos/UserDTO';
 import { userValidationErrorType } from '../domain/errors/errorTypes';
 import { Role } from '../domain/_enums';
@@ -24,7 +11,7 @@ export class UserFactory {
   static create(userData: UserDTO): Either<userValidationErrorType, UserProps> {
     const { firstName, lastName, email, cpf, phone, role, birthday } = userData;
 
-    if (!(role in Role)){
+    if (!(role in Role)) {
       return Either.left(new InvalidRoleError(role));
     }
 
