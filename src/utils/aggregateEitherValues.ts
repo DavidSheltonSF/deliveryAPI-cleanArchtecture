@@ -1,6 +1,6 @@
 import { Either } from '../shared/either';
 
-export function validateEitherValues(
+export function aggregateEitherValues(
   validations: Either<any, any>[]
 ): Either<Error, boolean> {
   for (const validation of validations) {

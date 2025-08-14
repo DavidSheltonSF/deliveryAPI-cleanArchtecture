@@ -5,7 +5,9 @@ import { UserDTO } from '../presentation/dtos/UserDTO';
 import { userValidationErrorType } from '../domain/errors/errorTypes';
 import { Role } from '../domain/_enums';
 import { InvalidRoleError } from '../domain/errors';
-import { validateEitherValues } from '../utils/validateEitherValues';
+import { aggregateEitherValues } from '../utils/aggregateEitherValues';
+import { UserModel } from '../infrastructure/models/mongodb/UserModel';
+import { WithId } from '../utils/types/WithId';
 
 export class UserFactory {
   static create(userData: UserDTO): Either<userValidationErrorType, UserProps> {
@@ -22,7 +24,7 @@ export class UserFactory {
     const phoneOrError = Phone.create(phone);
     const birthdayOrError = Birthday.create(birthday);
 
-    const validationResult = validateEitherValues([
+    const validationResult = aggregateEitherValues([
       firstNameOrError,
       lastNameOrError,
       emailOrError,
@@ -46,5 +48,23 @@ export class UserFactory {
     };
 
     return Either.right(user);
+  }
+
+  static createFromPersistence(userData: WithId<UserModel>): UserProps {
+    const { id, firstName, lastName, email, cpf, phone, role, birthday } =
+      userData;
+
+    const user = {
+      id,
+      firstName: Name.createFromPersistence(firstName),
+      lastName: Name.createFromPersistence(lastName),
+      email: Email.createFromPersistence(email),
+      cpf: Cpf.createFromPersistence(cpf),
+      phone: Phone.createFromPersistence(phone),
+      role: Role[role],
+      birthday: Birthday.createFromPersistence(birthday),
+    };
+
+    return user;
   }
 }
