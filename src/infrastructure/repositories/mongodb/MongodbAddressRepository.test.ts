@@ -37,22 +37,21 @@ describe('Testing MongodbAddressRepository', () => {
       state: 'Fake State',
       zipCode: '25777789',
     };
-    const addressPropsOrError = AddressMapper.rawToProps(addressData);
-    const addressProps = addressPropsOrError.getRight();
-    addressProps.userId = new ObjectId().toString();
+    const addressOrError = AddressMapper.rawToProps(addressData);
+    const address = addressOrError.getRight();
+    address.userId = new ObjectId().toString();
 
     return {
       addressRepository,
-      addressProps,
+      address,
       addressData,
       addressCollection,
     };
   }
 
   test('should create a new Address in the database', async () => {
-    const { addressRepository, addressProps, addressCollection } =
-      await makeSut();
-    const newAddress = await addressRepository.create(addressProps);
+    const { addressRepository, address, addressCollection } = await makeSut();
+    const newAddress = await addressRepository.create(address);
     if (newAddress === null) {
       throw Error('Address not created');
     }
@@ -70,7 +69,7 @@ describe('Testing MongodbAddressRepository', () => {
   test('should update an existing Address', async () => {
     const { addressCollection, addressRepository } = await makeSut();
 
-    const addressProps = {
+    const address = {
       userId: new ObjectId().toString(),
       street: 'Fake Street',
       city: 'Fake City',
@@ -80,12 +79,12 @@ describe('Testing MongodbAddressRepository', () => {
     };
 
     const addressData = {
-      userId: addressProps.userId,
-      street: addressProps.street,
-      city: addressProps.city,
-      state: addressProps.state,
-      zipCode: addressProps.zipCode,
-      createdAt: addressProps.createdAt,
+      userId: address.userId,
+      street: address.street,
+      city: address.city,
+      state: address.state,
+      zipCode: address.zipCode,
+      createdAt: address.createdAt,
     };
 
     const addressObjectId = (await addressCollection.insertOne(addressData))
@@ -102,13 +101,13 @@ describe('Testing MongodbAddressRepository', () => {
     const street = 'Updated Street';
     const state = 'Updated State';
 
-    const updatedAddresProps = {
-      ...addressProps,
+    const updatedAddres = {
+      ...address,
       street,
       state,
-    }
+    };
 
-    await addressRepository.update(id, updatedAddresProps);
+    await addressRepository.update(id, updatedAddres);
 
     const updatedAddress = await addressCollection.findOne({
       _id: addressObjectId});
