@@ -1,12 +1,7 @@
 import { mongoHelper } from '../../../../src/infrastructure/repositories/mongodb/helpers/mongo-helper';
 import { config } from 'dotenv';
 import { MongodbCustomerRepository } from '../../../../src/infrastructure/repositories/mongodb/MongodbCustomerRepository';
-import { makeMockHasher } from '../../../tests/mocks/mockHasher';
-import { AddressMapper } from '../../../mappers/AddressMapper';
-import { AuthenticationMapper } from '../../../mappers/AuthenticationMapper';
 import { UserMocker } from '../../../tests/mocks/UserMocker';
-import { AddressMocker } from '../../../tests/mocks/AddressMocker';
-import { AuthenticationMocker } from '../../../tests/mocks/AuthenticationMocker';
 import { CustomerMapper } from '../../../mappers/CustomerMapper';
 import {
   Birthday,
@@ -19,9 +14,6 @@ import { UserModel } from '../../models/mongodb/UserModel';
 import { ObjectId } from 'mongodb';
 import { Role } from '../../../domain/_enums';
 import { stringToObjectId } from './helpers/stringToObjectId';
-import { AddressModel } from '../../models/mongodb/AddressModel';
-import { AuthenticationModel } from '../../models/mongodb/AuthenticationModel';
-import { WithId } from '../../../utils/types/WithId';
 import { UserProps } from '../../../domain/entities/props/UserProps';
 import { entityCollectionMap } from './helpers/entityCollectionMap';
 

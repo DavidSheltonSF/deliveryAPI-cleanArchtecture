@@ -1,6 +1,5 @@
 import { ObjectId } from 'mongodb';
 import { CustomerRepository } from '../../../application/ports/CustomerRepository';
-import { UserModel } from '../../models/mongodb/UserModel';
 import { mongoHelper } from './helpers/mongo-helper';
 import { CustomerMapper } from '../../../mappers/CustomerMapper';
 import { stringToObjectId } from './helpers/stringToObjectId';

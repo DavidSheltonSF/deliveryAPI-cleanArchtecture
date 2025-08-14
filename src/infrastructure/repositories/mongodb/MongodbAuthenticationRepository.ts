@@ -3,7 +3,6 @@ import { mongoHelper } from './helpers/mongo-helper';
 import { stringToObjectId } from './helpers/stringToObjectId';
 import { AuthenticationMapper } from '../../../mappers/AuthenticationMapper';
 import { AuthenticationRepository } from '../../../application/ports/AuthenticationRepository';
-import { HashService } from '../../../domain/contracts/HashService';
 import { AuthenticationProps } from '../../../domain/entities/props/AuthenticationProps';
 import { WithId } from '../../../utils/types/WithId';
 import { entityCollectionMap } from './helpers/entityCollectionMap';
