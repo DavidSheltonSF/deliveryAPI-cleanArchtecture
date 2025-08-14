@@ -23,6 +23,8 @@ import { AddressModel } from '../../models/mongodb/AddressModel';
 import { AuthenticationModel } from '../../models/mongodb/AuthenticationModel';
 import { WithId } from '../../../utils/types/WithId';
 import { UserProps } from '../../../domain/entities/props/UserProps';
+import { entityCollectionMap } from './helpers/entityCollectionMap';
+
 config();
 
 const repository = new MongodbCustomerRepository();
@@ -43,12 +45,12 @@ describe('Testing MongodbCustomerRepository', () => {
   });
 
   beforeEach(async () => {
-    await mongoHelper.clearCollection('users');
+    await mongoHelper.clearCollection(entityCollectionMap.user);
   });
 
   async function makeSut() {
     const repository = new MongodbCustomerRepository();
-    const userCollection = mongoHelper.getCollection('users');
+    const userCollection = mongoHelper.getCollection(entityCollectionMap.user);
     const userData = UserMocker.mockUserDTO();
     const userPropsOrError = CustomerMapper.rawToProps(userData);
     const userProps = userPropsOrError.getRight();

@@ -8,6 +8,7 @@ import { makeMockHasher } from '../../../tests/mocks/mockHasher';
 import { entityCollectionMap } from './helpers/entityCollectionMap';
 import { Password } from '../../../domain/value-objects';
 
+
 config();
 
 describe('Testing MongodbAuthenticationRepository', () => {

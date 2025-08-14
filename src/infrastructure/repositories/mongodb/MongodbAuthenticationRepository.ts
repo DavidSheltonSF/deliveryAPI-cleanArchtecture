@@ -6,13 +6,15 @@ import { AuthenticationRepository } from '../../../application/ports/Authenticat
 import { HashService } from '../../../domain/contracts/HashService';
 import { AuthenticationProps } from '../../../domain/entities/props/AuthenticationProps';
 import { WithId } from '../../../utils/types/WithId';
+import { entityCollectionMap } from './helpers/entityCollectionMap';
+
 
 export class MongodbAuthenticationRepository
   implements AuthenticationRepository
 {
   async findById(id: string): Promise<WithId<AuthenticationProps> | null> {
     const AuthenticationCollection =
-      mongoHelper.getCollection('authentications');
+      mongoHelper.getCollection(entityCollectionMap.authentication);
     const AuthenticationId = new ObjectId(id);
     const foundAuth = await AuthenticationCollection.findOne({
       _id: AuthenticationId,
@@ -28,7 +30,7 @@ export class MongodbAuthenticationRepository
 
   async findByUserId(id: string): Promise<WithId<AuthenticationProps> | null> {
     const AuthenticationCollection =
-      mongoHelper.getCollection('authentications');
+      mongoHelper.getCollection(entityCollectionMap.authentication);
     const userId = new ObjectId(id);
     const foundAuth = await AuthenticationCollection.findOne({
       userId,
@@ -46,7 +48,7 @@ export class MongodbAuthenticationRepository
     token: string
   ): Promise<WithId<AuthenticationProps> | null> {
     const AuthenticationCollection =
-      mongoHelper.getCollection('authentications');
+      mongoHelper.getCollection(entityCollectionMap.authentication);
     const foundAuth = await AuthenticationCollection.findOne({
       sessionToken: token,
     });
@@ -63,7 +65,7 @@ export class MongodbAuthenticationRepository
     email: string
   ): Promise<WithId<AuthenticationProps> | null> {
     const AuthenticationCollection =
-      mongoHelper.getCollection('authentications');
+      mongoHelper.getCollection(entityCollectionMap.authentication);
     const foundAuth = await AuthenticationCollection.findOne({
       email,
     });
@@ -80,7 +82,7 @@ export class MongodbAuthenticationRepository
     authentication: AuthenticationProps
   ): Promise<WithId<AuthenticationProps> | null> {
     const AuthenticationCollection =
-      mongoHelper.getCollection('authentications');
+      mongoHelper.getCollection(entityCollectionMap.authentication);
     const AuthenticationModel =
       AuthenticationMapper.propsToPersistence(authentication);
 
@@ -110,7 +112,7 @@ export class MongodbAuthenticationRepository
     authentication: AuthenticationProps
   ): Promise<AuthenticationProps | null> {
     const AuthenticationCollection =
-      mongoHelper.getCollection('authentications');
+      mongoHelper.getCollection(entityCollectionMap.authentication);
     const AuthenticationModel =
       AuthenticationMapper.propsToPersistence(authentication);
     const updatedAuthentication =
@@ -135,7 +137,7 @@ export class MongodbAuthenticationRepository
 
   async delete(id: string): Promise<boolean> {
     const AuthenticationCollection =
-      mongoHelper.getCollection('authentications');
+      mongoHelper.getCollection(entityCollectionMap.authentication);
     const addreessId = new ObjectId(id);
     const deletedAuth = await AuthenticationCollection.findOneAndDelete({
       _id: addreessId,

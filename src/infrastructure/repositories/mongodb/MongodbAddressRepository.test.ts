@@ -5,6 +5,7 @@ import { AddressMapper } from '../../../mappers/AddressMapper';
 import { stringToObjectId } from './helpers/stringToObjectId';
 import { ObjectId } from 'mongodb';
 import { AddressZipCode } from '../../../domain/value-objects';
+import  {entityCollectionMap} from './helpers/entityCollectionMap'
 
 config();
 
@@ -24,12 +25,12 @@ describe('Testing MongodbAddressRepository', () => {
   });
 
   beforeEach(async () => {
-    await mongoHelper.clearCollection('addresss');
+    await mongoHelper.clearCollection(entityCollectionMap.address);
   });
 
   async function makeSut() {
     const repository = new MongodbAddressRepository();
-    const addressCollection = mongoHelper.getCollection('addresses');
+    const addressCollection = mongoHelper.getCollection(entityCollectionMap.address);
     const addressData = {
       street: 'Fake Street',
       city: 'Fake City',

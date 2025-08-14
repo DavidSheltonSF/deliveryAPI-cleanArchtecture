@@ -5,10 +5,12 @@ import { AddressRepository } from '../../../application/ports/AddressRepository'
 import { AddressMapper } from '../../../mappers/AddressMapper';
 import { AddressProps } from '../../../domain/entities/props/AddressProps';
 import { WithId } from '../../../utils/types/WithId';
+import { entityCollectionMap } from './helpers/entityCollectionMap';
+
 
 export class MongodbAddressRepository implements AddressRepository {
   async findById(id: string): Promise<WithId<AddressProps> | null> {
-    const addressCollection = mongoHelper.getCollection('addresses');
+    const addressCollection = mongoHelper.getCollection(entityCollectionMap.address);
     const addressId = new ObjectId(id);
     const foundUser = await addressCollection.findOne({ _id: addressId });
     return AddressMapper.persistenceToProps({
@@ -23,7 +25,7 @@ export class MongodbAddressRepository implements AddressRepository {
   }
 
   async findByUserId(id: string): Promise<WithId<AddressProps> | null> {
-    const addressCollection = mongoHelper.getCollection('addresses');
+    const addressCollection = mongoHelper.getCollection(entityCollectionMap.address);
     const userId = new ObjectId(id);
     const foundUser = await addressCollection.findOne({ userId });
     return AddressMapper.persistenceToProps({
@@ -38,7 +40,7 @@ export class MongodbAddressRepository implements AddressRepository {
   }
 
   async findByEmail(email: string): Promise<WithId<AddressProps> | null> {
-    const addressCollection = mongoHelper.getCollection('addresses');
+    const addressCollection = mongoHelper.getCollection(entityCollectionMap.address);
     const foundUser = await addressCollection.findOne({ email });
     return AddressMapper.persistenceToProps({
       id: foundUser._id.toString(),
@@ -54,7 +56,7 @@ export class MongodbAddressRepository implements AddressRepository {
   async create(
     address: AddressProps
   ): Promise<WithId<AddressProps> | null> {
-    const addressCollection = mongoHelper.getCollection('addresses');
+    const addressCollection = mongoHelper.getCollection(entityCollectionMap.address);
     const AddressModel = AddressMapper.propsToPersistence(address);
 
     const newAddressId = await addressCollection
@@ -84,7 +86,7 @@ export class MongodbAddressRepository implements AddressRepository {
     id: string,
     address: AddressProps
   ): Promise<WithId<AddressProps> | null> {
-    const addressCollection = mongoHelper.getCollection('addresses');
+    const addressCollection = mongoHelper.getCollection(entityCollectionMap.address);
     const AddressModel = AddressMapper.propsToPersistence(address);
     const updatedAddress = await addressCollection.findOneAndUpdate(
       { _id: stringToObjectId(id) },
@@ -108,7 +110,7 @@ export class MongodbAddressRepository implements AddressRepository {
   }
 
   async delete(id: string): Promise<WithId<AddressProps> | null> {
-    const addressCollection = mongoHelper.getCollection('addresses');
+    const addressCollection = mongoHelper.getCollection(entityCollectionMap.address);
     const addreessId = new ObjectId(id);
     const deletedAddress = await addressCollection.findOneAndDelete({
       _id: addreessId,
