@@ -21,7 +21,7 @@ export function mockAddressRepository(): AddressRepository {
     findByUserId: jest.fn(async (userId: string) => mockAddressData[0]),
     create: jest.fn(async (addres: AddressProps) => mockAddressData[0]),
     update: jest.fn(
-      async (address: WithId<AddressProps>) => mockAddressData[0]
+      async (id: string, address: AddressProps) => mockAddressData[0]
     ),
     delete: jest.fn(async (id: string) => mockAddressData[0]),
   };

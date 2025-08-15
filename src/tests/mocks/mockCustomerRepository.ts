@@ -24,7 +24,7 @@ export function mockCustomerRepository(): CustomerRepository {
     findById: jest.fn(async (id: string) => mockCustomerData[0]),
     findByEmail: jest.fn(async (email: string) => mockCustomerData[0]),
     create: jest.fn(async (customer: UserProps) => mockCustomerData[0]),
-    update: jest.fn(async (customer: WithId<UserProps>) => mockCustomerData[0]),
+    update: jest.fn(async (id, customer: UserProps) => mockCustomerData[0]),
     delete: jest.fn(async (id: string) => mockCustomerData[0]),
   };
 

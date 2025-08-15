@@ -9,11 +9,11 @@ async function makePasswordHash() {
   const hasher = makeMockHasher();
   const passwordHash = await hasher.hash('fakeHashffsdaa');
 
-  return passwordHash
+  return passwordHash;
 }
 
 async function makeAuthDatabase() {
-  const passwordHash = await makePasswordHash()
+  const passwordHash = await makePasswordHash();
   const mockAuthData: WithId<AuthenticationProps>[] = [
     {
       id: new ObjectId().toString(),
@@ -25,14 +25,14 @@ async function makeAuthDatabase() {
 }
 
 export async function mockAuthRepository(): Promise<AuthenticationRepository> {
-  const mockAuthData = makeAuthDatabase
+  const mockAuthData = makeAuthDatabase;
   const authenticationRepository: AuthenticationRepository = {
     findBySessionToken: jest.fn(async (token: string) => mockAuthData[0]),
     findById: jest.fn(async (id: string) => mockAuthData[0]),
     findByUserId: jest.fn(async (userId: string) => mockAuthData[0]),
     create: jest.fn(async (auth: AuthenticationProps) => mockAuthData[0]),
     update: jest.fn(
-      async (auth: WithId<AuthenticationProps>) => mockAuthData[0]
+      async (id: string, auth: AuthenticationProps) => mockAuthData[0]
     ),
     delete: jest.fn(async (id: string) => true),
   };
