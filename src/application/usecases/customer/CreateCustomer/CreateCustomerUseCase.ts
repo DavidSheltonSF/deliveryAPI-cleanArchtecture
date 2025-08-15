@@ -84,27 +84,8 @@ export class CreateCustomerUseCase implements CreateUser {
     authentication.userId = customerId;
     await this.authenticationRepository.create(authentication);
 
-    //const userResponse = CustomerMapper.propsToResponseDTO(createdCustomer);
-    //const addressResponse = AddressMapper.propsToResponseDTO(createdAddress);
-    const userResponse = {
-      id: createdCustomer.id,
-      firstName: createdCustomer.firstName.getValue(),
-      lastName: createdCustomer.lastName.getValue(),
-      email: createdCustomer.email.getValue(),
-      cpf: createdCustomer.cpf.getValue(),
-      phone: createdCustomer.phone.getValue(),
-      role: createdCustomer.role,
-      birthday: createdCustomer.birthday.getValue(),
-    };
-
-    const addressResponse = {
-      id: createdAddress.id,
-      userId: createdAddress.userId,
-      street: createdAddress.street,
-      city: createdAddress.city,
-      state: createdAddress.state,
-      zipCode: createdAddress.zipCode.getValue(),
-    };
+    const addressResponse = AddressMapper.toResponse(createdAddress);
+    const userResponse = CustomerMapper.toResponse(createdCustomer)
 
     const response = {
       ...userResponse,
