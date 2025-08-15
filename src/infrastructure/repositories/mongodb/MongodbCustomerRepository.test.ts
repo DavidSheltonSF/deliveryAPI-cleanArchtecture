@@ -2,7 +2,6 @@ import { mongoHelper } from '../../../../src/infrastructure/repositories/mongodb
 import { config } from 'dotenv';
 import { MongodbCustomerRepository } from '../../../../src/infrastructure/repositories/mongodb/MongodbCustomerRepository';
 import { UserMocker } from '../../../tests/mocks/UserMocker';
-import { CustomerMapper } from '../../../mappers/CustomerMapper';
 import {
   Birthday,
   Cpf,
@@ -16,6 +15,7 @@ import { Role } from '../../../domain/_enums';
 import { stringToObjectId } from './helpers/stringToObjectId';
 import { UserProps } from '../../../domain/entities/props/UserProps';
 import { entityCollectionMap } from './helpers/entityCollectionMap';
+import { UserFactory } from '../../../factories/UserFactory';
 
 config();
 
@@ -44,7 +44,7 @@ describe('Testing MongodbCustomerRepository', () => {
     const repository = new MongodbCustomerRepository();
     const userCollection = mongoHelper.getCollection(entityCollectionMap.user);
     const userData = UserMocker.mockUserDTO();
-    const userPropsOrError = CustomerMapper.rawToProps(userData);
+    const userPropsOrError = UserFactory.create(userData);
     const userProps = userPropsOrError.getRight();
 
     return {

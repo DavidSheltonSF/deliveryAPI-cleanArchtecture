@@ -1,10 +1,11 @@
 import { ObjectId } from 'mongodb';
 import { CustomerRepository } from '../../../application/ports/CustomerRepository';
 import { mongoHelper } from './helpers/mongo-helper';
-import { CustomerMapper } from '../../../mappers/CustomerMapper';
+import { UserMapper } from '../../../mappers/UserMapper';
 import { stringToObjectId } from './helpers/stringToObjectId';
 import { WithId } from '../../../utils/types/WithId';
 import { UserProps } from '../../../domain/entities/props/UserProps';
+import { UserFactory } from '../../../factories/UserFactory';
 import { Role } from '../../../domain/_enums';
 
 export class MongodbCustomerRepository implements CustomerRepository {
@@ -14,7 +15,7 @@ export class MongodbCustomerRepository implements CustomerRepository {
 
     const mappedCustomers = foundUsers.map((customer) => {
       if (customer.role === Role.customer) {
-        return CustomerMapper.persistenceToProps({
+        return UserFactory.createFromPersistence({
           id: customer._id.toString(),
           firstName: customer.firstName,
           lastName: customer.lastName,
@@ -35,7 +36,7 @@ export class MongodbCustomerRepository implements CustomerRepository {
     const userCollection = mongoHelper.getCollection('users');
     const userId = new ObjectId(id);
     const foundUser = await userCollection.findOne({ _id: userId });
-    return CustomerMapper.persistenceToProps({
+    return UserFactory.createFromPersistence({
       id: foundUser._id.toString(),
       firstName: foundUser.firstName,
       lastName: foundUser.lastName,
@@ -52,7 +53,7 @@ export class MongodbCustomerRepository implements CustomerRepository {
     const userCollection = mongoHelper.getCollection('users');
     const foundUser = await userCollection.findOne({ email });
 
-    return CustomerMapper.persistenceToProps({
+    return UserFactory.createFromPersistence({
       id: foundUser._id.toString(),
       firstName: foundUser.firstName,
       lastName: foundUser.lastName,
@@ -67,7 +68,7 @@ export class MongodbCustomerRepository implements CustomerRepository {
   UserProps;
   async create(customer: UserProps): Promise<WithId<UserProps> | null> {
     const userCollection = mongoHelper.getCollection('users');
-    const userModel = CustomerMapper.propsToPersistence(customer);
+    const userModel = UserMapper.propsToPersistence(customer);
     const newUserId = await userCollection
       .insertOne(userModel)
       .then((result: any) => result.insertedId);
@@ -80,7 +81,7 @@ export class MongodbCustomerRepository implements CustomerRepository {
       return null;
     }
 
-    return CustomerMapper.persistenceToProps({
+    return UserFactory.createFromPersistence({
       id: createdCustomer._id.toString(),
       firstName: createdCustomer.firstName,
       lastName: createdCustomer.lastName,
@@ -98,7 +99,7 @@ export class MongodbCustomerRepository implements CustomerRepository {
     customer: UserProps
   ): Promise<WithId<UserProps> | null> {
     const userCollection = mongoHelper.getCollection('users');
-    const userModel = CustomerMapper.propsToPersistence(customer);
+    const userModel = UserMapper.propsToPersistence(customer);
     const updatedUser = await userCollection.findOneAndUpdate(
       { _id: stringToObjectId(id) },
       { $set: userModel },
@@ -109,7 +110,7 @@ export class MongodbCustomerRepository implements CustomerRepository {
       return null;
     }
 
-    return CustomerMapper.persistenceToProps({
+    return UserFactory.createFromPersistence({
       id: updatedUser._id.toString(),
       firstName: updatedUser.firstName,
       lastName: updatedUser.lastName,
@@ -133,7 +134,7 @@ export class MongodbCustomerRepository implements CustomerRepository {
       return null;
     }
 
-    return CustomerMapper.persistenceToProps({
+    return UserFactory.createFromPersistence({
       id: deletedCustomer._id.toString(),
       firstName: deletedCustomer.firstName,
       lastName: deletedCustomer.lastName,

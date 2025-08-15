@@ -3,6 +3,7 @@ import { mongoHelper } from './helpers/mongo-helper';
 import { stringToObjectId } from './helpers/stringToObjectId';
 import { AddressRepository } from '../../../application/ports/AddressRepository';
 import { AddressMapper } from '../../../mappers/AddressMapper';
+import { AddressFactory } from '../../../factories/AddressFactory';
 import { AddressProps } from '../../../domain/entities/props/AddressProps';
 import { WithId } from '../../../utils/types/WithId';
 import { entityCollectionMap } from './helpers/entityCollectionMap';
@@ -13,7 +14,7 @@ export class MongodbAddressRepository implements AddressRepository {
     const addressCollection = mongoHelper.getCollection(entityCollectionMap.address);
     const addressId = new ObjectId(id);
     const foundUser = await addressCollection.findOne({ _id: addressId });
-    return AddressMapper.persistenceToProps({
+    return AddressFactory.createFromPersistence({
       id: foundUser._id.toString(),
       userId: foundUser.userId.toString(),
       street: foundUser.street,
@@ -28,7 +29,7 @@ export class MongodbAddressRepository implements AddressRepository {
     const addressCollection = mongoHelper.getCollection(entityCollectionMap.address);
     const userId = new ObjectId(id);
     const foundUser = await addressCollection.findOne({ userId });
-    return AddressMapper.persistenceToProps({
+    return AddressFactory.createFromPersistence({
       id: foundUser._id.toString(),
       userId: foundUser.userId.toString(),
       street: foundUser.street,
@@ -42,7 +43,7 @@ export class MongodbAddressRepository implements AddressRepository {
   async findByEmail(email: string): Promise<WithId<AddressProps> | null> {
     const addressCollection = mongoHelper.getCollection(entityCollectionMap.address);
     const foundUser = await addressCollection.findOne({ email });
-    return AddressMapper.persistenceToProps({
+    return AddressFactory.createFromPersistence({
       id: foundUser._id.toString(),
       userId: foundUser.userId.toString(),
       street: foundUser.street,
@@ -71,7 +72,7 @@ export class MongodbAddressRepository implements AddressRepository {
       return null;
     }
 
-    return AddressMapper.persistenceToProps({
+    return AddressFactory.createFromPersistence({
       id: createdAddress._id.toString(),
       userId: createdAddress.userId.toString(),
       street: createdAddress.street,
@@ -98,7 +99,7 @@ export class MongodbAddressRepository implements AddressRepository {
       return null;
     }
 
-    return AddressMapper.persistenceToProps({
+    return AddressFactory.createFromPersistence({
       id: updatedAddress._id.toString(),
       userId: updatedAddress.userId.toString(),
       street: updatedAddress.street,
@@ -120,7 +121,7 @@ export class MongodbAddressRepository implements AddressRepository {
       return null;
     }
 
-    return AddressMapper.persistenceToProps({
+    return AddressFactory.createFromPersistence({
       id: deletedAddress._id.toString(),
       userId: deletedAddress.userId.toString(),
       street: deletedAddress.street,

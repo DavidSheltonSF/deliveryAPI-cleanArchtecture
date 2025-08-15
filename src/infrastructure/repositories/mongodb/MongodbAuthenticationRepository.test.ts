@@ -1,7 +1,7 @@
 import { mongoHelper } from './helpers/mongo-helper';
 import { config } from 'dotenv';
 import { MongodbAuthenticationRepository } from './MongodbAuthenticationRepository';
-import { AuthenticationMapper } from '../../../mappers/AuthenticationMapper';
+import { AuthenticationFactory } from '../../../factories/AuthenticationFactory';
 import { stringToObjectId } from './helpers/stringToObjectId';
 import { ObjectId } from 'mongodb';
 import { makeMockHasher } from '../../../tests/mocks/mockHasher';
@@ -40,7 +40,7 @@ describe('Testing MongodbAuthenticationRepository', () => {
       password: 'Djresar25322@@%@as',
       sessionToken: 'kfndsikfnsdif',
     };
-    const authenticationPropsOrError = await AuthenticationMapper.rawToProps(
+    const authenticationPropsOrError = await AuthenticationFactory.create(
       authData,
       hasher
     );

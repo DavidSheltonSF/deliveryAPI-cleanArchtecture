@@ -2,6 +2,7 @@ import { ObjectId } from 'mongodb';
 import { mongoHelper } from './helpers/mongo-helper';
 import { stringToObjectId } from './helpers/stringToObjectId';
 import { AuthenticationMapper } from '../../../mappers/AuthenticationMapper';
+import { AuthenticationFactory } from '../../../factories/AuthenticationFactory';
 import { AuthenticationRepository } from '../../../application/ports/AuthenticationRepository';
 import { AuthenticationProps } from '../../../domain/entities/props/AuthenticationProps';
 import { WithId } from '../../../utils/types/WithId';
@@ -18,7 +19,7 @@ export class MongodbAuthenticationRepository
     const foundAuth = await AuthenticationCollection.findOne({
       _id: AuthenticationId,
     });
-    return AuthenticationMapper.persistenceToProps({
+    return AuthenticationFactory.createFromPersistence({
       id: foundAuth._id.toString(),
       userId: foundAuth.userId.toString(),
       passwordHash: foundAuth.passwordHash,
@@ -34,7 +35,7 @@ export class MongodbAuthenticationRepository
     const foundAuth = await AuthenticationCollection.findOne({
       userId,
     });
-    return AuthenticationMapper.persistenceToProps({
+    return AuthenticationFactory.createFromPersistence({
       id: foundAuth._id.toString(),
       userId: foundAuth.userId.toString(),
       passwordHash: foundAuth.passwordHash,
@@ -51,7 +52,7 @@ export class MongodbAuthenticationRepository
     const foundAuth = await AuthenticationCollection.findOne({
       sessionToken: token,
     });
-    return AuthenticationMapper.persistenceToProps({
+    return AuthenticationFactory.createFromPersistence({
       id: foundAuth._id.toString(),
       userId: foundAuth.userId.toString(),
       passwordHash: foundAuth.passwordHash,
@@ -68,7 +69,7 @@ export class MongodbAuthenticationRepository
     const foundAuth = await AuthenticationCollection.findOne({
       email,
     });
-    return AuthenticationMapper.persistenceToProps({
+    return AuthenticationFactory.createFromPersistence({
       id: foundAuth._id.toString(),
       userId: foundAuth.userId.toString(),
       passwordHash: foundAuth.passwordHash,
@@ -97,7 +98,7 @@ export class MongodbAuthenticationRepository
       return null;
     }
 
-    return AuthenticationMapper.persistenceToProps({
+    return AuthenticationFactory.createFromPersistence({
       id: createdAuthentication._id.toString(),
       userId: createdAuthentication.userId.toString(),
       passwordHash: createdAuthentication.passwordHash,
@@ -125,7 +126,7 @@ export class MongodbAuthenticationRepository
       return null;
     }
 
-    return AuthenticationMapper.persistenceToProps({
+    return AuthenticationFactory.createFromPersistence({
       id: updatedAuthentication._id.toString(),
       userId: updatedAuthentication.userId.toString(),
       passwordHash: updatedAuthentication.passwordHash,

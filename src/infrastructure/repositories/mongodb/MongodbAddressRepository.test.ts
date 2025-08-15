@@ -1,7 +1,7 @@
 import { mongoHelper } from './helpers/mongo-helper';
 import { config } from 'dotenv';
 import { MongodbAddressRepository } from './MongodbAddressRepository';
-import { AddressMapper } from '../../../mappers/AddressMapper';
+import { AddressFactory } from '../../../factories/AddressFactory';
 import { stringToObjectId } from './helpers/stringToObjectId';
 import { ObjectId } from 'mongodb';
 import { AddressZipCode } from '../../../domain/value-objects';
@@ -37,7 +37,7 @@ describe('Testing MongodbAddressRepository', () => {
       state: 'Fake State',
       zipCode: '25777789',
     };
-    const addressOrError = AddressMapper.rawToProps(addressData);
+    const addressOrError = AddressFactory.create(addressData);
     const address = addressOrError.getRight();
     address.userId = new ObjectId().toString();
 
