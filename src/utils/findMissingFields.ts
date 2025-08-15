@@ -5,7 +5,7 @@ export function findMissingFields(
   const missingFields = [];
 
   if (data === undefined) {
-    throw Error('No data provided!');
+    return requiredFields
   }
 
   for (let i in requiredFields) {
