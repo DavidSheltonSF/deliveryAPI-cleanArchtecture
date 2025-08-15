@@ -50,7 +50,7 @@ export class UserFactory {
     return Either.right(user);
   }
 
-  static createFromPersistence(userData: WithId<UserModel>): UserProps {
+  static createFromPersistence(userData: WithId<UserModel>): WithId<UserProps> {
     const { id, firstName, lastName, email, cpf, phone, role, birthday } =
       userData;
 
