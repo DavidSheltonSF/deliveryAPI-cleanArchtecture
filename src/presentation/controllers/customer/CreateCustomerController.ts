@@ -33,8 +33,8 @@ export class CreateCustomerController implements Controller {
       }
 
       const {
-        username,
-        name,
+        firstName,
+        lastName,
         email,
         cpf,
         phone,
@@ -46,8 +46,8 @@ export class CreateCustomerController implements Controller {
 
       const response = await this.createCustomer.execute({
         user: {
-          username,
-          name,
+          firstName,
+          lastName,
           email,
           cpf,
           phone,

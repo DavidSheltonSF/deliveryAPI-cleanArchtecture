@@ -1,7 +1,7 @@
 export const requiredFields = {
   customer: [
-    'username',
-    'name',
+    'firstName',
+    'lastName',
     'email',
     'phone',
     'role',
