@@ -1,11 +1,9 @@
 import { AddressDTO } from './AddressDTO';
 import { AuthenticationDTO } from './AuthenticationDTO';
-import { DriverFieldsDTO } from './DriverFieldsDTO';
 import { UserDTO } from './UserDTO';
 
-export interface CreateDriverDTO {
+export interface CreateCustomerDTO {
   user: UserDTO;
-  driverFields: DriverFieldsDTO
   address?: AddressDTO;
   authentication: AuthenticationDTO;
 }
