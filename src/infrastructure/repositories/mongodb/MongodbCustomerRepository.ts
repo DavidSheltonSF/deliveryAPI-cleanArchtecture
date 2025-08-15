@@ -7,10 +7,11 @@ import { WithId } from '../../../utils/types/WithId';
 import { UserProps } from '../../../domain/entities/props/UserProps';
 import { UserFactory } from '../../../factories/UserFactory';
 import { Role } from '../../../domain/_enums';
+import { entityCollectionMap } from './helpers/entityCollectionMap';
 
 export class MongodbCustomerRepository implements CustomerRepository {
   async findAll(): Promise<WithId<UserProps>[]> {
-    const userCollection = mongoHelper.getCollection('customers');
+    const userCollection = mongoHelper.getCollection(entityCollectionMap.user);
     const foundUsers = await userCollection.find().toArray();
 
     const mappedCustomers = foundUsers.map((customer) => {
@@ -33,7 +34,7 @@ export class MongodbCustomerRepository implements CustomerRepository {
   }
 
   async findById(id: string): Promise<WithId<UserProps> | null> {
-    const userCollection = mongoHelper.getCollection('users');
+    const userCollection = mongoHelper.getCollection(entityCollectionMap.user);
     const userId = new ObjectId(id);
     const foundUser = await userCollection.findOne({ _id: userId });
     return UserFactory.createFromPersistence({
@@ -50,7 +51,7 @@ export class MongodbCustomerRepository implements CustomerRepository {
   }
 
   async findByEmail(email: string): Promise<WithId<UserProps> | null> {
-    const userCollection = mongoHelper.getCollection('users');
+    const userCollection = mongoHelper.getCollection(entityCollectionMap.user);
     const foundUser = await userCollection.findOne({ email });
 
     return UserFactory.createFromPersistence({
@@ -67,7 +68,7 @@ export class MongodbCustomerRepository implements CustomerRepository {
   }
   UserProps;
   async create(customer: UserProps): Promise<WithId<UserProps> | null> {
-    const userCollection = mongoHelper.getCollection('users');
+    const userCollection = mongoHelper.getCollection(entityCollectionMap.user);
     const userModel = UserMapper.propsToPersistence(customer);
     const newUserId = await userCollection
       .insertOne(userModel)
@@ -98,7 +99,7 @@ export class MongodbCustomerRepository implements CustomerRepository {
     id: string,
     customer: UserProps
   ): Promise<WithId<UserProps> | null> {
-    const userCollection = mongoHelper.getCollection('users');
+    const userCollection = mongoHelper.getCollection(entityCollectionMap.user);
     const userModel = UserMapper.propsToPersistence(customer);
     const updatedUser = await userCollection.findOneAndUpdate(
       { _id: stringToObjectId(id) },
@@ -124,7 +125,7 @@ export class MongodbCustomerRepository implements CustomerRepository {
   }
 
   async delete(id: string): Promise<WithId<UserProps> | null> {
-    const userCollection = mongoHelper.getCollection('users');
+    const userCollection = mongoHelper.getCollection(entityCollectionMap.user);
     const customerId = new ObjectId(id);
     const deletedCustomer = await userCollection.findOneAndDelete({
       _id: customerId,
