@@ -8,15 +8,16 @@ import { AuthenticationProps } from '../../../domain/entities/props/Authenticati
 import { WithId } from '../../../utils/types/WithId';
 import { entityCollectionMap } from './helpers/entityCollectionMap';
 
-
 export class MongodbAuthenticationRepository
   implements AuthenticationRepository
 {
+  private readonly authCollection = mongoHelper.getCollection(
+    entityCollectionMap.authentication
+  );
+
   async findById(id: string): Promise<WithId<AuthenticationProps> | null> {
-    const AuthenticationCollection =
-      mongoHelper.getCollection(entityCollectionMap.authentication);
     const AuthenticationId = new ObjectId(id);
-    const foundAuth = await AuthenticationCollection.findOne({
+    const foundAuth = await this.authCollection.findOne({
       _id: AuthenticationId,
     });
     return AuthenticationFactory.createFromPersistence({
@@ -29,10 +30,8 @@ export class MongodbAuthenticationRepository
   }
 
   async findByUserId(id: string): Promise<WithId<AuthenticationProps> | null> {
-    const AuthenticationCollection =
-      mongoHelper.getCollection(entityCollectionMap.authentication);
     const userId = new ObjectId(id);
-    const foundAuth = await AuthenticationCollection.findOne({
+    const foundAuth = await this.authCollection.findOne({
       userId,
     });
     return AuthenticationFactory.createFromPersistence({
@@ -47,9 +46,7 @@ export class MongodbAuthenticationRepository
   async findBySessionToken(
     token: string
   ): Promise<WithId<AuthenticationProps> | null> {
-    const AuthenticationCollection =
-      mongoHelper.getCollection(entityCollectionMap.authentication);
-    const foundAuth = await AuthenticationCollection.findOne({
+    const foundAuth = await this.authCollection.findOne({
       sessionToken: token,
     });
     return AuthenticationFactory.createFromPersistence({
@@ -64,9 +61,7 @@ export class MongodbAuthenticationRepository
   async findByEmail(
     email: string
   ): Promise<WithId<AuthenticationProps> | null> {
-    const AuthenticationCollection =
-      mongoHelper.getCollection(entityCollectionMap.authentication);
-    const foundAuth = await AuthenticationCollection.findOne({
+    const foundAuth = await this.authCollection.findOne({
       email,
     });
     return AuthenticationFactory.createFromPersistence({
@@ -81,16 +76,14 @@ export class MongodbAuthenticationRepository
   async create(
     authentication: AuthenticationProps
   ): Promise<WithId<AuthenticationProps> | null> {
-    const AuthenticationCollection =
-      mongoHelper.getCollection(entityCollectionMap.authentication);
     const AuthenticationModel =
       AuthenticationMapper.propsToPersistence(authentication);
 
-    const id = await AuthenticationCollection.insertOne(
-      AuthenticationModel
-    ).then((result: any) => result.insertedId);
+    const id = await this.authCollection
+      .insertOne(AuthenticationModel)
+      .then((result: any) => result.insertedId);
 
-    const createdAuthentication = await AuthenticationCollection.findOne({
+    const createdAuthentication = await this.authCollection.findOne({
       _id: id,
     });
 
@@ -111,16 +104,13 @@ export class MongodbAuthenticationRepository
     id: string,
     authentication: AuthenticationProps
   ): Promise<AuthenticationProps | null> {
-    const AuthenticationCollection =
-      mongoHelper.getCollection(entityCollectionMap.authentication);
     const AuthenticationModel =
       AuthenticationMapper.propsToPersistence(authentication);
-    const updatedAuthentication =
-      await AuthenticationCollection.findOneAndUpdate(
-        { _id: stringToObjectId(id) },
-        { $set: AuthenticationModel },
-        { returnDocument: 'after' }
-      );
+    const updatedAuthentication = await this.authCollection.findOneAndUpdate(
+      { _id: stringToObjectId(id) },
+      { $set: AuthenticationModel },
+      { returnDocument: 'after' }
+    );
 
     if (updatedAuthentication === null) {
       return null;
@@ -136,10 +126,8 @@ export class MongodbAuthenticationRepository
   }
 
   async delete(id: string): Promise<boolean> {
-    const AuthenticationCollection =
-      mongoHelper.getCollection(entityCollectionMap.authentication);
     const addreessId = new ObjectId(id);
-    const deletedAuth = await AuthenticationCollection.findOneAndDelete({
+    const deletedAuth = await this.authCollection.findOneAndDelete({
       _id: addreessId,
     });
 
