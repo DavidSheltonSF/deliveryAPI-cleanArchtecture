@@ -9,7 +9,7 @@ import { CustomerRepository } from '../../../ports/CustomerRepository';
 import { AddressMapper } from '../../../../mappers/AddressMapper';
 import { InvalidAgeError } from '../../../errors';
 import { HashService } from '../../../../domain/contracts/HashService';
-import { CustomerMapper } from '../../../../mappers/CustomerMapper';
+import { UserMapper } from '../../../../mappers/UserMapper';
 import { AuthenticationMapper } from '../../../../mappers/AuthenticationMapper';
 import { RawDataExtractor } from '../../../helpers/RawDataExtractor';
 import { aggregateEitherValues } from '../../../../utils/aggregateEitherValues';
@@ -52,7 +52,7 @@ export class CreateCustomerUseCase implements CreateUser {
       );
     }
 
-    const customerOrError = UserFactory.create(rawUser)
+    const customerOrError = UserFactory.create(rawUser);
     const addressOrError = AddressFactory.create(rawAddress);
     const authOrError = await AuthenticationFactory.create(
       rawAuthentication,
@@ -85,7 +85,7 @@ export class CreateCustomerUseCase implements CreateUser {
     await this.authenticationRepository.create(authentication);
 
     const addressResponse = AddressMapper.toResponse(createdAddress);
-    const userResponse = CustomerMapper.toResponse(createdCustomer)
+    const userResponse = UserMapper.toResponse(createdCustomer);
 
     const response = {
       ...userResponse,

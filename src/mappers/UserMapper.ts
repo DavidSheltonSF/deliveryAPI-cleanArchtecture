@@ -4,9 +4,9 @@ import { UserResponseDTO } from '../application/useCaseDtos/UserResponseDTO';
 import { dateToString } from '../utils/dateToString';
 import { WithId } from '../utils/types/WithId';
 
-export class CustomerMapper {
-  static propsToPersistence(customer: UserProps): UserModel {
-    const { firstName, lastName, email, cpf, phone, role, birthday } = customer;
+export class UserMapper {
+  static propsToPersistence(user: UserProps): UserModel {
+    const { firstName, lastName, email, cpf, phone, role, birthday } = user;
 
     return {
       firstName: firstName.getValue(),
@@ -20,8 +20,8 @@ export class CustomerMapper {
     };
   }
 
-  static toResponse(customer: WithId<UserProps>): UserResponseDTO {
-    const { id, firstName, lastName, email, phone, role, birthday } = customer;
+  static toResponse(user: WithId<UserProps>): UserResponseDTO {
+    const { id, firstName, lastName, email, phone, role, birthday } = user;
 
     const birthdayStr = dateToString(birthday.getValue());
 
