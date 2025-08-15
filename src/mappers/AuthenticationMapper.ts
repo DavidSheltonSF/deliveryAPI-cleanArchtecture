@@ -8,25 +8,6 @@ import { AuthenticationModel } from '../infrastructure/models/mongodb/Authentica
 import { WithId } from '../utils/types/WithId';
 
 export class AuthenticationMapper {
-  static async rawToProps(
-    authenticationDTO: AuthenticationDTO,
-    hashService: HashService
-  ): Promise<Either<authenticationErrorType, AuthenticationProps>> {
-    const { password, sessionToken } = authenticationDTO;
-
-    const passwordHashOrError = await Password.create(password, hashService);
-    if (passwordHashOrError.isLeft()) {
-      return Either.left(passwordHashOrError.getLeft());
-    }
-
-    const passwordHash = passwordHashOrError.getRight();
-    const authenticationProps = {
-      passwordHash,
-      sessionToken: sessionToken,
-    };
-
-    return Either.right(authenticationProps);
-  }
 
   static propsToPersistence(auth: AuthenticationProps): AuthenticationModel {
     const { userId, passwordHash, sessionToken } = auth;
@@ -36,19 +17,6 @@ export class AuthenticationMapper {
       passwordHash: passwordHash.getValue(),
       sessionToken,
       createdAt: new Date(),
-    };
-  }
-
-  static persistenceToProps(
-    auth: WithId<AuthenticationModel>
-  ): WithId<AuthenticationProps> {
-    const { id, userId, passwordHash, sessionToken } = auth;
-
-    return {
-      id,
-      userId,
-      passwordHash: Password.createFromPersistence(passwordHash),
-      sessionToken,
     };
   }
 }
