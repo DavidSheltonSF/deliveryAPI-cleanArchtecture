@@ -54,6 +54,10 @@ export class MongodbCustomerRepository implements CustomerRepository {
     const userCollection = mongoHelper.getCollection(entityCollectionMap.user);
     const foundUser = await userCollection.findOne({ email });
 
+    if (foundUser === null) {
+      return null;
+    }
+
     return UserFactory.createFromPersistence({
       id: foundUser._id.toString(),
       firstName: foundUser.firstName,
