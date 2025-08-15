@@ -7,8 +7,8 @@ describe('Testing MissingFieldsFinder', () => {
     const requiredFieldsProvided = {
       count: 2,
       data: {
-        username: 'José',
-        name: 'Carlo',
+        firstName: 'José',
+        lastName: 'Carlo',
       },
     };
 
@@ -65,7 +65,7 @@ describe('Testing MissingFieldsFinder', () => {
       length: 2,
       request: {
         body: {
-          username: 'Joares',
+          firstName: 'Joares',
           birthday: '2000-01-01',
         },
       },
