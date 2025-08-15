@@ -12,7 +12,10 @@ import { HashService } from '../../../../domain/contracts/HashService';
 import { CustomerMapper } from '../../../../mappers/CustomerMapper';
 import { AuthenticationMapper } from '../../../../mappers/AuthenticationMapper';
 import { RawDataExtractor } from '../../../helpers/RawDataExtractor';
-import { validateEitherValues } from '../../../../utils/validateEitherValues';
+import { aggregateEitherValues } from '../../../../utils/aggregateEitherValues';
+import { UserFactory } from '../../../../factories/UserFactory';
+import { AddressFactory } from '../../../../factories/AddressFactory';
+import { AuthenticationFactory } from '../../../../factories/AuthenticationFactory';
 
 export class CreateCustomerUseCase implements CreateUser {
   private readonly customerRepository: CustomerRepository;
@@ -49,37 +52,37 @@ export class CreateCustomerUseCase implements CreateUser {
       );
     }
 
-    const userPropsOrError = CustomerMapper.rawToProps(rawUser);
-    const addressPropsOrError = AddressMapper.rawToProps(rawAddress);
-    const authenticationPropsOrError = await AuthenticationMapper.rawToProps(
+    const customerOrError = UserFactory.create(rawUser)
+    const addressOrError = AddressFactory.create(rawAddress);
+    const authOrError = await AuthenticationFactory.create(
       rawAuthentication,
       this.hashService
     );
 
-    const validation = validateEitherValues([
-      userPropsOrError,
-      addressPropsOrError,
-      authenticationPropsOrError,
+    const validation = aggregateEitherValues([
+      customerOrError,
+      addressOrError,
+      authOrError,
     ]);
 
     if (validation.isLeft()) {
       return Either.left(validation.getLeft());
     }
 
-    const addressProps = addressPropsOrError.getRight();
+    const address = addressOrError.getRight();
 
-    const authenticationProps = authenticationPropsOrError.getRight();
+    const authentication = authOrError.getRight();
 
-    const customerProps = userPropsOrError.getRight();
+    const customer = customerOrError.getRight();
 
-    const createdCustomer = await this.customerRepository.create(customerProps);
+    const createdCustomer = await this.customerRepository.create(customer);
     const customerId = createdCustomer.id;
 
-    addressProps.userId = customerId;
-    const createdAddress = await this.addressRepository.create(addressProps);
+    address.userId = customerId;
+    const createdAddress = await this.addressRepository.create(address);
 
-    authenticationProps.userId = customerId;
-    await this.authenticationRepository.create(authenticationProps);
+    authentication.userId = customerId;
+    await this.authenticationRepository.create(authentication);
 
     //const userResponse = CustomerMapper.propsToResponseDTO(createdCustomer);
     //const addressResponse = AddressMapper.propsToResponseDTO(createdAddress);
