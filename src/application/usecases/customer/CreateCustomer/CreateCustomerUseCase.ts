@@ -2,7 +2,7 @@ import { CreateUser } from './interface';
 import { CreateCustomerResponse } from './response';
 import { Either } from '../../../../shared/either';
 import { DuplicatedDataError } from '../../../errors/duplicated-data';
-import { CreateUserDTO } from '../../../../presentation/dtos/CreateUserDTO';
+import { CreateCustomerDTO } from '../../../../presentation/dtos/CreateCustomerDTO';
 import { AddressRepository } from '../../../ports/AddressRepository';
 import { AuthenticationRepository } from '../../../ports/AuthenticationRepository';
 import { CustomerRepository } from '../../../ports/CustomerRepository';
@@ -35,7 +35,7 @@ export class CreateCustomerUseCase implements CreateUser {
     this.hashService = hashService;
   }
 
-  async execute(data: CreateUserDTO): Promise<CreateCustomerResponse> {
+  async execute(data: CreateCustomerDTO): Promise<CreateCustomerResponse> {
     const rawUser = RawDataExtractor.extractUser(data);
     const rawAddress = RawDataExtractor.extractAddress(data);
     const rawAuthentication = RawDataExtractor.extractAuthentication(data);
