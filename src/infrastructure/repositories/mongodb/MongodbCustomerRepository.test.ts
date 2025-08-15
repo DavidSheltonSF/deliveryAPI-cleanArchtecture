@@ -19,8 +19,6 @@ import { UserFactory } from '../../../factories/UserFactory';
 
 config();
 
-const repository = new MongodbCustomerRepository();
-
 describe('Testing MongodbCustomerRepository', () => {
   beforeAll(async () => {
     const MONGO_URI = process.env.MONGO_URI;
@@ -78,7 +76,7 @@ describe('Testing MongodbCustomerRepository', () => {
   });
 
   test('should update an existing customer', async () => {
-    const { userCollection, userData } = await makeSut();
+    const { repository, userCollection, userData } = await makeSut();
 
     const userModel: UserModel = {
       ...userData,
@@ -113,7 +111,7 @@ describe('Testing MongodbCustomerRepository', () => {
   });
 
   test('should delete an existing customer', async () => {
-    const { userCollection, userData } = await makeSut();
+    const { repository, userCollection, userData } = await makeSut();
     const userModel = {
       _id: new ObjectId(),
       userId: new ObjectId(),
