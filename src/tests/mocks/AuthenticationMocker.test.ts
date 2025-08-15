@@ -8,9 +8,7 @@ describe('Testing AuthenticationMocker', () => {
 
   test('Should create a valid password', async () => {
     const auth = AuthenticationMocker.mockAuthenticationDTO();
-    console.log(auth)
     const passwordOrError = await Password.create(auth.password, hasher)
-
-    console.log(passwordOrError)
+    
   })
 })

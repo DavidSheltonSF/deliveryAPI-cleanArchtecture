@@ -99,8 +99,6 @@ describe('Testing CreateCustomerUserCase', () => {
 
     const responseOrError = await useCase.execute(createCustomerData);
 
-    console.log(responseOrError)
-
     expect(responseOrError.isLeft()).toBeTruthy();
   });
 });
