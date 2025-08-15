@@ -29,10 +29,31 @@ describe('Testing UserFactory', () => {
     const userOrError = UserFactory.create(userData);
     expect(userOrError.isLeft());
   });
+
   test('should return error if role is invalid', () => {
     const userData = UserMocker.mockUserDTO();
     userData.role = 'Invalidrole';
     const userOrError = UserFactory.create(userData);
     expect(userOrError.isLeft());
+  });
+
+  test('should create an user from persistence with all data provided', () => {
+    const data = UserMocker.mockUserDTO();
+    const userData = {
+      id: 'sdifnasfinadf',
+      ...data,
+      createdAt: new Date(),
+      birthday: new Date()
+    }
+    const user = UserFactory.createFromPersistence(userData);
+    expect(user.firstName.getValue()).toBe(userData.firstName);
+    expect(user.lastName.getValue()).toBe(userData.lastName);
+    expect(user.email.getValue()).toBe(userData.email);
+    expect(user.cpf.getValue()).toBe(userData.cpf);
+    expect(user.phone.getValue()).toBe(userData.phone);
+    expect(user.role).toBe(userData.role);
+    expect(user.birthday.getValue().getTime()).toBe(
+      new Date(userData.birthday).getTime()
+    );
   });
 });
