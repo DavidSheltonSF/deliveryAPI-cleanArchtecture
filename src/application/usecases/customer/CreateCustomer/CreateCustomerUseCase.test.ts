@@ -1,5 +1,5 @@
 import { CreateCustomerUseCase } from './CreateCustomerUseCase';
-import { CreateUserDTO } from '../../../../presentation/dtos/CreateUserDTO';
+import { CreateCustomerDTO } from '../../../../presentation/dtos/CreateCustomerDTO';
 import { makeMockHasher } from '../../../../tests/mocks/mockHasher';
 import { mockCustomerRepository } from '../../../../tests/mocks/mockCustomerRepository';
 import { mockAddressRepository } from '../../../../tests/mocks/mockAddressRepository';
@@ -13,7 +13,7 @@ describe('Testing CreateCustomerUserCase', () => {
   const userDTO = UserMocker.mockUserDTO();
   const addressDTO = AddressMocker.mockAddressDTO();
   const authDTO = AuthenticationMocker.mockAuthenticationDTO();
-  const createUserDTO: CreateUserDTO = {
+  const createUserDTO: CreateCustomerDTO = {
     user: userDTO,
     address: addressDTO,
     authentication: authDTO,
