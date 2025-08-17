@@ -1,16 +1,18 @@
 import { UserFactory } from './UserFactory';
 import { UserMocker } from '../tests/mocks/UserMocker';
+import {makeMockHasher} from '../tests/mocks/mockHasher'
 
 describe('Testing UserFactory', () => {
-  test('should return right if all values are valid', () => {
+  const hasher = makeMockHasher()
+  test('should return right if all values are valid', async () => {
     const userData = UserMocker.mockUserDTO();
-    const userOrError = UserFactory.create(userData);
+    const userOrError = await UserFactory.create(userData, hasher);
     expect(userOrError.isRight());
   });
 
-  test('should create an user with all data provided', () => {
+  test('should create an user with all data provided', async () => {
     const userData = UserMocker.mockUserDTO();
-    const userOrError = UserFactory.create(userData);
+    const userOrError = await UserFactory.create(userData, hasher);
     const user = userOrError.getRight();
     expect(user.firstName.getValue()).toBe(userData.firstName);
     expect(user.lastName.getValue()).toBe(userData.lastName);
@@ -23,25 +25,26 @@ describe('Testing UserFactory', () => {
     );
   });
 
-  test('should return error if firstname is nos provides', () => {
+  test('should return error if firstname is nos provides', async () => {
     const userData = UserMocker.mockUserDTO();
     userData.firstName = '';
-    const userOrError = UserFactory.create(userData);
+    const userOrError = await UserFactory.create(userData, hasher);
     expect(userOrError.isLeft());
   });
 
-  test('should return error if role is invalid', () => {
+  test('should return error if role is invalid', async () => {
     const userData = UserMocker.mockUserDTO();
     userData.role = 'Invalidrole';
-    const userOrError = UserFactory.create(userData);
+    const userOrError = await UserFactory.create(userData, hasher);
     expect(userOrError.isLeft());
   });
 
-  test('should create an user from persistence with all data provided', () => {
+  test('should create an user from persistence with all data provided', async () => {
     const data = UserMocker.mockUserDTO();
     const userData = {
       id: 'sdifnasfinadf',
       ...data,
+      passwordHash: await hasher.hash(data.password),
       createdAt: new Date(),
       birthday: new Date()
     }
