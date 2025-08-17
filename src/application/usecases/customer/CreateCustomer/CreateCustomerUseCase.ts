@@ -4,18 +4,15 @@ import { Either } from '../../../../shared/either';
 import { DuplicatedDataError } from '../../../errors/duplicated-data';
 import { CreateCustomerDTO } from '../../../../presentation/dtos/CreateCustomerDTO';
 import { AddressRepository } from '../../../ports/AddressRepository';
-import { AuthenticationRepository } from '../../../ports/AuthenticationRepository';
 import { CustomerRepository } from '../../../ports/CustomerRepository';
 import { AddressMapper } from '../../../../mappers/AddressMapper';
 import { InvalidAgeError } from '../../../errors';
 import { HashService } from '../../../../domain/contracts/HashService';
 import { UserMapper } from '../../../../mappers/UserMapper';
-import { AuthenticationMapper } from '../../../../mappers/AuthenticationMapper';
 import { RawDataExtractor } from '../../../helpers/RawDataExtractor';
 import { aggregateEitherValues } from '../../../../utils/aggregateEitherValues';
 import { UserFactory } from '../../../../factories/UserFactory';
 import { AddressFactory } from '../../../../factories/AddressFactory';
-import { AuthenticationFactory } from '../../../../factories/AuthenticationFactory';
 
 export class CreateCustomerUseCase implements CreateUser {
   private readonly customerRepository: CustomerRepository;
