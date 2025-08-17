@@ -6,4 +6,5 @@ export interface UserDTO {
   phone: string;
   birthday: string;
   role: string;
+  password: string
 }

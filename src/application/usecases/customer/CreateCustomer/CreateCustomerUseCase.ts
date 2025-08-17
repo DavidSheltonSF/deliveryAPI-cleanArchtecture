@@ -20,26 +20,21 @@ import { AuthenticationFactory } from '../../../../factories/AuthenticationFacto
 export class CreateCustomerUseCase implements CreateUser {
   private readonly customerRepository: CustomerRepository;
   private readonly addressRepository: AddressRepository;
-  private readonly authenticationRepository: AuthenticationRepository;
   private readonly hashService: HashService;
 
   constructor(
     customerRepository: CustomerRepository,
     addressRepository: AddressRepository,
-    authenticationRepository: AuthenticationRepository,
     hashService: HashService
   ) {
     this.customerRepository = customerRepository;
     this.addressRepository = addressRepository;
-    this.authenticationRepository = authenticationRepository;
     this.hashService = hashService;
   }
 
   async execute(data: CreateCustomerDTO): Promise<CreateCustomerResponse> {
     const rawUser = RawDataExtractor.extractUser(data);
-    const rawAddress = RawDataExtractor.extractAddress(data);
-    const rawAuthentication = RawDataExtractor.extractAuthentication(data);
-    const email = rawUser.email;
+    const rawAddress = RawDataExtractor.extractAddress(data);    const email = rawUser.email;
 
     const existingUser = await this.customerRepository.findByEmail(
       rawUser.email
@@ -52,17 +47,12 @@ export class CreateCustomerUseCase implements CreateUser {
       );
     }
 
-    const customerOrError = UserFactory.create(rawUser);
+    const customerOrError = await UserFactory.create(rawUser, this.hashService);
     const addressOrError = AddressFactory.create(rawAddress);
-    const authOrError = await AuthenticationFactory.create(
-      rawAuthentication,
-      this.hashService
-    );
 
     const validation = aggregateEitherValues([
       customerOrError,
       addressOrError,
-      authOrError,
     ]);
 
     if (validation.isLeft()) {
@@ -70,8 +60,6 @@ export class CreateCustomerUseCase implements CreateUser {
     }
 
     const address = addressOrError.getRight();
-
-    const authentication = authOrError.getRight();
 
     const customer = customerOrError.getRight();
 
@@ -81,8 +69,6 @@ export class CreateCustomerUseCase implements CreateUser {
     address.userId = customerId;
     const createdAddress = await this.addressRepository.create(address);
 
-    authentication.userId = customerId;
-    await this.authenticationRepository.create(authentication);
 
     const addressResponse = AddressMapper.toResponse(createdAddress);
     const userResponse = UserMapper.toResponse(createdCustomer);

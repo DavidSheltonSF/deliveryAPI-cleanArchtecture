@@ -12,6 +12,7 @@ export class UserMocker {
       phone: '21547855887',
       birthday: '2000-01-02',
       role: faker.helpers.enumValue(Role),
+      password: 'R$$osaini888dfa'
     };
   
     return userDTO;

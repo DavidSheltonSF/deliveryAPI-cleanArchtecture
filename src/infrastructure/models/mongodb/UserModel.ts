@@ -6,5 +6,6 @@ export interface UserModel {
   phone: string;
   role: string;
   birthday: Date;
+  passwordHash: string
   createdAt: Date;
 }

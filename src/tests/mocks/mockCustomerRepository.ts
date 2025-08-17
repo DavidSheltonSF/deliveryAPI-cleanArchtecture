@@ -3,7 +3,7 @@ import { Role } from '../../domain/_enums';
 import { CustomerRepository } from '../../application/ports/CustomerRepository';
 import { WithId } from '../../utils/types/WithId';
 import { UserProps } from '../../domain/entities/props/UserProps';
-import { Birthday, Cpf, Email, Name, Phone } from '../../domain/value-objects';
+import { Birthday, Cpf, Email, Name, Password, Phone } from '../../domain/value-objects';
 
 const mockCustomerData: WithId<UserProps>[] = [
   {
@@ -15,6 +15,7 @@ const mockCustomerData: WithId<UserProps>[] = [
     phone: Phone.createFromPersistence('21965855574'),
     role: Role.admin,
     birthday: Birthday.createFromPersistence(new Date()),
+    passwordHash: Password.createFromPersistence('fakeHas4$$%@$2hemkqmrkq')
   },
 ];
 

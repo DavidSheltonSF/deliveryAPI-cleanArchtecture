@@ -1,6 +1,13 @@
 import { UserProps } from '../domain/entities/props/UserProps';
 import { Either } from '../shared/either';
-import { Birthday, Cpf, Email, Name, Phone } from '../domain/value-objects';
+import {
+  Birthday,
+  Cpf,
+  Email,
+  Name,
+  Password,
+  Phone,
+} from '../domain/value-objects';
 import { UserDTO } from '../presentation/dtos/UserDTO';
 import { userValidationErrorType } from '../domain/errors/errorTypes';
 import { Role } from '../domain/_enums';
@@ -8,10 +15,15 @@ import { InvalidRoleError } from '../domain/errors';
 import { aggregateEitherValues } from '../utils/aggregateEitherValues';
 import { UserModel } from '../infrastructure/models/mongodb/UserModel';
 import { WithId } from '../utils/types/WithId';
+import { HashService } from '../domain/contracts/HashService';
 
 export class UserFactory {
-  static create(userData: UserDTO): Either<userValidationErrorType, UserProps> {
-    const { firstName, lastName, email, cpf, phone, role, birthday } = userData;
+  static async create(
+    userData: UserDTO,
+    hasher: HashService
+  ): Promise<Either<userValidationErrorType, UserProps>> {
+    const { firstName, lastName, email, cpf, phone, role, birthday, password } =
+      userData;
 
     if (!(role in Role)) {
       return Either.left(new InvalidRoleError(role));
@@ -23,6 +35,7 @@ export class UserFactory {
     const cpfOrError = Cpf.create(cpf);
     const phoneOrError = Phone.create(phone);
     const birthdayOrError = Birthday.create(birthday);
+    const passwordOrError = await Password.create(password, hasher);
 
     const validationResult = aggregateEitherValues([
       firstNameOrError,
@@ -31,6 +44,7 @@ export class UserFactory {
       cpfOrError,
       phoneOrError,
       birthdayOrError,
+      passwordOrError,
     ]);
 
     if (validationResult.isLeft()) {
@@ -45,14 +59,24 @@ export class UserFactory {
       phone: phoneOrError.getRight(),
       role: Role[role],
       birthday: birthdayOrError.getRight(),
+      passwordHash: passwordOrError.getRight(),
     };
 
     return Either.right(user);
   }
 
   static createFromPersistence(userData: WithId<UserModel>): WithId<UserProps> {
-    const { id, firstName, lastName, email, cpf, phone, role, birthday } =
-      userData;
+    const {
+      id,
+      firstName,
+      lastName,
+      email,
+      cpf,
+      phone,
+      role,
+      birthday,
+      passwordHash,
+    } = userData;
 
     const user = {
       id,
@@ -63,6 +87,7 @@ export class UserFactory {
       phone: Phone.createFromPersistence(phone),
       role: Role[role],
       birthday: Birthday.createFromPersistence(birthday),
+      passwordHash: Password.createFromPersistence(passwordHash),
     };
 
     return user;

@@ -41,7 +41,7 @@ export class CreateCustomerController implements Controller {
         role,
         birthday,
         address,
-        authentication,
+        password,
       } = request.body;
 
       const response = await this.createCustomer.execute({
@@ -53,9 +53,9 @@ export class CreateCustomerController implements Controller {
           phone,
           role,
           birthday,
+          password
         },
         address,
-        authentication,
       });
 
       if (response.isLeft()) {

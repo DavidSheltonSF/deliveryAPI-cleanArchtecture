@@ -38,28 +38,10 @@ describe('Testing MissingFieldsFinder', () => {
     );
   });
 
-  test('should find all missing authentication fields', () => {
-    const requiredFieldsCount = requiredFields.authentication.length;
-    const requiredFieldsProvided = {
-      length: 0,
-      data: {
-        sessionToken: 'fdafskgnasjdgfajsbngfag', //it's not a required field
-      },
-    };
-
-    const { data } = requiredFieldsProvided;
-    const missingFields = MissingFieldsFinder.checkAuthenticationFields(data);
-
-    expect(missingFields.length + requiredFieldsProvided.length).toBe(
-      requiredFieldsCount
-    );
-  });
-
   test('should find all missing fields in createCustomer request', () => {
     const requiredFieldsCount =
       requiredFields.customer.length +
-      requiredFields.address.length +
-      requiredFields.authentication.length;
+      requiredFields.address.length
 
     const requiredFieldsProvided = {
       length: 2,

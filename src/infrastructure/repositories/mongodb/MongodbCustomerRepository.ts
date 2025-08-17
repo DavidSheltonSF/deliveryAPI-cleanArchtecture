@@ -28,6 +28,7 @@ export class MongodbCustomerRepository implements CustomerRepository {
           role: customer.role,
           phone: customer.phone,
           birthday: customer.birthday,
+          passwordHash: customer.passwordHash,
           createdAt: customer.createdAt,
         });
       }
@@ -48,6 +49,7 @@ export class MongodbCustomerRepository implements CustomerRepository {
       role: foundUser.role,
       phone: foundUser.phone,
       birthday: foundUser.birthday,
+      passwordHash: foundUser.passwordHash,
       createdAt: foundUser.createdAt,
     });
   }
@@ -68,6 +70,7 @@ export class MongodbCustomerRepository implements CustomerRepository {
       role: foundUser.role,
       phone: foundUser.phone,
       birthday: foundUser.birthday,
+      passwordHash: foundUser.passwordHash,
       createdAt: foundUser.createdAt,
     });
   }
@@ -95,6 +98,7 @@ export class MongodbCustomerRepository implements CustomerRepository {
       role: createdCustomer.role,
       phone: createdCustomer.phone,
       birthday: createdCustomer.birthday,
+      passwordHash: createdCustomer.passwordHash,
       createdAt: createdCustomer.createdAt,
     });
   }
@@ -123,6 +127,7 @@ export class MongodbCustomerRepository implements CustomerRepository {
       role: updatedUser.role,
       phone: updatedUser.phone,
       birthday: updatedUser.birthday,
+      passwordHash: updatedUser.passwordHash,
       createdAt: updatedUser.createdAt,
     });
   }
@@ -146,6 +151,7 @@ export class MongodbCustomerRepository implements CustomerRepository {
       role: deletedCustomer.role,
       phone: deletedCustomer.phone,
       birthday: deletedCustomer.birthday,
+      passwordHash: deletedCustomer.passwordHash,
       createdAt: deletedCustomer.createdAt,
     });
   }

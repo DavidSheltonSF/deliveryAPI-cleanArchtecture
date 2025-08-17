@@ -6,7 +6,7 @@ import { WithId } from '../utils/types/WithId';
 
 export class UserMapper {
   static propsToPersistence(user: UserProps): UserModel {
-    const { firstName, lastName, email, cpf, phone, role, birthday } = user;
+    const { firstName, lastName, email, cpf, phone, role, birthday, passwordHash } = user;
 
     return {
       firstName: firstName.getValue(),
@@ -16,6 +16,7 @@ export class UserMapper {
       phone: phone.getValue(),
       role,
       birthday: birthday.getValue(),
+      passwordHash: passwordHash.getValue(),
       createdAt: new Date(),
     };
   }

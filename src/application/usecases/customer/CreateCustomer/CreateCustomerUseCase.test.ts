@@ -3,32 +3,26 @@ import { CreateCustomerDTO } from '../../../../presentation/dtos/CreateCustomerD
 import { makeMockHasher } from '../../../../tests/mocks/mockHasher';
 import { mockCustomerRepository } from '../../../../tests/mocks/mockCustomerRepository';
 import { mockAddressRepository } from '../../../../tests/mocks/mockAddressRepository';
-import { mockAuthRepository } from '../../../../tests/mocks/mockAuthenticationRepository';
 import { UserMocker } from '../../../../tests/mocks/UserMocker';
 import { AddressMocker } from '../../../../tests/mocks/AddressMocker';
-import { AuthenticationMocker } from '../../../../tests/mocks/AuthenticationMocker';
 import { Email } from '../../../../domain/value-objects';
 
 describe('Testing CreateCustomerUserCase', () => {
   const userDTO = UserMocker.mockUserDTO();
   const addressDTO = AddressMocker.mockAddressDTO();
-  const authDTO = AuthenticationMocker.mockAuthenticationDTO();
   const createUserDTO: CreateCustomerDTO = {
     user: userDTO,
     address: addressDTO,
-    authentication: authDTO,
   };
 
   async function makeSut() {
     const customerRepository = mockCustomerRepository();
     const addressRepository = mockAddressRepository();
-    const authenticationRepository = await mockAuthRepository();
     const hasher = makeMockHasher();
 
     const useCase = new CreateCustomerUseCase(
       customerRepository,
       addressRepository,
-      authenticationRepository,
       hasher
     );
 
@@ -36,7 +30,6 @@ describe('Testing CreateCustomerUserCase', () => {
       useCase,
       customerRepository,
       addressRepository,
-      authenticationRepository,
       hasher,
     };
   }
@@ -60,14 +53,12 @@ describe('Testing CreateCustomerUserCase', () => {
       useCase,
       customerRepository,
       addressRepository,
-      authenticationRepository,
     } = await makeSut();
 
     await useCase.execute(createUserDTO);
 
     expect(customerRepository.create).toHaveBeenCalled();
     expect(addressRepository.create).toHaveBeenCalled();
-    expect(authenticationRepository.create).toHaveBeenCalled();
   });
 
   test('should return error when a duplicated email is found', async () => {
@@ -81,7 +72,6 @@ describe('Testing CreateCustomerUserCase', () => {
     const {
       customerRepository,
       addressRepository,
-      authenticationRepository,
       hasher,
     } = await makeSut();
 
@@ -93,7 +83,6 @@ describe('Testing CreateCustomerUserCase', () => {
     const useCase = new CreateCustomerUseCase(
       customerRepository,
       addressRepository,
-      authenticationRepository,
       hasher
     );
 

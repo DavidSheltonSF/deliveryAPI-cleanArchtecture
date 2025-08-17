@@ -1,5 +1,5 @@
 import { Role } from "../../_enums";
-import { Birthday, Cpf, Email, Name, Phone } from "../../value-objects";
+import { Birthday, Cpf, Email, Name, Password, Phone } from "../../value-objects";
 
 export interface UserProps {
   firstName: Name;
@@ -9,4 +9,5 @@ export interface UserProps {
   role: Role;
   phone: Phone;
   birthday: Birthday;
+  passwordHash: Password
 }

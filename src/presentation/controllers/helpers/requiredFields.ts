@@ -8,8 +8,7 @@ export const requiredFields = {
     'cpf',
     'birthday',
     'address',
-    'authentication',
+    'password',
   ],
   address: ['street', 'city', 'state', 'zipCode'],
-  authentication: ['password'],
 };

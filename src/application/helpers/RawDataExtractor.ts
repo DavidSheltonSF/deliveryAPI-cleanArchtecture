@@ -1,11 +1,10 @@
 import { AddressDTO } from '../../presentation/dtos/AddressDTO';
-import { AuthenticationDTO } from '../../presentation/dtos/AuthenticationDTO';
 import { CreateCustomerDTO } from '../../presentation/dtos/CreateCustomerDTO';
 import { UserDTO } from '../../presentation/dtos/UserDTO';
 
 export class RawDataExtractor {
   static extractUser(data: CreateCustomerDTO): UserDTO {
-    const { firstName, lastName, email, cpf, phone, birthday, role } = data.user;
+    const { firstName, lastName, email, cpf, phone, birthday, role, password } = data.user;
     return {
       firstName,
       lastName,
@@ -14,6 +13,7 @@ export class RawDataExtractor {
       phone,
       birthday,
       role,
+      password
     };
   }
 
@@ -24,14 +24,6 @@ export class RawDataExtractor {
       city,
       state,
       zipCode,
-    };
-  }
-
-  static extractAuthentication(data: CreateCustomerDTO): AuthenticationDTO {
-    const { password, sessionToken } = data.authentication;
-    return {
-      password,
-      sessionToken,
     };
   }
 }

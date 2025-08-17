@@ -2,11 +2,14 @@ import { mongoHelper } from '../../../../src/infrastructure/repositories/mongodb
 import { config } from 'dotenv';
 import { MongodbCustomerRepository } from '../../../../src/infrastructure/repositories/mongodb/MongodbCustomerRepository';
 import { UserMocker } from '../../../tests/mocks/UserMocker';
+import { makeMockHasher } from '../../../tests/mocks/mockHasher';
+
 import {
   Birthday,
   Cpf,
   Email,
   Name,
+  Password,
   Phone,
 } from '../../../domain/value-objects';
 import { UserModel } from '../../models/mongodb/UserModel';
@@ -39,10 +42,11 @@ describe('Testing MongodbCustomerRepository', () => {
   });
 
   async function makeSut() {
+    const hasher = makeMockHasher()
     const repository = new MongodbCustomerRepository();
     const userCollection = mongoHelper.getCollection(entityCollectionMap.user);
     const userData = UserMocker.mockUserDTO();
-    const userPropsOrError = UserFactory.create(userData);
+    const userPropsOrError = await UserFactory.create(userData, hasher);
     const userProps = userPropsOrError.getRight();
 
     return {
@@ -50,6 +54,7 @@ describe('Testing MongodbCustomerRepository', () => {
       userData,
       userProps,
       userCollection,
+      hasher,
     };
   }
 
@@ -76,14 +81,15 @@ describe('Testing MongodbCustomerRepository', () => {
   });
 
   test('should update an existing customer', async () => {
-    const { repository, userCollection, userData } = await makeSut();
+    const { repository, userCollection, userData, hasher } = await makeSut();
 
+    const passwordHash = await hasher.hash(userData.password)
     const userModel: UserModel = {
       ...userData,
       birthday: new Date(),
+      passwordHash,
       createdAt: new Date(),
     };
-
 
     const userObjId = (await userCollection.insertOne(userModel)).insertedId;
 
@@ -95,6 +101,7 @@ describe('Testing MongodbCustomerRepository', () => {
       role: Role.customer,
       phone: Phone.createFromPersistence('22547854777'),
       birthday: Birthday.createFromPersistence(userModel.birthday),
+      passwordHash: Password.createFromPersistence(userModel.passwordHash)
     };
 
     const userId = userObjId.toString()
