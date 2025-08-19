@@ -12,9 +12,8 @@ export class Phone extends ValueObject {
   }
 
   static validate(phoneNumber: string): boolean {
-
-    if(phoneNumber === undefined){
-      return false
+    if (phoneNumber === undefined) {
+      return false;
     }
 
     const phoneRegex = /^\d{2}\-?\d{9}$/;
@@ -36,6 +35,17 @@ export class Phone extends ValueObject {
 
   static createFromPersistence(phoneNumber: string): Phone {
     return new Phone(phoneNumber);
+  }
+
+  static createOptional(phoneNumber: string): Either<InvalidPhoneError, Phone | undefined> {
+    if(phoneNumber === undefined) {
+      return undefined
+    }
+    if (!this.validate(phoneNumber)) {
+      return Either.left(new InvalidPhoneError(phoneNumber));
+    }
+
+    return Either.right(new Phone(phoneNumber));
   }
 
   getValue(): string {

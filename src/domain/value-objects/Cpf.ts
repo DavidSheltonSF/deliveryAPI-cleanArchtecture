@@ -37,6 +37,16 @@ export class Cpf extends ValueObject {
     return new Cpf(cpf);
   }
 
+  static createOptional(cpf: string): Either<InvalidCpfError, Cpf | undefined> {
+    if (cpf === undefined) {
+      return undefined;
+    }
+    if (!this.validate(cpf)) {
+      return Either.left(new InvalidCpfError(cpf));
+    }
+    return Either.right(new Cpf(cpf));
+  }
+
   getValue(): string {
     return this.value;
   }

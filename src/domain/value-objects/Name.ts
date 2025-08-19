@@ -37,6 +37,18 @@ export class Name extends ValueObject {
     return new Name(name);
   }
 
+  static createOptional(
+    name: string
+  ): Either<InvalidNameError, Name | undefined> {
+    if (name === undefined) {
+      return undefined;
+    }
+    if (!this.validate(name)) {
+      return Either.left(new InvalidNameError(name));
+    }
+    return Either.right(new Name(name));
+  }
+
   getValue(): string {
     return this.value;
   }
