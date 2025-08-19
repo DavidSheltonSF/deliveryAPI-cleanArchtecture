@@ -1,4 +1,7 @@
-import { UserProps } from '../domain/entities/props/UserProps';
+import {
+  PartialUserProps,
+  UserProps,
+} from '../domain/entities/props/UserProps';
 import { Either } from '../shared/either';
 import {
   Birthday,
@@ -16,6 +19,7 @@ import { aggregateEitherValues } from '../utils/aggregateEitherValues';
 import { UserModel } from '../infrastructure/models/mongodb/UserModel';
 import { WithId } from '../utils/types/WithId';
 import { HashService } from '../domain/contracts/HashService';
+import { UpdateUserProfileDTO } from '../presentation/dtos/UpdateUserProfileDTO';
 
 export class UserFactory {
   static async create(
@@ -91,5 +95,49 @@ export class UserFactory {
     };
 
     return user;
+  }
+
+  static createPartial(
+    userData: UpdateUserProfileDTO
+  ): Either<userValidationErrorType, PartialUserProps> {
+    const { firstName, lastName, cpf, phone, birthday } = userData;
+
+    const fieldsOrErrors: Record<string, Either<Error, any>> = {};
+
+    if (firstName !== undefined) {
+      fieldsOrErrors['firstName'] = Name.createOptional(firstName);
+    }
+
+    if (lastName !== undefined) {
+      fieldsOrErrors['lastName'] = Name.createOptional(lastName);
+    }
+
+    if (cpf !== undefined) {
+      fieldsOrErrors['cpf'] = Cpf.createOptional(cpf);
+    }
+
+    if (phone !== undefined) {
+      fieldsOrErrors['phone'] = Phone.createOptional(phone);
+    }
+
+    if (birthday !== undefined) {
+      fieldsOrErrors['birthday'] = Birthday.createOptional(birthday);
+    }
+
+    const validations = Object.values(fieldsOrErrors);
+
+    const validationResult = aggregateEitherValues(validations);
+
+    if (validationResult.isLeft()) {
+      return Either.left(validationResult.getLeft());
+    }
+
+    const user = {};
+
+    for (const [k, v] of Object.entries(fieldsOrErrors)) {
+      user[k] = v.getRight();
+    }
+
+    return Either.right(user);
   }
 }

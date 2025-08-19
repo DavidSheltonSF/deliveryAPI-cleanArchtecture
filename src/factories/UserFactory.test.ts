@@ -1,9 +1,9 @@
 import { UserFactory } from './UserFactory';
 import { UserMocker } from '../tests/mocks/UserMocker';
-import {makeMockHasher} from '../tests/mocks/mockHasher'
+import { makeMockHasher } from '../tests/mocks/mockHasher';
 
 describe('Testing UserFactory', () => {
-  const hasher = makeMockHasher()
+  const hasher = makeMockHasher();
   test('should return right if all values are valid', async () => {
     const userData = UserMocker.mockUserDTO();
     const userOrError = await UserFactory.create(userData, hasher);
@@ -46,8 +46,8 @@ describe('Testing UserFactory', () => {
       ...data,
       passwordHash: await hasher.hash(data.password),
       createdAt: new Date(),
-      birthday: new Date()
-    }
+      birthday: new Date(),
+    };
     const user = UserFactory.createFromPersistence(userData);
     expect(user.firstName.getValue()).toBe(userData.firstName);
     expect(user.lastName.getValue()).toBe(userData.lastName);
@@ -58,5 +58,28 @@ describe('Testing UserFactory', () => {
     expect(user.birthday.getValue().getTime()).toBe(
       new Date(userData.birthday).getTime()
     );
+  });
+
+  test('should create an partial user with data provided', async () => {
+    const userData = {
+      firstName: 'Jorel',
+      birthday: '2000-01-02',
+    };
+    const userOrError = UserFactory.createPartial(userData);
+    const user = userOrError.getRight();
+
+    expect(user.firstName?.getValue()).toBe(userData.firstName);
+    expect(user.birthday?.getValue().getTime()).toBe(
+      new Date(userData.birthday).getTime()
+    );
+  });
+
+  test('should return an error if createPartial receives invalid data', async () => {
+    const userData = {
+      firstName: 'Jorel185767',
+      birthday: '2000-01-02',
+    };
+    const userOrError = UserFactory.createPartial(userData);
+    expect(userOrError.isLeft()).toBeTruthy();
   });
 });
