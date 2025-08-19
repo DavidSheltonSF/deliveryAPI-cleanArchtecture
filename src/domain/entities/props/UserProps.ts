@@ -11,3 +11,5 @@ export interface UserProps {
   birthday: Birthday;
   passwordHash: Password
 }
+
+export type PartialUserProps = Partial<UserProps>
