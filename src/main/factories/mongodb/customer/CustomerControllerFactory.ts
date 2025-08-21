@@ -1,14 +1,14 @@
 import { CreateCustomerUseCase } from '../../../../application/usecases/customer/CreateCustomer/CreateCustomerUseCase';
+import { UpdateCustomerUseCase } from '../../../../application/usecases/customer/UpdateCustomer/UpdateCustomerUseCase';
 import { MongodbAddressRepository } from '../../../../infrastructure/repositories/mongodb/MongodbAddressRepository';
-import { MongodbAuthenticationRepository } from '../../../../infrastructure/repositories/mongodb/MongodbAuthenticationRepository';
 import { MongodbCustomerRepository } from '../../../../infrastructure/repositories/mongodb/MongodbCustomerRepository';
 import { BcryptHasher } from '../../../../infrastructure/services/BcryptHasher';
 import { CreateCustomerController } from '../../../../presentation/controllers/customer/CreateCustomerController';
+import { UpdateCustomerController } from '../../../../presentation/controllers/customer/UpdateCustomerController';
 
 export class CustomerControllerFactory {
   private static customerRepository = new MongodbCustomerRepository();
   private static addressRepostiory = new MongodbAddressRepository();
-  private static authRepository = new MongodbAuthenticationRepository();
 
   private constructor() {
     throw new Error('This class is static and cannot be instantied.');
@@ -19,9 +19,13 @@ export class CustomerControllerFactory {
     const useCase = new CreateCustomerUseCase(
       this.customerRepository,
       this.addressRepostiory,
-      this.authRepository,
       hasher
     );
     return new CreateCustomerController(useCase);
+  }
+
+  static makeUpdateCustomerController(): UpdateCustomerController {
+    const useCase = new UpdateCustomerUseCase(this.customerRepository);
+    return new UpdateCustomerController(useCase);
   }
 }
