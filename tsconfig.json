@@ -4,13 +4,8 @@
     "outDir": "./dist",
     "module": "commonjs",
     "target": "ES6",
-    "esModuleInterop": true,
+    "esModuleInterop": true
   },
-  "include": [
-    "src"
-  ],
-  "exclude": [
-    "**/*.spec.ts",
-    "**/*.test.ts"
-  ]
+  "include": ["src", "runScript.ts"],
+  "exclude": ["**/*.spec.ts", "**/*.test.ts"]
 }
