@@ -1,4 +1,4 @@
-import { CreateCustomerResponse } from './response';
+import { RequestPasswordChangeUseCaseResponse } from './response';
 import { Either } from '../../../shared/either';
 import { UserRepository } from '../../ports/UserRepository';
 import { NoResultError } from '../../errors';
@@ -25,7 +25,7 @@ export class RequestPasswordChangeUseCase {
     this.linkConfig = linkConfig;
   }
 
-  async execute(email: string): Promise<CreateCustomerResponse> {
+  async execute(email: string): Promise<RequestPasswordChangeUseCaseResponse> {
     const existingUser = await this.userRepository.findByEmail(email);
     if (existingUser === null || existingUser.email.getValue() !== email) {
       return Either.left(
