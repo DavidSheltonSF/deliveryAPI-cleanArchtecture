@@ -75,7 +75,7 @@ export class MongodbCustomerRepository implements CustomerRepository {
       createdAt: foundUser.createdAt,
     });
   }
-  UserProps;
+
   async create(customer: UserProps): Promise<WithId<UserProps> | null> {
     const userCollection = mongoHelper.getCollection(this.collectionName);
     const userModel = UserMapper.propsToPersistence(customer);
