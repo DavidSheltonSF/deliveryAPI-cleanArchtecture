@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Password Change</title>
+  </head>
+  <style>
+    .formSection {
+      display: flex;
+      margin: auto;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .change-password-form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .formInput {
+      border-radius: 5px;
+      padding: 15px 30px;
+      margin-top: 20px;
+    }
+
+    .formButton {
+      margin-top: 20px;
+      height: 50px;
+    }
+  </style>
+  <body>
+    <section class="formSection">
+      <h1>Change Password</h1>
+      <form
+        class="change-password-form"
+        action="/change-password"
+        ,
+        method="post"
+      >
+        <input
+          class="formInput newPassword"
+          type="password"
+          name="newPassword"
+          placeholder="New password"
+          required
+        />
+        <input
+          class="formInput confirmPassword"
+          type="password"
+          name="confirmPassword"
+          placeholder="Confirm password"
+          required
+        />
+        <button class="formButton">Change Password</button>
+      </form>
+      <p id="message"></p>
+    </section>
+
+    <script defer>
+      const form = document.querySelector('.change-password-form');
+      const newPassword = document.querySelector('.newPassword');
+      const confirmPassword = document.querySelector('.confirmPassword');
+      const message = document.querySelector('#message');
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (newPassword.value === confirmPassword.value) {
+          message.textContent = 'Fields match!';
+          message.style.color = 'green';
+          return;
+        }
+
+        message.textContent = 'Fields do not matech!';
+        message.style.color = 'red';
+      });
+    </script>
+  </body>
+</html>
