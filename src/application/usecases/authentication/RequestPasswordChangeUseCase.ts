@@ -37,7 +37,7 @@ export class RequestPasswordChangeUseCase {
 
     const { baseUrl, port } = this.linkConfig;
 
-    const link = `${baseUrl}:${port}/reset-password?token=${token}`;
+    const link = `${baseUrl}:${port}/auth/reset-password?token=${token}`;
 
     const result = this.emailGateway.sendEmail({
       from: `Delivery API <${this.emailGateway.userEmail}>`,
