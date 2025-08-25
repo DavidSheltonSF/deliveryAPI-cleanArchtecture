@@ -6,6 +6,8 @@ import { ChangePasswordResponse } from './response';
 import { HashService } from '../../../../domain/contracts/HashService';
 import { Password } from '../../../../domain/value-objects';
 import { InvalidPasswordError } from '../../../../domain/errors';
+import { InvalidTokenError } from '../../../errors/InvalidTokenError';
+import { SimilarPasswordsError } from '../../../errors/SimilarPasswordsError';
 
 export class ChangePasswordUseCase {
   private readonly userRepository: UserRepository;
@@ -28,7 +30,7 @@ export class ChangePasswordUseCase {
   ): Promise<ChangePasswordResponse> {
     const decodedToken = this.tokenService.verify(token);
     if (decodedToken === null) {
-      return Either.left(Error('Token is invalid or has expired'));
+      return Either.left(new InvalidTokenError());
     }
 
     const email = decodedToken.email;
@@ -46,11 +48,7 @@ export class ChangePasswordUseCase {
       currentPassword
     );
     if (passwordAreSimilar) {
-      return Either.left(
-        Error(
-          'SimilarPasswordError: The new password must not be the same as the current one'
-        )
-      );
+      return Either.left(new SimilarPasswordsError());
     }
 
     const passwordOrError = await Password.create(
