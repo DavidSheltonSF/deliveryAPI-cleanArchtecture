@@ -9,7 +9,7 @@ console.log('ready');
 mongoHelper
   .connect(process.env.MONGO_URI)
   .then(() => {
-    const port = 3000;
+    const port = process.env.PORT;
     app.listen(port, () => [console.log(`Server is running on port ${port}`)]);
   })
   .catch((e) => console.log(e));
