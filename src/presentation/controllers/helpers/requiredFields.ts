@@ -7,7 +7,6 @@ export const requiredFields = {
     'role',
     'cpf',
     'birthday',
-    'address',
     'password',
   ],
   address: ['street', 'city', 'state', 'zipCode'],
