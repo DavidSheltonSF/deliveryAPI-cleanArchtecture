@@ -32,21 +32,20 @@ export class CreateCustomerController implements Controller {
         phone,
         role,
         birthday,
-        address,
         password,
       } = request.body;
 
-      const response = await this.createCustomer.execute({
-        user: {
-          firstName,
-          lastName,
-          email,
-          cpf,
-          phone,
-          role,
-          birthday,
-          password
-        },
+      const address = request.body.address
+
+      const response = await this.createCustomer.execute({ 
+        firstName,
+        lastName,
+        email,
+        cpf,
+        phone,
+        role,
+        birthday,
+        password,
         address,
       });
 
