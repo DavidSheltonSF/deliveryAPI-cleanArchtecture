@@ -2,7 +2,6 @@ import { CreateUser } from './interface';
 import { CreateCustomerResponse } from './response';
 import { Either } from '../../../../shared/either';
 import { DuplicatedDataError } from '../../../errors/duplicated-data';
-import { CreateCustomerDTO } from '../../../../presentation/dtos/CreateCustomerDTO';
 import { AddressRepository } from '../../../ports/AddressRepository';
 import { CustomerRepository } from '../../../ports/CustomerRepository';
 import { AddressMapper } from '../../../../mappers/AddressMapper';
@@ -13,6 +12,7 @@ import { RawDataExtractor } from '../../../helpers/RawDataExtractor';
 import { aggregateEitherValues } from '../../../../utils/aggregateEitherValues';
 import { UserFactory } from '../../../../factories/UserFactory';
 import { AddressFactory } from '../../../../factories/AddressFactory';
+import { UserDTO } from '../../../../presentation/dtos/UserDTO';
 
 export class CreateCustomerUseCase implements CreateUser {
   private readonly customerRepository: CustomerRepository;
@@ -29,13 +29,10 @@ export class CreateCustomerUseCase implements CreateUser {
     this.hashService = hashService;
   }
 
-  async execute(data: CreateCustomerDTO): Promise<CreateCustomerResponse> {
-    const rawUser = RawDataExtractor.extractUser(data);
-    const rawAddress = RawDataExtractor.extractAddress(data);    const email = rawUser.email;
+  async execute(user: UserDTO): Promise<CreateCustomerResponse> {
+    const email = user.email;
 
-    const existingUser = await this.customerRepository.findByEmail(
-      rawUser.email
-    );
+    const existingUser = await this.customerRepository.findByEmail(user.email);
     if (existingUser !== null && existingUser.email.getValue() === email) {
       return Either.left(
         new DuplicatedDataError(
@@ -44,8 +41,8 @@ export class CreateCustomerUseCase implements CreateUser {
       );
     }
 
-    const customerOrError = await UserFactory.create(rawUser, this.hashService);
-    const addressOrError = AddressFactory.create(rawAddress);
+    const customerOrError = await UserFactory.create(user, this.hashService);
+    const addressOrError = AddressFactory.create(user.address);
 
     const validation = aggregateEitherValues([
       customerOrError,
