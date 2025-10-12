@@ -9,7 +9,6 @@ import { HttpResponse } from '../../_ports/http';
 import { MissingRequestBodyError } from '../../_errors/missing-request-body-error';
 import { Controller } from '../Controller';
 import { CreateUser } from '../../../application/usecases/customer/CreateCustomer/interface';
-import { MissingFieldsFinder } from '../helpers/MissingFieldsFinder';
 import { MissingFieldsError } from '../../_errors';
 
 export class CreateCustomerController implements Controller {
@@ -23,13 +22,6 @@ export class CreateCustomerController implements Controller {
     try {
       if (request.body === undefined) {
         return badRequest(new MissingRequestBodyError());
-      }
-
-      const missingFields =
-        MissingFieldsFinder.checkCreateCustomerRequestFields(request);
-
-      if (missingFields.length > 0) {
-        return badRequest(new MissingFieldsError(missingFields));
       }
 
       const {
