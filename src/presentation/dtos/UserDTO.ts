@@ -1,3 +1,5 @@
+import { AddressDTO } from "./AddressDTO";
+
 export interface UserDTO {
   firstName: string;
   lastName: string;
@@ -6,5 +8,6 @@ export interface UserDTO {
   phone: string;
   birthday: string;
   role: string;
-  password: string
+  password: string,
+  address?: AddressDTO
 }
