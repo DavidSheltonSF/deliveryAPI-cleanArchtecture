@@ -4,11 +4,14 @@ import { makeMockTokenService } from '../../../../tests/mocks/mockTokenService';
 import { UserMocker } from '../../../../tests/mocks/UserMocker';
 import { ChangePasswordUseCase } from './ChangePasswordUseCase';
 import { Email, Password } from '../../../../domain/value-objects';
+import {
+  customerFakeData,
+} from '../../../../tests/mocks/fakeDatabases';
 
 describe('Testing RequestPasswordChangeUseCase', () => {
   async function makeSut() {
     const userData = UserMocker.mockUserDTO();
-    const customerRepository = mockCustomerRepository();
+    const customerRepository = mockCustomerRepository(customerFakeData);
     const tokenService = makeMockTokenService();
     const hashService = makeMockHasher();
     const useCase = new ChangePasswordUseCase(

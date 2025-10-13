@@ -5,6 +5,10 @@ import { mockAddressRepository } from '../../../../tests/mocks/mockAddressReposi
 import { UserMocker } from '../../../../tests/mocks/UserMocker';
 import { AddressMocker } from '../../../../tests/mocks/AddressMocker';
 import { Email } from '../../../../domain/value-objects';
+import {
+  customerFakeData,
+  addressFakeDara,
+} from '../../../../tests/mocks/fakeDatabases';
 
 describe('Testing CreateCustomerUserCase', () => {
   const userDTO = UserMocker.mockUserDTO();
@@ -12,8 +16,8 @@ describe('Testing CreateCustomerUserCase', () => {
   userDTO.address = addressDTO;
 
   async function makeSut() {
-    const customerRepository = mockCustomerRepository();
-    const addressRepository = mockAddressRepository();
+    const customerRepository = mockCustomerRepository(customerFakeData);
+    const addressRepository = mockAddressRepository(addressFakeDara);
     const hasher = makeMockHasher();
 
     const useCase = new CreateCustomerUseCase(

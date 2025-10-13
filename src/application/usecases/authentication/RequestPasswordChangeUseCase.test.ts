@@ -4,12 +4,15 @@ import { mockCustomerRepository } from '../../../tests/mocks/mockCustomerReposit
 import { makeMockEmailGateway } from '../../../tests/mocks/mockEmailGateway';
 import { makeMockTokenService } from '../../../tests/mocks/mockTokenService';
 import { Email } from '../../../domain/value-objects';
+import {
+  customerFakeData,
+} from '../../../tests/mocks/fakeDatabases';
 
 describe('Testing RequestPasswordChangeUseCase', () => {
   const userDTO = UserMocker.mockUserDTO();
 
   async function makeSut() {
-    const customerRepository = mockCustomerRepository();
+    const customerRepository = mockCustomerRepository(customerFakeData);
     const emailGateway = makeMockEmailGateway();
     const tokenService = makeMockTokenService();
     const resetPasswordLinkConfig = {

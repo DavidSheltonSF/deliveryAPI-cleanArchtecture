@@ -2,11 +2,14 @@ import { mockCustomerRepository } from '../../../../tests/mocks/mockCustomerRepo
 import { UserMocker } from '../../../../tests/mocks/UserMocker';
 import { Cpf, Name } from '../../../../domain/value-objects';
 import { UpdateCustomerUseCase } from './UpdateCustomerUseCase';
+import {
+  customerFakeData,
+} from '../../../../tests/mocks/fakeDatabases';
 
 describe('Testing CreateCustomerUserCase', () => {
   async function makeSut() {
     const userData = UserMocker.mockUserDTO();
-    const customerRepository = mockCustomerRepository();
+    const customerRepository = mockCustomerRepository(customerFakeData);
     const useCase = new UpdateCustomerUseCase(customerRepository);
     return {
       userData,
