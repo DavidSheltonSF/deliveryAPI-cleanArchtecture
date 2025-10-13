@@ -21,7 +21,11 @@ export class CreateCustomerController implements Controller {
   async handle(request: HttpRequest): Promise<HttpResponse> {
     try {
       if (request.body === undefined) {
-        return badRequest(new MissingRequestBodyError());
+        const missingRequestBodyError = new MissingRequestBodyError()
+        return badRequest({
+          name: missingRequestBodyError.name,
+          message: missingRequestBodyError.message,
+        });
       }
 
       const {
@@ -50,7 +54,10 @@ export class CreateCustomerController implements Controller {
       });
 
       if (response.isLeft()) {
-        return unprocessableEntity(response.getLeft());
+        return unprocessableEntity({
+          name: response.getLeft().name,
+          message: response.getLeft().message
+        });
       }
 
       return created(response.getRight());
