@@ -44,7 +44,6 @@ describe('Testing RequestPasswordChangeUseCase', () => {
       })
     );
     const responseOrError = await useCase.execute(fakeToken, newPasssword);
-    console.log(responseOrError);
     expect(responseOrError.isRight()).toBeTruthy();
   });
 
