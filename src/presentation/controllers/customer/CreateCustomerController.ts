@@ -10,6 +10,7 @@ import { MissingRequestBodyError } from '../../errors/missing-request-body-error
 import { Controller } from '../Controller';
 import { CreateUser } from '../../../application/usecases/customer/CreateCustomer/interface';
 import { MissingFieldsError } from '../../errors';
+import { checkCreateCustomerFields } from '../helpers/checkCreateCustomerFields';
 import { serializeError } from '../helpers/serializeError';
 
 export class CreateCustomerController implements Controller {
@@ -23,6 +24,11 @@ export class CreateCustomerController implements Controller {
     try {
       if (request.body === undefined) {
         return badRequest(serializeError(new MissingRequestBodyError()));
+      }
+      
+      const missingFields = checkCreateCustomerFields(request.body)
+      if(missingFields.length > 0){
+        return badRequest(serializeError(new MissingFieldsError(missingFields)));
       }
 
       const {
