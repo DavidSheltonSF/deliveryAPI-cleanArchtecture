@@ -12,6 +12,7 @@ import { CreateUser } from '../../../application/usecases/customer/CreateCustome
 import { MissingFieldsError } from '../../errors';
 import { checkCreateCustomerFields } from '../helpers/checkCreateCustomerFields';
 import { serializeError } from '../helpers/serializeError';
+import { thereIsBody } from '../helpers/thereIsBody';
 
 export class CreateCustomerController implements Controller {
   private readonly createCustomer: CreateUser;
@@ -22,11 +23,12 @@ export class CreateCustomerController implements Controller {
 
   async handle(request: HttpRequest): Promise<HttpResponse> {
     try {
-      if (!request.body || Object.keys(request.body).length === 0) {
+      const { body } = request;
+      if (!thereIsBody(body)) {
         return badRequest(serializeError(new MissingRequestBodyError()));
       }
 
-      const missingFields = checkCreateCustomerFields(request.body)
+      const missingFields = checkCreateCustomerFields(body)
       if(missingFields.length > 0){
         return badRequest(serializeError(new MissingFieldsError(missingFields)));
       }
@@ -40,9 +42,8 @@ export class CreateCustomerController implements Controller {
         role,
         birthday,
         password,
-      } = request.body;
-
-      const address = request.body.address;
+      } = body;
+      const address = body.address;
 
       const response = await this.createCustomer.execute({
         firstName,
