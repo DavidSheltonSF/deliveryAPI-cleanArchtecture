@@ -1,14 +1,14 @@
-import { HttpRequest } from '../../_ports/http';
+import { HttpRequest } from '../../ports/http';
 import {
   badRequest,
   unprocessableEntity,
   serverError,
-} from '../../_helpers/http-helper';
-import { HttpResponse } from '../../_ports/http';
-import { MissingRequestBodyError } from '../../_errors/missing-request-body-error';
+} from '../../helpers/http-helper';
+import { HttpResponse } from '../../ports/http';
+import { MissingRequestBodyError } from '../../errors/missing-request-body-error';
 import { Controller } from '../Controller';
 import { UpdateUser } from '../../../application/usecases/customer/UpdateCustomer/interface';
-import { ok } from '../../_helpers/http-helper';
+import { ok } from '../../helpers/http-helper';
 import { UpdateCustomerUseCase } from '../../../application/usecases/customer/UpdateCustomer/UpdateCustomerUseCase';
 
 export class UpdateCustomerController implements Controller {

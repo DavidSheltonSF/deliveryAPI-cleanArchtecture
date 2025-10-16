@@ -1,15 +1,15 @@
-import { HttpRequest } from '../../_ports/http';
+import { HttpRequest } from '../../ports/http';
 import {
   created,
   badRequest,
   unprocessableEntity,
   serverError,
-} from '../../_helpers/http-helper';
-import { HttpResponse } from '../../_ports/http';
-import { MissingRequestBodyError } from '../../_errors/missing-request-body-error';
+} from '../../helpers/http-helper';
+import { HttpResponse } from '../../ports/http';
+import { MissingRequestBodyError } from '../../errors/missing-request-body-error';
 import { Controller } from '../Controller';
 import { CreateUser } from '../../../application/usecases/customer/CreateCustomer/interface';
-import { MissingFieldsError } from '../../_errors';
+import { MissingFieldsError } from '../../errors';
 
 export class CreateCustomerController implements Controller {
   private readonly createCustomer: CreateUser;
@@ -21,7 +21,7 @@ export class CreateCustomerController implements Controller {
   async handle(request: HttpRequest): Promise<HttpResponse> {
     try {
       if (request.body === undefined) {
-        const missingRequestBodyError = new MissingRequestBodyError()
+        const missingRequestBodyError = new MissingRequestBodyError();
         return badRequest({
           name: missingRequestBodyError.name,
           message: missingRequestBodyError.message,
@@ -39,9 +39,9 @@ export class CreateCustomerController implements Controller {
         password,
       } = request.body;
 
-      const address = request.body.address
+      const address = request.body.address;
 
-      const response = await this.createCustomer.execute({ 
+      const response = await this.createCustomer.execute({
         firstName,
         lastName,
         email,
@@ -56,7 +56,7 @@ export class CreateCustomerController implements Controller {
       if (response.isLeft()) {
         return unprocessableEntity({
           name: response.getLeft().name,
-          message: response.getLeft().message
+          message: response.getLeft().message,
         });
       }
 
