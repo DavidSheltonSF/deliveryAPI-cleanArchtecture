@@ -10,6 +10,7 @@ import { MissingRequestBodyError } from '../../errors/missing-request-body-error
 import { Controller } from '../Controller';
 import { CreateUser } from '../../../application/usecases/customer/CreateCustomer/interface';
 import { MissingFieldsError } from '../../errors';
+import { serializeError } from '../helpers/serializeError';
 
 export class CreateCustomerController implements Controller {
   private readonly createCustomer: CreateUser;
@@ -21,11 +22,7 @@ export class CreateCustomerController implements Controller {
   async handle(request: HttpRequest): Promise<HttpResponse> {
     try {
       if (request.body === undefined) {
-        const missingRequestBodyError = new MissingRequestBodyError();
-        return badRequest({
-          name: missingRequestBodyError.name,
-          message: missingRequestBodyError.message,
-        });
+        return badRequest(serializeError(new MissingRequestBodyError()));
       }
 
       const {
@@ -54,10 +51,7 @@ export class CreateCustomerController implements Controller {
       });
 
       if (response.isLeft()) {
-        return unprocessableEntity({
-          name: response.getLeft().name,
-          message: response.getLeft().message,
-        });
+        return unprocessableEntity(serializeError(response.getLeft()));
       }
 
       return created(response.getRight());
