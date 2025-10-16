@@ -22,10 +22,10 @@ export class CreateCustomerController implements Controller {
 
   async handle(request: HttpRequest): Promise<HttpResponse> {
     try {
-      if (request.body === undefined) {
+      if (!request.body || Object.keys(request.body).length === 0) {
         return badRequest(serializeError(new MissingRequestBodyError()));
       }
-      
+
       const missingFields = checkCreateCustomerFields(request.body)
       if(missingFields.length > 0){
         return badRequest(serializeError(new MissingFieldsError(missingFields)));
