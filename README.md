@@ -41,20 +41,18 @@ Example request body:
 
 ```json
 {
-  "username": "Marcos",
-  "name": "Marcos Del Rei",
+  "firstName": "Marcos",
+  "lastName": "Martins",
   "email": "marcos@bugmail.com",
   "cpf": "15888747425",
   "phone": "21555777777",
-  "role": "admin",
+  "role": "customer",
+  "password": "Ga8485**549",
   "address": {
     "street": "test street",
     "city": "Belford Roxo",
     "state": "Rio de Janeiro",
     "zipCode": "22222220"
-  },
-  "authentication": {
-    "password": "Ga8485**549"
   }
 }
 ```
