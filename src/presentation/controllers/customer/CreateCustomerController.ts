@@ -9,7 +9,7 @@ import { HttpResponse } from '../../ports/http';
 import { MissingRequestBodyError } from '../../errors/missing-request-body-error';
 import { Controller } from '../Controller';
 import { CreateUser } from '../../../application/usecases/customer/CreateCustomer/interface';
-import { MissingFieldsError } from '../../errors';
+import { MissingFieldsError, ServerError } from '../../errors';
 import { checkCreateCustomerFields } from '../helpers/checkCreateCustomerFields';
 import { serializeError } from '../helpers/serializeError';
 import { thereIsBody } from '../helpers/thereIsBody';
@@ -39,11 +39,11 @@ export class CreateCustomerController implements Controller {
       if (response.isLeft()) {
         return unprocessableEntity(serializeError(response.getLeft()));
       }
-
+      
       return created(response.getRight());
     } catch (error) {
       console.log(error);
-      return serverError('internal');
+      return serverError(serializeError(new ServerError()));
     }
   }
 }
