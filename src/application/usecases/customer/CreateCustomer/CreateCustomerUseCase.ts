@@ -13,19 +13,11 @@ import { AddressFactory } from '../../../../factories/AddressFactory';
 import { UserDTO } from '../../../../presentation/dtos/UserDTO';
 
 export class CreateCustomerUseCase implements CreateUser {
-  private readonly customerRepository: CustomerRepository;
-  private readonly addressRepository: AddressRepository;
-  private readonly hashService: HashService;
-
   constructor(
-    customerRepository: CustomerRepository,
-    addressRepository: AddressRepository,
-    hashService: HashService
-  ) {
-    this.customerRepository = customerRepository;
-    this.addressRepository = addressRepository;
-    this.hashService = hashService;
-  }
+    private readonly customerRepository: CustomerRepository,
+    private readonly addressRepository: AddressRepository,
+    private readonly hashService: HashService
+  ) {}
 
   async execute(user: UserDTO): Promise<CreateCustomerResponse> {
     const email = user.email;
