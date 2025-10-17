@@ -12,7 +12,8 @@
     "prepare": "husky || true",
     "build": "tsc",
     "dev": "npx tsx watch src/server.ts",
-    "start": "node dist/server.js"
+    "start": "node dist/server.js",
+    "cleardatabase": "npx tsx localTests/clearDatabase"
   },
   "repository": {
     "type": "git",
