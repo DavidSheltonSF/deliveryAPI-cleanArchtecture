@@ -1,15 +1,12 @@
-import { UserRole } from '../../_enums';
-import { Birthday, Cpf, Email, Name, Password, Phone } from "../../value-objects";
+import { BaseUserProps } from './BaseUserProps';
+import { CustomerProfileProps } from './CustomerProfileProps';
+import { DriverProfileProps } from './DriverProfileProps';
 
-export interface UserProps {
-  firstName: Name;
-  lastName: Name;
-  email: Email;
-  cpf: Cpf;
-  role: UserRole;
-  phone: Phone;
-  birthday: Birthday;
-  passwordHash: Password;
-}
+export type UserProps = BaseUserProps &
+  (
+    | { role: 'customer'; profile: CustomerProfileProps }
+    | { role: 'driver'; profile: DriverProfileProps }
+  );
+
 
 export type PartialUserProps = Partial<UserProps>
