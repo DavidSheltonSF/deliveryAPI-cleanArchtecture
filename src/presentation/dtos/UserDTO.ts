@@ -1,13 +1,9 @@
-import { AddressDTO } from "./AddressDTO";
+import { BaseUserDTO } from './BaseUserDTO';
+import { CustomerProfileDTO } from './CustomerProfileDTO';
+import { DriverProfileDTO } from './DriverProfileDTO';
 
-export interface UserDTO {
-  firstName: string;
-  lastName: string;
-  email: string;
-  cpf: string;
-  phone: string;
-  birthday: string;
-  role: string;
-  password: string,
-  address?: AddressDTO
-}
+export type UserDTO = BaseUserDTO &
+  (
+    | { role: 'customer'; profile: CustomerProfileDTO }
+    | { role: 'driver'; profile: DriverProfileDTO }
+  );
