@@ -6,7 +6,7 @@ import { stringToObjectId } from './helpers/stringToObjectId';
 import { WithId } from '../../../utils/types/WithId';
 import { UserProps } from '../../../domain/entities/props/UserProps';
 import { UserFactory } from '../../../factories/UserFactory';
-import { Role } from '../../../domain/_enums';
+import { UserRole } from '../../../domain/_enums';
 import { entityCollectionMap } from './helpers/entityCollectionMap';
 
 export class MongodbCustomerRepository implements CustomerRepository {
@@ -17,7 +17,7 @@ export class MongodbCustomerRepository implements CustomerRepository {
     const foundUsers = await userCollection.find().toArray();
 
     const mappedCustomers = foundUsers.map((customer) => {
-      if (customer.role === Role.customer) {
+      if (customer.role === UserRole.customer) {
         return UserFactory.createFromPersistence({
           id: customer._id.toString(),
           firstName: customer.firstName,

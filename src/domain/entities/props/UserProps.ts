@@ -1,4 +1,4 @@
-import { Role } from "../../_enums";
+import { UserRole } from '../../_enums';
 import { Birthday, Cpf, Email, Name, Password, Phone } from "../../value-objects";
 
 export interface UserProps {
@@ -6,10 +6,10 @@ export interface UserProps {
   lastName: Name;
   email: Email;
   cpf: Cpf;
-  role: Role;
+  role: UserRole;
   phone: Phone;
   birthday: Birthday;
-  passwordHash: Password
+  passwordHash: Password;
 }
 
 export type PartialUserProps = Partial<UserProps>

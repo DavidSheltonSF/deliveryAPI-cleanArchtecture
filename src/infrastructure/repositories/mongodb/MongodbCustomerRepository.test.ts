@@ -14,7 +14,7 @@ import {
 } from '../../../domain/value-objects';
 import { UserModel } from '../../models/mongodb/UserModel';
 import { ObjectId } from 'mongodb';
-import { Role } from '../../../domain/_enums';
+import { UserRole } from '../../../domain/_enums';
 import { stringToObjectId } from './helpers/stringToObjectId';
 import { UserProps } from '../../../domain/entities/props/UserProps';
 import { entityCollectionMap } from './helpers/entityCollectionMap';
@@ -98,7 +98,7 @@ describe('Testing MongodbCustomerRepository', () => {
       lastName: Name.createFromPersistence('Ferreira'),
       email: Email.createFromPersistence(userModel.email),
       cpf: Cpf.createFromPersistence(userModel.cpf),
-      role: Role.customer,
+      role: UserRole.customer,
       phone: Phone.createFromPersistence('22547854777'),
       birthday: Birthday.createFromPersistence(userModel.birthday),
       passwordHash: Password.createFromPersistence(userModel.passwordHash)

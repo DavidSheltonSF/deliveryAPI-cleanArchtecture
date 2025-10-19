@@ -13,7 +13,7 @@ import {
 } from '../domain/value-objects';
 import { UserDTO } from '../presentation/dtos/UserDTO';
 import { userValidationErrorType } from '../domain/errors/errorTypes';
-import { Role } from '../domain/_enums';
+import { UserRole } from '../domain/_enums';
 import { InvalidRoleError } from '../domain/errors';
 import { aggregateEitherValues } from '../utils/aggregateEitherValues';
 import { UserModel } from '../infrastructure/models/mongodb/UserModel';
@@ -29,7 +29,7 @@ export class UserFactory {
     const { firstName, lastName, email, cpf, phone, role, birthday, password } =
       userData;
 
-    if (!(role in Role)) {
+    if (!(role in UserRole)) {
       return Either.left(new InvalidRoleError(role));
     }
 
@@ -61,7 +61,7 @@ export class UserFactory {
       email: emailOrError.getRight(),
       cpf: cpfOrError.getRight(),
       phone: phoneOrError.getRight(),
-      role: Role[role],
+      role: UserRole[role],
       birthday: birthdayOrError.getRight(),
       passwordHash: passwordOrError.getRight(),
     };
@@ -89,7 +89,7 @@ export class UserFactory {
       email: Email.createFromPersistence(email),
       cpf: Cpf.createFromPersistence(cpf),
       phone: Phone.createFromPersistence(phone),
-      role: Role[role],
+      role: UserRole[role],
       birthday: Birthday.createFromPersistence(birthday),
       passwordHash: Password.createFromPersistence(passwordHash),
     };

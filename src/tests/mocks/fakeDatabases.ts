@@ -8,7 +8,7 @@ import {
   Phone,
 } from '../../domain/value-objects';
 import { UserProps } from '../../domain/entities/props/UserProps';
-import { Role } from '../../domain/_enums';
+import { UserRole } from '../../domain/_enums';
 import { WithId } from '../../utils/types/WithId';
 import { AddressProps } from '../../domain/entities/props/AddressProps';
 
@@ -20,7 +20,7 @@ export const customerFakeData: WithId<UserProps>[] = [
     email: Email.createFromPersistence('customer@email.com'),
     cpf: Cpf.createFromPersistence('52144858745'),
     phone: Phone.createFromPersistence('21965855574'),
-    role: Role.admin,
+    role: UserRole.admin,
     birthday: Birthday.createFromPersistence(new Date()),
     passwordHash: Password.createFromPersistence('fakeHas4$$%@$2hemkqmrkq'),
   },
