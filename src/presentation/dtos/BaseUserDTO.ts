@@ -3,4 +3,5 @@ export interface BaseUserDTO {
   lastName: string;
   email: string;
   password: string;
+  role: string;
 }
