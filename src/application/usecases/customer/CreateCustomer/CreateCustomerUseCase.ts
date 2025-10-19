@@ -23,7 +23,7 @@ export class CreateCustomerUseCase implements CreateUser {
     const email = user.email;
 
     const existingUser = await this.customerRepository.findByEmail(user.email);
-    if (existingUser !== null && existingUser.email.getValue() === email) {
+    if (existingUser !== null) {
       return Either.left(
         new DuplicatedDataError(
           `There is already a user with email '${email}'.`
