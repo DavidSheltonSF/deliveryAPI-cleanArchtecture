@@ -1,7 +1,7 @@
-export interface BaseUserDTO {
+export interface AdminDTO {
   firstName: string;
   lastName: string;
   email: string;
-  password: string;
   role: string;
+  password: string;
 }
