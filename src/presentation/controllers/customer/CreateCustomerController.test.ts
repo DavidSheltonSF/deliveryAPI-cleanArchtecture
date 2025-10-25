@@ -33,7 +33,7 @@ describe('Testing CreateCustomerController', () => {
     };
   }
 
-  test('should return created (201) if everything went well', async () => {
+  test('should return created (201) if everything goes well', async () => {
     const { addressRepository, hasher, customerDTO } = await makeSut();
 
     const customerRepository = mockCustomerRepository(customerFakeData, {
