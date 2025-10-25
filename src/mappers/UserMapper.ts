@@ -1,12 +1,21 @@
 import { UserModel } from '../infrastructure/models/mongodb/UserModel';
-import { UserProps } from '../domain/entities/props/UserProps';
-import { UserResponseDTO } from '../application/useCaseDtos/UserResponseDTO';
+import { CustomerProps } from '../domain/entities/props/CustomerProps';
+import { CustomerResponseDTO } from '../application/useCaseDtos/CustomerResponseDTO';
 import { dateToString } from '../utils/dateToString';
 import { WithId } from '../utils/types/WithId';
 
 export class UserMapper {
-  static propsToPersistence(user: UserProps): UserModel {
-    const { firstName, lastName, email, cpf, phone, role, birthday, passwordHash } = user;
+  static propsToPersistence(user: CustomerProps): UserModel {
+    const {
+      firstName,
+      lastName,
+      email,
+      cpf,
+      phone,
+      role,
+      birthday,
+      passwordHash,
+    } = user;
 
     return {
       firstName: firstName.getValue(),
@@ -21,8 +30,9 @@ export class UserMapper {
     };
   }
 
-  static toResponse(user: WithId<UserProps>): UserResponseDTO {
-    const { id, firstName, lastName, email, phone, role, birthday } = user;
+  static toResponse(user: WithId<CustomerProps>): CustomerResponseDTO {
+    const { id, firstName, lastName, email, phone, role, birthday, address } =
+      user;
 
     const birthdayStr = dateToString(birthday.getValue());
 
@@ -34,6 +44,12 @@ export class UserMapper {
       phone: phone.getValue(),
       role,
       birthday: birthdayStr,
+      address: {
+        street: address.street,
+        city: address.city,
+        state: address.state,
+        zipCode: address.zipCode.getValue()
+      },
     };
   }
 }
