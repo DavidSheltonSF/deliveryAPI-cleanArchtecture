@@ -13,7 +13,7 @@ import { MissingFieldsError, ServerError } from '../../errors';
 import { checkCreateCustomerFields } from '../helpers/checkCreateCustomerFields';
 import { serializeError } from '../helpers/serializeError';
 import { thereIsBody } from '../helpers/thereIsBody';
-import { UserDTO } from '../../dtos/UserDTO';
+import { CustomerDTO } from '../../dtos/CustomerDTO';
 
 export class CreateCustomerController implements Controller {
   private readonly createCustomer: CreateUser;
@@ -24,7 +24,7 @@ export class CreateCustomerController implements Controller {
 
   async handle(request: HttpRequest): Promise<HttpResponse> {
     try {
-      const { body }: {body?: UserDTO} = request;
+      const { body }: { body?: CustomerDTO } = request;
       if (!thereIsBody(body)) {
         return badRequest(serializeError(new MissingRequestBodyError()));
       }

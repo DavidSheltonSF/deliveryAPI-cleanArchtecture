@@ -1,18 +1,18 @@
 import { CustomerRepository } from '../../application/ports/CustomerRepository';
 import { WithId } from '../../utils/types/WithId';
-import { UserProps } from '../../domain/entities/props/UserProps';
+import { CustomerProps } from '../../domain/entities/props/CustomerProps';
 
 interface MockRepoReturnConfig {
-  findAll?: WithId<UserProps>[];
-  findById?: WithId<UserProps> | null;
-  findByEmail?: WithId<UserProps> | null;
-  create?: WithId<UserProps> | null;
-  update?: WithId<UserProps> | null;
-  delete?: WithId<UserProps> | null;
+  findAll?: WithId<CustomerProps>[];
+  findById?: WithId<CustomerProps> | null;
+  findByEmail?: WithId<CustomerProps> | null;
+  create?: WithId<CustomerProps> | null;
+  update?: WithId<CustomerProps> | null;
+  delete?: WithId<CustomerProps> | null;
 }
 
 export function mockCustomerRepository(
-  fakeDataBase: WithId<UserProps>[],
+  fakeDataBase: WithId<CustomerProps>[],
   customReturn?: MockRepoReturnConfig 
   
 ): CustomerRepository {
@@ -31,8 +31,8 @@ export function mockCustomerRepository(
     findAll: jest.fn(async () => returnConfig.findAll),
     findById: jest.fn(async (id: string) => returnConfig.findById),
     findByEmail: jest.fn(async (email: string) => returnConfig.findByEmail),
-    create: jest.fn(async (customer: UserProps) => returnConfig.create),
-    update: jest.fn(async (id, customer: UserProps) => returnConfig.update),
+    create: jest.fn(async (customer: CustomerProps) => returnConfig.create),
+    update: jest.fn(async (id, customer: CustomerProps) => returnConfig.update),
     delete: jest.fn(async (id: string) => returnConfig.delete),
   };
   return customerRepository;
