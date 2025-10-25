@@ -10,7 +10,7 @@ import { UserMapper } from '../../../../mappers/UserMapper';
 import { aggregateEitherValues } from '../../../../utils/aggregateEitherValues';
 import { UserFactory } from '../../../../factories/UserFactory';
 import { AddressFactory } from '../../../../factories/AddressFactory';
-import { UserDTO } from '../../../../presentation/dtos/UserDTO';
+import { CustomerDTO } from '../../../../presentation/dtos/CustomerDTO';
 
 export class CreateCustomerUseCase implements CreateUser {
   constructor(
@@ -19,7 +19,7 @@ export class CreateCustomerUseCase implements CreateUser {
     private readonly hashService: HashService
   ) {}
 
-  async execute(user: UserDTO): Promise<CreateCustomerResponse> {
+  async execute(user: CustomerDTO): Promise<CreateCustomerResponse> {
     const email = user.email;
 
     const existingUser = await this.customerRepository.findByEmail(user.email);
@@ -34,10 +34,7 @@ export class CreateCustomerUseCase implements CreateUser {
     const customerOrError = await UserFactory.create(user, this.hashService);
     const addressOrError = AddressFactory.create(user.address);
 
-    const validation = aggregateEitherValues([
-      customerOrError,
-      addressOrError,
-    ]);
+    const validation = aggregateEitherValues([customerOrError, addressOrError]);
 
     if (validation.isLeft()) {
       return Either.left(validation.getLeft());
@@ -52,7 +49,6 @@ export class CreateCustomerUseCase implements CreateUser {
 
     address.userId = customerId;
     const createdAddress = await this.addressRepository.create(address);
-
 
     const addressResponse = AddressMapper.toResponse(createdAddress);
     const userResponse = UserMapper.toResponse(createdCustomer);
