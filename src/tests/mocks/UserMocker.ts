@@ -1,10 +1,12 @@
 import { faker } from '@faker-js/faker';
-import { UserDTO } from '../../presentation/dtos/UserDTO';
+import { CustomerDTO } from '../../presentation/dtos/CustomerDTO';
 import { UserRole } from '../../domain/_enums';
+import { AddressMocker } from './AddressMocker';
+import { CustomerResponseDTO } from '../../application/useCaseDtos/CustomerResponseDTO';
 
 export class UserMocker {
-  static mockUserDTO(): UserDTO {
-    const userDTO: UserDTO = {
+  static mockCustomerDTO(): CustomerDTO {
+    const customerDTO: CustomerDTO = {
       firstName: faker.person.firstName(),
       lastName: faker.person.lastName(),
       email: faker.internet.email(),
@@ -13,8 +15,24 @@ export class UserMocker {
       birthday: '2000-01-02',
       role: faker.helpers.enumValue(UserRole),
       password: 'R$$osaini888dfa',
+      address: AddressMocker.mockAddressDTO(),
     };
-  
-    return userDTO;
+
+    return customerDTO;
+  }
+
+  static mockCustomerResponseDTO(): CustomerResponseDTO {
+    const customerDTO: CustomerResponseDTO = {
+      id: faker.string.uuid(),
+      firstName: faker.person.firstName(),
+      lastName: faker.person.lastName(),
+      email: faker.internet.email(),
+      phone: '21547855887',
+      birthday: '2000-01-02',
+      role: faker.helpers.enumValue(UserRole),
+      address: AddressMocker.mockAddressDTO()
+    };
+
+    return customerDTO;
   }
 }
