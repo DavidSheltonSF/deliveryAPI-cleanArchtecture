@@ -1,6 +1,6 @@
-import { UserDTO } from '../../../../presentation/dtos/UserDTO';
+import { CustomerDTO } from '../../../../presentation/dtos/CustomerDTO';
 import { CreateCustomerResponse } from './response';
 
 export interface CreateUser {
-  execute: (user: UserDTO) => Promise<CreateCustomerResponse>;
+  execute: (user: CustomerDTO) => Promise<CreateCustomerResponse>;
 }
