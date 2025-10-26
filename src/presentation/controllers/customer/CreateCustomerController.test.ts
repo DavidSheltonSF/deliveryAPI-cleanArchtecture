@@ -4,6 +4,7 @@ import { UserMocker } from '../../../tests/mocks/UserMocker';
 import { MockCustomerRepository } from '../../../tests/MockCustomerRepository'
 import { MockAddressRepository } from '../../../tests/MockAddressRepository';
 import { MockedCreateCustomerUseCase } from '../../../tests/MockCreateCustomerUseCase';
+import { Email } from '../../../domain/value-objects';
 
 describe('Testing CreateCustomerController', () => {
   async function makeSut() {
@@ -73,5 +74,31 @@ describe('Testing CreateCustomerController', () => {
     console.log(response)
     expect(response.statusCode).toBe(400);
     expect(response.body.name).toBe('MissingFieldError');
+  });
+
+  test('should return unprocessable entity if duplicated email is provided in the request', async () => {
+    const { addressRepository, hasher } = await makeSut();
+
+    const customer = UserMocker.mockCustomerPropsWithId();
+    const duplicatedEmail = customer.email.getValue();
+
+    const customerRepository = new MockCustomerRepository({
+      findByEmail: customer,
+    });
+
+    const newCustomer = UserMocker.mockCustomerDTO();
+    newCustomer.email = duplicatedEmail;
+
+    const createCustomerUseCase = new MockedCreateCustomerUseCase(customerRepository, addressRepository, hasher);
+    const createCustomerController = new CreateCustomerController(createCustomerUseCase);
+
+    const httpRequest = {
+      body: newCustomer
+    }
+
+    const response = await createCustomerController.handle(httpRequest)
+
+    expect(response.statusCode).toBe(422);
+    expect(response.body.name).toBe('DuplicatedDataError');
   })
 });
