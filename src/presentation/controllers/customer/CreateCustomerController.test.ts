@@ -1,20 +1,16 @@
 import { CreateCustomerController } from './CreateCustomerController';
 import { makeMockHasher } from '../../../tests/mocks/mockHasher';
-import { mockCustomerRepository } from '../../../tests/mocks/mockCustomerRepository';
-import { mockAddressRepository } from '../../../tests/mocks/mockAddressRepository';
 import { UserMocker } from '../../../tests/mocks/UserMocker';
-import {
-  customerFakeData,
-  addressFakeDara,
-} from '../../../tests/mocks/fakeDatabases';
+import { MockCustomerRepository } from '../../../tests/MockCustomerRepository'
+import { MockAddressRepository } from '../../../tests/MockAddressRepository';
 import { MockedCreateCustomerUseCase } from '../../../tests/MockCreateCustomerUseCase';
 
 describe('Testing CreateCustomerController', () => {
   async function makeSut() {
     const customerDTO = UserMocker.mockCustomerDTO();
 
-    const customerRepository = mockCustomerRepository(customerFakeData);
-    const addressRepository = mockAddressRepository(addressFakeDara);
+    const customerRepository = new MockCustomerRepository()
+    const addressRepository = new MockAddressRepository()
     const hasher = makeMockHasher();
     const useCase = new MockedCreateCustomerUseCase(
       customerRepository,
@@ -36,9 +32,7 @@ describe('Testing CreateCustomerController', () => {
   test('should return created (201) if everything goes well', async () => {
     const { addressRepository, hasher, customerDTO } = await makeSut();
 
-    const customerRepository = mockCustomerRepository(customerFakeData, {
-      findByEmail: null,
-    });
+    const customerRepository = new MockCustomerRepository({findByEmail: null});
 
     const useCase = new MockedCreateCustomerUseCase(
       customerRepository,
