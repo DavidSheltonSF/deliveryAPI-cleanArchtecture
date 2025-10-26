@@ -71,7 +71,6 @@ describe('Testing CreateCustomerController', () => {
     }
 
     const response = await createCustomerController.handle(httpRequest);
-    console.log(response)
     expect(response.statusCode).toBe(400);
     expect(response.body.name).toBe('MissingFieldError');
   });
