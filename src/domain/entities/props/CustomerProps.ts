@@ -11,5 +11,4 @@ export interface CustomerProps {
   role: UserRole;
   birthday: Birthday;
   passwordHash: Password;
-  address: AddressProps
 }
