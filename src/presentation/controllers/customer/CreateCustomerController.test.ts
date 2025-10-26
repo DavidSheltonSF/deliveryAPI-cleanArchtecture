@@ -58,4 +58,20 @@ describe('Testing CreateCustomerController', () => {
 
     expect(response.statusCode).toBe(400);
   });
+
+  test('should return bad request if any required field is missing', async () => {
+    const { createCustomerController } = await makeSut();
+
+    const httpRequest = {
+      body: {
+        firstName: 'David',
+        lastName: 'Fabio',
+      }
+    }
+
+    const response = await createCustomerController.handle(httpRequest);
+    console.log(response)
+    expect(response.statusCode).toBe(400);
+    expect(response.body.name).toBe('MissingFieldError');
+  })
 });
