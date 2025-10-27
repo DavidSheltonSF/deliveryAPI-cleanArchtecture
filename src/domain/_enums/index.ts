@@ -13,6 +13,13 @@ export enum UserRole {
   driver = 'driver',
 }
 
+export enum AdminPermission {
+  CREATE_ADMIN = 'CREATE_ADMIN',
+  DELETE_ADMIN = 'DELETE_ADMIN',
+  DELETE_USER = 'DELETE_USER',
+  UPDATE_ADMIN_PERMISSIONS = 'UPDATE_ADMIN_PERMISSIONS',
+}
+
 export enum PaymentStatus {
   PAID = 'paid',
   PENDING = 'pending',
