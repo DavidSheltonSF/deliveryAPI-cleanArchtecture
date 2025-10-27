@@ -1,10 +1,5 @@
-import { UserRole } from "../../_enums";
-import { Email, Name, Password, Phone } from "../../value-objects";
+import { AdminPermission } from "../../_enums";
 
-export interface DriverProps {
-  firstName: Name;
-  lastName: Name;
-  email: Email;
-  role: UserRole;
-  passwordHash: Password;
+export interface AdminProps {
+  permissions: AdminPermission[]
 }
