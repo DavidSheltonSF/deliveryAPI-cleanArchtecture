@@ -8,5 +8,6 @@ export interface CustomerResponseDTO {
   phone: string;
   role: string;
   birthday: string;
-  address: AddressResponseDTO
+  address: AddressResponseDTO;
+  createdAt: Date;
 }
