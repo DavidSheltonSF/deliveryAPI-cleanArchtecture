@@ -5,7 +5,6 @@ export interface DriverDTO {
   lastName: string;
   email: string;
   cpf: string;
-  role: string;
   vehicleType: string;
   licensePlace: string;
   password: string;

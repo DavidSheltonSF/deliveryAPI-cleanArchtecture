@@ -7,7 +7,6 @@ export interface CustomerDTO {
   cpf: string;
   phone: string;
   birthday: string;
-  role: string;
   password: string;
   address: AddressDTO;
 }
