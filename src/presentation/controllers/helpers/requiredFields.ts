@@ -4,7 +4,6 @@ export const requiredFields = {
     'lastName',
     'email',
     'phone',
-    'role',
     'cpf',
     'birthday',
     'password',
