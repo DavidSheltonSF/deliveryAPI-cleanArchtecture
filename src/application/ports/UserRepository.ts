@@ -1,11 +1,11 @@
 import { WithId } from '../../utils/types/WithId';
-import { CustomerProps } from '../../domain/entities/props/CustomerProps';
+import { UserProps } from '../../domain/entities/props/UserProps';
 
 export interface UserRepository {
-  findAll: () => Promise<WithId<CustomerProps>[]>;
-  findById: (id: string) => Promise<WithId<CustomerProps> | null>;
-  findByEmail: (email: string) => Promise<WithId<CustomerProps> | null>;
-  create: (user: CustomerProps) => Promise<WithId<CustomerProps>>;
-  update: (id: string, email: CustomerProps) => Promise<WithId<CustomerProps>>;
-  delete: (id: string) => Promise<WithId<CustomerProps>>;
+  findAll: () => Promise<WithId<UserProps>[]>;
+  findById: (id: string) => Promise<WithId<UserProps> | null>;
+  findByEmail: (email: string) => Promise<WithId<UserProps> | null>;
+  create: (user: UserProps) => Promise<WithId<UserProps>>;
+  update: (id: string, email: UserProps) => Promise<WithId<UserProps>>;
+  delete: (id: string) => Promise<WithId<UserProps>>;
 }
