@@ -1,6 +1,6 @@
 import { AdminPermission } from "../../_enums";
 
 export interface AdminProps {
-  userId: string;
+  userId?: string;
   permissions: AdminPermission[]
 }

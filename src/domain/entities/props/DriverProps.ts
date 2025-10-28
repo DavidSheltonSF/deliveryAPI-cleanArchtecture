@@ -1,7 +1,7 @@
 import { Cpf, Phone } from "../../value-objects";
 
 export interface DriverProps {
-  userId: string;
+  userId?: string;
   cpf: Cpf;
   phone: Phone;
   vehicleType: string;
