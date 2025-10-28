@@ -7,4 +7,5 @@ export interface UserProps {
   email: Email;
   role: UserRole;
   passwordHash: Password;
+  createdAt?: Date;
 }
