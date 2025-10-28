@@ -1,19 +1,22 @@
 import { CreateCustomerController } from './CreateCustomerController';
-import { makeMockHasher } from '../../../tests/mocks/mockHasher';
+import { MockHashService } from '../../../tests/MockHashService';
 import { UserMocker } from '../../../tests/mocks/UserMocker';
-import { MockCustomerRepository } from '../../../tests/MockCustomerRepository'
+import { CustomerMocker } from '../../../tests/mocks/CustomerMocker';
+import { MockUserRepository } from '../../../tests/MockUserRepository';
+import { MockCustomerRepository } from '../../../tests/MockCustomerRepository';
 import { MockAddressRepository } from '../../../tests/MockAddressRepository';
 import { MockedCreateCustomerUseCase } from '../../../tests/MockCreateCustomerUseCase';
-import { Email } from '../../../domain/value-objects';
 
 describe('Testing CreateCustomerController', () => {
   async function makeSut() {
-    const customerDTO = UserMocker.mockCustomerDTO();
+    const customerDTO = CustomerMocker.mockCustomerDTO();
 
-    const customerRepository = new MockCustomerRepository()
+    const userRepository = new MockUserRepository();
+    const customerRepository = new MockCustomerRepository();
     const addressRepository = new MockAddressRepository()
-    const hasher = makeMockHasher();
+    const hasher = new MockHashService();
     const useCase = new MockedCreateCustomerUseCase(
+      userRepository,
       customerRepository,
       addressRepository,
       hasher
@@ -33,9 +36,11 @@ describe('Testing CreateCustomerController', () => {
   test('should return created (201) if everything goes well', async () => {
     const { addressRepository, hasher, customerDTO } = await makeSut();
 
-    const customerRepository = new MockCustomerRepository({findByEmail: null});
+    const userRepository = new MockUserRepository({findByEmail: null});
+    const customerRepository = new MockCustomerRepository();
 
     const useCase = new MockedCreateCustomerUseCase(
+      userRepository,
       customerRepository,
       addressRepository,
       hasher
@@ -78,17 +83,22 @@ describe('Testing CreateCustomerController', () => {
   test('should return unprocessable entity if duplicated email is provided in the request', async () => {
     const { addressRepository, hasher } = await makeSut();
 
-    const customer = UserMocker.mockCustomerPropsWithId();
-    const duplicatedEmail = customer.email.getValue();
+    const userData = UserMocker.mockUserPropsWithId();
+    const customerData = CustomerMocker.mockCustomerPropsWithId();
+    const duplicatedEmail = userData.email.getValue();
 
-    const customerRepository = new MockCustomerRepository({
-      findByEmail: customer,
+    const userRepository = new MockUserRepository({
+      findByEmail: userData,
     });
 
-    const newCustomer = UserMocker.mockCustomerDTO();
+    const customerRepository = new MockCustomerRepository({
+      findByEmail: customerData,
+    });
+
+    const newCustomer = CustomerMocker.mockCustomerDTO();
     newCustomer.email = duplicatedEmail;
 
-    const createCustomerUseCase = new MockedCreateCustomerUseCase(customerRepository, addressRepository, hasher);
+    const createCustomerUseCase = new MockedCreateCustomerUseCase(userRepository, customerRepository, addressRepository, hasher);
     const createCustomerController = new CreateCustomerController(createCustomerUseCase);
 
     const httpRequest = {
