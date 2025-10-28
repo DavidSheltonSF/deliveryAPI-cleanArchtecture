@@ -8,5 +8,5 @@ export interface CustomerResponseDTO {
   role: string;
   birthday: string;
   address: AddressResponseDTO;
-  createdAt: Date;
+  createdAt: string;
 }
